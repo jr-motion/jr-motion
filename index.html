@@ -175,11 +175,15 @@ h2 .it{font-weight:400;letter-spacing:-.02em}
 #copyMsg{font-size:13px}
 
 /* Easter egg */
-.me{position:absolute;right:clamp(20px,8vw,140px);bottom:0;width:clamp(150px,17vw,230px);z-index:3;cursor:pointer;background:none;border:0;padding:0;transform:translateY(64%);transition:transform .8s cubic-bezier(.3,1.5,.5,1)}
-.me img{display:block;width:100%;height:auto;filter:drop-shadow(0 18px 30px rgba(0,0,0,.45));pointer-events:none;user-select:none}
-.me.peek{animation:peek 6s ease-in-out 2s infinite}
-@keyframes peek{0%,82%,100%{transform:translateY(64%)}88%,94%{transform:translateY(55%) rotate(-3deg)}}
-.me.on{transform:translateY(8%);animation:none}
+.me{position:absolute;right:clamp(20px,8vw,140px);bottom:0;width:clamp(150px,17vw,230px);z-index:3;cursor:pointer;background:none;border:0;padding:0;transform:translateY(64%);transition:transform .8s cubic-bezier(.3,1.5,.5,1);will-change:transform;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.me img{display:block;width:100%;height:auto;filter:drop-shadow(0 18px 30px rgba(0,0,0,.45));pointer-events:none;user-select:none;-webkit-user-drag:none}
+/* capa interior: solo el gesto de asomarse; la subida va en el botón, así no se pisan */
+.me .fig{display:block;transform-origin:50% 100%;will-change:transform;animation:peek 6s ease-in-out 2s infinite;transition:transform .4s ease}
+@keyframes peek{0%,82%,100%{transform:none}88%,94%{transform:translateY(-9%) rotate(-3deg)}}
+.me.on{transform:translateY(8%)}
+.me.on .fig{animation-play-state:paused}
+.me:focus-visible{outline:none}
+.me:focus-visible img{outline:2px solid var(--amber);outline-offset:4px;border-radius:12px}
 .bubble{position:absolute;right:78%;top:2%;background:var(--fg);color:var(--ink);font-weight:700;font-size:clamp(15px,1.4vw,19px);letter-spacing:-.02em;padding:10px 16px;border-radius:18px 18px 4px 18px;white-space:nowrap;transform:scale(.4) rotate(-8deg);transform-origin:100% 100%;opacity:0;transition:transform .5s cubic-bezier(.3,1.6,.5,1) .15s,opacity .2s .15s;pointer-events:none}
 .me.on .bubble{transform:scale(1) rotate(-4deg);opacity:1}
 
@@ -229,7 +233,7 @@ dialog::backdrop{background:rgba(6,4,4,.86);backdrop-filter:blur(6px)}
 @media (hover:none),(pointer:coarse){.cursor{display:none}}
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
-  .mask > span,.scroll-cue,.clock i,.me.peek{animation:none}
+  .mask > span,.scroll-cue,.clock i,.me .fig{animation:none}
   *{transition-duration:.01ms!important}
 }
 </style>
@@ -346,9 +350,9 @@ dialog::backdrop{background:rgba(6,4,4,.86);backdrop-filter:blur(6px)}
         <a class="pill" href="https://www.instagram.com/juanlu491" target="_blank" rel="noopener">Instagram ↗</a>
         <span id="copyMsg" class="lbl" aria-live="polite"></span>
       </div>
-      <button class="me peek" id="me" type="button" aria-label="¿Quién es este?">
+      <button class="me" id="me" type="button" aria-label="¿Quién es este?" aria-expanded="false">
         <span class="bubble">¡Este soy yo!</span>
-        <img src="assets/yo.webp" alt="Juan Luis en 3D: barba, cresta y sudadera negra" width="525" height="700">
+        <span class="fig"><img src="assets/yo.webp" alt="Juan Luis en 3D: barba, cresta y sudadera negra" width="525" height="700" draggable="false"></span>
       </button>
     </div>
   </div>
@@ -624,11 +628,16 @@ $("#copyMail").addEventListener("click", () => {
 
 /* ---------- Easter egg ---------- */
 const me = $("#me");
-me.addEventListener("mouseenter", () => me.classList.add("on"));
-me.addEventListener("mouseleave", () => me.classList.remove("on"));
-me.addEventListener("focus", () => me.classList.add("on"));
-me.addEventListener("blur", () => me.classList.remove("on"));
-me.addEventListener("click", () => me.classList.toggle("on"));
+function meSet(on){ me.classList.toggle("on", on); me.setAttribute("aria-expanded", String(on)); }
+let lastPointer = "mouse";
+me.addEventListener("pointerdown", e => { lastPointer = e.pointerType; });
+// ratón: se abre al pasar por encima y el clic no lo cierra
+me.addEventListener("pointerenter", e => { if (e.pointerType === "mouse") meSet(true); });
+me.addEventListener("pointerleave", e => { if (e.pointerType === "mouse") meSet(false); });
+// táctil y teclado: un toque abre y otro cierra
+me.addEventListener("click", e => { if (e.detail !== 0 && lastPointer === "mouse" && matchMedia("(hover:hover)").matches) { meSet(true); return; } meSet(!me.classList.contains("on")); lastPointer = "mouse"; });
+document.addEventListener("pointerdown", e => { if (e.pointerType !== "mouse" && !me.contains(e.target)) meSet(false); });
+me.addEventListener("blur", () => { if (!me.matches(":hover")) meSet(false); });
 
 /* ---------- Teclas 3D ---------- */
 (function keys(){
