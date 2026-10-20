@@ -213,7 +213,7 @@ dialog::backdrop{background:rgba(6,4,4,.86);backdrop-filter:blur(6px)}
 .splash .logo{display:flex;flex-direction:column;align-items:center;gap:clamp(18px,3vw,28px);position:relative;z-index:1;animation:logoOut .75s cubic-bezier(.6,0,.3,1) 2.95s forwards}
 .splash .bar{width:min(32vw,190px);height:1px;background:rgba(243,236,231,.12);overflow:hidden}
 .splash .bar i{display:block;height:100%;background:var(--amber);transform:scaleX(0);transform-origin:left;animation:load 2.7s cubic-bezier(.5,0,.2,1) .2s forwards}
-.neon{position:relative;width:clamp(150px,26vw,280px);aspect-ratio:784.26/495.54;animation:vhsGlitch .6s linear .5s 1,vhsGlitch .5s linear 1.3s 1,vhsGlitch .6s linear 2.45s 1}
+.neon{position:relative;width:clamp(220px,46vw,430px);aspect-ratio:784.26/495.54;animation:vhsGlitch .42s linear .5s 1,vhsGlitch .42s linear 2.55s 1}
 .neon svg.tube{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
 .neon .t{position:absolute;inset:0;opacity:0;will-change:opacity;animation:neonOn 1.5s linear forwards}
 .neon .t0{animation-delay:.45s}.neon .t1{animation-delay:.75s}.neon .t2{animation-delay:1.05s}.neon .t3{animation-delay:1.2s}.neon .tf{animation-delay:1.65s}
@@ -221,24 +221,17 @@ dialog::backdrop{background:rgba(6,4,4,.86);backdrop-filter:blur(6px)}
 .neon .off{opacity:.9}
 /* VHS: líneas de escaneo, franja de tracking y dos tirones con separación de color */
 .vhs{position:absolute;inset:0;pointer-events:none;z-index:2}
-.vhs .scan{position:absolute;inset:0;background:repeating-linear-gradient(to bottom,rgba(0,0,0,.42) 0 2px,transparent 2px 5px);background-size:100% 5px;opacity:.6;animation:scanRoll .5s linear infinite,scanFlick .12s steps(2) infinite}
-@keyframes scanRoll{to{background-position:0 25px}}
-@keyframes scanFlick{50%{opacity:.48}}
-.vhs .tear{position:absolute;left:-5%;right:-5%;height:9px;background-image:var(--noise);background-size:256px;opacity:0;mix-blend-mode:screen;animation:tear .6s linear .5s 1,tear .5s linear 1.3s 1,tear .6s linear 2.45s 1}
-.vhs .tear.b{height:4px;animation-delay:.56s,1.36s,2.5s}
-@keyframes tear{0%{opacity:0;transform:translateX(0)}10%{opacity:.75;transform:translateX(-40px)}25%{opacity:.25;transform:translateX(30px)}40%{opacity:.85;transform:translateX(-15px)}58%,100%{opacity:0;transform:none}}
+.vhs .scan{position:absolute;inset:0;background:repeating-linear-gradient(to bottom,rgba(0,0,0,.32) 0 1px,transparent 1px 3px);opacity:.55}
 .vhs .track{position:absolute;left:0;right:0;top:0;height:16vh;background-image:var(--noise);background-size:256px;opacity:.1;mix-blend-mode:screen;-webkit-mask-image:linear-gradient(transparent,#000 45%,#000 55%,transparent);mask-image:linear-gradient(transparent,#000 45%,#000 55%,transparent);transform:translateY(-20vh);animation:track 2.4s linear .1s infinite}
 .vhs .track::after{content:"";position:absolute;left:0;right:0;top:52%;height:1px;background:rgba(255,236,220,.35)}
 @keyframes track{to{transform:translateY(120vh)}}
 @keyframes vhsGlitch{
-  0%{transform:none;filter:none;clip-path:none}
-  8%{transform:translateX(-18px) skewX(-9deg);filter:drop-shadow(9px 0 0 rgba(0,235,255,.75)) drop-shadow(-9px 0 0 rgba(255,0,70,.8))}
-  16%{transform:translateX(14px) skewX(5deg) scaleY(.94);filter:drop-shadow(-7px 0 0 rgba(0,235,255,.7)) drop-shadow(7px 0 0 rgba(255,0,70,.75))}
-  24%{transform:translateX(-5px);filter:none;clip-path:inset(0 0 52% 0)}
-  32%{transform:translateX(22px);clip-path:inset(38% 0 18% 0);filter:drop-shadow(11px 0 0 rgba(0,235,255,.7)) drop-shadow(-11px 0 0 rgba(255,0,70,.75))}
-  42%{transform:translateX(-11px) skewX(-4deg);clip-path:none;filter:drop-shadow(5px 0 0 rgba(0,235,255,.55)) drop-shadow(-5px 0 0 rgba(255,0,70,.6))}
-  54%{transform:translateX(6px);filter:none}
-  66%,100%{transform:none;filter:none;clip-path:none}}
+  0%{transform:none;filter:none}
+  12%{transform:translateX(-7px) skewX(-5deg);filter:drop-shadow(4px 0 0 rgba(0,235,255,.55)) drop-shadow(-4px 0 0 rgba(255,0,70,.6))}
+  26%{transform:translateX(6px);filter:drop-shadow(-3px 0 0 rgba(0,235,255,.5)) drop-shadow(3px 0 0 rgba(255,0,70,.55))}
+  40%{transform:translateX(-2px) skewX(2deg);filter:none}
+  55%{transform:translateX(9px) scaleY(.98);filter:drop-shadow(5px 0 0 rgba(0,235,255,.45)) drop-shadow(-5px 0 0 rgba(255,0,70,.5))}
+  68%,100%{transform:none;filter:none}}
 .splash::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:3;background-image:var(--noise);background-size:256px;opacity:.09;mix-blend-mode:overlay}
 @keyframes load{to{transform:scaleX(1)}}
 @keyframes logoOut{to{transform:scale(1.08) translateY(-6%);opacity:0}}
@@ -299,7 +292,7 @@ html.splash-on .mask > span{animation-delay:calc(var(--d,0)*1ms + 3.3s)}
 })();
 </script>
 <div class="splash" id="splash" aria-hidden="true">
-  <div class="vhs"><i class="scan"></i><i class="track"></i><i class="tear" style="top:46%"></i><i class="tear b" style="top:54%"></i></div>
+  <div class="vhs"><i class="scan"></i><i class="track"></i></div>
   <div class="logo"><svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
 <path id="jrDot" d="M35.03,209.05C30.39,212.73,.94,236.84,.03,276.38c-.18,7.65-.36,33.14,18.73,54.18,21.39,23.57,50.9,23.86,57.51,23.93,29.87,.29,52.43-16.02,59.1-21.69,5.49-4.67,36.71-31.49,35.32-71.75-.11-3.27-2.12-42.7-34.67-63.67-29.33-18.89-70.95-14.73-101,11.67Z"/><path id="jrJ" d="M151.54,177.35c-.15-60.15-.3-116.18-.44-176.33h153.78V133.47c0,39.33,0,88-17.33,133.33-14.1,36.87-42.18,58.97-72,72-38.3,16.73-81.78,15.69-81.78,15.69,0,0,61.13-40.16,59.11-97.02-2.22-62.67-41.33-80.12-41.33-80.12Z"/><path id="jrBowl" d="M363.7,25.4c-4.64,3.68-34.09,27.79-35,67.33-.18,7.65-.36,33.14,18.73,54.18,21.39,23.57,50.9,23.86,57.51,23.93,29.87,.29,52.43-16.02,59.1-21.69,5.49-4.67,36.71-31.49,35.32-71.75-.11-3.27-2.12-42.7-34.67-63.67-29.33-18.89-70.95-14.73-101,11.67Z"/><path id="jrR" d="M471.65,1.25s76.34-9.85,134.11,25.7c52.58,32.36,55.67,136.93-18.22,175.56-36.07,18.86-106.99,13.85-106.99,13.85,0,0,32.14,23.49,78.43,16,45.33-7.33,63.75-27.99,63.75-27.99l3.59,150.36s-81.33,6.3-118.67-16.37c-37.33-22.67-67.33-60.67-67.33-60.67v77.02h-116.88V142.07s15.32,38.46,82.39,42.12c47.05,2.57,99.05-32.79,109.71-93.68C527.76,20.79,471.65,1.25,471.65,1.25Z"/>
 <clipPath id="jrDotC"><use href="#jrDot"/></clipPath><clipPath id="jrJC"><use href="#jrJ"/></clipPath><clipPath id="jrBowlC"><use href="#jrBowl"/></clipPath><clipPath id="jrRC"><use href="#jrR"/></clipPath>
