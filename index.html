@@ -1,0 +1,751 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>JR Motion</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Juan Luis Remis — Motion Graphics Designer 2D/3D en Bizkaia. Cinema 4D, Redshift, Unreal Engine.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&family=Instrument+Serif:ital@0;1&display=swap">
+<style>
+/* Layout: tarjetas redondeadas sobre fondo casi negro; la roja granulada abre y cierra la página. */
+:root{
+  --bg:#0B0909;
+  --panel:#141011;
+  --line:rgba(243,236,231,.12);
+  --fg:#F3ECE7;
+  --muted:#9C918C;
+  --red:#E3241A;
+  --red-deep:#5E0A07;
+  --amber:#FFB35C;
+  --paper:#ECE6E1;
+  --ink:#171213;
+  --f-sans:"Schibsted Grotesk","Helvetica Neue",Arial,sans-serif;
+  --f-serif:"Instrument Serif","Times New Roman",Georgia,serif;
+  --gut:max(16px,env(safe-area-inset-left,0px));
+  --gutR:max(16px,env(safe-area-inset-right,0px));
+  --pad:clamp(18px,4.2vw,64px);
+  --r:clamp(20px,2.4vw,34px);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{background:var(--bg);scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--f-sans);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--amber);outline-offset:3px;border-radius:6px}
+::selection{background:var(--red);color:#fff}
+.wrap{padding-left:var(--gut);padding-right:var(--gutR)}
+.lbl{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;line-height:1.35}
+.lbl.dim{color:var(--muted);font-weight:500}
+.it{font-family:var(--f-serif);font-style:italic;font-weight:400;letter-spacing:-.01em}
+
+/* grano global */
+.grain{position:absolute;inset:-50%;pointer-events:none;background-image:var(--noise);background-size:180px;opacity:.16;mix-blend-mode:overlay;animation:grain 1s steps(6) infinite}
+@keyframes grain{0%{transform:translate(0,0)}20%{transform:translate(-4%,3%)}40%{transform:translate(3%,-2%)}60%{transform:translate(-2%,-4%)}80%{transform:translate(4%,2%)}100%{transform:translate(0,0)}}
+
+/* ---------- HERO ---------- */
+.hero-shell{padding-block:max(12px,env(safe-area-inset-top,0px)) 0}
+.card-red{position:relative;border-radius:var(--r);overflow:hidden;isolation:isolate;background:
+  radial-gradient(60% 70% at 25% 70%,#c51c13 0%,transparent 70%),
+  radial-gradient(50% 60% at 70% 25%,#6d0d09 0%,transparent 70%),#0a0606}
+.card-red canvas.fx{position:absolute;inset:0;width:100%;height:100%;z-index:-1;display:block}
+.card-red .grain{z-index:0}
+.hero{min-height:min(88svh,880px);display:flex;flex-direction:column;justify-content:space-between;padding:clamp(20px,3vw,40px) var(--pad) clamp(22px,3vw,40px)}
+nav.top{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr auto;gap:16px;align-items:center;position:relative;z-index:2}
+nav.top a{font-size:13px;font-weight:600;letter-spacing:.05em;text-transform:uppercase}
+nav.top a.nm{font-weight:800;font-size:14px}
+nav.top a:not(.nm){position:relative;justify-self:start}
+nav.top a:not(.nm)::after{content:"";position:absolute;left:0;right:0;bottom:-3px;height:1px;background:currentColor;transform:scaleX(0);transform-origin:right;transition:transform .45s cubic-bezier(.7,0,.2,1)}
+nav.top a:not(.nm):hover::after{transform:scaleX(1);transform-origin:left}
+.clock{justify-self:end;font-size:13px;font-weight:500;letter-spacing:.04em;display:flex;gap:8px;align-items:center;font-variant-numeric:tabular-nums}
+.clock i{width:7px;height:7px;border-radius:50%;background:var(--amber);display:inline-block;box-shadow:0 0 0 0 rgba(255,179,92,.6);animation:ping 2s infinite}
+@keyframes ping{0%{box-shadow:0 0 0 0 rgba(255,179,92,.55)}70%{box-shadow:0 0 0 9px rgba(255,179,92,0)}100%{box-shadow:0 0 0 0 rgba(255,179,92,0)}}
+
+h1.big{margin:clamp(36px,6vw,80px) 0;position:relative;z-index:2;font-weight:500;letter-spacing:-.055em;line-height:.86;font-size:clamp(64px,13.2vw,214px)}
+h1.big .row{display:flex;align-items:flex-end;justify-content:space-between;gap:.2em}
+h1.big .row:nth-child(1){padding-left:3%}
+h1.big .row:nth-child(2){justify-content:flex-end}
+h1.big .acc{font-family:var(--f-serif);font-style:italic;font-weight:400;letter-spacing:-.02em;color:var(--amber);font-size:.62em;line-height:1;transform:translateY(.12em);padding-right:.04em}
+.mask{display:inline-block;overflow:hidden;vertical-align:bottom;padding-bottom:.12em;margin-bottom:-.12em}
+.mask > span{display:inline-block;animation:rise 1.25s cubic-bezier(.16,.84,.24,1) both;animation-delay:calc(var(--d,0)*1ms)}
+@keyframes rise{from{transform:translateY(105%)}to{transform:none}}
+
+.hero-foot{display:grid;grid-template-columns:repeat(3,minmax(0,220px)) 1fr;gap:clamp(16px,3vw,48px);align-items:end;position:relative;z-index:2}
+.hero-foot div{display:flex;flex-direction:column;gap:10px}
+.hero-foot p{margin:0}
+.scroll-cue{justify-self:end;width:1px;height:70px;background:linear-gradient(var(--fg),var(--fg)) top/1px 0 no-repeat,rgba(243,236,231,.3);animation:cue 2.2s cubic-bezier(.7,0,.3,1) infinite;position:relative}
+.scroll-cue::after{content:"";position:absolute;bottom:-1px;left:-4px;width:9px;height:9px;border-right:1px solid var(--fg);border-bottom:1px solid var(--fg);transform:rotate(45deg)}
+@keyframes cue{0%{background-size:1px 0;background-position:top}50%{background-size:1px 100%;background-position:top}51%{background-position:bottom}100%{background-size:1px 0;background-position:bottom}}
+
+/* ---------- Secciones ---------- */
+section{padding-block:clamp(80px,11vw,160px) 0}
+.sec-h{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;padding:0 var(--pad);margin-bottom:clamp(28px,4vw,52px)}
+h2{margin:0;font-weight:600;letter-spacing:-.045em;line-height:.92;font-size:clamp(44px,7.4vw,118px);text-wrap:balance}
+h2 .it{font-weight:400;letter-spacing:-.02em}
+.sec-h .side{max-width:34ch;color:var(--muted);font-size:15px}
+.sec-h .side b{color:var(--fg);font-weight:600}
+
+/* Reel */
+.reel{position:relative;aspect-ratio:16/9;max-width:100%;border-radius:var(--r);overflow:hidden;background:#0d0909;cursor:pointer;isolation:isolate}
+.reel video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.reel .poster{position:absolute;inset:0;background:
+  radial-gradient(40% 55% at 30% 60%,rgba(227,36,26,.85),transparent 70%),
+  radial-gradient(45% 50% at 75% 35%,rgba(94,10,7,.9),transparent 70%),#0b0707;transition:transform 1.2s cubic-bezier(.2,.8,.2,1)}
+.reel:hover .poster{transform:scale(1.04)}
+.reel .poster .grain{opacity:.22}
+.reel .ttl{position:absolute;left:var(--pad);bottom:clamp(18px,3vw,40px);z-index:2;font-weight:600;letter-spacing:-.05em;line-height:.85;font-size:clamp(48px,10vw,170px)}
+.reel .ttl .it{color:var(--amber);font-size:.7em}
+.play{position:absolute;left:50%;top:50%;z-index:3;width:clamp(84px,10vw,136px);aspect-ratio:1;border-radius:50%;transform:translate(-50%,-50%);display:grid;place-items:center;background:rgba(243,236,231,.1);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(243,236,231,.25);transition:transform .5s cubic-bezier(.2,.8,.2,1),background .3s}
+.reel:hover .play{transform:translate(-50%,-50%) scale(1.08);background:var(--red);border-color:var(--red)}
+.play svg{width:28%;margin-left:6%}
+.reel-meta{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:14px;padding:0 4px}
+
+/* Proyectos: tarjetas que se apilan */
+.stack{display:flex;flex-direction:column;gap:clamp(16px,2vw,24px);padding-bottom:4vh}
+.pcard{position:sticky;top:calc(14px + var(--i) * 12px);height:min(76svh,680px);border-radius:var(--r);overflow:hidden;isolation:isolate;transform-origin:50% 0;display:grid;grid-template-rows:auto 1fr auto;padding:clamp(18px,2.6vw,36px);cursor:pointer;will-change:transform;background:#120d0d;box-shadow:0 -20px 60px rgba(0,0,0,.45)}
+.pcard .media{position:absolute;inset:0;z-index:-1}
+.pcard .media video,.pcard .media img{width:100%;height:100%;object-fit:cover;display:block}
+.pcard .media::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.35),transparent 30%,transparent 55%,rgba(0,0,0,.6))}
+.pcard .gen{position:absolute;inset:0}
+.pcard .num-bg{position:absolute;right:-.04em;bottom:-.2em;font-weight:800;letter-spacing:-.07em;line-height:.8;font-size:clamp(200px,34vw,560px);color:transparent;-webkit-text-stroke:1px rgba(243,236,231,.16);pointer-events:none;transition:transform 1.4s cubic-bezier(.2,.8,.2,1)}
+.pcard:hover .num-bg{transform:translateX(-3%)}
+.ptop{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:flex-start}
+.pchip{display:inline-flex;gap:8px;align-items:center;padding:8px 12px;border-radius:99px;background:rgba(11,9,9,.45);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid var(--line)}
+.ptitle{align-self:end;margin:0;font-weight:600;letter-spacing:-.05em;line-height:.88;font-size:clamp(40px,7.6vw,128px);max-width:14ch;text-wrap:balance}
+.pbot{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-top:18px}
+.pdesc{color:rgba(243,236,231,.75);font-size:15px;max-width:44ch}
+.pgo{display:inline-flex;align-items:center;gap:10px;padding:12px 18px;border-radius:99px;background:var(--fg);color:var(--ink);font-weight:600;font-size:14px;transition:background .3s,color .3s}
+.pcard:hover .pdesc{color:rgba(243,236,231,.75);font-size:15px;max-width:44ch}
+.pgo{background:var(--red);color:#fff}
+.others{margin:clamp(40px,6vw,80px) var(--pad) 0;border-top:1px solid var(--line)}
+.others h3{margin:22px 0 6px;font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.orow{display:grid;grid-template-columns:56px 1fr auto;gap:16px;align-items:center;padding:18px 0;border-bottom:1px solid var(--line);cursor:pointer;width:100%;background:none;border-left:0;border-right:0;border-top:0;text-align:left}
+.orow .n{color:var(--muted);font-size:13px;font-variant-numeric:tabular-nums}
+.orow .t{font-size:clamp(22px,3vw,40px);font-weight:500;letter-spacing:-.035em;line-height:1.05;transition:transform .5s cubic-bezier(.2,.8,.2,1),color .3s;min-width:0}
+.orow .a{font-size:22px;transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+@media (hover:hover){.orow:hover .t{transform:translateX(14px);color:var(--amber)}.orow:hover .a{transform:rotate(-45deg)}}
+
+/* Toolkit */
+.tool-card{margin:0 var(--pad);border-radius:var(--r);background:var(--paper);color:var(--ink);overflow:hidden;position:relative;display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.4fr);min-height:560px}
+.tool-copy{padding:clamp(24px,4vw,56px);display:flex;flex-direction:column;justify-content:space-between;gap:28px;position:relative;z-index:2}
+.tool-copy h2{font-weight:800;letter-spacing:-.05em;font-size:clamp(40px,5.4vw,84px)}
+.tool-copy h2 .it{font-weight:400;color:var(--red)}
+.tool-copy p{margin:0;max-width:36ch;color:#5b5150}
+.tool-now{display:flex;flex-direction:column;gap:6px;border-top:1px solid rgba(23,18,19,.15);padding-top:16px;min-height:96px}
+.tool-now .nm{font-size:clamp(26px,3vw,40px);font-weight:700;letter-spacing:-.04em;line-height:1}
+.tool-now .ds{color:#5b5150;font-size:15px}
+.tool-stage{position:relative;min-height:440px}
+.tool-stage canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:pan-y}
+.tool-hint{position:absolute;right:20px;bottom:16px;color:#7d7270}
+
+/* Sobre mí */
+.about{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:clamp(32px,6vw,100px);padding:0 var(--pad)}
+.about .stmt{margin:0;font-size:clamp(28px,3.6vw,56px);line-height:1.04;letter-spacing:-.04em;font-weight:500;text-wrap:pretty}
+.about .stmt .it{color:var(--amber)}
+.about .bio{margin:28px 0 0;color:var(--muted);max-width:56ch;font-size:17px}
+.facts{display:flex;flex-direction:column;border-top:1px solid var(--line);align-self:start}
+.fact{display:grid;grid-template-columns:120px 1fr;gap:16px;padding:18px 0;border-bottom:1px solid var(--line)}
+.fact dd{margin:0;min-width:0}
+.fact dd small{display:block;color:var(--muted);font-size:14px}
+
+/* Marquee */
+.marquee{margin-top:clamp(80px,11vw,160px);border-block:1px solid var(--line);overflow:hidden;padding-block:clamp(14px,2vw,26px);white-space:nowrap}
+.mtrack{display:inline-flex;gap:.5em;font-size:clamp(44px,8vw,128px);font-weight:600;letter-spacing:-.05em;line-height:1;will-change:transform}
+.mtrack span{display:inline-flex;align-items:center;gap:.5em}
+.mtrack .it{color:var(--red);font-weight:400}
+.mtrack .star{color:var(--amber);font-size:.5em}
+
+/* Contacto */
+.contact-shell{padding:clamp(80px,11vw,160px) 0 0}
+.contact{padding:clamp(28px,5vw,72px) var(--pad) clamp(120px,14vw,190px);min-height:520px;display:flex;flex-direction:column;gap:clamp(24px,3vw,40px)}
+.contact h2{font-size:clamp(64px,12vw,200px);font-weight:500;letter-spacing:-.06em;position:relative;z-index:2}
+.contact h2 .it{color:var(--amber)}
+.mail{position:relative;z-index:2;font-size:clamp(22px,3.6vw,52px);font-weight:500;letter-spacing:-.03em;overflow-wrap:anywhere;width:fit-content;max-width:100%;border-bottom:1px solid rgba(243,236,231,.4);padding-bottom:4px;transition:color .3s,border-color .3s;user-select:all}
+.mail:hover{color:var(--amber);border-color:var(--amber)}
+.c-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;position:relative;z-index:2}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:12px 18px;border-radius:99px;border:1px solid rgba(243,236,231,.35);font-size:14px;font-weight:600;background:rgba(11,9,9,.25);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);cursor:pointer;transition:background .3s,color .3s,border-color .3s}
+.pill:hover{background:var(--fg);color:var(--ink);border-color:var(--fg)}
+.pill.solid{background:var(--fg);color:var(--ink);border-color:var(--fg)}
+.pill.solid:hover{background:var(--amber);border-color:var(--amber)}
+#copyMsg{font-size:13px}
+
+/* Easter egg */
+.me{position:absolute;right:clamp(20px,8vw,140px);bottom:0;width:clamp(150px,17vw,230px);z-index:3;cursor:pointer;background:none;border:0;padding:0;transform:translateY(64%);transition:transform .8s cubic-bezier(.3,1.5,.5,1)}
+.me img{display:block;width:100%;height:auto;filter:drop-shadow(0 18px 30px rgba(0,0,0,.45));pointer-events:none;user-select:none}
+.me.peek{animation:peek 6s ease-in-out 2s infinite}
+@keyframes peek{0%,82%,100%{transform:translateY(64%)}88%,94%{transform:translateY(55%) rotate(-3deg)}}
+.me.on{transform:translateY(8%);animation:none}
+.bubble{position:absolute;right:78%;top:2%;background:var(--fg);color:var(--ink);font-weight:700;font-size:clamp(15px,1.4vw,19px);letter-spacing:-.02em;padding:10px 16px;border-radius:18px 18px 4px 18px;white-space:nowrap;transform:scale(.4) rotate(-8deg);transform-origin:100% 100%;opacity:0;transition:transform .5s cubic-bezier(.3,1.6,.5,1) .15s,opacity .2s .15s;pointer-events:none}
+.me.on .bubble{transform:scale(1) rotate(-4deg);opacity:1}
+
+footer{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:22px var(--pad) max(22px,env(safe-area-inset-bottom,0px));color:var(--muted)}
+
+/* Cursor */
+.cursor{position:fixed;left:0;top:0;width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;background:var(--fg);pointer-events:none;z-index:100;mix-blend-mode:difference;display:grid;place-items:center;transition:width .35s cubic-bezier(.2,.8,.2,1),height .35s cubic-bezier(.2,.8,.2,1),margin .35s cubic-bezier(.2,.8,.2,1),background .3s;will-change:transform}
+.cursor span{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#fff;opacity:0;transition:opacity .2s}
+.cursor.big{width:92px;height:92px;margin:-46px 0 0 -46px;background:var(--red);mix-blend-mode:normal}
+.cursor.big span{opacity:1}
+.cursor.hide{opacity:0}
+
+/* Modal */
+dialog{border:0;padding:0;background:transparent;color:var(--fg);width:min(1200px,calc(100vw - 32px));max-height:calc(100svh - 32px)}
+dialog::backdrop{background:rgba(6,4,4,.86);backdrop-filter:blur(6px)}
+.dlg{background:var(--panel);border-radius:var(--r);overflow:hidden;border:1px solid var(--line)}
+.dlg-h{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 20px}
+.dlg-h h3{margin:0;font-size:clamp(20px,2.6vw,32px);letter-spacing:-.04em;font-weight:600;min-width:0}
+.dlg-v{aspect-ratio:16/9;max-width:100%;background:#000;position:relative}
+.dlg-v video{width:100%;height:100%;display:block}
+.dlg-fb{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:24px;background:radial-gradient(50% 60% at 50% 55%,rgba(227,36,26,.5),transparent 70%),#0b0707}
+.dlg-fb div{display:flex;flex-direction:column;gap:16px;align-items:center}
+.dlg-p{padding:16px 20px 22px;color:var(--muted);margin:0}
+
+@media (max-width:900px){
+  nav.top{grid-template-columns:1fr auto auto auto;gap:14px}
+  nav.top .clock{display:none}
+  .hero-foot{grid-template-columns:1fr 1fr}
+  .hero-foot .scroll-cue{display:none}
+  .tool-card{grid-template-columns:1fr}
+  .tool-stage{min-height:380px;order:-1}
+  .about{grid-template-columns:1fr}
+}
+@media (max-width:560px){
+  nav.top{grid-template-columns:1fr auto auto}
+  nav.top a.hide-s{display:none}
+  h1.big .row{flex-wrap:wrap}
+  h1.big .row:nth-child(1){padding-left:0}
+  h1.big{font-size:19.5vw;margin:auto 0}
+  h1.big .acc{font-size:.6em}
+  .hero-foot{grid-template-columns:1fr}
+  .fact{grid-template-columns:1fr;gap:4px}
+  .orow{grid-template-columns:36px 1fr auto}
+  .pcard{height:min(70svh,560px)}
+  .me{width:132px;right:16px}
+}
+@media (hover:none),(pointer:coarse){.cursor{display:none}}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .mask > span,.grain,.scroll-cue,.clock i,.me.peek{animation:none}
+  *{transition-duration:.01ms!important}
+}
+</style>
+<meta property="og:title" content="Juan Luis Remis · Motion Graphics Designer">
+<meta property="og:description" content="Motion graphics 2D y 3D: Cinema 4D, Redshift y Unreal Engine.">
+<meta property="og:image" content="https://jr-motion.com/thumbs/og.jpg">
+<meta property="og:url" content="https://jr-motion.com">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0B0909">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='7' fill='%23E3241A'/%3E%3C/svg%3E">
+</head>
+<body>
+<div class="cursor hide" id="cursor" aria-hidden="true"><span id="cursorLbl">Ver</span></div>
+
+<div class="hero-shell wrap">
+  <header class="card-red hero" id="inicio">
+    <canvas class="fx" data-seed="1.3" aria-hidden="true"></canvas>
+    <div class="grain" aria-hidden="true"></div>
+    <nav class="top" aria-label="Principal">
+      <a class="nm" href="#inicio">Juan Luis Remis</a>
+      <a href="#reel" class="hide-s">Reel</a>
+      <a href="#proyectos">Proyectos</a>
+      <a href="#contacto">Contacto</a>
+      <span class="clock" aria-label="Hora en Bilbao"><i></i>Bilbao <span id="clock">--:--</span></span>
+    </nav>
+
+    <h1 class="big" aria-label="Motion graphics designer">
+      <span class="row"><span class="mask"><span style="--d:150">Motion</span></span><span class="mask acc"><span style="--d:420">graphics</span></span></span>
+      <span class="row"><span class="mask"><span style="--d:280">designer</span></span></span>
+    </h1>
+
+    <div class="hero-foot">
+      <div><p class="lbl">Motion 2D / 3D<br>Cinema 4D · Redshift · Unreal</p></div>
+      <div><p class="lbl">Disponible para<br>freelance y plantilla</p><p class="lbl dim">Proyectos en España<br>y en remoto</p></div>
+      <div><p class="lbl">Basado en Bizkaia</p><p class="lbl dim">Trabajo en Bilbao</p></div>
+      <a class="scroll-cue" href="#reel" aria-label="Bajar al reel"></a>
+    </div>
+  </header>
+</div>
+
+<main>
+  <section id="reel" class="wrap">
+    <div class="sec-h">
+      <h2>Motion <span class="it">reel</span></h2>
+      <p class="side">Un minuto con lo mejor de mi trabajo en <b>2D, 3D y tiempo real</b>. Mejor con sonido.</p>
+    </div>
+    <div style="padding:0 var(--pad)">
+      <div class="reel" id="reelBox" data-cursor="Play" role="button" tabindex="0" aria-label="Reproducir reel 2025">
+        <div class="poster" id="reelPoster"><div class="grain"></div></div>
+        <div class="ttl" id="reelTtl">Reel <span class="it">2025</span></div>
+        <span class="play" id="reelPlay" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 3.5v17l15-8.5z" fill="currentColor"/></svg></span>
+      </div>
+      <div class="reel-meta"><span class="lbl dim">Cinema 4D · Redshift · Unreal Engine · Illustrator</span><span class="lbl dim">1920 × 1080</span></div>
+    </div>
+  </section>
+
+  <section id="proyectos" class="wrap">
+    <div class="sec-h">
+      <h2>Selección de <span class="it">proyectos</span></h2>
+      <p class="side lbl dim">Sigue bajando ↓</p>
+    </div>
+    <div class="stack" id="stack" style="padding:0 var(--pad)"></div>
+    <div class="others" id="others"><h3>Otros trabajos</h3></div>
+  </section>
+
+  <section id="toolkit" class="wrap">
+    <div class="tool-card">
+      <div class="tool-copy">
+        <div>
+          <h2>Creative <span class="it">toolkit</span></h2>
+          <p style="margin-top:18px">Las herramientas con las que modelo, animo y renderizo cada día. Pasa el ratón por las teclas o tócalas.</p>
+        </div>
+        <div class="tool-now" aria-live="polite">
+          <span class="lbl" style="color:#9a8d8b" id="toolKey">Tecla</span>
+          <span class="nm" id="toolName">Cinema 4D</span>
+          <span class="ds" id="toolDesc">Modelado, animación y escenas 3D.</span>
+        </div>
+      </div>
+      <div class="tool-stage" id="toolStage">
+        <canvas id="keys" aria-label="Teclas 3D con las herramientas: Cinema 4D, Redshift, Unreal Engine, Illustrator, After Effects y Photoshop"></canvas>
+        <span class="tool-hint lbl dim">Pulsa una tecla</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="sobre-mi" class="wrap">
+    <div class="about">
+      <div>
+        <p class="stmt">Mezclo el <span class="it">cine</span> y los motion graphics para crear piezas dinámicas, divertidas y cargadas de <span class="it">simbolismo</span>.</p>
+        <p class="bio">Estudié Realización de Audiovisuales y después dos másteres, uno de Dirección de Fotografía y otro de Motion Graphics. De la fotografía me traje la luz y el encuadre; del motion, el ritmo. Trabajo en 2D y 3D, desde la idea hasta el render final.</p>
+      </div>
+      <dl class="facts">
+        <div class="fact"><dt class="lbl dim">Ahora</dt><dd>Disponible<small>Freelance o en plantilla</small></dd></div>
+        <div class="fact"><dt class="lbl dim">Experiencia</dt><dd>dt creativos<small>Motion designer 2D y 3D · 2025–2026</small></dd></div>
+        <div class="fact"><dt class="lbl dim">Freelance</dt><dd>Brandsummit<small>Vídeo promocional · 2025</small></dd></div>
+        <div class="fact"><dt class="lbl dim">Formación</dt><dd>Realización de Audiovisuales<small>Máster en Dirección de Fotografía · Máster en Motion Graphics</small></dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <div class="marquee" aria-hidden="true"><div class="mtrack" id="mtrack"></div></div>
+
+  <div class="contact-shell wrap" id="contacto">
+    <div class="card-red contact">
+      <canvas class="fx" data-seed="4.7" aria-hidden="true"></canvas>
+      <div class="grain" aria-hidden="true"></div>
+      <span class="lbl" style="position:relative;z-index:2">Contacto</span>
+      <h2>¿Ha<span class="it">blamos</span>?</h2>
+      <a class="mail" id="mail" href="mailto:juanluisremis@gmail.com">juanluisremis@gmail.com</a>
+      <div class="c-row">
+        <button class="pill solid" type="button" id="copyMail">Copiar email</button>
+        <a class="pill" href="https://www.linkedin.com/in/juan-luis-remis-vergara-07800084/" target="_blank" rel="noopener">LinkedIn ↗</a>
+        <a class="pill" href="https://vimeo.com/user45811276" target="_blank" rel="noopener">Vimeo ↗</a>
+        <a class="pill" href="https://www.instagram.com/juanlu491" target="_blank" rel="noopener">Instagram ↗</a>
+        <span id="copyMsg" class="lbl" aria-live="polite"></span>
+      </div>
+      <button class="me peek" id="me" type="button" aria-label="¿Quién es este?">
+        <span class="bubble">¡Este soy yo!</span>
+        <img src="assets/yo.webp" alt="Juan Luis en 3D: barba, cresta y sudadera negra" width="525" height="700">
+      </button>
+    </div>
+  </div>
+</main>
+
+<footer class="lbl dim"><span>© <span id="yr">2026</span> Juan Luis Remis</span><span>Motion Graphics Designer · Bizkaia</span><a href="#inicio">Volver arriba ↑</a></footer>
+
+<dialog id="dlg" aria-labelledby="dlgT">
+  <div class="dlg">
+    <div class="dlg-h"><h3 id="dlgT"></h3><button class="pill" type="button" id="dlgX">Cerrar ✕</button></div>
+    <div class="dlg-v"><video id="dlgV" controls playsinline></video>
+      <div class="dlg-fb" id="dlgFb" hidden><div><span class="lbl dim">Vídeo pendiente de subir</span><a class="pill solid" id="dlgLink" href="https://vimeo.com/user45811276" target="_blank" rel="noopener">Ver en Vimeo ↗</a></div></div>
+    </div>
+    <p class="dlg-p" id="dlgP"></p>
+  </div>
+</dialog>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/geometries/RoundedBoxGeometry.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/environments/RoomEnvironment.js"></script>
+<script>
+/* =========================================================
+   CONFIGURACIÓN — lo único que tienes que tocar
+   video: ruta a un .mp4 en /videos (o una URL)
+   thumb: imagen .jpg/.webp o bucle corto .mp4 en /thumbs
+   ========================================================= */
+const SITE = {
+  email: "juanluisremis@gmail.com",
+  vimeo: "https://vimeo.com/user45811276",
+  reel: { video: "videos/reel-2025.mp4" },
+  projects: [
+    { title: "Brandsummit", kind: "Vídeo promocional", year: "2025", role: "Freelance", desc: "Vídeo promocional para el estudio de diseño Brandsummit.", video: "videos/brandsummit.mp4", thumb: "" },
+    { title: "Unreal Engine Tráiler", kind: "Tráiler · tiempo real", year: "", role: "Proyecto personal", desc: "Tráiler de marca personal construido y renderizado en Unreal Engine.", video: "videos/unreal-trailer.mp4", thumb: "" },
+    { title: "Space Festival Bilbao", kind: "", year: "", role: "", desc: "", video: "videos/space-festival.mp4", thumb: "" },
+    { title: "Fujifilm Project", kind: "", year: "", role: "", desc: "", video: "videos/fujifilm.mp4", thumb: "" },
+    { title: "3D Animated Logo", kind: "Logo animado 3D", year: "", role: "", desc: "", video: "videos/3d-logo.mp4", thumb: "" },
+    { title: "Lorreine Album", kind: "", year: "", role: "", desc: "", video: "videos/lorreine.mp4", thumb: "" }
+  ],
+  others: [
+    { title: "The Painter Child Case", video: "videos/painter-child.mp4" },
+    { title: "Jupiter's Mystery", video: "videos/jupiter.mp4" },
+    { title: "Invaders From Space", video: "videos/invaders.mp4" },
+    { title: "MadeVisual", video: "videos/madevisual.mp4" },
+    { title: "#EchaUnaPata", video: "videos/echaunapata.mp4" },
+    { title: "Batman Animation", video: "videos/batman.mp4" }
+  ],
+  tools: [
+    { key: "C4D", name: "Cinema 4D", desc: "Modelado, animación y escenas 3D.", color: "#B5160F", label: "#F6E9DF" },
+    { key: "Rs", name: "Redshift", desc: "Render, iluminación y materiales.", color: "#EFE6DC", label: "#C71C12" },
+    { key: "UE", name: "Unreal Engine", desc: "Tiempo real y cinemáticas.", color: "#2A2426", label: "#F3ECE7" },
+    { key: "Ai", name: "Illustrator", desc: "Diseño vectorial y assets 2D.", color: "#F04E2C", label: "#2A0C08" },
+    { key: "Ae", name: "After Effects", desc: "Composición y motion 2D.", color: "#5C0D10", label: "#FFB35C" },
+    { key: "Ps", name: "Photoshop", desc: "Texturas, retoque y storyboards.", color: "#FFB35C", label: "#3A1206" }
+  ]
+};
+
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const finePointer = matchMedia("(hover:hover) and (pointer:fine)").matches;
+const $ = s => document.querySelector(s);
+const pad2 = n => String(n).padStart(2, "0");
+$("#yr").textContent = new Date().getFullYear();
+
+/* ---------- Grano (textura generada) ---------- */
+(function(){
+  const c = document.createElement("canvas"); c.width = c.height = 180;
+  const g = c.getContext("2d"), d = g.createImageData(180, 180);
+  for (let i = 0; i < d.data.length; i += 4){ const v = Math.random() * 255; d.data[i] = d.data[i+1] = d.data[i+2] = v; d.data[i+3] = 255; }
+  g.putImageData(d, 0, 0);
+  document.documentElement.style.setProperty("--noise", `url(${c.toDataURL()})`);
+})();
+
+/* ---------- Reloj de Bilbao ---------- */
+function tick(){
+  try { $("#clock").textContent = new Intl.DateTimeFormat("es-ES", { hour: "2-digit", minute: "2-digit", timeZone: "Europe/Madrid" }).format(new Date()); }
+  catch (e) { const d = new Date(); $("#clock").textContent = pad2(d.getHours()) + ":" + pad2(d.getMinutes()); }
+}
+tick(); setInterval(tick, 15000);
+
+/* ---------- Degradado rojo granulado (WebGL) ---------- */
+const FRAG = `
+precision highp float;
+uniform vec2 uRes; uniform float uTime; uniform vec2 uMouse; uniform float uSeed;
+float hash(vec2 p){ p = fract(p * vec2(123.34, 456.21)); p += dot(p, p + 45.32); return fract(p.x * p.y); }
+float noise(vec2 p){ vec2 i = floor(p), f = fract(p); f = f*f*(3.0-2.0*f);
+  return mix(mix(hash(i), hash(i+vec2(1,0)), f.x), mix(hash(i+vec2(0,1)), hash(i+vec2(1,1)), f.x), f.y); }
+float fbm(vec2 p){ float v = 0.0, a = 0.5; for (int i = 0; i < 5; i++){ v += a * noise(p); p = p * 2.03 + 17.1; a *= 0.5; } return v; }
+void main(){
+  vec2 uv = gl_FragCoord.xy / uRes;
+  vec2 p = uv * vec2(uRes.x / uRes.y, 1.0);
+  float t = uTime * 0.045;
+  vec2 q = vec2(fbm(p * 1.1 + t + uSeed), fbm(p * 1.1 - t + uSeed * 2.0));
+  vec2 r = vec2(fbm(p * 1.3 + q * 1.8 + vec2(1.7, 9.2) + t * 1.4), fbm(p * 1.3 + q * 1.8 + vec2(8.3, 2.8) - t));
+  float f = fbm(p * 1.2 + r * 1.6);
+  float line = uv.y - (0.22 + 0.55 * uv.x) + (f - 0.5) * 0.55;
+  float band = exp(-line * line * 9.0);
+  float blob = exp(-pow(distance(uv, vec2(0.22, 0.32)), 2.0) * 7.0);
+  float m = exp(-pow(distance(uv * vec2(uRes.x / uRes.y, 1.0), uMouse * vec2(uRes.x / uRes.y, 1.0)), 2.0) * 5.0);
+  float v = band * (0.45 + f * 0.95) + blob * 0.55 + m * 0.28;
+  v *= smoothstep(1.15, 0.55, uv.x + (1.0 - uv.y) * 0.25) * 0.35 + 0.75;
+  vec3 c = vec3(0.018, 0.008, 0.008);
+  c = mix(c, vec3(0.30, 0.025, 0.015), smoothstep(0.08, 0.45, v));
+  c = mix(c, vec3(0.86, 0.10, 0.06), smoothstep(0.42, 0.95, v));
+  c = mix(c, vec3(1.0, 0.42, 0.28), smoothstep(0.95, 1.35, v) * 0.55);
+  float g = hash(gl_FragCoord.xy + fract(uTime * 7.0) * 113.0) - 0.5;
+  c += g * 0.075;
+  gl_FragColor = vec4(c, 1.0);
+}`;
+function gradientCanvas(canvas){
+  let gl;
+  try { gl = canvas.getContext("webgl", { antialias: false, alpha: false, preserveDrawingBuffer: false }); } catch (e) {}
+  if (!gl) return;
+  const sh = (type, src) => { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s; };
+  const pr = gl.createProgram();
+  gl.attachShader(pr, sh(gl.VERTEX_SHADER, "attribute vec2 a;void main(){gl_Position=vec4(a,0.,1.);}"));
+  gl.attachShader(pr, sh(gl.FRAGMENT_SHADER, FRAG));
+  gl.linkProgram(pr);
+  if (!gl.getProgramParameter(pr, gl.LINK_STATUS)) return;
+  gl.useProgram(pr);
+  const b = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, b);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 3,-1, -1,3]), gl.STATIC_DRAW);
+  const loc = gl.getAttribLocation(pr, "a"); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+  const U = n => gl.getUniformLocation(pr, n);
+  const uRes = U("uRes"), uTime = U("uTime"), uMouse = U("uMouse"), uSeed = U("uSeed");
+  gl.uniform1f(uSeed, +canvas.dataset.seed || 1);
+  const host = canvas.parentElement;
+  let mx = 0.6, my = 0.5, tx = 0.6, ty = 0.5, visible = true;
+  host.addEventListener("pointermove", e => { const r = host.getBoundingClientRect(); tx = (e.clientX - r.left) / r.width; ty = 1 - (e.clientY - r.top) / r.height; });
+  new IntersectionObserver(([en]) => { visible = en.isIntersecting; }).observe(host);
+  function size(){
+    const dpr = Math.min(devicePixelRatio || 1, 1.5);
+    const w = Math.max(1, Math.round(canvas.clientWidth * dpr)), h = Math.max(1, Math.round(canvas.clientHeight * dpr));
+    if (canvas.width !== w || canvas.height !== h){ canvas.width = w; canvas.height = h; gl.viewport(0, 0, w, h); }
+  }
+  const t0 = performance.now();
+  function draw(){
+    size();
+    mx += (tx - mx) * 0.05; my += (ty - my) * 0.05;
+    gl.uniform2f(uRes, canvas.width, canvas.height);
+    gl.uniform1f(uTime, reduce ? 12.0 : (performance.now() - t0) / 1000 + 20.0);
+    gl.uniform2f(uMouse, mx, my);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+  }
+  (function loop(){ requestAnimationFrame(loop); if (visible) draw(); })();
+}
+document.querySelectorAll("canvas.fx").forEach(gradientCanvas);
+
+/* ---------- Cursor ---------- */
+const cur = $("#cursor"), curLbl = $("#cursorLbl");
+if (finePointer && !reduce) {
+  let x = innerWidth / 2, y = innerHeight / 2, cx = x, cy = y;
+  addEventListener("pointermove", e => { x = e.clientX; y = e.clientY; cur.classList.remove("hide"); }, { passive: true });
+  document.addEventListener("pointerleave", () => cur.classList.add("hide"));
+  addEventListener("pointerover", e => {
+    const t = e.target.closest("[data-cursor]");
+    cur.classList.toggle("big", !!t);
+    if (t) curLbl.textContent = t.dataset.cursor;
+  });
+  (function follow(){ cx += (x - cx) * 0.2; cy += (y - cy) * 0.2; cur.style.transform = `translate(${cx}px,${cy}px)`; requestAnimationFrame(follow); })();
+} else cur.remove();
+
+/* ---------- Modal de vídeo ---------- */
+const dlg = $("#dlg"), dv = $("#dlgV"), dfb = $("#dlgFb");
+function openVideo(title, src, desc){
+  $("#dlgT").textContent = title; $("#dlgP").textContent = desc || ""; $("#dlgP").hidden = !desc;
+  dfb.hidden = true; dv.hidden = false;
+  dv.onerror = () => { dv.hidden = true; dfb.hidden = false; };
+  if (src) { dv.src = src; dv.play().catch(() => {}); } else { dv.hidden = true; dfb.hidden = false; }
+  $("#dlgLink").href = SITE.vimeo;
+  if (dlg.showModal) dlg.showModal(); else dlg.setAttribute("open", "");
+}
+function closeVideo(){ dv.pause(); dv.removeAttribute("src"); dv.load(); dlg.close ? dlg.close() : dlg.removeAttribute("open"); }
+$("#dlgX").addEventListener("click", closeVideo);
+dlg.addEventListener("click", e => { if (e.target === dlg) closeVideo(); });
+dlg.addEventListener("cancel", e => { e.preventDefault(); closeVideo(); });
+
+/* ---------- Reel ---------- */
+const reelBox = $("#reelBox");
+function playReel(){ openVideo("Reel 2025", SITE.reel.video, ""); }
+reelBox.addEventListener("click", playReel);
+reelBox.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); playReel(); } });
+
+/* ---------- Proyectos ---------- */
+const stack = $("#stack");
+const palettes = [
+  ["#E3241A", "#5E0A07", 28, 62],
+  ["#B3180F", "#FF6A3D", 70, 30],
+  ["#7A0F0B", "#E3241A", 40, 25],
+  ["#E0401F", "#3A0705", 65, 70],
+  ["#C21A12", "#FFB35C", 30, 30],
+  ["#5E0A07", "#F0362A", 72, 58]
+];
+SITE.projects.forEach((p, i) => {
+  const el = document.createElement("article");
+  el.className = "pcard"; el.style.setProperty("--i", i); el.tabIndex = 0;
+  el.setAttribute("role", "button"); el.dataset.cursor = "Ver";
+  el.setAttribute("aria-label", "Ver proyecto " + p.title);
+  const [a, b, x, y] = palettes[i % palettes.length];
+  const meta = [p.kind, p.role, p.year].filter(Boolean).join(" · ");
+  el.innerHTML = `
+    <div class="media"><div class="gen" style="background:
+      radial-gradient(55% 65% at ${x}% ${y}%, ${a} 0%, transparent 70%),
+      radial-gradient(45% 55% at ${100 - x}% ${100 - y}%, ${b} 0%, transparent 72%), #0d0808"><div class="grain"></div></div>
+      <span class="num-bg">${pad2(i + 1)}</span></div>
+    <div class="ptop"><span class="pchip lbl">#${pad2(i + 1)}</span>${meta ? `<span class="pchip lbl dim"></span>` : ""}</div>
+    <h3 class="ptitle"></h3>
+    <div class="pbot"><span class="pdesc">${p.desc ? "" : "Motion · 2D/3D"}</span><span class="pgo">Ver proyecto <span aria-hidden="true">→</span></span></div>`;
+  el.querySelector(".ptitle").textContent = p.title;
+  if (meta) el.querySelector(".ptop .dim").textContent = meta;
+  if (p.desc) el.querySelector(".pbot .pdesc").textContent = p.desc;
+  if (p.thumb) {
+    const media = el.querySelector(".media"), gen = media.querySelector(".gen");
+    const isVid = /\.(mp4|webm)$/i.test(p.thumb);
+    const m = document.createElement(isVid ? "video" : "img");
+    if (isVid) Object.assign(m, { muted: true, loop: true, autoplay: true, playsInline: true });
+    else m.alt = "";
+    m.src = p.thumb; m.onerror = () => m.remove();
+    media.insertBefore(m, gen); gen.style.display = "none"; m.onerror = () => { m.remove(); gen.style.display = ""; };
+  }
+  const open = () => openVideo(p.title, p.video, p.desc);
+  el.addEventListener("click", open);
+  el.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); } });
+  stack.appendChild(el);
+});
+const others = $("#others");
+SITE.others.forEach((p, i) => {
+  const b = document.createElement("button");
+  b.type = "button"; b.className = "orow"; b.dataset.cursor = "Ver";
+  b.innerHTML = `<span class="n">${pad2(SITE.projects.length + i + 1)}</span><span class="t"></span><span class="a" aria-hidden="true">↗</span>`;
+  b.querySelector(".t").textContent = p.title;
+  b.addEventListener("click", () => openVideo(p.title, p.video, ""));
+  others.appendChild(b);
+});
+/* efecto de pila: la tarjeta de debajo se encoge al taparla la siguiente */
+const cards = [...stack.children];
+function stackFx(){
+  cards.forEach((c, i) => {
+    const next = cards[i + 1]; if (!next) { c.style.transform = ""; return; }
+    const r = c.getBoundingClientRect(), n = next.getBoundingClientRect();
+    const p = Math.min(1, Math.max(0, 1 - (n.top - r.top) / r.height));
+    c.style.transform = `scale(${1 - p * 0.06})`;
+    c.style.filter = p > 0.01 ? `brightness(${1 - p * 0.45})` : "";
+  });
+}
+if (!reduce) { addEventListener("scroll", () => requestAnimationFrame(stackFx), { passive: true }); stackFx(); }
+
+/* ---------- Marquee ---------- */
+const mt = $("#mtrack");
+const chunk = `<span>Tu próximo <span class="it">motion designer</span> está aquí <span class="star">✦</span></span>`;
+mt.innerHTML = chunk.repeat(6);
+if (!reduce) {
+  let off = 0, vel = 0, lastY = scrollY;
+  (function run(){
+    const dy = scrollY - lastY; lastY = scrollY;
+    vel += (Math.abs(dy) * 0.12 - vel) * 0.1;
+    off -= 0.6 + vel;
+    const half = mt.scrollWidth / 2;
+    if (-off > half) off += half;
+    mt.style.transform = `translateX(${off}px)`;
+    requestAnimationFrame(run);
+  })();
+}
+
+/* ---------- Copiar email ---------- */
+$("#copyMail").addEventListener("click", () => {
+  const msg = $("#copyMsg");
+  const sel = () => { const r = document.createRange(); r.selectNodeContents($("#mail")); const s = getSelection(); s.removeAllRanges(); s.addRange(r); msg.textContent = "Seleccionado, cópialo"; };
+  try { navigator.clipboard.writeText(SITE.email).then(() => { msg.textContent = "Copiado ✓"; }, sel); } catch (e) { sel(); }
+});
+
+/* ---------- Easter egg ---------- */
+const me = $("#me");
+me.addEventListener("mouseenter", () => me.classList.add("on"));
+me.addEventListener("mouseleave", () => me.classList.remove("on"));
+me.addEventListener("focus", () => me.classList.add("on"));
+me.addEventListener("blur", () => me.classList.remove("on"));
+me.addEventListener("click", () => me.classList.toggle("on"));
+
+/* ---------- Teclas 3D ---------- */
+(function keys(){
+  const canvas = $("#keys"), stage = $("#toolStage");
+  if (!window.THREE || !THREE.RoundedBoxGeometry) return;
+  let renderer;
+  try { renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true }); } catch (e) { return; }
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  renderer.outputEncoding = THREE.sRGBEncoding;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 0.88;
+  renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+  const scene = new THREE.Scene();
+  if (THREE.RoomEnvironment) scene.environment = new THREE.PMREMGenerator(renderer).fromScene(new THREE.RoomEnvironment(), 0.04).texture;
+  const camera = new THREE.PerspectiveCamera(28, 1, 0.1, 100);
+  camera.position.set(0, 7.2, 6.2); camera.lookAt(0, 0, 0.15);
+
+  const sun = new THREE.DirectionalLight(0xffffff, 1.4);
+  sun.position.set(-3, 8, 4); sun.castShadow = true;
+  sun.shadow.mapSize.set(1024, 1024); sun.shadow.radius = 8;
+  Object.assign(sun.shadow.camera, { left: -5, right: 5, top: 5, bottom: -5, near: 1, far: 20 });
+  scene.add(sun);
+  const warm = new THREE.DirectionalLight(0xff5a3a, 0.7); warm.position.set(4, 2, -3); scene.add(warm);
+  const floor = new THREE.Mesh(new THREE.PlaneGeometry(30, 30), new THREE.ShadowMaterial({ opacity: 0.16 }));
+  floor.rotation.x = -Math.PI / 2; floor.position.y = -0.36; floor.receiveShadow = true; scene.add(floor);
+
+  // forma de tecla: caja redondeada con la parte de arriba más estrecha
+  const geo = new THREE.RoundedBoxGeometry(1.25, 0.72, 1.25, 6, 0.2);
+  { const p = geo.attributes.position;
+    for (let i = 0; i < p.count; i++){
+      const y = p.getY(i), k = 1 - 0.13 * ((y + 0.36) / 0.72);
+      p.setX(i, p.getX(i) * k); p.setZ(i, p.getZ(i) * k);
+    }
+    geo.computeVertexNormals(); }
+
+  function labelTex(text, color){
+    const c = document.createElement("canvas"); c.width = c.height = 256;
+    const g = c.getContext("2d");
+    g.fillStyle = color; g.textAlign = "center"; g.textBaseline = "middle";
+    const size = text.length > 2 ? 92 : 124;
+    g.font = `800 ${size}px "Schibsted Grotesk", "Helvetica Neue", Arial, sans-serif`;
+    g.fillText(text, 128, 136);
+    const t = new THREE.CanvasTexture(c); t.encoding = THREE.sRGBEncoding; t.anisotropy = 4;
+    return t;
+  }
+  const cols = 3, gapX = 1.62, gapZ = 1.62;
+  const items = SITE.tools.map((tool, i) => {
+    const group = new THREE.Group();
+    const mat = new THREE.MeshPhysicalMaterial({ color: new THREE.Color(tool.color).convertSRGBToLinear(), roughness: 0.32, clearcoat: 1, clearcoatRoughness: 0.18, envMapIntensity: 0.6 });
+    const cap = new THREE.Mesh(geo, mat); cap.castShadow = true; group.add(cap);
+    const lab = new THREE.Mesh(new THREE.PlaneGeometry(0.9, 0.9), new THREE.MeshStandardMaterial({ map: labelTex(tool.key, tool.label), transparent: true, roughness: 0.4, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -2 }));
+    lab.rotation.x = -Math.PI / 2; lab.position.y = 0.364; lab.renderOrder = 2; group.add(lab);
+    const col = i % cols, row = Math.floor(i / cols);
+    const bx = (col - 1) * gapX + (row ? 0.25 : -0.15), bz = (row - 0.5) * gapZ;
+    group.position.set(bx, 0, bz);
+    group.rotation.set((Math.random() - 0.5) * 0.12, (Math.random() - 0.5) * 0.5, (Math.random() - 0.5) * 0.12);
+    scene.add(group);
+    return { tool, group, cap, lab, mat, base: group.rotation.clone(), bx, bz, press: 0, target: 0, phase: Math.random() * 6.28, i };
+  });
+  if (document.fonts) document.fonts.ready.then(() => items.forEach(it => { it.lab.material.map = labelTex(it.tool.key, it.tool.label); it.lab.material.needsUpdate = true; }));
+
+  const nameEl = $("#toolName"), descEl = $("#toolDesc"), keyEl = $("#toolKey");
+  function show(it){ keyEl.textContent = "Tecla " + it.tool.key; nameEl.textContent = it.tool.name; descEl.textContent = it.tool.desc; }
+
+  const ray = new THREE.Raycaster(), ndc = new THREE.Vector2();
+  let hover = null, mx = 0, my = 0, lastUser = -10;
+  function pick(e){
+    const r = canvas.getBoundingClientRect();
+    ndc.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
+    ray.setFromCamera(ndc, camera);
+    const hit = ray.intersectObjects(items.map(i => i.cap))[0];
+    return hit ? items.find(i => i.cap === hit.object) : null;
+  }
+  canvas.addEventListener("pointermove", e => {
+    const r = canvas.getBoundingClientRect(); mx = (e.clientX - r.left) / r.width * 2 - 1; my = (e.clientY - r.top) / r.height * 2 - 1;
+    if (e.pointerType !== "mouse") return;
+    const it = pick(e);
+    if (it !== hover) { hover = it; if (it) { show(it); lastUser = clock.elapsedTime; } }
+    canvas.style.cursor = it ? "pointer" : "";
+  });
+  canvas.addEventListener("pointerleave", () => { hover = null; mx = my = 0; });
+  canvas.addEventListener("pointerdown", e => { const it = pick(e); if (it) { it.press = 1.4; show(it); lastUser = clock.elapsedTime; } });
+
+  function resize(){
+    const w = stage.clientWidth, h = stage.clientHeight;
+    renderer.setSize(w, h, false); camera.aspect = w / h;
+    const asp = w / h;
+    camera.fov = asp < 1.1 ? 30 : 28;
+    camera.position.set(0, 7.2, 6.2).multiplyScalar(asp < 1.1 ? 1.12 : 1);
+    camera.lookAt(0, 0, 0.15);
+    camera.updateProjectionMatrix();
+  }
+  addEventListener("resize", resize); resize();
+
+  let visible = true;
+  new IntersectionObserver(([en]) => { visible = en.isIntersecting; }).observe(stage);
+  const clock = new THREE.Clock();
+  let nextAuto = 1.2, auto = 0;
+  function frame(){
+    requestAnimationFrame(frame);
+    if (!visible) return;
+    const dt = Math.min(clock.getDelta(), 0.05), t = clock.elapsedTime;
+    // tecleo automático cuando nadie interactúa
+    if (!reduce && t > nextAuto && t - lastUser > 4 && !hover) {
+      const it = items[auto++ % items.length]; it.press = 1.25; show(it);
+      nextAuto = t + 1.5;
+    }
+    items.forEach(it => {
+      it.press = Math.max(0, it.press - dt * 2.6);
+      const down = Math.max(hover === it ? 0.55 : 0, Math.min(1, it.press));
+      it.target += (down - it.target) * 0.25;
+      const bob = reduce ? 0 : Math.sin(t * 1.3 + it.phase) * 0.06;
+      it.group.position.y = 0.22 + bob - it.target * 0.26;
+      it.group.rotation.x = it.base.x + (reduce ? 0 : my * 0.12) + it.target * 0.05;
+      it.group.rotation.z = it.base.z - (reduce ? 0 : mx * 0.12);
+      it.group.rotation.y = it.base.y + (reduce ? 0 : Math.sin(t * 0.7 + it.phase) * 0.05);
+      it.mat.emissive.setRGB(it.target * 0.06, it.target * 0.012, it.target * 0.008);
+    });
+    renderer.render(scene, camera);
+  }
+  frame();
+})();
+</script>
+</body>
+</html>
