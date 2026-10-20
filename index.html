@@ -209,27 +209,23 @@ dialog::backdrop{background:rgba(6,4,4,.86);backdrop-filter:blur(6px)}
 .dlg-p{padding:16px 20px 22px;color:var(--muted);margin:0}
 
 /* ---------- Splash de entrada ---------- */
-.splash{position:fixed;inset:0;z-index:200;background:var(--bg);display:grid;place-items:center;overflow:hidden;animation:splashOut .65s cubic-bezier(.76,0,.24,1) 2.05s forwards}
-.splash .logo{display:flex;flex-direction:column;align-items:center;gap:clamp(18px,3vw,28px);position:relative;z-index:1;animation:logoOut .6s cubic-bezier(.6,0,.3,1) 1.95s forwards}
+.splash{position:fixed;inset:0;z-index:200;background:var(--bg);display:grid;place-items:center;overflow:hidden;animation:splashOut .55s cubic-bezier(.76,0,.24,1) 1.45s forwards}
+.splash .logo{display:flex;flex-direction:column;align-items:center;gap:clamp(18px,3vw,28px);position:relative;z-index:1;animation:logoOut .5s cubic-bezier(.6,0,.3,1) 1.35s forwards}
 .splash .bar{width:min(32vw,190px);height:1px;background:rgba(243,236,231,.12);overflow:hidden}
-.splash .bar i{display:block;height:100%;background:var(--amber);transform:scaleX(0);transform-origin:left;animation:load 1.75s cubic-bezier(.5,0,.2,1) .15s forwards}
+.splash .bar i{display:block;height:100%;background:var(--amber);transform:scaleX(0);transform-origin:left;animation:load 1.2s cubic-bezier(.5,0,.2,1) .1s forwards}
 .neon{position:relative;width:clamp(160px,30vw,300px);aspect-ratio:784.26/495.54}
 .neon svg.tube{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
-.neon .t{position:absolute;inset:0;opacity:0;will-change:opacity;animation:neonOn 1.1s linear forwards}
-.neon .t0{animation-delay:.3s}.neon .t1{animation-delay:.5s}.neon .t2{animation-delay:.7s}.neon .t3{animation-delay:.82s}.neon .tf{animation-delay:1.15s}
+.neon .t{position:absolute;inset:0;opacity:0;will-change:opacity;animation:neonOn .85s linear forwards}
+.neon .t0{animation-delay:.18s}.neon .t1{animation-delay:.32s}.neon .t2{animation-delay:.46s}.neon .t3{animation-delay:.55s}.neon .tf{animation-delay:.8s}
 @keyframes neonOn{0%{opacity:0}5%{opacity:.85}8%{opacity:.05}14%{opacity:.6}17%{opacity:.1}24%{opacity:1}29%{opacity:.65}34%,100%{opacity:1}}
 .neon .off{opacity:.9}
-/* VHS suave: solo líneas de escaneo con un leve parpadeo */
-.vhs{position:absolute;inset:0;pointer-events:none;z-index:2}
-.vhs .scan{position:absolute;inset:0;background:repeating-linear-gradient(to bottom,rgba(0,0,0,.3) 0 1px,transparent 1px 3px);opacity:.5;animation:scanFlick .14s steps(2) infinite}
-@keyframes scanFlick{50%{opacity:.4}}
 .splash::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:3;background-image:var(--noise);background-size:256px;opacity:.09;mix-blend-mode:overlay}
 @keyframes load{to{transform:scaleX(1)}}
 @keyframes logoOut{to{transform:scale(1.08) translateY(-6%);opacity:0}}
 @keyframes splashOut{0%{transform:none;border-radius:0}100%{transform:translateY(-100%);border-radius:0 0 50% 50%/0 0 22% 22%;visibility:hidden}}
 .splash.skip,.splash.skip .logo{animation-delay:0s;animation-duration:.55s}
 html.no-splash .splash{display:none}
-html.splash-on .mask > span{animation-delay:calc(var(--d,0)*1ms + 2.2s)}
+html.splash-on .mask > span{animation-delay:calc(var(--d,0)*1ms + 1.55s)}
 @media (prefers-reduced-motion:reduce){.splash{display:none}}
 
 @media (max-width:900px){
@@ -238,7 +234,7 @@ html.splash-on .mask > span{animation-delay:calc(var(--d,0)*1ms + 2.2s)}
   .hero-foot{grid-template-columns:1fr 1fr}
   .hero-foot .scroll-cue{display:none}
   .tool-card{grid-template-columns:1fr}
-  .tool-stage{min-height:380px;order:-1}
+  .tool-stage{min-height:min(118vw,520px);order:-1}
   .about{grid-template-columns:1fr}
 }
 @media (max-width:560px){
@@ -283,21 +279,20 @@ html.splash-on .mask > span{animation-delay:calc(var(--d,0)*1ms + 2.2s)}
 })();
 </script>
 <div class="splash" id="splash" aria-hidden="true">
-  <div class="vhs"><i class="scan"></i></div>
   <div class="logo"><svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
 <path id="jrDot" d="M35.03,209.05C30.39,212.73,.94,236.84,.03,276.38c-.18,7.65-.36,33.14,18.73,54.18,21.39,23.57,50.9,23.86,57.51,23.93,29.87,.29,52.43-16.02,59.1-21.69,5.49-4.67,36.71-31.49,35.32-71.75-.11-3.27-2.12-42.7-34.67-63.67-29.33-18.89-70.95-14.73-101,11.67Z"/><path id="jrJ" d="M151.54,177.35c-.15-60.15-.3-116.18-.44-176.33h153.78V133.47c0,39.33,0,88-17.33,133.33-14.1,36.87-42.18,58.97-72,72-38.3,16.73-81.78,15.69-81.78,15.69,0,0,61.13-40.16,59.11-97.02-2.22-62.67-41.33-80.12-41.33-80.12Z"/><path id="jrBowl" d="M363.7,25.4c-4.64,3.68-34.09,27.79-35,67.33-.18,7.65-.36,33.14,18.73,54.18,21.39,23.57,50.9,23.86,57.51,23.93,29.87,.29,52.43-16.02,59.1-21.69,5.49-4.67,36.71-31.49,35.32-71.75-.11-3.27-2.12-42.7-34.67-63.67-29.33-18.89-70.95-14.73-101,11.67Z"/><path id="jrR" d="M471.65,1.25s76.34-9.85,134.11,25.7c52.58,32.36,55.67,136.93-18.22,175.56-36.07,18.86-106.99,13.85-106.99,13.85,0,0,32.14,23.49,78.43,16,45.33-7.33,63.75-27.99,63.75-27.99l3.59,150.36s-81.33,6.3-118.67-16.37c-37.33-22.67-67.33-60.67-67.33-60.67v77.02h-116.88V142.07s15.32,38.46,82.39,42.12c47.05,2.57,99.05-32.79,109.71-93.68C527.76,20.79,471.65,1.25,471.65,1.25Z"/>
 <clipPath id="jrDotC"><use href="#jrDot"/></clipPath><clipPath id="jrJC"><use href="#jrJ"/></clipPath><clipPath id="jrBowlC"><use href="#jrBowl"/></clipPath><clipPath id="jrRC"><use href="#jrR"/></clipPath>
 <radialGradient id="jrFill" cx="50%" cy="45%" r="62%"><stop offset="0" stop-color="#260402"/><stop offset=".6" stop-color="#5E0E06"/><stop offset=".88" stop-color="#93200F"/><stop offset="1" stop-color="#B8301A"/></radialGradient>
 <filter id="jrB1" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="6"/></filter><filter id="jrB3" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="14"/></filter><filter id="jrFl" x="-50%" y="-800%" width="200%" height="1700%"><feGaussianBlur stdDeviation="9 2"/></filter>
-<filter id="jrB2" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="34"/></filter>
+<filter id="jrB2" x="-90%" y="-90%" width="280%" height="280%"><feGaussianBlur stdDeviation="40"/></filter>
 <filter id="jrBi" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="7"/></filter><filter id="jrBi2" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="2.2"/></filter>
 <filter id="jrBr" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation=".7"/></filter>
 </defs></svg><div class="neon"><svg class="tube off" viewBox="-70 -70 784.26 495.54" aria-hidden="true"><use href="#jrDot" fill="#1a0b08" stroke="#4a1a10" stroke-width="2"/><use href="#jrJ" fill="#1a0b08" stroke="#4a1a10" stroke-width="2"/><use href="#jrBowl" fill="#1a0b08" stroke="#4a1a10" stroke-width="2"/><use href="#jrR" fill="#1a0b08" stroke="#4a1a10" stroke-width="2"/></svg><div class="t t0"><svg class="tube" viewBox="-70 -70 784.26 495.54" aria-hidden="true">
 <use href="#jrDot" fill="url(#jrFill)"/>
 <g style="mix-blend-mode:screen">
-<use href="#jrDot" fill="none" stroke="#E3241A" stroke-width="40" opacity=".55" filter="url(#jrB2)"/>
-<use href="#jrDot" fill="none" stroke="#FF4A16" stroke-width="18" opacity=".85" filter="url(#jrB3)"/>
-<use href="#jrDot" fill="none" stroke="#FF9A30" stroke-width="10" opacity=".95" filter="url(#jrB1)"/>
+<use href="#jrDot" fill="none" stroke="#E3241A" stroke-width="54" opacity=".8" filter="url(#jrB2)"/>
+<use href="#jrDot" fill="none" stroke="#FF5A1A" stroke-width="24" opacity="1" filter="url(#jrB3)"/>
+<use href="#jrDot" fill="none" stroke="#FFA238" stroke-width="12" opacity="1" filter="url(#jrB1)"/>
 <g clip-path="url(#jrDotC)"><use href="#jrDot" fill="none" stroke="#FF5A1E" stroke-width="26" opacity=".6" filter="url(#jrBi)"/></g>
 <use href="#jrDot" fill="none" stroke="#FFB04A" stroke-width="8" filter="url(#jrBi2)"/>
 <use href="#jrDot" fill="none" stroke="#FFD27E" stroke-width="4" filter="url(#jrBr)"/>
@@ -306,9 +301,9 @@ html.splash-on .mask > span{animation-delay:calc(var(--d,0)*1ms + 2.2s)}
 </svg></div><div class="t t1"><svg class="tube" viewBox="-70 -70 784.26 495.54" aria-hidden="true">
 <use href="#jrJ" fill="url(#jrFill)"/>
 <g style="mix-blend-mode:screen">
-<use href="#jrJ" fill="none" stroke="#E3241A" stroke-width="40" opacity=".55" filter="url(#jrB2)"/>
-<use href="#jrJ" fill="none" stroke="#FF4A16" stroke-width="18" opacity=".85" filter="url(#jrB3)"/>
-<use href="#jrJ" fill="none" stroke="#FF9A30" stroke-width="10" opacity=".95" filter="url(#jrB1)"/>
+<use href="#jrJ" fill="none" stroke="#E3241A" stroke-width="54" opacity=".8" filter="url(#jrB2)"/>
+<use href="#jrJ" fill="none" stroke="#FF5A1A" stroke-width="24" opacity="1" filter="url(#jrB3)"/>
+<use href="#jrJ" fill="none" stroke="#FFA238" stroke-width="12" opacity="1" filter="url(#jrB1)"/>
 <g clip-path="url(#jrJC)"><use href="#jrJ" fill="none" stroke="#FF5A1E" stroke-width="26" opacity=".6" filter="url(#jrBi)"/></g>
 <use href="#jrJ" fill="none" stroke="#FFB04A" stroke-width="8" filter="url(#jrBi2)"/>
 <use href="#jrJ" fill="none" stroke="#FFD27E" stroke-width="4" filter="url(#jrBr)"/>
@@ -317,9 +312,9 @@ html.splash-on .mask > span{animation-delay:calc(var(--d,0)*1ms + 2.2s)}
 </svg></div><div class="t t2"><svg class="tube" viewBox="-70 -70 784.26 495.54" aria-hidden="true">
 <use href="#jrBowl" fill="url(#jrFill)"/>
 <g style="mix-blend-mode:screen">
-<use href="#jrBowl" fill="none" stroke="#E3241A" stroke-width="40" opacity=".55" filter="url(#jrB2)"/>
-<use href="#jrBowl" fill="none" stroke="#FF4A16" stroke-width="18" opacity=".85" filter="url(#jrB3)"/>
-<use href="#jrBowl" fill="none" stroke="#FF9A30" stroke-width="10" opacity=".95" filter="url(#jrB1)"/>
+<use href="#jrBowl" fill="none" stroke="#E3241A" stroke-width="54" opacity=".8" filter="url(#jrB2)"/>
+<use href="#jrBowl" fill="none" stroke="#FF5A1A" stroke-width="24" opacity="1" filter="url(#jrB3)"/>
+<use href="#jrBowl" fill="none" stroke="#FFA238" stroke-width="12" opacity="1" filter="url(#jrB1)"/>
 <g clip-path="url(#jrBowlC)"><use href="#jrBowl" fill="none" stroke="#FF5A1E" stroke-width="26" opacity=".6" filter="url(#jrBi)"/></g>
 <use href="#jrBowl" fill="none" stroke="#FFB04A" stroke-width="8" filter="url(#jrBi2)"/>
 <use href="#jrBowl" fill="none" stroke="#FFD27E" stroke-width="4" filter="url(#jrBr)"/>
@@ -328,9 +323,9 @@ html.splash-on .mask > span{animation-delay:calc(var(--d,0)*1ms + 2.2s)}
 </svg></div><div class="t t3"><svg class="tube" viewBox="-70 -70 784.26 495.54" aria-hidden="true">
 <use href="#jrR" fill="url(#jrFill)"/>
 <g style="mix-blend-mode:screen">
-<use href="#jrR" fill="none" stroke="#E3241A" stroke-width="40" opacity=".55" filter="url(#jrB2)"/>
-<use href="#jrR" fill="none" stroke="#FF4A16" stroke-width="18" opacity=".85" filter="url(#jrB3)"/>
-<use href="#jrR" fill="none" stroke="#FF9A30" stroke-width="10" opacity=".95" filter="url(#jrB1)"/>
+<use href="#jrR" fill="none" stroke="#E3241A" stroke-width="54" opacity=".8" filter="url(#jrB2)"/>
+<use href="#jrR" fill="none" stroke="#FF5A1A" stroke-width="24" opacity="1" filter="url(#jrB3)"/>
+<use href="#jrR" fill="none" stroke="#FFA238" stroke-width="12" opacity="1" filter="url(#jrB1)"/>
 <g clip-path="url(#jrRC)"><use href="#jrR" fill="none" stroke="#FF5A1E" stroke-width="26" opacity=".6" filter="url(#jrBi)"/></g>
 <use href="#jrR" fill="none" stroke="#FFB04A" stroke-width="8" filter="url(#jrBi2)"/>
 <use href="#jrR" fill="none" stroke="#FFD27E" stroke-width="4" filter="url(#jrBr)"/>
@@ -795,12 +790,9 @@ me.addEventListener("blur", () => { if (!me.matches(":hover")) meSet(false); });
     const cap = new THREE.Mesh(geo, mat); cap.castShadow = true; group.add(cap);
     const lab = new THREE.Mesh(new THREE.PlaneGeometry(0.9, 0.9), new THREE.MeshStandardMaterial({ map: labelTex(tool.key, tool.label), transparent: true, roughness: 0.4, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -2 }));
     lab.rotation.x = -Math.PI / 2; lab.position.y = 0.364; lab.renderOrder = 2; group.add(lab);
-    const col = i % cols, row = Math.floor(i / cols);
-    const bx = (col - 1) * gapX + (row ? 0.25 : -0.15), bz = (row - 0.5) * gapZ;
-    group.position.set(bx, 0, bz);
     group.rotation.set((Math.random() - 0.5) * 0.12, (Math.random() - 0.5) * 0.5, (Math.random() - 0.5) * 0.12);
     scene.add(group);
-    return { tool, group, cap, lab, mat, base: group.rotation.clone(), bx, bz, press: 0, target: 0, phase: Math.random() * 6.28, i };
+    return { tool, group, cap, lab, mat, base: group.rotation.clone(), press: 0, target: 0, phase: Math.random() * 6.28, i };
   });
   if (document.fonts) document.fonts.ready.then(() => items.forEach(it => { it.lab.material.map = labelTex(it.tool.key, it.tool.label); it.lab.material.needsUpdate = true; }));
 
@@ -826,14 +818,39 @@ me.addEventListener("blur", () => { if (!me.matches(":hover")) meSet(false); });
   canvas.addEventListener("pointerleave", () => { hover = null; mx = my = 0; });
   canvas.addEventListener("pointerdown", e => { const it = pick(e); if (it) { it.press = 1.4; show(it); lastUser = clock.elapsedTime; } });
 
+  // 3×2 en pantallas anchas, 2×3 en móvil vertical
+  let layoutCols = 0;
+  function layout(c){
+    if (c === layoutCols) return; layoutCols = c;
+    const rows = Math.ceil(items.length / c);
+    items.forEach((it, i) => {
+      const col = i % c, row = Math.floor(i / c);
+      const stagger = c === 3 ? (row ? 0.25 : -0.15) : (row % 2 ? 0.18 : -0.18);
+      it.group.position.x = (col - (c - 1) / 2) * gapX + stagger;
+      it.group.position.z = (row - (rows - 1) / 2) * gapZ;
+    });
+  }
+  // cámara: distancia mínima para que todas las teclas quepan con margen
+  const camDir = new THREE.Vector3(0, 7.2, 6.2).normalize(), pt = new THREE.Vector3();
+  function fitCamera(){
+    const corners = [];
+    items.forEach(it => { for (const dx of [-0.8, 0.8]) for (const dz of [-0.8, 0.8]) for (const dy of [-0.2, 0.6]) corners.push(new THREE.Vector3(it.group.position.x + dx, dy, it.group.position.z + dz)); });
+    let lo = 3, hi = 40;
+    for (let k = 0; k < 22; k++){
+      const d = (lo + hi) / 2;
+      camera.position.copy(camDir).multiplyScalar(d); camera.lookAt(0, 0, 0); camera.updateMatrixWorld(); camera.updateProjectionMatrix();
+      let ok = true;
+      for (const c of corners){ pt.copy(c).project(camera); if (Math.abs(pt.x) > 0.9 || Math.abs(pt.y) > 0.86) { ok = false; break; } }
+      if (ok) hi = d; else lo = d;
+    }
+    camera.position.copy(camDir).multiplyScalar(hi); camera.lookAt(0, 0, 0); camera.updateProjectionMatrix();
+  }
   function resize(){
     const w = stage.clientWidth, h = stage.clientHeight;
     renderer.setSize(w, h, false); camera.aspect = w / h;
-    const asp = w / h;
-    camera.fov = asp < 1.1 ? 30 : 28;
-    camera.position.set(0, 7.2, 6.2).multiplyScalar(asp < 1.1 ? 1.12 : 1);
-    camera.lookAt(0, 0, 0.15);
-    camera.updateProjectionMatrix();
+    camera.fov = 28;
+    layout(w / h < 0.95 ? 2 : 3);
+    fitCamera();
   }
   addEventListener("resize", resize); resize();
 
