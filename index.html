@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&family=Instrument+Serif:ital@0;1&display=swap">
+<link rel="preload" as="image" href="assets/logo-jr.webp" type="image/webp">
 <style>
 /* Layout: tarjetas redondeadas sobre fondo casi negro; la roja granulada abre y cierra la página. */
 :root{
@@ -208,6 +209,21 @@ dialog::backdrop{background:rgba(6,4,4,.86);backdrop-filter:blur(6px)}
 .dlg-fb div{display:flex;flex-direction:column;gap:16px;align-items:center}
 .dlg-p{padding:16px 20px 22px;color:var(--muted);margin:0}
 
+/* ---------- Splash de entrada ---------- */
+.splash{position:fixed;inset:0;z-index:200;background:var(--bg);display:grid;place-items:center;overflow:hidden;animation:splashOut .8s cubic-bezier(.76,0,.24,1) 1.75s forwards}
+.splash .logo{display:flex;flex-direction:column;align-items:center;gap:clamp(18px,3vw,28px);animation:logoOut .7s cubic-bezier(.6,0,.3,1) 1.6s forwards}
+.splash img{width:min(64vw,520px);height:auto;opacity:0;animation:neon 1.15s linear .2s forwards}
+.splash .bar{width:min(36vw,220px);height:1px;background:rgba(243,236,231,.12);overflow:hidden}
+.splash .bar i{display:block;height:100%;background:var(--amber);transform:scaleX(0);transform-origin:left;animation:load 1.4s cubic-bezier(.6,0,.2,1) .15s forwards}
+@keyframes neon{0%{opacity:0;transform:scale(.965);filter:brightness(.6)}7%{opacity:.75}10%{opacity:.08}19%{opacity:.95}23%{opacity:.2}34%{opacity:1;filter:brightness(1.25)}100%{opacity:1;transform:scale(1);filter:brightness(1)}}
+@keyframes load{to{transform:scaleX(1)}}
+@keyframes logoOut{to{transform:scale(1.08) translateY(-6%);opacity:0}}
+@keyframes splashOut{0%{transform:none;border-radius:0}100%{transform:translateY(-100%);border-radius:0 0 50% 50%/0 0 22% 22%;visibility:hidden}}
+.splash.skip,.splash.skip .logo{animation-delay:0s;animation-duration:.55s}
+html.no-splash .splash{display:none}
+html.splash-on .mask > span{animation-delay:calc(var(--d,0)*1ms + 1.95s)}
+@media (prefers-reduced-motion:reduce){.splash{display:none}}
+
 @media (max-width:900px){
   nav.top{grid-template-columns:1fr auto auto auto;gap:14px}
   nav.top .clock{display:none}
@@ -246,6 +262,18 @@ dialog::backdrop{background:rgba(6,4,4,.86);backdrop-filter:blur(6px)}
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='7' fill='%23E3241A'/%3E%3C/svg%3E">
 </head>
 <body>
+<script>
+/* splash solo la primera vez por sesión y nunca con movimiento reducido */
+(function(){
+  var d = document.documentElement, seen = false;
+  try { seen = sessionStorage.getItem("jr-splash") === "1"; sessionStorage.setItem("jr-splash", "1"); } catch (e) {}
+  if (seen || matchMedia("(prefers-reduced-motion: reduce)").matches) d.classList.add("no-splash");
+  else d.classList.add("splash-on");
+})();
+</script>
+<div class="splash" id="splash" aria-hidden="true">
+  <div class="logo"><img src="assets/logo-jr.webp" alt="" width="920" height="650"><span class="bar"><i></i></span></div>
+</div>
 <div class="cursor hide" id="cursor" aria-hidden="true"><span id="cursorLbl">Ver</span></div>
 
 <div class="hero-shell wrap">
@@ -414,6 +442,17 @@ const finePointer = matchMedia("(hover:hover) and (pointer:fine)").matches;
 const $ = s => document.querySelector(s);
 const pad2 = n => String(n).padStart(2, "0");
 $("#yr").textContent = new Date().getFullYear();
+
+/* ---------- Splash: saltar y retirar ---------- */
+(function(){
+  const sp = $("#splash"); if (!sp) return;
+  const done = () => { sp.remove(); document.documentElement.classList.remove("splash-on"); };
+  sp.addEventListener("animationend", e => { if (e.target === sp) done(); });
+  const skip = () => { if (!sp.isConnected || sp.classList.contains("skip")) return; sp.classList.add("skip"); document.documentElement.classList.remove("splash-on"); };
+  sp.addEventListener("pointerdown", skip);
+  addEventListener("keydown", skip, { once: true });
+  if (document.documentElement.classList.contains("no-splash")) sp.remove();
+})();
 
 /* ---------- Grano (textura generada) ---------- */
 (function(){
