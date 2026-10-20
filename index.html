@@ -94,7 +94,12 @@ h2 .it{font-weight:400;letter-spacing:-.02em}
 
 /* Reel */
 .reel{position:relative;aspect-ratio:16/9;max-width:100%;border-radius:var(--r);overflow:hidden;background:#0d0909;cursor:pointer;isolation:isolate}
-.reel video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.reel video,.reel .rplayer{position:absolute;inset:0;width:100%;height:100%;border:0;z-index:5;background:#000}
+.reel .rthumb{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.85;filter:saturate(.85)}
+.reel .poster::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,9,9,.15) 0%,rgba(11,9,9,.25) 45%,rgba(11,9,9,.85) 100%),radial-gradient(60% 70% at 20% 90%,rgba(227,36,26,.45),transparent 70%)}
+.reel.playing{cursor:auto}
+.reel.playing .ttl,.reel.playing .play{display:none}
+.reel-meta a:hover{color:var(--fg)}
 .reel .poster{position:absolute;inset:0;background:
   radial-gradient(40% 55% at 30% 60%,rgba(227,36,26,.85),transparent 70%),
   radial-gradient(45% 50% at 75% 35%,rgba(94,10,7,.9),transparent 70%),#0b0707;transition:transform 1.2s cubic-bezier(.2,.8,.2,1)}
@@ -112,7 +117,9 @@ h2 .it{font-weight:400;letter-spacing:-.02em}
 .pcard{position:sticky;top:calc(14px + var(--i) * 12px);height:min(76svh,680px);border-radius:var(--r);overflow:hidden;isolation:isolate;transform-origin:50% 0;display:grid;grid-template-rows:auto 1fr auto;padding:clamp(18px,2.6vw,36px);cursor:pointer;will-change:transform;background:#120d0d;box-shadow:0 -20px 60px rgba(0,0,0,.45)}
 .pcard .media{position:absolute;inset:0;z-index:-1}
 .pcard .media video,.pcard .media img{width:100%;height:100%;object-fit:cover;display:block}
-.pcard .media::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.35),transparent 30%,transparent 55%,rgba(0,0,0,.6))}
+.pcard .media::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.45),transparent 28%,transparent 42%,rgba(8,4,4,.88))}
+.pcard .pthumb{position:absolute;inset:0;transition:transform 1.4s cubic-bezier(.2,.8,.2,1)}
+.pcard:hover .pthumb{transform:scale(1.04)}
 .pcard .gen{position:absolute;inset:0}
 .pcard .num-bg{position:absolute;right:-.04em;bottom:-.2em;font-weight:800;letter-spacing:-.07em;line-height:.8;font-size:clamp(200px,34vw,560px);color:transparent;-webkit-text-stroke:1px rgba(243,236,231,.16);pointer-events:none;transition:transform 1.4s cubic-bezier(.2,.8,.2,1)}
 .pcard:hover .num-bg{transform:translateX(-3%)}
@@ -205,6 +212,9 @@ dialog::backdrop{background:rgba(6,4,4,.86);backdrop-filter:blur(6px)}
 .dlg-h{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 20px}
 .dlg-h h3{margin:0;font-size:clamp(20px,2.6vw,32px);letter-spacing:-.04em;font-weight:600;min-width:0}
 .dlg-v{aspect-ratio:16/9;max-width:100%;background:#000;position:relative}
+.dlg-box,.dlg-box iframe,.dlg-box video{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
+.dlg-f{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:14px 20px 20px}
+.dlg-f .dlg-p{padding:0}
 .dlg-v video{width:100%;height:100%;display:block}
 .dlg-fb{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:24px;background:radial-gradient(50% 60% at 50% 55%,rgba(227,36,26,.5),transparent 70%),#0b0707}
 .dlg-fb div{display:flex;flex-direction:column;gap:16px;align-items:center}
@@ -377,7 +387,7 @@ html.splash-on .mask > span{animation-delay:calc(var(--d,0)*1ms + 1.55s)}
   <section id="reel" class="wrap">
     <div class="sec-h">
       <h2>Motion <span class="it">reel</span></h2>
-      <p class="side">Un minuto con lo mejor de mi trabajo en <b>2D, 3D y tiempo real</b>. Mejor con sonido.</p>
+      <p class="side">Lo mejor de mi trabajo en <b>2D, 3D y tiempo real</b>. Mejor con sonido.</p>
     </div>
     <div style="padding:0 var(--pad)">
       <div class="reel" id="reelBox" data-cursor="Play" role="button" tabindex="0" aria-label="Reproducir reel 2025">
@@ -385,7 +395,7 @@ html.splash-on .mask > span{animation-delay:calc(var(--d,0)*1ms + 1.55s)}
         <div class="ttl" id="reelTtl">Reel <span class="it">2025</span></div>
         <span class="play" id="reelPlay" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 3.5v17l15-8.5z" fill="currentColor"/></svg></span>
       </div>
-      <div class="reel-meta"><span class="lbl dim">Cinema 4D · Redshift · Unreal Engine · Illustrator</span><span class="lbl dim">1920 × 1080</span></div>
+      <div class="reel-meta"><span class="lbl dim">Cinema 4D · Redshift · Unreal Engine · Illustrator</span><a class="lbl dim" id="reelExt" href="#" target="_blank" rel="noopener" hidden>Ver en YouTube ↗</a></div>
     </div>
   </section>
 
@@ -462,10 +472,10 @@ html.splash-on .mask > span{animation-delay:calc(var(--d,0)*1ms + 1.55s)}
 <dialog id="dlg" aria-labelledby="dlgT">
   <div class="dlg">
     <div class="dlg-h"><h3 id="dlgT"></h3><button class="pill" type="button" id="dlgX">Cerrar ✕</button></div>
-    <div class="dlg-v"><video id="dlgV" controls playsinline></video>
-      <div class="dlg-fb" id="dlgFb" hidden><div><span class="lbl dim">Vídeo pendiente de subir</span><a class="pill solid" id="dlgLink" href="https://vimeo.com/user45811276" target="_blank" rel="noopener">Ver en Vimeo ↗</a></div></div>
+    <div class="dlg-v"><div class="dlg-box" id="dlgBox"></div>
+      <div class="dlg-fb" id="dlgFb" hidden><div><span class="lbl dim">Vídeo pendiente de subir</span></div></div>
     </div>
-    <p class="dlg-p" id="dlgP"></p>
+    <div class="dlg-f"><p class="dlg-p" id="dlgP"></p><a class="pill" id="dlgLink" href="https://vimeo.com/user45811276" target="_blank" rel="noopener">Ver en Vimeo ↗</a></div>
   </div>
 </dialog>
 
@@ -475,28 +485,30 @@ html.splash-on .mask > span{animation-delay:calc(var(--d,0)*1ms + 1.55s)}
 <script>
 /* =========================================================
    CONFIGURACIÓN — lo único que tienes que tocar
-   video: ruta a un .mp4 en /videos (o una URL)
-   thumb: imagen .jpg/.webp o bucle corto .mp4 en /thumbs
+   Vídeos: pega el enlace de YouTube o Vimeo en "url".
+   thumb: miniatura .webp/.jpg en /thumbs (o un bucle corto .mp4)
+   Los trabajos sin "url" no se muestran hasta que tengan vídeo.
    ========================================================= */
 const SITE = {
   email: "juanluisremis@gmail.com",
   vimeo: "https://vimeo.com/user45811276",
-  reel: { video: "videos/reel-2025.mp4" },
+  reel: { title: "Reel 2025", url: "https://youtu.be/MJ5VxQMFnZA", thumb: "thumbs/reel.webp" },
   projects: [
-    { title: "Brandsummit", kind: "Vídeo promocional", year: "2025", role: "Freelance", desc: "Vídeo promocional para el estudio de diseño Brandsummit.", video: "videos/brandsummit.mp4", thumb: "" },
-    { title: "Unreal Engine Tráiler", kind: "Tráiler · tiempo real", year: "", role: "Proyecto personal", desc: "Tráiler de marca personal construido y renderizado en Unreal Engine.", video: "videos/unreal-trailer.mp4", thumb: "" },
-    { title: "Space Festival Bilbao", kind: "", year: "", role: "", desc: "", video: "videos/space-festival.mp4", thumb: "" },
-    { title: "Fujifilm Project", kind: "", year: "", role: "", desc: "", video: "videos/fujifilm.mp4", thumb: "" },
-    { title: "3D Animated Logo", kind: "Logo animado 3D", year: "", role: "", desc: "", video: "videos/3d-logo.mp4", thumb: "" },
-    { title: "Lorreine Album", kind: "", year: "", role: "", desc: "", video: "videos/lorreine.mp4", thumb: "" }
+    { title: "Unreal Engine Tráiler", kind: "Tráiler · Unreal Engine", role: "Proyecto personal", year: "", desc: "Tráiler de marca personal construido y renderizado en tiempo real con Unreal Engine.", url: "https://youtu.be/bljiyDeeU7Y", thumb: "thumbs/unreal.webp" },
+    { title: "Fujifilm Promo", kind: "Vídeo promocional", role: "", year: "", dur: "0:17", desc: "", url: "https://vimeo.com/1063670219", thumb: "thumbs/fujifilm.webp" },
+    { title: "Jupiter's Mystery", kind: "", role: "", year: "", dur: "0:16", desc: "", url: "https://vimeo.com/1063661067", thumb: "thumbs/jupiter.webp" },
+    { title: "Invaders From Space", kind: "", role: "", year: "", dur: "0:17", desc: "", url: "https://vimeo.com/1063657434", thumb: "thumbs/invaders.webp" },
+    { title: "MadeVisual", kind: "", role: "", year: "", dur: "0:11", desc: "", url: "https://vimeo.com/1063659646", thumb: "thumbs/madevisual.webp" },
+    { title: "#EchaUnaPata", kind: "", role: "", year: "", dur: "0:09", desc: "", url: "https://vimeo.com/1063658873", thumb: "thumbs/echaunapata.webp" }
   ],
   others: [
-    { title: "The Painter Child Case", video: "videos/painter-child.mp4" },
-    { title: "Jupiter's Mystery", video: "videos/jupiter.mp4" },
-    { title: "Invaders From Space", video: "videos/invaders.mp4" },
-    { title: "MadeVisual", video: "videos/madevisual.mp4" },
-    { title: "#EchaUnaPata", video: "videos/echaunapata.mp4" },
-    { title: "Batman Animation", video: "videos/batman.mp4" }
+    { title: "Batman Animation", dur: "0:13", url: "https://vimeo.com/1063662073" },
+    // pendientes de enlace (no se muestran todavía):
+    { title: "Brandsummit · vídeo promocional", url: "" },
+    { title: "Space Festival Bilbao", url: "" },
+    { title: "3D Animated Logo", url: "" },
+    { title: "Lorreine Album", url: "" },
+    { title: "The Painter Child Case", url: "" }
   ],
   tools: [
     { key: "C4D", name: "Cinema 4D", desc: "Modelado, animación y escenas 3D.", color: "#B5160F", label: "#F6E9DF" },
@@ -688,24 +700,51 @@ if (finePointer && !reduce) {
   (function follow(){ cx += (x - cx) * 0.2; cy += (y - cy) * 0.2; cur.style.transform = `translate(${cx}px,${cy}px)`; requestAnimationFrame(follow); })();
 } else cur.remove();
 
+/* ---------- Vídeos de YouTube / Vimeo ---------- */
+function parseVideo(url){
+  if (!url) return null;
+  let m = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([\w-]{11})/);
+  if (m) return { type: "youtube", id: m[1], page: "https://youtu.be/" + m[1],
+    embed: "https://www.youtube-nocookie.com/embed/" + m[1] + "?autoplay=1&rel=0&playsinline=1&modestbranding=1" };
+  m = url.match(/vimeo\.com\/(?:video\/)?(\d+)(?:\/(\w+))?/);
+  if (m) return { type: "vimeo", id: m[1], page: "https://vimeo.com/" + m[1],
+    embed: "https://player.vimeo.com/video/" + m[1] + "?autoplay=1&title=0&byline=0&portrait=0&dnt=1&color=E3241A" + (m[2] ? "&h=" + m[2] : "") };
+  if (/\.(mp4|webm)$/i.test(url)) return { type: "file", page: url, embed: url };
+  return null;
+}
+function playerEl(v){
+  if (v.type === "file") { const el = document.createElement("video"); Object.assign(el, { src: v.embed, controls: true, autoplay: true, playsInline: true }); return el; }
+  const f = document.createElement("iframe");
+  f.src = v.embed; f.title = "Reproductor de vídeo";
+  f.allow = "autoplay; fullscreen; picture-in-picture; encrypted-media";
+  f.allowFullscreen = true; f.referrerPolicy = "strict-origin-when-cross-origin";
+  return f;
+}
+
 /* ---------- Modal de vídeo ---------- */
-const dlg = $("#dlg"), dv = $("#dlgV"), dfb = $("#dlgFb");
-function openVideo(title, src, desc){
+const dlg = $("#dlg"), dbox = $("#dlgBox"), dfb = $("#dlgFb"), dlink = $("#dlgLink");
+function openVideo(title, url, desc){
   $("#dlgT").textContent = title; $("#dlgP").textContent = desc || ""; $("#dlgP").hidden = !desc;
-  dfb.hidden = true; dv.hidden = false;
-  dv.onerror = () => { dv.hidden = true; dfb.hidden = false; };
-  if (src) { dv.src = src; dv.play().catch(() => {}); } else { dv.hidden = true; dfb.hidden = false; }
-  $("#dlgLink").href = SITE.vimeo;
+  dbox.innerHTML = ""; const v = parseVideo(url);
+  dfb.hidden = !!v;
+  if (v) { dbox.appendChild(playerEl(v)); dlink.href = v.page; dlink.textContent = v.type === "youtube" ? "Abrir en YouTube ↗" : v.type === "vimeo" ? "Abrir en Vimeo ↗" : "Abrir vídeo ↗"; dlink.hidden = false; }
+  else { dlink.href = SITE.vimeo; dlink.textContent = "Ver en Vimeo ↗"; }
   if (dlg.showModal) dlg.showModal(); else dlg.setAttribute("open", "");
 }
-function closeVideo(){ dv.pause(); dv.removeAttribute("src"); dv.load(); dlg.close ? dlg.close() : dlg.removeAttribute("open"); }
+function closeVideo(){ dbox.innerHTML = ""; dlg.close ? dlg.close() : dlg.removeAttribute("open"); }
 $("#dlgX").addEventListener("click", closeVideo);
 dlg.addEventListener("click", e => { if (e.target === dlg) closeVideo(); });
 dlg.addEventListener("cancel", e => { e.preventDefault(); closeVideo(); });
 
-/* ---------- Reel ---------- */
-const reelBox = $("#reelBox");
-function playReel(){ openVideo("Reel 2025", SITE.reel.video, ""); }
+/* ---------- Reel: se reproduce dentro de su tarjeta ---------- */
+const reelBox = $("#reelBox"), reelV = parseVideo(SITE.reel.url);
+if (SITE.reel.thumb) { const im = new Image(); im.src = SITE.reel.thumb; im.alt = ""; im.className = "rthumb"; im.decoding = "async"; $("#reelPoster").prepend(im); }
+if (reelV) { const a = $("#reelExt"); a.href = reelV.page; a.hidden = false; }
+function playReel(){
+  if (!reelV || reelBox.classList.contains("playing")) return;
+  reelBox.classList.add("playing"); reelBox.removeAttribute("role"); reelBox.removeAttribute("tabindex"); delete reelBox.dataset.cursor;
+  const p = playerEl(reelV); p.className = "rplayer"; reelBox.appendChild(p);
+}
 reelBox.addEventListener("click", playReel);
 reelBox.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); playReel(); } });
 
@@ -719,13 +758,13 @@ const palettes = [
   ["#C21A12", "#FFB35C", 30, 30],
   ["#5E0A07", "#F0362A", 72, 58]
 ];
-SITE.projects.forEach((p, i) => {
+SITE.projects.filter(p => p.url).forEach((p, i) => {
   const el = document.createElement("article");
   el.className = "pcard"; el.style.setProperty("--i", i); el.tabIndex = 0;
-  el.setAttribute("role", "button"); el.dataset.cursor = "Ver";
+  el.setAttribute("role", "button"); el.dataset.cursor = "Play";
   el.setAttribute("aria-label", "Ver proyecto " + p.title);
   const [a, b, x, y] = palettes[i % palettes.length];
-  const meta = [p.kind, p.role, p.year].filter(Boolean).join(" · ");
+  const meta = [p.kind, p.role, p.year, p.dur].filter(Boolean).join(" · ");
   el.innerHTML = `
     <div class="media"><div class="gen" style="background:
       radial-gradient(55% 65% at ${x}% ${y}%, ${a} 0%, transparent 70%),
@@ -733,7 +772,7 @@ SITE.projects.forEach((p, i) => {
       <span class="num-bg">${pad2(i + 1)}</span></div>
     <div class="ptop"><span class="pchip lbl">#${pad2(i + 1)}</span>${meta ? `<span class="pchip lbl dim"></span>` : ""}</div>
     <h3 class="ptitle"></h3>
-    <div class="pbot"><span class="pdesc">${p.desc ? "" : "Motion · 2D/3D"}</span><span class="pgo">Ver proyecto <span aria-hidden="true">→</span></span></div>`;
+    <div class="pbot"><span class="pdesc"></span><span class="pgo"><span aria-hidden="true">▶</span> Ver vídeo</span></div>`;
   el.querySelector(".ptitle").textContent = p.title;
   if (meta) el.querySelector(".ptop .dim").textContent = meta;
   if (p.desc) el.querySelector(".pbot .pdesc").textContent = p.desc;
@@ -743,21 +782,25 @@ SITE.projects.forEach((p, i) => {
     const m = document.createElement(isVid ? "video" : "img");
     if (isVid) Object.assign(m, { muted: true, loop: true, autoplay: true, playsInline: true });
     else m.alt = "";
-    m.src = p.thumb; m.onerror = () => m.remove();
-    media.insertBefore(m, gen); gen.style.display = "none"; m.onerror = () => { m.remove(); gen.style.display = ""; };
+    m.className = "pthumb"; m.decoding = "async"; if (i > 0) m.loading = "lazy";
+    m.onerror = () => { m.remove(); gen.style.display = ""; };
+    m.src = p.thumb; media.insertBefore(m, gen); gen.style.display = "none";
   }
-  const open = () => openVideo(p.title, p.video, p.desc);
+  const open = () => openVideo(p.title, p.url, p.desc);
   el.addEventListener("click", open);
   el.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); } });
   stack.appendChild(el);
 });
 const others = $("#others");
-SITE.others.forEach((p, i) => {
+const shown = SITE.others.filter(p => p.url);
+if (!shown.length) others.hidden = true;
+const nProjects = SITE.projects.filter(p => p.url).length;
+shown.forEach((p, i) => {
   const b = document.createElement("button");
-  b.type = "button"; b.className = "orow"; b.dataset.cursor = "Ver";
-  b.innerHTML = `<span class="n">${pad2(SITE.projects.length + i + 1)}</span><span class="t"></span><span class="a" aria-hidden="true">↗</span>`;
+  b.type = "button"; b.className = "orow"; b.dataset.cursor = "Play";
+  b.innerHTML = `<span class="n">${pad2(nProjects + i + 1)}</span><span class="t"></span><span class="a" aria-hidden="true">${p.dur ? p.dur + " " : ""}↗</span>`;
   b.querySelector(".t").textContent = p.title;
-  b.addEventListener("click", () => openVideo(p.title, p.video, ""));
+  b.addEventListener("click", () => openVideo(p.title, p.url, ""));
   others.appendChild(b);
 });
 /* efecto de pila: la tarjeta de debajo se encoge al taparla la siguiente */
