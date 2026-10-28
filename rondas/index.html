@@ -140,6 +140,7 @@ input[type=range]{width:100%;accent-color:var(--work)}
     <div class="row" id="vibRow"><div class="row-label"><div><strong>Vibración</strong><span>Al cambiar de fase</span></div></div><label class="switch"><input type="checkbox" id="optVib" aria-label="Vibración"><i></i></label></div>
     <button class="test" id="testVoice">Probar voz</button>
     <p class="note">Una ronda es entrenar + a tope. Tras el último tramo a tope empieza el enfriamiento. Al guardar se reinicia el temporizador.</p>
+    <p class="note">Versión 6 · A tope</p>
     <p class="note">Mantén la pantalla encendida durante el entrenamiento: con el móvil bloqueado se pausa la voz.</p>
   </div>
 </section>
@@ -513,7 +514,18 @@ input[type=range]{width:100%;accent-color:var(--work)}
   requestAnimationFrame(drawStrip);
 
   render(remMs / 1000);
-  if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
+  // Actualizaciones: busca una versión nueva al abrir y al volver a la app, y recarga sola cuando llega.
+  if ("serviceWorker" in navigator) {
+    const hadController = !!navigator.serviceWorker.controller;
+    let reloaded = false;
+    navigator.serviceWorker.addEventListener("controllerchange", () => {
+      if (hadController && !reloaded && !running) { reloaded = true; location.reload(); }
+    });
+    navigator.serviceWorker.register("sw.js", {updateViaCache: "none"}).then(reg => {
+      reg.update().catch(() => {});
+      document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") reg.update().catch(() => {}); });
+    }).catch(() => {});
+  }
 })();
 </script>
 </body>
