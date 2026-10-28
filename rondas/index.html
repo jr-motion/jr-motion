@@ -132,14 +132,14 @@ input[type=range]{width:100%;accent-color:var(--work)}
     <div id="intervalRows"></div>
 
     <div class="group-title">Sonido y voz</div>
-    <div class="row"><div class="row-label"><div><strong>Asistente de voz</strong><span>Cuenta atrás y aviso de cada fase</span></div></div><label class="switch"><input type="checkbox" id="optVoice" aria-label="Asistente de voz"><i></i></label></div>
+    <div class="row"><div class="row-label"><div><strong>Asistente de voz</strong><span>Cuenta atrás, aviso de cada fase y "Prepárate" antes de ir a tope</span></div></div><label class="switch"><input type="checkbox" id="optVoice" aria-label="Asistente de voz"><i></i></label></div>
     <div class="row"><div class="row-label"><div><strong>Cuenta atrás</strong><span>Segundos que se cuentan en voz alta</span></div></div><div class="seg" id="optCount" role="group" aria-label="Segundos de cuenta atrás"><button data-v="3">3</button><button data-v="5">5</button></div></div>
     <div class="row"><div class="row-label"><div><strong>Voz</strong><span id="voiceNote">Voces en español del dispositivo</span></div></div><select id="optVoiceSel" aria-label="Voz"></select></div>
     <div class="row" style="flex-direction:column;align-items:stretch"><div class="row-label"><div><strong>Volumen de la voz</strong></div></div><input type="range" id="optVol" min="0.2" max="1" step="0.05" aria-label="Volumen de la voz"></div>
     <div class="row"><div class="row-label"><div><strong>Pitidos</strong><span>Pitido corto en la cuenta atrás y largo al cambiar de fase</span></div></div><label class="switch"><input type="checkbox" id="optBeep" aria-label="Pitidos"><i></i></label></div>
     <div class="row" id="vibRow"><div class="row-label"><div><strong>Vibración</strong><span>Al cambiar de fase</span></div></div><label class="switch"><input type="checkbox" id="optVib" aria-label="Vibración"><i></i></label></div>
     <button class="test" id="testVoice">Probar voz</button>
-    <p class="note">Una ronda es entrenar + descansar. Tras la última ronda no hay descanso: pasa directamente al enfriamiento. Al guardar se reinicia el temporizador.</p>
+    <p class="note">Una ronda es entrenar + a tope. Tras el último tramo a tope empieza el enfriamiento. Al guardar se reinicia el temporizador.</p>
     <p class="note">Mantén la pantalla encendida durante el entrenamiento: con el móvil bloqueado se pausa la voz.</p>
   </div>
 </section>
@@ -155,15 +155,15 @@ input[type=range]{width:100%;accent-color:var(--work)}
   // Frases de la voz. Cámbialas aquí.
   const SAY = {
     prepStart: "Prepárate",
-    beforeWork: "Prepárate",
+    beforeTope: "Prepárate",
     work: "¡A entrenar!",
-    rest: "Descanso",
+    rest: "¡A tope!",
     cool: "Enfriamiento",
     done: "¡Terminado!"
   };
   const PH = {
     prep:{name:"Prepárate", c:"--prep"}, work:{name:"Entrenar", c:"--work"},
-    rest:{name:"Descansar", c:"--rest"}, cool:{name:"Enfriamiento", c:"--cool"}, done:{name:"Terminado", c:"--done"}
+    rest:{name:"¡A tope!", c:"--rest"}, cool:{name:"Enfriamiento", c:"--cool"}, done:{name:"Terminado", c:"--done"}
   };
   const $ = id => document.getElementById(id);
   const fmt = s => { s = Math.max(0, Math.ceil(s)); return String(Math.floor(s/60)).padStart(2,"0") + ":" + String(s%60).padStart(2,"0"); };
@@ -174,7 +174,7 @@ input[type=range]{width:100%;accent-color:var(--work)}
     if (S.prep > 0) a.push({t:"prep", d:S.prep, r:0});
     for (let r = 1; r <= S.rounds; r++) {
       a.push({t:"work", d:S.work, r});
-      if (r < S.rounds && S.rest > 0) a.push({t:"rest", d:S.rest, r});
+      if (S.rest > 0) a.push({t:"rest", d:S.rest, r});
     }
     if (S.cool > 0) a.push({t:"cool", d:S.cool, r:S.rounds});
     return a;
@@ -235,9 +235,10 @@ input[type=range]{width:100%;accent-color:var(--work)}
     let rem = remaining(now);
     const cur = seq[idx];
 
-    // "Prepárate" antes de volver a entrenar, con margen para la cuenta atrás
-    if (cur.t === "rest" && cur.d >= S.count + 3 && rem <= S.count + 2 && rem > S.count + 0.6 && !cued.has("pre")) {
-      cued.add("pre"); say(SAY.beforeWork);
+    // "Prepárate" antes del tramo a tope, con margen para la cuenta atrás
+    const upcoming = seq[idx + 1];
+    if (upcoming && upcoming.t === "rest" && cur.d >= S.count + 3 && rem <= S.count + 2 && rem > S.count + 0.6 && !cued.has("pre")) {
+      cued.add("pre"); say(SAY.beforeTope);
     }
     // Cuenta atrás
     for (let k = S.count; k >= 1; k--) {
@@ -298,8 +299,8 @@ input[type=range]{width:100%;accent-color:var(--work)}
   const FIELDS = [
     {k:"prep", label:"Prepárate", sub:"Cuenta atrás antes de empezar", c:"--prep", step:1, min:0, max:60, time:true},
     {k:"work", label:"Entrenar", sub:"Tiempo de ejercicio por ronda", c:"--work", step:5, min:5, max:3600, time:true},
-    {k:"rest", label:"Descansar", sub:"Descanso entre rondas", c:"--rest", step:5, min:0, max:3600, time:true},
-    {k:"rounds", label:"Rondas", sub:"Una ronda es entrenar + descansar", c:"--cool", step:1, min:1, max:99, time:false},
+    {k:"rest", label:"A tope", sub:"Máxima intensidad al final de cada ronda", c:"--rest", step:5, min:0, max:3600, time:true},
+    {k:"rounds", label:"Rondas", sub:"Una ronda es entrenar + a tope", c:"--cool", step:1, min:1, max:99, time:false},
     {k:"cool", label:"Enfriamiento", sub:"Al terminar la última ronda", c:"--cool", step:5, min:0, max:3600, time:true}
   ];
   let draft = {};
@@ -450,7 +451,7 @@ input[type=range]{width:100%;accent-color:var(--work)}
     if (kind === "idle") return {l1:[3, 2], l2:[-3, -2], a1:[-6, 12], a2:[6, 22], bob: frame % 2, tail: false};
     if (kind === "done") return {l1:[3, 2], l2:[-3, -2], a1:[165, 175], a2:[150, 168], bob: frame % 2 ? -2 : 0, tail: frame % 2};
     if (kind === "stretch") { const P = STRETCH[Math.floor(frame / 3) % STRETCH.length]; return {...P, bob: P.dy + (frame % 2), tail: false}; }
-    const k = kind === "walk" ? 0.45 : 1, f = frame % 8, base = RUN[f % 4], swap = f >= 4;
+    const k = kind === "walk" ? 0.45 : kind === "sprint" ? 1.2 : 1, f = frame % 8, base = RUN[f % 4], swap = f >= 4;
     const l1 = swap ? base.l2 : base.l1, l2 = swap ? base.l1 : base.l2;
     const sc = v => [v[0] * k, v[1] * k];
     const armOf = th => { const u = -th * 0.8 * k; return [u, u + 85]; };
@@ -475,8 +476,8 @@ input[type=range]{width:100%;accent-color:var(--work)}
     stx.setTransform(dpr, 0, 0, dpr, 0, 0); stx.clearRect(0, 0, w, h); stx.imageSmoothingEnabled = false;
 
     const cur = seq[idx];
-    const kind = finished ? "done" : !running ? "idle" : (cur.t === "work") ? "run" : (cur.t === "prep") ? "stretch" : "walk";
-    const fps = {run: 14, walk: 8, idle: 2, done: 4, stretch: 2}[kind];
+    const kind = finished ? "done" : !running ? "idle" : (cur.t === "work") ? "run" : (cur.t === "prep") ? "stretch" : (cur.t === "rest") ? "sprint" : "walk";
+    const fps = {run: 14, sprint: 24, walk: 8, idle: 2, done: 4, stretch: 2}[kind];
     if (kind !== lastKind) { animT = 0; lastKind = kind; }
     if (!matchMedia("(prefers-reduced-motion: reduce)").matches) animT += dt * fps;
     const f = Math.floor(animT);
@@ -497,6 +498,15 @@ input[type=range]{width:100%;accent-color:var(--work)}
     // Corredor sobre la barra
     const rw = SW * SCALE, rh = SH * SCALE;
     const rx = Math.round(Math.min(bw - rw * 0.75, Math.max(-rw * 0.25, x0 + p * bw - rw / 2)));
+    if (kind === "sprint") {
+      stx.fillStyle = COL.rest;
+      [[20, 10], [44, 14], [70, 8]].forEach(([dy, len], i) => {
+        const off = (Math.floor(animT) + i * 3) % 6;
+        stx.globalAlpha = 0.35 + 0.15 * (off % 2);
+        stx.fillRect(rx + 6 - len - off * 2, barY - rh + dy, len, 3);
+      });
+      stx.globalAlpha = 1;
+    }
     stx.drawImage(spr, rx, barY - rh + 1, rw, rh);
     requestAnimationFrame(drawStrip);
   }
