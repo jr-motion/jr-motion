@@ -351,50 +351,77 @@ input[type=range]{width:100%;accent-color:var(--work)}
 
 
   // ---------- Corredor y barra de progreso ----------
-  const SW = 24, SH = 32, SCALE = 3;
-  const PAL = {K:"#1b1626", H:"#7b4a2c", R:"#d8343f", r:"#9c1f37", W:"#f4f4f4", S:"#f3b98f", s:"#cf8f6c", B:"#2f6bc4", b:"#213f7d"};
+  const SW = 36, SH = 48, SCALE = 2;
+  const PAL = {K:"#1b1626", H:"#8a5530", h:"#5e3820", hl:"#b07443", R:"#de3a44", r:"#a3233b", rl:"#f2717a",
+    W:"#f6f6f6", w:"#c3c7d2", S:"#f5bf96", s:"#d4936f", ss:"#b47a5c", B:"#3474cf", b:"#244a8f", bl:"#5b93e0", E:"#2a1c22", M:"#b5534f", C:"#f0a088"};
   const spr = document.createElement("canvas"); spr.width = SW; spr.height = SH;
   const sctx = spr.getContext("2d");
   let grid = [];
   const px = (x, y, c) => { x = Math.round(x); y = Math.round(y); if (x >= 0 && y >= 0 && x < SW && y < SH) grid[y * SW + x] = c; };
   const box = (x, y, w, h, c) => { for (let j = 0; j < h; j++) for (let i = 0; i < w; i++) px(x + i, y + j, c); };
-  // Segmento de 2 px de grosor. Ángulo en grados desde la vertical; positivo = hacia delante.
-  function seg(x0, y0, ang, len, colorAt) {
-    const a = ang * Math.PI / 180, dx = Math.sin(a), dy = Math.cos(a);
-    for (let t = 0; t <= len; t += 0.5) box(Math.round(x0 + dx * t - 0.5), Math.round(y0 + dy * t - 0.5), 2, 2, colorAt(t));
+  // Segmento con grosor y sombra en el lado trasero. Ángulo en grados desde la vertical; positivo = hacia delante.
+  function seg(x0, y0, ang, len, th, colAt, shadeAt) {
+    const a = ang * Math.PI / 180, dx = Math.sin(a), dy = Math.cos(a), ox = -dy, oy = dx, half = (th - 1) / 2;
+    for (let t = 0; t <= len; t += 0.35) {
+      const cx = x0 + dx * t, cy = y0 + dy * t;
+      for (let k = -half; k <= half + 0.01; k += 0.5) px(cx + ox * k, cy + oy * k, colAt(t));
+    }
+    if (shadeAt) for (let t = 0.5; t <= len; t += 0.35) px(x0 + dx * t + ox * half, y0 + dy * t + oy * half, shadeAt(t));
     return [x0 + dx * len, y0 + dy * len];
   }
-  function leg(hx, hy, thigh, shin, near) {
-    const [kx, ky] = seg(hx, hy, thigh, 5, t => t < 2 ? (near ? PAL.B : PAL.b) : (near ? PAL.S : PAL.s));
-    const [fx, fy] = seg(kx, ky, shin, 4, t => t > 3 ? PAL.W : (near ? PAL.S : PAL.s));
-    const dir = shin < -60 ? -1 : 1; // con la pierna recogida atrás, la zapatilla apunta hacia atrás
-    const sx = dir > 0 ? Math.round(fx) - 1 : Math.round(fx) - 2;
-    box(sx, Math.round(fy) + 1, 4, 1, near ? PAL.R : PAL.r);
-    box(sx, Math.round(fy) + 2, 4, 1, PAL.W);
+  function shoe(fx, fy, shin, near) {
+    const up = Math.abs(shin) > 120, back = shin < -60 || up;
+    const x = Math.round(fx) + (back ? -3 : -1), y = Math.round(fy) + (up ? -2 : 1);
+    const top = near ? PAL.R : PAL.r, row = (yy, xs, c) => xs.forEach(i => px(back ? x + 4 - i : x + i, yy, c));
+    row(y, [0, 1, 2, 3], top);
+    row(y + 1, [0, 1, 2, 3, 4], top); row(y + 1, [3], PAL.W);
+    row(y + 2, [0, 1, 2, 3, 4], near ? PAL.W : PAL.w);
   }
-  function arm(shx, shy, upper, near) {
-    const [ex, ey] = seg(shx, shy, upper, 4, () => near ? PAL.S : PAL.s);
-    const [hx, hy] = seg(ex, ey, upper + 80, 3, t => t > 1 && t < 2.5 ? (near ? PAL.R : PAL.r) : (near ? PAL.S : PAL.s));
-    box(Math.round(hx) - 1, Math.round(hy) - 1, 2, 2, near ? PAL.S : PAL.s);
+  function leg(hx, hy, thigh, shin, near) {
+    const sk = near ? PAL.S : PAL.s, sh = near ? PAL.s : PAL.ss;
+    const [kx, ky] = seg(hx, hy, thigh, 7, 3, t => t < 3 ? (near ? PAL.B : PAL.b) : sk, t => t < 3 ? PAL.b : sh);
+    const [fx, fy] = seg(kx, ky, shin, 6, 3, t => t > 4.3 ? (near ? PAL.W : PAL.w) : sk, t => t > 4.3 ? PAL.w : sh);
+    shoe(fx, fy, shin, near);
+  }
+  function arm(shx, shy, up, fore, near) {
+    const sk = near ? PAL.S : PAL.s, sh = near ? PAL.s : PAL.ss;
+    const [ex, ey] = seg(shx, shy, up, 5, 2, () => sk, () => sh);
+    const band = t => t > 2.4 && t < 3.9;
+    const [hx, hy] = seg(ex, ey, fore, 5, 2, t => band(t) ? (near ? PAL.R : PAL.r) : sk, t => band(t) ? PAL.r : sh);
+    box(Math.round(hx) - 1, Math.round(hy) - 1, 3, 3, sk); px(Math.round(hx) + 1, Math.round(hy) + 1, sh);
   }
   function drawRunner(pose) {
     grid = new Array(SW * SH).fill(null);
-    const b = pose.bob, hx = 12, hy = 19 + b, shx = 12, shy = 12 + b;
-    if (pose.armsUp) { seg(shx, shy, 160, 4, () => PAL.s); seg(shx + 1, shy - 4, 175, 3, () => PAL.s); }
-    else arm(shx, shy, pose.a2, false);
-    leg(hx, hy, pose.l2[0], pose.l2[1], false);
-    box(10, 11 + b, 5, 7, PAL.R); box(10, 11 + b, 1, 7, PAL.r); px(11, 11 + b, PAL.W); px(13, 11 + b, PAL.W);
-    box(10, 18 + b, 5, 3, PAL.B); px(11, 19 + b, PAL.W); px(12, 20 + b, PAL.W);
-    leg(hx, hy, pose.l1[0], pose.l1[1], true);
-    box(12, 10 + b, 2, 1, PAL.S);
-    box(11, 3 + b, 6, 7, PAL.S);
-    box(10, 1 + b, 7, 2, PAL.H); box(10, 3 + b, 2, 5, PAL.H); px(12, 0 + b, PAL.H); px(15, 0 + b, PAL.H); px(17, 2 + b, PAL.H);
-    box(11, 3 + b, 6, 1, PAL.R); px(13, 3 + b, PAL.W); px(14, 3 + b, PAL.W);
-    const tail = pose.tail ? 1 : 0;
-    px(9, 3 + b + tail, PAL.R); px(8, 4 + b, PAL.R); px(7, 4 + b - tail, PAL.r); px(6, 5 + b - tail, PAL.R);
-    px(15, 5 + b, PAL.K); px(16, 5 + b, PAL.W); px(15, 8 + b, PAL.s); px(12, 6 + b, PAL.s);
-    if (pose.armsUp) { seg(shx + 1, shy, 150, 4, () => PAL.S); seg(shx + 3, shy - 3, 170, 3, () => PAL.S); }
-    else arm(shx, shy, pose.a1, true);
+    const b = pose.bob, T = 17 + b, Y = 5 + b, hip = [17, T + 12], sho = [17, T + 2];
+    arm(sho[0], sho[1], pose.a2[0], pose.a2[1], false);
+    leg(hip[0], hip[1], pose.l2[0], pose.l2[1], false);
+    // Camiseta de tirantes
+    box(14, T, 7, 10, PAL.R); box(14, T, 1, 10, PAL.r); box(15, T + 5, 1, 5, PAL.r); box(19, T + 2, 1, 6, PAL.rl);
+    box(16, T, 3, 1, PAL.S); px(15, T, PAL.W); px(19, T, PAL.W); px(15, T + 1, PAL.W); px(20, T + 1, PAL.W);
+    box(14, T + 9, 7, 1, PAL.r);
+    // Pantalón
+    box(14, T + 10, 7, 4, PAL.B); box(14, T + 10, 7, 1, PAL.b); box(14, T + 11, 1, 3, PAL.b); px(19, T + 11, PAL.bl);
+    px(16, T + 11, PAL.W); px(16, T + 12, PAL.W); px(17, T + 13, PAL.W);
+    leg(hip[0], hip[1], pose.l1[0], pose.l1[1], true);
+    // Cuello y cabeza
+    box(17, T - 2, 3, 2, PAL.S); px(17, T - 1, PAL.s);
+    box(15, Y + 2, 9, 9, PAL.S); box(16, Y + 10, 6, 1, PAL.s); box(15, Y + 9, 1, 2, PAL.s);
+    box(14, Y, 10, 3, PAL.H); box(14, Y + 3, 3, 6, PAL.H); px(13, Y + 4, PAL.H); px(13, Y + 5, PAL.h);
+    [16, 19, 22].forEach(x => px(x, Y - 1, PAL.H)); px(24, Y + 1, PAL.H); px(24, Y + 2, PAL.H);
+    px(17, Y, PAL.hl); px(18, Y, PAL.hl); px(20, Y + 1, PAL.hl); px(21, Y + 1, PAL.hl);
+    px(14, Y + 2, PAL.h); px(15, Y + 7, PAL.h); px(16, Y + 8, PAL.h);
+    // Cinta y sus puntas al viento
+    box(15, Y + 3, 9, 2, PAL.R); box(17, Y + 3, 7, 1, PAL.W); box(15, Y + 4, 2, 1, PAL.r);
+    const tl = pose.tail ? 1 : 0;
+    px(14, Y + 4, PAL.R); px(13, Y + 3 + tl, PAL.R); px(12, Y + 3 + tl, PAL.R); px(11, Y + 4 - tl, PAL.r); px(10, Y + 4 - tl, PAL.R);
+    px(13, Y + 5, PAL.r); px(12, Y + 6 - tl, PAL.R); px(11, Y + 6 - tl, PAL.r);
+    // Cara
+    px(17, Y + 6, PAL.s); px(17, Y + 7, PAL.s); px(18, Y + 7, PAL.ss);
+    px(21, Y + 5, PAL.h); px(22, Y + 5, PAL.h);
+    px(21, Y + 6, PAL.W); px(22, Y + 6, PAL.E); px(22, Y + 7, PAL.E); px(21, Y + 7, PAL.W);
+    px(24, Y + 7, PAL.S); px(24, Y + 8, PAL.s);
+    px(20, Y + 8, PAL.C); px(22, Y + 9, PAL.M); px(23, Y + 9, PAL.M);
+    arm(sho[0], sho[1], pose.a1[0], pose.a1[1], true);
     // Contorno oscuro estilo pixel art
     const out = grid.slice();
     for (let y = 0; y < SH; y++) for (let x = 0; x < SW; x++) {
@@ -405,20 +432,29 @@ input[type=range]{width:100%;accent-color:var(--work)}
     sctx.clearRect(0, 0, SW, SH);
     out.forEach((c, i) => { if (c) { sctx.fillStyle = c; sctx.fillRect(i % SW, Math.floor(i / SW), 1, 1); } });
   }
-  // Ciclo de carrera: contacto, apoyo, paso, vuelo (y su espejo)
+  // Ciclo de carrera: contacto, apoyo, paso, vuelo (y su espejo). [muslo, espinilla]
   const RUN = [
     {l1:[35, 15], l2:[-30, -70], bob:0},
     {l1:[15, 0],  l2:[-15, -95], bob:1},
     {l1:[-5, -5], l2:[25, -45],  bob:0},
     {l1:[-30, -45], l2:[45, 5],  bob:-1}
   ];
+  // Estiramientos durante "Prepárate". Brazos: [brazo, antebrazo]
+  const STRETCH = [
+    {l1:[2, 0],    l2:[-20, -150], a1:[70, 95],  a2:[-20, -32], dy:0},  // cuádriceps, pierna de atrás
+    {l1:[-20, -150], l2:[2, 0],    a1:[-20, -32], a2:[70, 95],  dy:0},  // cuádriceps, pierna de delante
+    {l1:[60, 0],   l2:[-45, -45],  a1:[-30, 65], a2:[-30, 65], dy:3},   // zancada con manos en la cadera
+    {l1:[95, 5],   l2:[2, 0],      a1:[35, 105], a2:[45, 110], dy:-1}   // rodilla al pecho
+  ];
   function poseFor(kind, frame) {
-    if (kind === "idle") return {l1:[4, 2], l2:[-4, -2], a1:-8, a2:8, bob: frame % 2, tail: false};
-    if (kind === "done") return {l1:[4, 2], l2:[-4, -2], armsUp: true, bob: frame % 2 ? -2 : 0, tail: frame % 2};
+    if (kind === "idle") return {l1:[3, 2], l2:[-3, -2], a1:[-6, 12], a2:[6, 22], bob: frame % 2, tail: false};
+    if (kind === "done") return {l1:[3, 2], l2:[-3, -2], a1:[165, 175], a2:[150, 168], bob: frame % 2 ? -2 : 0, tail: frame % 2};
+    if (kind === "stretch") { const P = STRETCH[Math.floor(frame / 3) % STRETCH.length]; return {...P, bob: P.dy + (frame % 2), tail: false}; }
     const k = kind === "walk" ? 0.45 : 1, f = frame % 8, base = RUN[f % 4], swap = f >= 4;
     const l1 = swap ? base.l2 : base.l1, l2 = swap ? base.l1 : base.l2;
     const sc = v => [v[0] * k, v[1] * k];
-    return {l1: sc(l1), l2: sc(l2), a1: -l1[0] * 0.8 * k, a2: -l2[0] * 0.8 * k, bob: kind === "walk" ? 0 : base.bob, tail: f % 2};
+    const armOf = th => { const u = -th * 0.8 * k; return [u, u + 85]; };
+    return {l1: sc(l1), l2: sc(l2), a1: armOf(l1[0]), a2: armOf(l2[0]), bob: kind === "walk" ? 0 : base.bob, tail: f % 2};
   }
 
   const strip = $("strip"), stx = strip.getContext("2d");
@@ -439,8 +475,8 @@ input[type=range]{width:100%;accent-color:var(--work)}
     stx.setTransform(dpr, 0, 0, dpr, 0, 0); stx.clearRect(0, 0, w, h); stx.imageSmoothingEnabled = false;
 
     const cur = seq[idx];
-    const kind = finished ? "done" : !running ? "idle" : (cur.t === "work") ? "run" : (cur.t === "prep") ? "idle" : "walk";
-    const fps = {run: 14, walk: 8, idle: 2, done: 4}[kind];
+    const kind = finished ? "done" : !running ? "idle" : (cur.t === "work") ? "run" : (cur.t === "prep") ? "stretch" : "walk";
+    const fps = {run: 14, walk: 8, idle: 2, done: 4, stretch: 2}[kind];
     if (kind !== lastKind) { animT = 0; lastKind = kind; }
     if (!matchMedia("(prefers-reduced-motion: reduce)").matches) animT += dt * fps;
     const f = Math.floor(animT);
