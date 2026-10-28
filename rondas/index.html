@@ -56,7 +56,8 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
 .play svg{width:40px;height:40px}
 .reset{justify-self:end;width:56px;height:56px;border-radius:50%;background:var(--panel);display:grid;place-items:center;color:var(--text)}
 .reset svg{width:26px;height:26px}
-.hint{font-size:12px;color:var(--muted);text-align:center;padding-bottom:6px;padding-left:16px;padding-right:16px}
+.strip{padding-block:4px 10px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.strip canvas{display:block;width:100%;height:118px}
 
 /* Settings sheet */
 .sheet{position:fixed;inset:0;background:var(--ink);display:flex;flex-direction:column;z-index:20;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -121,7 +122,7 @@ input[type=range]{width:100%;accent-color:var(--work)}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>
     </button>
   </div>
-  <div class="hint" id="hint">Mantén la pantalla encendida: con el móvil bloqueado el navegador pausa la voz.</div>
+  <div class="strip"><canvas id="strip" aria-label="Progreso del entrenamiento"></canvas></div>
 </div>
 
 <section class="sheet" id="sheet" hidden aria-label="Ajustes">
@@ -139,6 +140,7 @@ input[type=range]{width:100%;accent-color:var(--work)}
     <div class="row" id="vibRow"><div class="row-label"><div><strong>Vibración</strong><span>Al cambiar de fase</span></div></div><label class="switch"><input type="checkbox" id="optVib" aria-label="Vibración"><i></i></label></div>
     <button class="test" id="testVoice">Probar voz</button>
     <p class="note">Una ronda es entrenar + descansar. Tras la última ronda no hay descanso: pasa directamente al enfriamiento. Al guardar se reinicia el temporizador.</p>
+    <p class="note">Mantén la pantalla encendida durante el entrenamiento: con el móvil bloqueado se pausa la voz.</p>
   </div>
 </section>
 
@@ -346,6 +348,123 @@ input[type=range]{width:100%;accent-color:var(--work)}
     const keep = S; S = {...draft, voice:true};
     say("Tres"); setTimeout(() => say("Dos"), 1000); setTimeout(() => say("Uno"), 2000); setTimeout(() => { say(SAY.rest); S = keep; }, 3000);
   });
+
+
+  // ---------- Corredor y barra de progreso ----------
+  const SW = 24, SH = 32, SCALE = 3;
+  const PAL = {K:"#1b1626", H:"#7b4a2c", R:"#d8343f", r:"#9c1f37", W:"#f4f4f4", S:"#f3b98f", s:"#cf8f6c", B:"#2f6bc4", b:"#213f7d"};
+  const spr = document.createElement("canvas"); spr.width = SW; spr.height = SH;
+  const sctx = spr.getContext("2d");
+  let grid = [];
+  const px = (x, y, c) => { x = Math.round(x); y = Math.round(y); if (x >= 0 && y >= 0 && x < SW && y < SH) grid[y * SW + x] = c; };
+  const box = (x, y, w, h, c) => { for (let j = 0; j < h; j++) for (let i = 0; i < w; i++) px(x + i, y + j, c); };
+  // Segmento de 2 px de grosor. Ángulo en grados desde la vertical; positivo = hacia delante.
+  function seg(x0, y0, ang, len, colorAt) {
+    const a = ang * Math.PI / 180, dx = Math.sin(a), dy = Math.cos(a);
+    for (let t = 0; t <= len; t += 0.5) box(Math.round(x0 + dx * t - 0.5), Math.round(y0 + dy * t - 0.5), 2, 2, colorAt(t));
+    return [x0 + dx * len, y0 + dy * len];
+  }
+  function leg(hx, hy, thigh, shin, near) {
+    const [kx, ky] = seg(hx, hy, thigh, 5, t => t < 2 ? (near ? PAL.B : PAL.b) : (near ? PAL.S : PAL.s));
+    const [fx, fy] = seg(kx, ky, shin, 4, t => t > 3 ? PAL.W : (near ? PAL.S : PAL.s));
+    const dir = shin < -60 ? -1 : 1; // con la pierna recogida atrás, la zapatilla apunta hacia atrás
+    const sx = dir > 0 ? Math.round(fx) - 1 : Math.round(fx) - 2;
+    box(sx, Math.round(fy) + 1, 4, 1, near ? PAL.R : PAL.r);
+    box(sx, Math.round(fy) + 2, 4, 1, PAL.W);
+  }
+  function arm(shx, shy, upper, near) {
+    const [ex, ey] = seg(shx, shy, upper, 4, () => near ? PAL.S : PAL.s);
+    const [hx, hy] = seg(ex, ey, upper + 80, 3, t => t > 1 && t < 2.5 ? (near ? PAL.R : PAL.r) : (near ? PAL.S : PAL.s));
+    box(Math.round(hx) - 1, Math.round(hy) - 1, 2, 2, near ? PAL.S : PAL.s);
+  }
+  function drawRunner(pose) {
+    grid = new Array(SW * SH).fill(null);
+    const b = pose.bob, hx = 12, hy = 19 + b, shx = 12, shy = 12 + b;
+    if (pose.armsUp) { seg(shx, shy, 160, 4, () => PAL.s); seg(shx + 1, shy - 4, 175, 3, () => PAL.s); }
+    else arm(shx, shy, pose.a2, false);
+    leg(hx, hy, pose.l2[0], pose.l2[1], false);
+    box(10, 11 + b, 5, 7, PAL.R); box(10, 11 + b, 1, 7, PAL.r); px(11, 11 + b, PAL.W); px(13, 11 + b, PAL.W);
+    box(10, 18 + b, 5, 3, PAL.B); px(11, 19 + b, PAL.W); px(12, 20 + b, PAL.W);
+    leg(hx, hy, pose.l1[0], pose.l1[1], true);
+    box(12, 10 + b, 2, 1, PAL.S);
+    box(11, 3 + b, 6, 7, PAL.S);
+    box(10, 1 + b, 7, 2, PAL.H); box(10, 3 + b, 2, 5, PAL.H); px(12, 0 + b, PAL.H); px(15, 0 + b, PAL.H); px(17, 2 + b, PAL.H);
+    box(11, 3 + b, 6, 1, PAL.R); px(13, 3 + b, PAL.W); px(14, 3 + b, PAL.W);
+    const tail = pose.tail ? 1 : 0;
+    px(9, 3 + b + tail, PAL.R); px(8, 4 + b, PAL.R); px(7, 4 + b - tail, PAL.r); px(6, 5 + b - tail, PAL.R);
+    px(15, 5 + b, PAL.K); px(16, 5 + b, PAL.W); px(15, 8 + b, PAL.s); px(12, 6 + b, PAL.s);
+    if (pose.armsUp) { seg(shx + 1, shy, 150, 4, () => PAL.S); seg(shx + 3, shy - 3, 170, 3, () => PAL.S); }
+    else arm(shx, shy, pose.a1, true);
+    // Contorno oscuro estilo pixel art
+    const out = grid.slice();
+    for (let y = 0; y < SH; y++) for (let x = 0; x < SW; x++) {
+      if (grid[y * SW + x]) continue;
+      const n = (xx, yy) => xx >= 0 && yy >= 0 && xx < SW && yy < SH && grid[yy * SW + xx];
+      if (n(x - 1, y) || n(x + 1, y) || n(x, y - 1) || n(x, y + 1)) out[y * SW + x] = PAL.K;
+    }
+    sctx.clearRect(0, 0, SW, SH);
+    out.forEach((c, i) => { if (c) { sctx.fillStyle = c; sctx.fillRect(i % SW, Math.floor(i / SW), 1, 1); } });
+  }
+  // Ciclo de carrera: contacto, apoyo, paso, vuelo (y su espejo)
+  const RUN = [
+    {l1:[35, 15], l2:[-30, -70], bob:0},
+    {l1:[15, 0],  l2:[-15, -95], bob:1},
+    {l1:[-5, -5], l2:[25, -45],  bob:0},
+    {l1:[-30, -45], l2:[45, 5],  bob:-1}
+  ];
+  function poseFor(kind, frame) {
+    if (kind === "idle") return {l1:[4, 2], l2:[-4, -2], a1:-8, a2:8, bob: frame % 2, tail: false};
+    if (kind === "done") return {l1:[4, 2], l2:[-4, -2], armsUp: true, bob: frame % 2 ? -2 : 0, tail: frame % 2};
+    const k = kind === "walk" ? 0.45 : 1, f = frame % 8, base = RUN[f % 4], swap = f >= 4;
+    const l1 = swap ? base.l2 : base.l1, l2 = swap ? base.l1 : base.l2;
+    const sc = v => [v[0] * k, v[1] * k];
+    return {l1: sc(l1), l2: sc(l2), a1: -l1[0] * 0.8 * k, a2: -l2[0] * 0.8 * k, bob: kind === "walk" ? 0 : base.bob, tail: f % 2};
+  }
+
+  const strip = $("strip"), stx = strip.getContext("2d");
+  const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+  const COL = {prep: css("--prep"), work: css("--work"), rest: css("--rest"), cool: css("--cool"), line: css("--line")};
+  let animT = 0, lastT = 0, frame = 0, lastKind = "";
+  function progress() {
+    const T = seq.reduce((a, p) => a + p.d, 0) || 1;
+    if (finished) return 1;
+    let el = 0; for (let i = 0; i < idx; i++) el += seq[i].d;
+    el += seq[idx].d - Math.max(0, remaining(performance.now()));
+    return Math.min(1, Math.max(0, el / T));
+  }
+  function drawStrip(t) {
+    const dt = lastT ? Math.min(0.1, (t - lastT) / 1000) : 0; lastT = t;
+    const dpr = window.devicePixelRatio || 1, w = strip.clientWidth, h = strip.clientHeight;
+    if (strip.width !== Math.round(w * dpr) || strip.height !== Math.round(h * dpr)) { strip.width = Math.round(w * dpr); strip.height = Math.round(h * dpr); }
+    stx.setTransform(dpr, 0, 0, dpr, 0, 0); stx.clearRect(0, 0, w, h); stx.imageSmoothingEnabled = false;
+
+    const cur = seq[idx];
+    const kind = finished ? "done" : !running ? "idle" : (cur.t === "work") ? "run" : (cur.t === "prep") ? "idle" : "walk";
+    const fps = {run: 14, walk: 8, idle: 2, done: 4}[kind];
+    if (kind !== lastKind) { animT = 0; lastKind = kind; }
+    if (!matchMedia("(prefers-reduced-motion: reduce)").matches) animT += dt * fps;
+    const f = Math.floor(animT);
+    if (f !== frame || kind !== drawStrip.k) { frame = f; drawStrip.k = kind; drawRunner(poseFor(kind, frame)); }
+
+    // Barra: un tramo por intervalo, ancho proporcional a su duración
+    const T = seq.reduce((a, p) => a + p.d, 0) || 1, p = progress();
+    const barH = 10, barY = h - barH - 2, gap = 2, x0 = 0, bw = w;
+    let x = x0;
+    seq.forEach((ph, i) => {
+      const sw = Math.max(1, ph.d / T * bw - (i < seq.length - 1 ? gap : 0));
+      stx.globalAlpha = 0.22; stx.fillStyle = COL[ph.t]; stx.fillRect(x, barY, sw, barH);
+      const filled = Math.min(sw, Math.max(0, p * bw - (x - x0)));
+      stx.globalAlpha = 1; if (filled > 0) stx.fillRect(x, barY, filled, barH);
+      x += ph.d / T * bw;
+    });
+    stx.globalAlpha = 1;
+    // Corredor sobre la barra
+    const rw = SW * SCALE, rh = SH * SCALE;
+    const rx = Math.round(Math.min(bw - rw * 0.75, Math.max(-rw * 0.25, x0 + p * bw - rw / 2)));
+    stx.drawImage(spr, rx, barY - rh + 1, rw, rh);
+    requestAnimationFrame(drawStrip);
+  }
+  requestAnimationFrame(drawStrip);
 
   render(remMs / 1000);
   if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
