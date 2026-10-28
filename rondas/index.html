@@ -12,9 +12,12 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="icon" type="image/png" href="icon-192.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;700;800&family=Barlow:wght@400;600&display=swap">
 <style>
+@font-face{font-family:"Barlow Condensed";font-weight:500;font-style:normal;font-display:block;src:url("fonts/barlow-condensed-latin-500-normal.woff2") format("woff2")}
+@font-face{font-family:"Barlow Condensed";font-weight:700;font-style:normal;font-display:block;src:url("fonts/barlow-condensed-latin-700-normal.woff2") format("woff2")}
+@font-face{font-family:"Barlow Condensed";font-weight:800;font-style:normal;font-display:block;src:url("fonts/barlow-condensed-latin-800-normal.woff2") format("woff2")}
+@font-face{font-family:"Barlow";font-weight:400;font-style:normal;font-display:block;src:url("fonts/barlow-latin-400-normal.woff2") format("woff2")}
+@font-face{font-family:"Barlow";font-weight:600;font-style:normal;font-display:block;src:url("fonts/barlow-latin-600-normal.woff2") format("woff2")}
 /* Layout: one-screen gym timer. Phase panel fills the middle and changes color with the phase; controls sit in the thumb zone. Deliberately single dark theme (gym, glanceable from distance). */
 :root{
   color-scheme: dark;
@@ -37,10 +40,10 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
 .total{text-align:center;font-family:var(--display);line-height:1}
 .total small{display:block;font-size:13px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase;font-weight:700}
 .total b{font-size:28px;font-weight:700;font-variant-numeric:tabular-nums}
-.phase{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;align-items:center;background:var(--c,var(--prep));color:var(--on-phase);transition:background .25s;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.phase{flex:1;overflow:hidden;min-height:0;display:flex;flex-direction:column;justify-content:center;align-items:center;background:var(--c,var(--prep));color:var(--on-phase);transition:background .25s;padding-left:max(24px,env(safe-area-inset-left,0px));padding-right:max(24px,env(safe-area-inset-right,0px))}
 .phase-name{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:clamp(40px,13vw,96px);line-height:.9;letter-spacing:.01em;text-align:center}
 .round-tag{font-family:var(--display);font-weight:700;font-size:clamp(16px,4.5vw,24px);letter-spacing:.14em;text-transform:uppercase;opacity:.7;margin-top:6px;min-height:1.2em}
-.clock{font-family:var(--display);font-weight:800;font-variant-numeric:tabular-nums;font-size:min(38vw,26vh);line-height:.95;letter-spacing:-.01em}
+.clock{font-family:var(--display);font-weight:800;font-variant-numeric:tabular-nums;font-size:min(30vw,22vh);max-width:100%;line-height:.95;letter-spacing:-.01em}
 .next{display:flex;justify-content:space-between;align-items:baseline;gap:12px;background:var(--panel);border-top:6px solid var(--nc,var(--work));padding-block:12px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));font-family:var(--display)}
 .next small{font-size:13px;letter-spacing:.12em;color:var(--muted);font-weight:700;text-transform:uppercase}
 .next span{font-size:26px;font-weight:700;text-transform:uppercase}
