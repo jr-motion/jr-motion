@@ -359,6 +359,30 @@ canvas#confetti{position:fixed;inset:0;pointer-events:none;z-index:70}
 @keyframes chsad{0%,100%{transform:none}20%{transform:rotate(-6deg)}40%{transform:rotate(5deg)}60%{transform:rotate(-4deg) translateY(4px)}80%{transform:translateY(4px) scale(1,.97)}}
 @keyframes chtalk{0%,100%{transform:none}30%{transform:scale(1.04,.96)}60%{transform:scale(.98,1.03) translateY(-3px)}}
 @media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important;transition:none!important}}
+
+/* final con celebración (v1.9): banda con personaje, cambio de título y datos que se animan */
+.f-stat .h{background:var(--c,var(--yellow))}
+.f-stat.pend{opacity:0;animation:none}
+.f-stat.anim{opacity:1;animation:none;position:relative;border-color:var(--c);background:rgba(255,255,255,.08);transform:scale(.88);transition:background .25s,border-color .25s,transform .25s cubic-bezier(.3,1.6,.5,1)}
+.f-stat.anim .h{background:transparent;color:transparent;border-bottom-color:transparent;transform:translateY(-8px);transition:background .2s,color .2s,border-color .2s,transform .3s cubic-bezier(.3,1.6,.5,1)}
+.f-stat.anim .v{color:#fff;-webkit-text-stroke:5px var(--ink);paint-order:stroke fill;transition:color .2s}
+.f-stat.anim.full{border-color:var(--ink);background:#fff;transform:none}
+.f-stat.anim.full .h{background:var(--c);color:var(--ink);border-bottom-color:var(--ink);transform:none}
+.f-stat.anim.full .v{color:var(--ink);-webkit-text-stroke:0}
+.cel-spark{position:absolute;width:18px;height:18px;margin:-9px 0 0 -9px;pointer-events:none;z-index:5}
+.finish.cel{overflow:hidden}
+.cel-stage{position:relative;width:100%;height:min(46vh,400px);flex:none;display:grid;place-items:center;margin-bottom:6px}
+.cel-band{position:absolute;left:-30%;right:-30%;top:14%;height:72%;transform:skewY(-9deg);border-top:var(--bw) solid var(--ink);border-bottom:var(--bw) solid var(--ink);background:var(--bandc,var(--mint));overflow:hidden;opacity:0}
+.cel-band::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.35),rgba(255,255,255,0) 45%,rgba(45,10,78,.12))}
+.cel-band i{position:absolute;left:0;height:9px;border-radius:6px;background:rgba(255,255,255,.6)}
+.cel-hw{position:relative;z-index:2;height:100%;width:100%;display:grid;place-items:center;opacity:0}
+.cel-hero{max-height:88%;max-width:80%;width:auto;height:auto;filter:drop-shadow(0 7px 0 rgba(45,10,78,.28));user-select:none;-webkit-user-drag:none;animation:celbob 1.6s ease-in-out infinite;transform-origin:50% 90%}
+.cel-hero.cel-card{max-height:80%;border-radius:11%/9%;border:var(--bw) solid var(--ink);box-shadow:0 7px 0 var(--ink);filter:none;animation:celtilt 2.6s ease-in-out infinite}
+@keyframes celbob{0%,100%{transform:translateY(0) rotate(-1.5deg)}50%{transform:translateY(-10px) rotate(1.5deg)}}
+@keyframes celtilt{0%,100%{transform:rotate(-3deg) translateY(0)}50%{transform:rotate(3deg) translateY(-8px)}}
+.finish.cel h1{color:var(--yellow);margin:0 0 6px;font-size:34px;animation:none;transform:rotate(-3deg)}
+.finish.cel p{min-height:1.3em;margin:0 0 18px}
+.cel-sq{position:absolute;width:9px;height:9px;background:var(--yellow);border:2px solid var(--ink);border-radius:2px;pointer-events:none;z-index:4}
 </style>
 </head>
 <body>
@@ -1305,6 +1329,14 @@ const SFX={
   pair(){tone(988,0,.07,'triangle',.14);tone(1319,.05,.09,'triangle',.12)},
   done(){[523,659,784,1047,1319].forEach((f,i)=>tone(f,i*.1,.3,'triangle',.16))},
   combo(){[880,1109,1319].forEach((f,i)=>tone(f,i*.05,.12,'sine',.12))},
+  tick(i){ tone([784,988,1175][i%3]||1175,0,.09,'triangle',.13); tone(([784,988,1175][i%3]||1175)*1.5,.05,.12,'sine',.08) },
+  whoosh(){ // banda que entra al final de la lección
+    const c=ac(); if(!c||!S.settings.sound) return; const t=c.currentTime, n=Math.floor(c.sampleRate*.4);
+    const b=c.createBuffer(1,n,c.sampleRate), d=b.getChannelData(0); for(let i=0;i<n;i++) d[i]=Math.random()*2-1;
+    const s=c.createBufferSource(); s.buffer=b; const bp=c.createBiquadFilter(); bp.type='bandpass'; bp.Q.value=1.2;
+    bp.frequency.setValueAtTime(500,t); bp.frequency.exponentialRampToValueAtTime(3500,t+.3);
+    const g=c.createGain(); g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(.35,t+.12); g.gain.exponentialRampToValueAtTime(.001,t+.4);
+    s.connect(bp).connect(g).connect(c.destination); s.start(t) },
   zap(){ // chispazo corto para la animación «Bikain!»
     const c=ac(); if(!c||!S.settings.sound) return; const t=c.currentTime;
     const out=c.createGain(); out.gain.value=.5; out.connect(c.destination);
@@ -1373,6 +1405,7 @@ function greeting(){ const h=new Date().getHours(); return h<13?'Egun on!':h<20?
 /* primero el del día y los 7 de siempre; el resto, un poco después */
 [dayChar(),...CH_ORDER.slice(0,7)].forEach(id=>{ const i=new Image(); i.src='img/'+id+'.webp' });
 setTimeout(()=>CH_ORDER.slice(7).forEach(id=>{ const i=new Image(); i.src='img/'+id+'.webp' }),2500);
+setTimeout(()=>CEL_IMGS.forEach(id=>{ const i=new Image(); i.src='img/'+id+'.webp' }),4000);
 
 /* =========================================================
    GENERACIÓN DE LECCIONES
@@ -1508,7 +1541,7 @@ function renderLearn(){
   });
   h+=`<div style="height:30px"></div>`;
   $('#view').innerHTML=h;
-  $('#view').querySelectorAll('[data-lesson]').forEach(b=>b.onclick=()=>{ SFX.tap(); const L=UNITS.flatMap(lessonsOf).find(x=>x.id===b.dataset.lesson); startLesson(buildLesson(L),{id:L.id,title:L.unit.title+' · '+L.title,words:L.kind==='vocab'?L.words:L.unit.words,ch:unitChar(L.unit)}) });
+  $('#view').querySelectorAll('[data-lesson]').forEach(b=>b.onclick=()=>{ SFX.tap(); const L=UNITS.flatMap(lessonsOf).find(x=>x.id===b.dataset.lesson); startLesson(buildLesson(L),{id:L.id,unit:L.unit.id,kind:L.kind,title:L.unit.title+' · '+L.title,words:L.kind==='vocab'?L.words:L.unit.words,ch:unitChar(L.unit)}) });
   $('#view').querySelectorAll('[data-gram]').forEach(b=>b.onclick=()=>{ SFX.tap(); showGrammarModal(UNITS.find(u=>u.id===b.dataset.gram)) });
   $('#view').querySelectorAll('[data-pc]').forEach(pc=>pc.onclick=()=>{
     const u=UNITS.find(x=>x.id===pc.dataset.pc); const w=pick(u.words,1)[0]; const say=pc.querySelector('.say'), img=pc.querySelector('img');
@@ -1968,25 +2001,141 @@ document.addEventListener('keydown',e=>{
   if(/^[1-4]$/.test(e.key)){ const o=document.querySelectorAll('#l-body .opt')[+e.key-1]; if(o) o.click() }
 });
 
+/* =========================================================
+   FINAL DE LECCIÓN · celebraciones (v1.9)
+   Orden de prioridad (sale solo una):
+   1. unidad terminada (la última lección que faltaba) → Latxi con toga
+   2. la racha llega a 3, 7, 14, 30, 50, 100… días → cápsula de fuego
+   3. repaso → cápsula del fantasma (palabras olvidadas)
+   4. sin fallos: Gramatika / Praktika → Latxi indartsu; resto → Uxue y el aitona con el examen
+   5. menos del 60 % a la primera → cápsula «Dena ondo dago…» (la casa en llamas)
+   Si no, final normal (los tres personajes), también con los datos animados.
+   ========================================================= */
+const CEL_IMGS=['latxi-toga','bikain-azterketa','latxi-indartsu','kapsula-sua','kapsula-mamua','kapsula-lasai'];
+const STREAK_MS=[3,7,14,30,50,100,150,200,250,300,365,500,1000];
+const CEL={
+  toga:{img:'latxi-toga',band:'#fb6ee8',t:'Unitatea gaindituta!',s:c=>`Has terminado la unidad «${c.unitTitle}»`},
+  sua:{img:'kapsula-sua',card:1,band:'#ffad3b',t:c=>`${c.st} egun jarraian!`,s:c=>`Racha de ${c.st} días seguidos`},
+  mamua:{img:'kapsula-mamua',card:1,band:'#c9a2ff',t:'Mamuak uxatuta!',s:()=>'Has repasado las palabras que se te olvidaban'},
+  indartsu:{img:'latxi-indartsu',band:'#f7ee55',t:'Indartsu!',s:c=>c.kind==='grammar'?'Gramática sin ningún fallo':'Práctica sin ningún fallo'},
+  azterketa:{img:'bikain-azterketa',band:'#4ff5a8',t:'Akatsik gabe!',s:()=>'Lección sin ningún fallo'},
+  lasai:{img:'kapsula-lasai',card:1,band:'#ff7c8f',t:'Dena ondo dago…',s:()=>'Ha costado, pero está hecha. Los fallos vuelven en el repaso'}
+};
+function pickCel(c){
+  if(c.unitDone) return 'toga';
+  if(c.st) return 'sua';
+  if(c.review) return 'mamua';
+  if(c.acc===100) return (c.kind==='grammar'||c.kind==='practice')?'indartsu':'azterketa';
+  if(c.acc<60) return 'lasai';
+  return null;
+}
+const SPARK='<svg viewBox="0 0 24 24"><path d="M12 0C13 8 16 11 24 12C16 13 13 16 12 24C11 16 8 13 0 12C8 11 11 8 12 0Z" fill="FILL" stroke="#2d0a4e" stroke-width="1.6" stroke-linejoin="round"/></svg>';
+function spark(parent,x,y,col,size){ const e=document.createElement('div'); e.className='cel-spark'; e.innerHTML=SPARK.replace('FILL',col||'#f7ee55');
+  e.style.left=x+'px'; e.style.top=y+'px'; if(size){ e.style.width=e.style.height=size+'px'; e.style.margin=(-size/2)+'px 0 0 '+(-size/2)+'px' } parent.appendChild(e); return e }
+function fmtStat(el,n){ el.textContent= el.dataset.time!=null? `${Math.floor(n/60)}:${String(n%60).padStart(2,'0')}` : el.dataset.pct!=null? n+'%' : String(n) }
+/* tarjetas de datos: chispas que se juntan, contorno, número que cuenta y cabecera que cae */
+function animStats(f,delay,T){
+  const cards=[...f.querySelectorAll('.f-stat')];
+  if(noMotion()||!f.animate){ cards.forEach(c=>{ c.classList.remove('pend'); c.classList.add('anim','full'); const v=$('.v',c); fmtStat(v,+v.dataset.to) }); return }
+  cards.forEach(c=>c.classList.add('pend'));
+  cards.forEach((c,i)=>T.push(setTimeout(()=>{
+    if(!f.isConnected) return;
+    const fr=f.getBoundingClientRect(), r=c.getBoundingClientRect(), cx=r.left-fr.left+r.width/2, cy=r.top-fr.top+r.height/2;
+    const col=getComputedStyle(c).getPropertyValue('--c').trim()||'#f7ee55';
+    for(let k=0;k<8;k++){ const a=k/8*Math.PI*2+.3, R0=r.width*.75;
+      const e=spark(f,cx+Math.cos(a)*R0,cy+Math.sin(a)*R0*.8,k%2?'#fff':col,k%2?12:18);
+      e.animate([{transform:'scale(0) rotate(0)',opacity:0},{transform:'scale(1.2) rotate(45deg)',opacity:1,offset:.35},{transform:`translate(${-Math.cos(a)*R0*.85}px,${-Math.sin(a)*R0*.68}px) scale(.3) rotate(120deg)`,opacity:0}],{duration:420,easing:'ease-in',fill:'forwards'}).onfinish=()=>e.remove();
+    }
+    T.push(setTimeout(()=>{
+      if(!f.isConnected) return;
+      c.classList.remove('pend'); c.classList.add('anim');
+      c.animate([{transform:'scale(.4)',opacity:0},{transform:'scale(1)',opacity:1,offset:.6},{transform:'scale(.88)'}],{duration:280,easing:'ease-out'});
+      const v=$('.v',c), to=+v.dataset.to, dur=Math.min(700,260+to*12), t0=performance.now();
+      (function step(t){ const p=Math.min(1,(t-t0)/dur), e=1-Math.pow(1-p,3); fmtStat(v,Math.round(to*e));
+        if(p<1&&f.isConnected) requestAnimationFrame(step);
+        else { c.classList.add('full'); SFX.tick(i); c.animate([{transform:'scale(1)'},{transform:'scale(1.1)'},{transform:'scale(1)'}],{duration:260,easing:'ease-out'}) } })(t0);
+    },300));
+  },delay+i*700)));
+}
 function finish(){
   const m=R.meta, acc=R.first?Math.round(R.firstOk/R.first*100):100, secs=Math.round((Date.now()-R.start)/1000);
   let xp = m.review ? Math.max(5,R.firstOk) : 10 + (acc===100?5:0);
-  addXP(xp);
-  if(m.id && !m.review){ const prev=S.done[m.id]||{n:0,best:0}; S.done[m.id]={n:prev.n+1,best:Math.max(prev.best,acc)} }
+  const st0=streak(); addXP(xp); const st1=streak();
+  let unitDone=false, unitTitle='';
+  if(m.id && !m.review){
+    const u=m.unit?UNITS.find(x=>x.id===m.unit):null, ls=u?lessonsOf(u):null, was=ls?ls.every(l=>S.done[l.id]):true;
+    const prev=S.done[m.id]||{n:0,best:0}; S.done[m.id]={n:prev.n+1,best:Math.max(prev.best,acc)};
+    if(ls&&!was&&ls.every(l=>S.done[l.id])){ unitDone=true; unitTitle=u.title }
+  }
   save();
+  const ctx={unitDone,unitTitle,st:(st1>st0&&STREAK_MS.includes(st1))?st1:0,review:!!m.review,acc,kind:m.kind};
+  const key=pickCel(ctx), cel=key?CEL[key]:null;
+  R.celKey=key; window.__lastCel=key; // para las pruebas
   $('#lesson').remove();
-  const f=document.createElement('div'); f.className='finish'; f.id='finish';
+  const f=document.createElement('div'); f.className='finish'+(cel?' cel cel-'+key:''); f.id='finish';
   const goalNow=S.days[today()]||0, reached=goalNow>=50&&goalNow-xp<50;
-  const crew=[R.ch,...shuffle(CH_ORDER.filter(c=>c!==R.ch)).slice(0,2)];
-  f.innerHTML=`<div class="troupe">${chImg(crew[1],'act-party d1')}${chImg(crew[0],'act-party')}${chImg(crew[2],'act-party d2')}</div><h1 class="wordmark">${m.review?'Errepasoa eginda!':'Ikasgaia osatuta!'}</h1><p>${esc(m.title||'')}${reached?' · ¡Objetivo diario cumplido!':''}</p>
-  <div class="f-stats"><div class="f-stat"><div class="h" style="background:var(--yellow)">XP</div><div class="v" id="f-xp">0</div></div>
-  <div class="f-stat"><div class="h" style="background:var(--mint)">Aciertos</div><div class="v">${acc}%</div></div>
-  <div class="f-stat"><div class="h" style="background:var(--cyan)">Tiempo</div><div class="v">${Math.floor(secs/60)}:${String(secs%60).padStart(2,'0')}</div></div></div>
-  <button class="btn btn-green wide" id="f-ok" style="max-width:400px">Continuar</button>`;
-  document.body.appendChild(f);
-  SFX.done(); confetti();
-  let n=0; const el=$('#f-xp'); const iv=setInterval(()=>{ n++; el.textContent=n; if(n>=xp) clearInterval(iv) },45);
-  $('#f-ok').onclick=()=>{ SFX.tap(); CONF_STOP=true; f.remove(); document.body.style.overflow=''; R=null; render() };
+  const head=m.review?'Errepasoa eginda!':'Ikasgaia osatuta!';
+  const sub=esc(m.title||'')+(reached?' · ¡Objetivo diario cumplido!':'');
+  const stats=`<div class="f-stats"><div class="f-stat" style="--c:var(--yellow)"><div class="h">XP</div><div class="v" data-to="${xp}">0</div></div>
+  <div class="f-stat" style="--c:var(--mint)"><div class="h">Aciertos</div><div class="v" data-to="${acc}" data-pct>0%</div></div>
+  <div class="f-stat" style="--c:var(--cyan)"><div class="h">Tiempo</div><div class="v" data-to="${secs}" data-time>0:00</div></div></div>`;
+  const btn=`<button class="btn btn-green wide" id="f-ok" style="max-width:400px">Continuar</button>`;
+  const T=[];
+  if(!cel){
+    const crew=[R.ch,...shuffle(CH_ORDER.filter(c=>c!==R.ch)).slice(0,2)];
+    f.innerHTML=`<div class="troupe">${chImg(crew[1],'act-party d1')}${chImg(crew[0],'act-party')}${chImg(crew[2],'act-party d2')}</div><h1 class="wordmark">${head}</h1><p>${sub}</p>${stats}${btn}`;
+    document.body.appendChild(f);
+    SFX.done(); confetti(); animStats(f,450,T);
+  } else {
+    const t=typeof cel.t==='function'?cel.t(ctx):cel.t, s2=cel.s(ctx)+(reached?' · ¡Objetivo diario cumplido!':'');
+    f.innerHTML=`<div class="cel-stage"><div class="cel-band" style="--bandc:${cel.band}"></div><div class="cel-hw"><img class="cel-hero${cel.card?' cel-card':''}" src="img/${cel.img}.webp" alt="" draggable="false"></div></div><h1 class="wordmark cel-h">${head}</h1><p class="cel-p">${sub}</p>${stats}${btn}`;
+    document.body.appendChild(f);
+    celIntro(f,cel,t,s2,T,key);
+  }
+  $('#f-ok').onclick=()=>{ SFX.tap(); T.forEach(clearTimeout); CONF_STOP=true; f.remove(); document.body.style.overflow=''; R=null; render() };
+}
+function celIntro(f,cel,title,sub2,T,key){
+  const band=$('.cel-band',f), hw=$('.cel-hw',f), stage=$('.cel-stage',f), h1=$('.cel-h',f), p=$('.cel-p',f), btn=$('#f-ok',f);
+  if(noMotion()||!f.animate){ band.style.display='none'; hw.style.opacity=1; h1.textContent=title; p.textContent=sub2; SFX.done(); animStats(f,0,T); return }
+  btn.style.opacity=0; h1.style.opacity=0; p.style.opacity=0;
+  SFX.whoosh();
+  // 1 · la banda entra cruzando y el personaje sale dentro, grande
+  band.animate([{transform:'skewY(-9deg) translateX(-70%) scaleY(.12)',opacity:.35},{transform:'skewY(-9deg) translateX(3%) scaleY(1.06)',opacity:1,offset:.7},{transform:'skewY(-9deg)',opacity:1}],{duration:440,easing:'cubic-bezier(.2,.9,.3,1)',fill:'forwards'});
+  const bw=band.clientWidth||600;
+  for(let k=0;k<8;k++){ const i=document.createElement('i'); i.style.top=(8+k*11+Math.random()*5)+'%'; const w=60+Math.random()*140; i.style.width=w+'px'; band.appendChild(i);
+    i.animate([{transform:`translateX(${bw+40}px)`},{transform:`translateX(${-w-40}px)`}],{duration:520+Math.random()*420,delay:Math.random()*400,iterations:Infinity}) }
+  const big=cel.card?'scale(1.08)':'scale(1.14)';
+  hw.animate(cel.card
+    ?[{transform:'perspective(700px) rotateY(95deg) scale(.6)',opacity:0},{transform:'perspective(700px) rotateY(-12deg) scale(1.15)',opacity:1,offset:.7},{transform:'perspective(700px) '+big,opacity:1}]
+    :[{transform:'translateX(-55%) scale(.55) rotate(-10deg)',opacity:0},{transform:'translateX(4%) scale(1.22) rotate(3deg)',opacity:1,offset:.7},{transform:big,opacity:1}],
+    {duration:520,delay:120,easing:'cubic-bezier(.2,.9,.3,1)',fill:'forwards'});
+  // «Ikasgaia osatuta!» con cuadraditos que parpadean
+  T.push(setTimeout(()=>{ if(!f.isConnected) return;
+    h1.style.opacity=1; h1.animate([{transform:'rotate(-3deg) scale(.4)',opacity:0},{transform:'rotate(-3deg) scale(1.12)',opacity:1,offset:.65},{transform:'rotate(-3deg)'}],{duration:380,easing:'ease-out'});
+    const fr=f.getBoundingClientRect(), r=h1.getBoundingClientRect();
+    for(let k=0;k<10;k++){ const q=document.createElement('div'); q.className='cel-sq'; const side=k%2?1:-1;
+      q.style.left=(r.left-fr.left+r.width/2+side*(r.width/2+6+Math.random()*26)*Math.random()*1.1)+'px'; q.style.top=(r.top-fr.top-10+Math.random()*(r.height+20))+'px'; f.appendChild(q);
+      q.animate([{transform:'scale(0) rotate(0)'},{transform:'scale(1) rotate(45deg)'},{transform:'scale(0) rotate(90deg)'}],{duration:600,delay:k*70,iterations:2,fill:'both'}).onfinish=()=>q.remove() }
+  },380));
+  // 2 · se recoge la banda, el personaje queda flotando con chispas y cambia el título
+  T.push(setTimeout(()=>{ if(!f.isConnected) return;
+    SFX.done(); if(key==='toga') confetti();
+    band.animate([{transform:'skewY(-9deg)',opacity:1},{transform:'skewY(-9deg) scaleY(0)',opacity:0}],{duration:260,easing:'ease-in',fill:'forwards'});
+    hw.animate([{transform:(cel.card?'perspective(700px) ':'')+big},{transform:(cel.card?'perspective(700px) ':'')+'scale(.84)'}],{duration:380,easing:'cubic-bezier(.3,1.5,.5,1)',fill:'forwards'});
+    const sr=stage.getBoundingClientRect(), fr=f.getBoundingClientRect(), cx=sr.left-fr.left+sr.width/2, cy=sr.top-fr.top+sr.height/2;
+    const rx=Math.min(sr.width*.42,200), ry=sr.height*.42;
+    [[-1,-.7],[1,-.55],[-1.05,.35],[1.05,.45],[-.55,-1],[.6,.95],[.2,-1.05],[-.4,.95]].forEach(([x,y],k)=>{
+      const e=spark(f,cx+x*rx,cy+y*ry,k%3===0?'#fff':k%3===1?cel.band:'#f7ee55',k%2?14:22);
+      e.animate([{transform:'scale(0) rotate(0)'},{transform:'scale(1) rotate(30deg)',offset:.3},{transform:'scale(.6) rotate(60deg)',offset:.6},{transform:'scale(0) rotate(90deg)'}],{duration:1300+k*90,delay:k*110,iterations:Infinity});
+    });
+    h1.animate([{transform:'rotate(-3deg)',opacity:1},{transform:'rotate(-3deg) scale(.6)',opacity:0}],{duration:150,fill:'forwards'}).onfinish=()=>{
+      h1.textContent=title; h1.animate([{transform:'rotate(-3deg) scale(.5)',opacity:0},{transform:'rotate(-3deg) scale(1.1)',opacity:1,offset:.65},{transform:'rotate(-3deg)',opacity:1}],{duration:360,easing:'ease-out',fill:'forwards'});
+      p.textContent=sub2; p.animate([{opacity:0,transform:'translateY(8px)'},{opacity:1,transform:'none'}],{duration:300,delay:120,fill:'forwards'});
+    };
+  },1500));
+  // 3 · botón y datos
+  T.push(setTimeout(()=>{ if(!f.isConnected) return; btn.animate([{opacity:0,transform:'translateY(14px)'},{opacity:1,transform:'none'}],{duration:300,fill:'forwards'}) },2100));
+  animStats(f,2100,T);
 }
 
 /* pantalla de inicio: una vez al día (fecha en este navegador, no en el progreso) */
