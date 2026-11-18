@@ -1197,17 +1197,45 @@ function rDrill(it,body){
     setBtn('Comprobar',true,()=>{ const ok=real===d.a; markOpts(body,i,d.order.indexOf(d.a));
       grade(ok,null, ok?'':`Correcto: <b>${esc(d.s.replace('___',d.o[d.a]))}</b>`); }) });
 }
+// Sujeto opcional: «zuk dituzu» vale por «dituzu», «ni naiz» por «naiz».
+// La persona y el caso (NOR / NORK) salen de la forma verbal de la respuesta correcta.
+const SUBJ=(()=>{
+  const m={}, P={1:['ni','nik'],2:['zu','zuk'],3:['hura','hark','bera','berak'],4:['gu','guk'],5:['zuek','zuek'],6:['haiek','haiek']};
+  const add=(erg,forms)=>forms.split(' ').forEach((f,i)=>{ const p=P[i+1]; m[f]={erg, p: erg?p.filter((_,j)=>j%2):p.filter((_,j)=>!(j%2))} });
+  add(false,'naiz zara da gara zarete dira'); add(false,'nago zaude dago gaude zaudete daude');
+  add(false,'noa zoaz doa goaz zoazte doaz'); add(false,'nator zatoz dator gatoz zatozte datoz');
+  add(true,'dut duzu du dugu duzue dute'); add(true,'ditut dituzu ditu ditugu dituzue dituzte');
+  add(true,'daukat daukazu dauka daukagu daukazue daukate'); add(true,'dauzkat dauzkazu dauzka dauzkagu dauzkazue dauzkate');
+  add(true,'dakit dakizu daki dakigu dakizue dakite');
+  return m;
+})();
+const ALLPRON=new Set(['ni','nik','zu','zuk','hura','hark','bera','berak','gu','guk','zuek','haiek','hi','hik']);
+function subjFor(t){ for(const x of t.split(' ')){ if(SUBJ[x]) return {v:x, erg:SUBJ[x].erg, p:SUBJ[x].p} } return null }
+function subjCheck(a,targets){
+  const sp=a.indexOf(' '); if(sp<0) return {rest:a};
+  const pron=a.slice(0,sp), rest=a.slice(sp+1);
+  if(!ALLPRON.has(pron) || targets.some(t=>t.split(' ')[0]===pron)) return {rest:a};
+  const t=targets.find(t=>subjFor(t)) || targets[0]; const sj=subjFor(t);
+  if(!sj) return {rest:a};
+  return sj.p.includes(pron) ? {rest, pron} : {rest, pron, bad:true};
+}
 function rType(it,body){
   const w=it.w;
   body.innerHTML=`<div class="q-kind">${it.review?'Repaso':'Escribe en euskera'}</div><h2 class="q-title">«${esc(w.es)}»</h2><textarea class="typebox" id="tb" placeholder="Escribe en euskera…" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false"></textarea>`;
   const tb=$('#tb'); setTimeout(()=>tb.focus(),250);
   setBtn('Comprobar',false,null);
   const check=()=>{
-    const a=norm(tb.value), targets=w.eu.split('/').map(norm);
+    const raw=norm(tb.value), targets=w.eu.split('/').map(norm);
+    const sj=subjCheck(raw,targets), a=sj.rest;
     let ok=targets.includes(a), near=false;
     if(!ok && targets.some(t=>t.length>4 && lev(a,t)<=1)){ ok=true; near=true }
+    const subj=subjFor(targets[0]);
+    let fb='';
+    if(ok && sj.bad){ ok=false; fb=`Con <b>${esc(subj.v)}</b> el sujeto es <b>${esc(subj.p[0])}</b>${subj.erg?' (NORK, con -k)':' (NOR, sin -k)'}. Correcto: <b>${esc(subj.p[0]+' '+w.eu)}</b>`; }
+    else if(ok) fb=near?`Casi perfecto. Se escribe: <b>${esc(sj.pron?sj.pron+' '+w.eu:w.eu)}</b>`:'';
+    else fb=`Correcto: <b>${esc(w.eu)}</b>`+(subj?` <span style="opacity:.75">(o ${esc(subj.p[0]+' '+w.eu)})</span>`:'');
     tb.disabled=true;
-    grade(ok,{word:w,strong:!!it.review}, ok?(near?`Casi perfecto. Se escribe: <b>${esc(w.eu)}</b>`:''):`Correcto: <b>${esc(w.eu)}</b>`, w.eu);
+    grade(ok,{word:w,strong:!!it.review}, fb, w.eu);
   };
   tb.oninput=()=>setBtn('Comprobar',!!tb.value.trim(),check);
   tb.onkeydown=e=>{ if(e.key==='Enter'){ e.preventDefault(); if(tb.value.trim()&&!R.answered) check() } };
