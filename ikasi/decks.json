@@ -731,5 +731,196 @@
     "eu": "alua"
    }
   ]
+ },
+ {
+  "id": "aditzak-izan-ukan",
+  "ch": "kepa",
+  "level": "A1",
+  "source": "Euskaltegi · hoja «Aditz iragankorrak eta iragangaitzak» y apuntes · 2026-11-18",
+  "title": "Aditzak · izan edo ukan (hoja A0)",
+  "words": [
+   {
+    "es": "vivir",
+    "eu": "bizi izan",
+    "ex": "Ni Bilbon bizi naiz",
+    "exEs": "Vivo en Bilbao",
+    "note": "Con izan"
+   },
+   {
+    "es": "acostarse",
+    "eu": "oheratu",
+    "ex": "Ni berandu oheratu naiz",
+    "exEs": "Me he acostado tarde",
+    "note": "Con izan"
+   },
+   {
+    "es": "llegar (Bizkaia)",
+    "eu": "heldu",
+    "ex": "Ni garaiz heldu naiz",
+    "exEs": "He llegado a tiempo",
+    "note": "Con izan. En batua es más general iritsi"
+   },
+   {
+    "es": "morir",
+    "eu": "hil",
+    "ex": "Arraina hil da",
+    "exEs": "El pez ha muerto",
+    "note": "Con izan"
+   },
+   {
+    "es": "nacer",
+    "eu": "jaio",
+    "ex": "Haurra jaio da",
+    "exEs": "El bebé ha nacido",
+    "note": "Con izan"
+   },
+   {
+    "es": "crecer",
+    "eu": "hazi",
+    "ex": "Landarea hazi da",
+    "exEs": "La planta ha crecido",
+    "note": "Con izan. En la hoja pone «hazitu»; en batua es hazi"
+   },
+   {
+    "es": "pararse",
+    "eu": "gelditu",
+    "ex": "Autobusa gelditu da",
+    "exEs": "El autobús se ha parado",
+    "note": "Con izan"
+   },
+   {
+    "es": "andar",
+    "eu": "ibili",
+    "ex": "Ni kalean ibili naiz",
+    "exEs": "He andado por la calle",
+    "note": "Con izan"
+   },
+   {
+    "es": "desaparecer",
+    "eu": "desagertu",
+    "ex": "Katua desagertu da",
+    "exEs": "El gato ha desaparecido",
+    "note": "Con izan"
+   },
+   {
+    "es": "aparecer",
+    "eu": "agertu",
+    "ex": "Laguna agertu da",
+    "exEs": "El amigo ha aparecido",
+    "note": "Con izan"
+   },
+   {
+    "es": "acercarse",
+    "eu": "hurbildu",
+    "ex": "Txakurra hurbildu da",
+    "exEs": "El perro se ha acercado",
+    "note": "Con izan"
+   },
+   {
+    "es": "alejarse",
+    "eu": "urrundu",
+    "ex": "Ni etxetik urrundu naiz",
+    "exEs": "Me he alejado de casa",
+    "note": "Con izan"
+   },
+   {
+    "es": "cambiar",
+    "eu": "aldatu",
+    "ex": "Eguraldia aldatu da",
+    "exEs": "El tiempo ha cambiado",
+    "note": "Con izan si cambia algo solo; con ukan si lo cambias tú"
+   },
+   {
+    "es": "levantarse / levantar",
+    "eu": "altxatu",
+    "ex": "Goiz altxatu naiz",
+    "exEs": "Me he levantado pronto",
+    "note": "Me he levantado: altxatu naiz. He levantado la mano: eskua altxatu dut"
+   },
+   {
+    "es": "alegrarse",
+    "eu": "alaitu",
+    "ex": "Asko alaitu naiz",
+    "exEs": "Me he alegrado mucho",
+    "note": "Con izan"
+   },
+   {
+    "es": "sorprenderse",
+    "eu": "harritu",
+    "ex": "Oso harritu naiz",
+    "exEs": "Me he sorprendido mucho",
+    "note": "Con izan"
+   },
+   {
+    "es": "conocer",
+    "eu": "ezagutu",
+    "ex": "Nik irakaslea ezagutu dut",
+    "exEs": "He conocido a la profesora",
+    "note": "Con ukan"
+   },
+   {
+    "es": "encontrar",
+    "eu": "aurkitu",
+    "ex": "Nik giltzak aurkitu ditut",
+    "exEs": "He encontrado las llaves",
+    "note": "Con ukan"
+   },
+   {
+    "es": "enseñar",
+    "eu": "irakatsi",
+    "ex": "Irakasleak euskara irakatsi du",
+    "exEs": "La profesora ha enseñado euskera",
+    "note": "Con ukan"
+   },
+   {
+    "es": "querer, amar",
+    "eu": "maite izan",
+    "ex": "Nik ama maite dut",
+    "exEs": "Quiero a mi madre",
+    "note": "Con ukan. Maite dut es presente: lo quiero, no «lo he querido»"
+   },
+   {
+    "es": "dibujar",
+    "eu": "marraztu",
+    "ex": "Nik etxe bat marraztu dut",
+    "exEs": "He dibujado una casa",
+    "note": "Con ukan"
+   },
+   {
+    "es": "pintar",
+    "eu": "margotu",
+    "ex": "Nik horma margotu dut",
+    "exEs": "He pintado la pared",
+    "note": "Con ukan"
+   },
+   {
+    "es": "ponerse (ropa), vestirse",
+    "eu": "jantzi",
+    "ex": "Nik jaka jantzi dut",
+    "exEs": "Me he puesto la chaqueta",
+    "note": "Con ukan si dices la prenda"
+   },
+   {
+    "es": "bailar",
+    "eu": "dantzatu",
+    "ex": "Ni plazan dantzatu naiz",
+    "exEs": "He bailado en la plaza",
+    "note": "Ni dantzatu naiz; o con objeto: aurreskua dantzatu dut. También dantza egin dut"
+   },
+   {
+    "es": "ayudar",
+    "eu": "lagundu",
+    "ex": "Nik lagunari lagundu diot",
+    "exEs": "He ayudado al amigo",
+    "note": "Con quien recibe la ayuda: lagunari lagundu diot (NOR-NORI-NORK, se ve más adelante)"
+   },
+   {
+    "es": "llamar (por teléfono)",
+    "eu": "deitu",
+    "ex": "Nik amari deitu diot",
+    "exEs": "He llamado a mi madre",
+    "note": "Como lagundu: amari deitu diot (más adelante)"
+   }
+  ]
  }
 ]

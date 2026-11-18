@@ -179,7 +179,9 @@ input,textarea{font-family:inherit;font-weight:700;color:var(--ink)}
 .combo{font-size:14px;color:#fff;font-weight:900;min-width:52px;text-align:right;opacity:0;transition:opacity .2s;text-shadow:0 2px 0 var(--ink)}
 .combo.on{opacity:1;animation:pop .35s}
 .l-body{flex:1;overflow-y:auto;padding:8px 16px 20px}
-.l-foot{padding:14px 16px calc(16px + env(safe-area-inset-bottom));position:relative}
+.l-foot{padding:14px 16px calc(16px + env(safe-area-inset-bottom));position:relative;z-index:3}
+.lesson>.l-top,.lesson>.l-body{position:relative;z-index:1}
+.q-kind .again{color:#ffd166}
 .q-kind{display:inline-block;font-size:12px;text-transform:uppercase;letter-spacing:1px;color:#fff;background:var(--ink);border-radius:20px;padding:4px 12px;margin:8px 0 8px;font-weight:900}
 .q-title{font-size:23px;font-weight:900;margin:0 0 18px;line-height:1.25;color:var(--ink)}
 .q-title .eu{background:#fff;border:3px solid var(--ink);border-radius:12px;padding:0 8px}
@@ -256,6 +258,22 @@ input,textarea{font-family:inherit;font-weight:700;color:var(--ink)}
 @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
 .shake{animation:shake .35s}
 canvas#confetti{position:fixed;inset:0;pointer-events:none;z-index:70}
+
+/* animaciones de acierto (rayos + nubes) y fallo (fichas en llamas) en «Traduce la frase» */
+.lesson{overflow:hidden}
+.tile.ok{background:var(--mint);box-shadow:inset 0 -5px 0 var(--mint-d);animation:pop .3s}
+.tile.burn{background:var(--coral);box-shadow:inset 0 -5px 0 var(--coral-d);transition:background .4s}
+.bk-back{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.bk-low{position:absolute;left:0;bottom:0;width:100%;z-index:2;pointer-events:none;overflow:visible}
+.bk-front{position:absolute;inset:0;width:100%;height:100%;z-index:6;pointer-events:none;overflow:hidden}
+.bk-word{position:absolute;left:50%;top:36%;transform:translate(-50%,-50%) rotate(-7deg);white-space:nowrap;text-align:center}
+.bk-word .in{position:relative;display:block;font-size:70px;font-weight:900;letter-spacing:-1px;line-height:1.1;padding:0 14px}
+.bk-word .b{position:absolute;left:14px;top:0;color:var(--ink);-webkit-text-stroke:22px var(--ink);text-shadow:0 9px 0 var(--ink)}
+.bk-word .f{position:relative;color:#fff;-webkit-text-stroke:11px var(--orange);paint-order:stroke fill}
+.bk-word .es{display:inline-block;margin-top:12px;background:#fff;border:3px solid var(--ink);border-radius:14px;padding:3px 12px;font-size:16px;font-weight:900;color:var(--ink)}
+.bk-zap{position:absolute;width:30px;height:56px}
+.bk-gem{position:absolute;width:16px;height:16px;border:3px solid var(--ink);border-radius:4px}
+.bk-dot{position:absolute;border-radius:50%}
 
 /* repaso */
 .rev-hero{display:flex;align-items:flex-end;gap:8px;text-align:left}
@@ -1038,12 +1056,152 @@ const UNITS = [
     ['Buruko mina daukat','Me duele la cabeza'],
     ['Zuk ahots polita daukazu','Tú tienes una voz bonita']
   ]
+},
+{ id:'a1-nork', ch:'kepa', level:'A1', title:'NORK eta UKAN', sub:'Quién lleva -k · ukan (dut, duzu, du…) · izan o ukan · ez y preguntas',
+  split:[15,15,15],
+  vocab:[
+    ['dut','(yo) he… — una cosa (ukan)','Nik ogia erosi dut: he comprado pan'],
+    ['duzu','(tú) has… — una cosa (ukan)','Zuk ura edan duzu?: ¿has bebido agua?'],
+    ['du','(él/ella) ha… — una cosa (ukan)','Kepak afaria prestatu du'],
+    ['dugu','(nosotros) hemos… — una cosa (ukan)'],
+    ['duzue','(vosotros) habéis… — una cosa (ukan)'],
+    ['dute','(ellos) han… — una cosa (ukan)'],
+    ['ditugu','(nosotros) hemos… — varias cosas (ukan)','Con -it-: lo que se ha hecho es plural'],
+    ['dituzue','(vosotros) habéis… — varias cosas (ukan)'],
+    ['dituzte','(ellos) han… — varias cosas (ukan)','Ojo a la t final: dituzTe'],
+    ['nik','yo (con verbos de ukan)','Ni etorri naiz, pero nik jan dut'],
+    ['zuk','tú (con verbos de ukan)','Zu etorri zara, pero zuk jan duzu'],
+    ['hark','él / ella (con verbos de ukan)','hura → hark'],
+    ['guk','nosotros/as (con verbos de ukan)','gu → guk. Zuek y haiek no cambian'],
+    ['nork?','¿quién? (con ukan)','Nor? va con izan; nork? con ukan: Nork ekarri du?'],
+    ['giltzak','las llaves','Una llave: giltza. Giltzak galdu ditut: he perdido las llaves'],
+    ['jan','comer','Nik sagarra jan dut'],
+    ['edan','beber'],
+    ['ikusi','ver'],
+    ['erosi','comprar'],
+    ['ekarri','traer'],
+    ['eraman','llevar (a otro sitio)','Ekarri es traer aquí; eraman, llevar allí'],
+    ['hartu','coger, tomar','Autobusa hartu dut: he cogido el autobús'],
+    ['egin','hacer','Ariketa egin dut'],
+    ['esan','decir','Egia esan dut: he dicho la verdad'],
+    ['saldu','vender'],
+    ['ireki','abrir'],
+    ['itxi','cerrar'],
+    ['garbitu','limpiar, lavar'],
+    ['prestatu','preparar'],
+    ['galdu','perder'],
+    ['etorri','venir','Va con izan: etorri naiz'],
+    ['joan','ir','Va con izan: joan naiz'],
+    ['iritsi','llegar','En Bizkaia también se dice heldu'],
+    ['sartu','entrar','Etxean sartu naiz. Pero hanka sartu dut: he metido la pata'],
+    ['atera','salir','Etxetik atera naiz'],
+    ['igo','subir'],
+    ['jaitsi','bajar'],
+    ['erori','caerse'],
+    ['jaiki','levantarse','Ni goiz jaiki naiz'],
+    ['esnatu','despertarse'],
+    ['geratu','quedarse','Etxean geratu naiz'],
+    ['itzuli','volver','Etxera itzuli naiz'],
+    ['ezer','nada (con ez) / algo (en preguntas)','Ez dut ezer jan: no he comido nada'],
+    ['gaur','hoy'],
+    ['ogia','el pan']
+  ],
+  grammar:[
+    { t:'NOR o NORK: ¿quién lleva -k?', h:`
+      <p>En euskera el sujeto cambia según el verbo. Si el verbo <b>tiene objeto</b> (se puede preguntar <i>zer?</i>: ¿qué has comido?, ¿qué has comprado?), el sujeto lleva <span class="hl">-k</span> y el auxiliar es <b>ukan</b>. Si no tiene objeto, el sujeto va sin -k y el auxiliar es <b>izan</b>.</p>
+      <table><tr><th>Sin objeto · NOR + izan</th><th>Con objeto · NORK + ukan</th></tr>
+      <tr><td><b>Ni</b> etorri naiz</td><td><b>Nik</b> ogia jan dut</td></tr>
+      <tr><td><b>Kepa</b> joan da</td><td><b>Kepak</b> afaria prestatu du</td></tr>
+      <tr><td><b>Gu</b> etxean geratu gara</td><td><b>Guk</b> atea ireki dugu</td></tr></table>
+      <p>Pronombres: ni → <b>nik</b>, zu → <b>zuk</b>, hura → <b>hark</b>, gu → <b>guk</b>. <i>Zuek</i> y <i>haiek</i> se quedan igual.</p>
+      <div class="ex"><b>Nor etorri da? — Ane. / Nork ekarri du? — Anek.</b><span>¿Quién ha venido? — Ane. / ¿Quién lo ha traído? — Ane.</span></div>` },
+    { t:'Cómo se pone la -k', h:`
+      <table><tr><th>La palabra…</th><th>Forma</th><th>Ejemplo</th></tr>
+      <tr><td>nombre acabado en vocal</td><td>+ <b>-k</b></td><td>Ane<b>k</b>, Kepa<b>k</b>, Josune<b>k</b></td></tr>
+      <tr><td>nombre acabado en consonante</td><td>+ <b>-ek</b></td><td>Jon<b>ek</b>, Miren<b>ek</b></td></tr>
+      <tr><td>acabado en -r</td><td><b>-rrek</b></td><td>Aito<b>rrek</b></td></tr>
+      <tr><td>con artículo, uno</td><td><b>-ak</b></td><td>irakasle<b>ak</b>, nire am<b>ak</b></td></tr>
+      <tr><td>con artículo, varios</td><td><b>-ek</b></td><td>irakasle<b>ek</b>, ume<b>ek</b></td></tr></table>
+      <div class="ex"><b>Irakasleak liburua irakurri du. / Ikasleek liburua irakurri dute.</b><span>La profesora ha leído el libro. / Los alumnos han leído el libro.</span></div>
+      <div class="warn"><i>Ikasleak</i> puede ser «el alumno» con -k o «los alumnos» sin -k. Lo aclara el verbo: <i>ikasleak etorri dira</i> (los alumnos han venido) / <i>ikasleak ogia jan du</i> (el alumno ha comido pan).</div>` },
+    { t:'UKAN en presente', h:`
+      <p>Hay dos columnas, como en eduki. Lo que decide es <b>lo que se ha hecho, comido, comprado…</b>: una cosa o varias. La columna de varias lleva <span class="hl">-it-</span>.</p>
+      <table><tr><th>Quién</th><th>una cosa</th><th>varias cosas</th></tr>
+      <tr><td>nik</td><td>dut</td><td>d<b>it</b>ut</td></tr>
+      <tr><td>zuk</td><td>duzu</td><td>d<b>it</b>uzu</td></tr>
+      <tr><td>hark</td><td>du</td><td>d<b>it</b>u</td></tr>
+      <tr><td>guk</td><td>dugu</td><td>d<b>it</b>ugu</td></tr>
+      <tr><td>zuek</td><td>duzue</td><td>d<b>it</b>uzue</td></tr>
+      <tr><td>haiek</td><td>dute</td><td>d<b>it</b>uz<b>t</b>e</td></tr></table>
+      <div class="ex"><b>Nik giltza galdu dut. / Nik giltzak galdu ditut.</b><span>He perdido la llave. / He perdido las llaves.</span></div>
+      <div class="ex"><b>Umeek gozoki asko jan dituzte.</b><span>Los niños han comido muchos dulces.</span></div>
+      <p><b>Verbo + dut</b> = «he hecho» algo hoy o hace poco: <i>gaur ikusi dut</i>. Para «ayer» (<i>atzo</i>) hay otro pasado, que llega en A2.</p>
+      <div class="warn">En Bizkaia oirás <i>dot, dozu, dau, dogu, dozue, dabe</i>. En batua se dice y se escribe <i>dut, duzu, du…</i></div>` },
+    { t:'¿Izan o ukan?', h:`
+      <p>Truco: si puedes preguntar <b>zer?</b> (¿qué?), va con <b>ukan</b>. Si no, con <b>izan</b>.</p>
+      <table><tr><th>Con izan (naiz, da…)</th><th>Con ukan (dut, du…)</th></tr>
+      <tr><td>joan, etorri, iritsi</td><td>jan, edan, ikusi</td></tr>
+      <tr><td>sartu, atera, itzuli</td><td>erosi, saldu, ekarri, eraman</td></tr>
+      <tr><td>igo, jaitsi, erori</td><td>hartu, egin, esan</td></tr>
+      <tr><td>jaiki, esnatu, geratu</td><td>ireki, itxi, garbitu, prestatu, galdu</td></tr></table>
+      <div class="ex"><b>Ni etxera itzuli naiz eta afaria prestatu dut.</b><span>He vuelto a casa y he preparado la cena.</span></div>
+      <p>Algunos verbos valen para los dos, según tengan objeto o no: <i>etxean sartu <b>naiz</b></i> (he entrado en casa) / <i>hanka sartu <b>dut</b></i> (he metido la pata).</p>` },
+    { t:'Afirmativa, negativa y pregunta', h:`
+      <p>En la negativa, <b>ez + auxiliar</b> se van delante y el verbo queda detrás:</p>
+      <table><tr><th></th><th>Euskera</th><th>Castellano</th></tr>
+      <tr><td>Sí</td><td>Ogia <b>erosi dut</b></td><td>He comprado pan</td></tr>
+      <tr><td>No</td><td><b>Ez dut</b> ogia <b>erosi</b></td><td>No he comprado pan</td></tr>
+      <tr><td>¿?</td><td>Ogia <b>erosi duzu</b>?</td><td>¿Has comprado pan?</td></tr></table>
+      <div class="ex"><b>Autoa ekarri duzu? — Bai, ekarri dut. / Ez, ez dut ekarri.</b><span>¿Has traído el coche? — Sí, lo he traído. / No, no lo he traído.</span></div>
+      <p>Pronunciación: <i>ez dut</i> suena «eztut»; <i>ez du</i>, «eztu»; <i>ez dugu</i>, «eztugu».</p>
+      <div class="warn">«Ez erosi dut» está mal: el <i>ez</i> va pegado al auxiliar.</div>` },
+    { t:'Nork? Zer? Ezer', h:`
+      <p>La palabra de la pregunta va <b>justo delante del verbo</b>:</p>
+      <div class="ex"><b>Nork ekarri du pastela? — Josunek.</b><span>¿Quién ha traído la tarta? — Josune.</span></div>
+      <div class="ex"><b>Zer erosi duzue? — Ogia eta esnea.</b><span>¿Qué habéis comprado? — Pan y leche.</span></div>
+      <p>La respuesta a <i>nork?</i> también lleva -k (<i>Josunek</i>). A <i>nor?</i> se responde sin -k: <i>Nor etorri da? — Josune</i>.</p>
+      <p><b>Ezer</b>: con <i>ez</i> significa «nada»; en una pregunta, «algo»:</p>
+      <div class="ex"><b>Ez dut ezer jan. / Ezer erosi duzu?</b><span>No he comido nada. / ¿Has comprado algo?</span></div>` }
+  ],
+  drills:[
+    { q:'«He comido pan»', s:'Nik ogia jan ___', o:['dut','naiz','ditut'], a:0 },
+    { q:'«He venido»', s:'Ni etorri ___', o:['naiz','dut','da'], a:0 },
+    { q:'Con objeto, el sujeto lleva -k:', s:'___ ogia erosi du', o:['Kepak','Kepa','Kepaek'], a:0 },
+    { q:'Sin objeto, sin -k:', s:'___ berandu etorri da', o:['Kepa','Kepak','Kepek'], a:0 },
+    { q:'Nombre acabado en consonante:', s:'___ autoa ekarri du', o:['Jonek','Jonk','Jon'], a:0 },
+    { q:'Nombre acabado en -r:', s:'___ esnea erosi du', o:['Aitorrek','Aitorek','Aitor'], a:0 },
+    { q:'«Los alumnos han leído el libro»', s:'___ liburua irakurri dute', o:['Ikasleek','Ikasleak','Ikaslea'], a:0 },
+    { q:'Varias cosas, haiek:', s:'Umeek gozoki asko jan ___', o:['dituzte','dute','ditu'], a:0 },
+    { q:'«He perdido las llaves»', s:'Nik giltzak galdu ___', o:['ditut','dut','ditu'], a:0 },
+    { q:'Guk y una cosa:', s:'Guk afaria prestatu ___', o:['dugu','ditugu','gara'], a:0 },
+    { q:'Zuek y una cosa:', s:'Zuek filma ikusi ___?', o:['duzue','dute','zarete'], a:0 },
+    { q:'Zuk y una cosa:', s:'Zuk ura edan ___?', o:['duzu','zara','dituzu'], a:0 },
+    { q:'«No he comprado pan»', s:'Nik ___ ogia erosi', o:['ez dut','dut ez','ez naiz'], a:0 },
+    { q:'«¿Has traído el coche? — Sí»', s:'Bai, ekarri ___', o:['dut','naiz','duzu'], a:0 },
+    { q:'«¿Quién ha traído la tarta?»', s:'___ ekarri du pastela?', o:['Nork','Nor','Zer'], a:0 },
+    { q:'«¿Qué has comido?»', s:'___ jan duzu?', o:['Zer','Nork','Nor'], a:0 },
+    { q:'«No he comido nada»', s:'Ez dut ___ jan', o:['ezer','zer','nork'], a:0 },
+    { q:'«Me he levantado pronto»', s:'Ni goiz jaiki ___', o:['naiz','dut','da'], a:0 }
+  ],
+  sentences:[
+    ['Nik ogia erosi dut','He comprado pan'],
+    ['Kepak afaria prestatu du','Kepa ha preparado la cena'],
+    ['Gaur goiz etorri naiz','Hoy he venido pronto'],
+    ['Umeek gozoki asko jan dituzte','Los niños han comido muchos dulces'],
+    ['Zuk ura edan duzu?','¿Has bebido agua?'],
+    ['Ez dut ezer jan','No he comido nada'],
+    ['Nork ekarri du pastela?','¿Quién ha traído la tarta?'],
+    ['Zer erosi duzue?','¿Qué habéis comprado?'],
+    ['Guk atea ireki dugu','Hemos abierto la puerta'],
+    ['Aitorrek giltzak galdu ditu','Aitor ha perdido las llaves'],
+    ['Irakaslea berandu iritsi da','La profesora ha llegado tarde'],
+    ['Haiek etxera itzuli dira','Ellos han vuelto a casa']
+  ]
 }
 ];
 
 /* Temario pendiente (se mostrará bloqueado) */
 const ROADMAP = [
-  ['A1','NORK eta UKAN','ergativo -k / -ek · ukan (dut, duzu, du…)'],
   ['A1','Familia','la familia · posesivos · genitivo -ren'],
   ['A1','Nola dago?','egon (estar) · estados · Nolakoa? ≠ Nola?'],
   ['A1','Non dago?','-an / -ean / -etan · aurrean, atzean, gainean…'],
@@ -1146,7 +1304,22 @@ const SFX={
   bad(){tone(196,0,.16,'square',.05);tone(147,.12,.24,'square',.05)},
   pair(){tone(988,0,.07,'triangle',.14);tone(1319,.05,.09,'triangle',.12)},
   done(){[523,659,784,1047,1319].forEach((f,i)=>tone(f,i*.1,.3,'triangle',.16))},
-  combo(){[880,1109,1319].forEach((f,i)=>tone(f,i*.05,.12,'sine',.12))}
+  combo(){[880,1109,1319].forEach((f,i)=>tone(f,i*.05,.12,'sine',.12))},
+  zap(){ // chispazo corto para la animación «Bikain!»
+    const c=ac(); if(!c||!S.settings.sound) return; const t=c.currentTime;
+    const out=c.createGain(); out.gain.value=.5; out.connect(c.destination);
+    const n=Math.floor(c.sampleRate*.22), b=c.createBuffer(1,n,c.sampleRate), d=b.getChannelData(0);
+    for(let i=0;i<n;i++) d[i]=Math.random()<.035?(Math.random()*2-1):(Math.random()*2-1)*.12;
+    const s=c.createBufferSource(); s.buffer=b; const hp=c.createBiquadFilter(); hp.type='highpass'; hp.frequency.value=2200;
+    const g=c.createGain(); g.gain.setValueAtTime(.9,t); g.gain.exponentialRampToValueAtTime(.001,t+.22);
+    s.connect(hp).connect(g).connect(out); s.start(t);
+    const o=c.createOscillator(); o.type='sawtooth'; o.frequency.setValueAtTime(2400,t); o.frequency.exponentialRampToValueAtTime(140,t+.14);
+    const og=c.createGain(); og.gain.setValueAtTime(.22,t); og.gain.exponentialRampToValueAtTime(.001,t+.15);
+    o.connect(og).connect(out); o.start(t); o.stop(t+.16);
+    [1318,1976].forEach((f,i)=>{ const p=c.createOscillator(); p.type='triangle'; p.frequency.value=f; const pg=c.createGain(); const st=t+.06+i*.07;
+      pg.gain.setValueAtTime(0,st); pg.gain.linearRampToValueAtTime(.18,st+.01); pg.gain.exponentialRampToValueAtTime(.001,st+.18);
+      p.connect(pg).connect(out); p.start(st); p.stop(st+.2) });
+  }
 };
 function vibrate(ms){ try{navigator.vibrate&&navigator.vibrate(ms)}catch(e){} }
 
@@ -1479,15 +1652,17 @@ function cur(){ return R.queue[R.i] }
 function showItem(){
   setProgress();
   const it=cur(); const body=$('#l-body'); body.scrollTop=0; R.sel=null;
-  $('#l-sheet').className='sheet'; $('#l-btn').style.visibility='visible';
-  if(it.t==='intro') return rIntro(it,body);
-  if(it.t==='tip') return rTip(it,body);
-  if(it.t==='mc') return rMC(it,body);
-  if(it.t==='pic') return rPic(it,body);
-  if(it.t==='match') return rMatch(it,body);
-  if(it.t==='type') return rType(it,body);
-  if(it.t==='build') return rBuild(it,body);
-  if(it.t==='drill') return rDrill(it,body);
+  $('#l-sheet').className='sheet'; $('#l-btn').style.visibility='visible'; clearFx($('#lesson'));
+  if(it.t==='intro') rIntro(it,body);
+  else if(it.t==='tip') rTip(it,body);
+  else if(it.t==='mc') rMC(it,body);
+  else if(it.t==='pic') rPic(it,body);
+  else if(it.t==='match') rMatch(it,body);
+  else if(it.t==='type') rType(it,body);
+  else if(it.t==='build') rBuild(it,body);
+  else if(it.t==='drill') rDrill(it,body);
+  // los fallos vuelven al final: se marcan para que no parezca una pregunta repetida
+  if(R.retried.has(it)){ const k=body.querySelector('.q-kind'); if(k) k.insertAdjacentHTML('beforeend',' · <span class="again">otra vez</span>') }
 }
 function rIntro(it,body){
   const w=it.w; srsSeen(w);
@@ -1524,11 +1699,13 @@ function rPic(it,body){
 }
 function markOpts(body,sel,a){ const os=body.querySelectorAll('.opt'); os[a].classList.add('right'); if(sel!==a){os[sel].classList.add('wrong','shake')} }
 function rDrill(it,body){
-  const d=it.d; const parts=esc(d.s).split('___');
-  body.innerHTML=`<div class="q-kind">Gramática</div><h2 class="q-title">${esc(d.q)}</h2><div class="sentence">${parts[0]}<span class="blank" id="blank">&nbsp;</span>${parts[1]||''}</div><div class="opts">${optList(d.order||(d.order=shuffle(d.o.map((_,i)=>i))).map(i=>d.o[i]))}</div>`;
+  // El orden de las opciones se baraja en cada aparición y se guarda en el ejercicio (it), no en el hueco
+  // compartido (u.drills): así no arrastra estado entre lecciones ni entre el intento y el reintento.
+  const d=it.d; const parts=esc(d.s).split('___'); const order=it.order=shuffle(d.o.map((_,i)=>i));
+  body.innerHTML=`<div class="q-kind">Gramática</div><h2 class="q-title">${esc(d.q)}</h2><div class="sentence">${parts[0]}<span class="blank" id="blank">&nbsp;</span>${parts[1]||''}</div><div class="opts">${optList(order.map(i=>d.o[i]))}</div>`;
   setBtn('Comprobar',false,null);
-  bindOpts(body,i=>{ const real=d.order[i]; const bl=$('#blank'); bl.textContent=d.o[real]; bl.classList.remove('filled'); void bl.offsetWidth; bl.classList.add('filled');
-    setBtn('Comprobar',true,()=>{ const ok=real===d.a; markOpts(body,i,d.order.indexOf(d.a));
+  bindOpts(body,i=>{ const real=order[i]; const bl=$('#blank'); bl.textContent=d.o[real]; bl.classList.remove('filled'); void bl.offsetWidth; bl.classList.add('filled');
+    setBtn('Comprobar',true,()=>{ const ok=real===d.a; markOpts(body,i,order.indexOf(d.a));
       grade(ok,null, ok?'':`Correcto: <b>${esc(d.s.replace('___',d.o[d.a]))}</b>`); }) });
 }
 // Sujeto opcional: «zuk dituzu» vale por «dituzu», «ni naiz» por «naiz».
@@ -1581,7 +1758,11 @@ function rBuild(it,body){
   const upd=()=>{ ans.innerHTML=chosen.map((i,k)=>`<button class="tile" data-k="${k}">${esc(it.tiles[i])}</button>`).join('');
     ans.querySelectorAll('.tile').forEach(b=>b.onclick=()=>{ if(R.answered)return; SFX.tap(); const i=chosen.splice(+b.dataset.k,1)[0]; bank.querySelector(`[data-i="${i}"]`).classList.remove('used'); upd() });
     setBtn('Comprobar',chosen.length>0,()=>{ const a=norm(chosen.map(i=>it.tiles[i]).join(' ')); const ok=a===it.toks.join(' ');
-      grade(ok,null, ok?(toEu?'':`<small>${esc(it.es)}</small>`):`Correcto: <b>${esc(toEu?it.eu:it.es)}</b>`, toEu?it.eu:null) }) };
+      grade(ok,null, ok?(toEu?'':`<small>${esc(it.es)}</small>`):`Correcto: <b>${esc(toEu?it.eu:it.es)}</b>`, toEu?it.eu:null);
+      const tiles=[...ans.querySelectorAll('.tile')];
+      if(ok){ tiles.forEach((t,k)=>setTimeout(()=>t.classList.add('ok'),k*70));
+        if(shouldBikain(it.toks.length)){ const w=bikain($('#lesson')); $('#s-t').textContent=w; SFX.zap() } }
+      else{ const bad=tiles.filter((t,k)=>norm(it.tiles[chosen[k]])!==it.toks[k]); fuego($('#lesson'),bad,tiles[tiles.length-1]) } }) };
   bank.querySelectorAll('.tile').forEach(b=>b.onclick=()=>{ if(R.answered)return; SFX.tap(); b.classList.add('used'); chosen.push(+b.dataset.i); upd() });
   upd();
 }
@@ -1605,6 +1786,153 @@ function rMatch(it,body){
   });
 }
 
+/* =========================================================
+   EFECTOS DE «TRADUCE LA FRASE»
+   Acierto: «Bikain!» con rayos, chispazo y nubes, solo de vez en cuando
+   (más en frases largas y nunca dos seguidas). Fallo: las fichas mal
+   colocadas arden y sueltan humo (sin sonido propio).
+   ========================================================= */
+const FXNS='http://www.w3.org/2000/svg';
+const frnd=(a,b)=>a+Math.random()*(b-a);
+const noMotion=()=>{ try{ return matchMedia('(prefers-reduced-motion: reduce)').matches }catch(e){ return false } };
+function svgEl(tag,attrs,parent){ const e=document.createElementNS(FXNS,tag); for(const k in attrs) e.setAttribute(k,attrs[k]); if(parent) parent.appendChild(e); return e }
+function fxLayer(root,cls,svg){ const x=svg?svgEl('svg',{}):document.createElement('div'); x.setAttribute('class',cls+' bk'); if(cls==='bk-back') root.insertBefore(x,root.firstChild); else root.appendChild(x); return x }
+function clearFx(root,now){
+  if(!root) return;
+  root.querySelectorAll('.bk').forEach(x=>{
+    if(!now&&x.classList.contains('bk-low')&&x.animate) x.animate([{transform:'none'},{transform:'translateY(100%)'}],{duration:260,easing:'ease-in',fill:'forwards'}).onfinish=()=>x.remove();
+    else x.remove();
+  });
+}
+function bikainChance(n){ return n>=6?.8:n===5?.6:n===4?.3:.1 }
+function shouldBikain(n){
+  if(!R) return false;
+  if(R.bkLast){ R.bkLast=false; return false }
+  const yes=Math.random()<bikainChance(n); R.bkLast=yes; return yes;
+}
+const BK_WORDS=[['Bikain!','¡Excelente!'],['Primeran!','¡Genial!'],['Ederki!','¡Estupendo!'],['Zoragarri!','¡Maravilloso!'],['Oso ondo!','¡Muy bien!'],['Hori da!','¡Eso es!']];
+let bkPrev=-1;
+function bikain(root){
+  let k; do{ k=Math.floor(Math.random()*BK_WORDS.length) }while(k===bkPrev); bkPrev=k;
+  const [eu,es]=BK_WORDS[k];
+  if(!root||!root.animate) return eu;
+  clearFx(root,true);
+  const W=root.clientWidth,H=root.clientHeight,cx=W/2,cy=H*.36,reduce=noMotion();
+  const front=fxLayer(root,'bk-front');
+  const flash=document.createElement('div'); flash.style.cssText='position:absolute;inset:0;background:#fff'; front.appendChild(flash);
+  flash.animate([{opacity:.65},{opacity:0}],{duration:280,easing:'ease-out',fill:'forwards'});
+  if(!reduce){
+    // rayos grandes por detrás
+    const sv=fxLayer(root,'bk-back',true); sv.setAttribute('viewBox',`0 0 ${W} ${H}`);
+    [[.12,.2,-30],[.9,.28,34],[.15,.6,38],[.86,.66,-30],[.5,.1,6],[.55,.88,-14]].forEach(([x,y,a],i)=>{
+      const n=4+(i%2),Lw=W*frnd(.85,1.15),amp=frnd(30,50),pts=[];
+      for(let j=0;j<=n;j++) pts.push([-Lw/2+j*Lw/n,(j%2?1:-1)*amp*frnd(.7,1.15)]);
+      const d='M'+pts.map(p=>p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' L');
+      const g=svgEl('g',{transform:`translate(${x*W} ${y*H}) rotate(${a})`},sv); const w=frnd(26,38);
+      [[w,'#fff176',1],[w*.3,'#ffffff',.9]].forEach(([sw,col,op])=>{
+        const p=svgEl('path',{d,fill:'none',stroke:col,'stroke-width':sw,'stroke-linejoin':'miter','stroke-miterlimit':8,opacity:op},g);
+        const len=p.getTotalLength(); p.style.strokeDasharray=len;
+        p.animate([{strokeDashoffset:len},{strokeDashoffset:0}],{duration:200,delay:i*55,easing:'ease-out',fill:'both'});
+      });
+      g.animate([{opacity:1},{opacity:.4,offset:.3},{opacity:1,offset:.4},{opacity:.65,offset:.55},{opacity:1,offset:.65},{opacity:0}],{duration:1450,delay:i*55,fill:'both'});
+    });
+    // nubes que suben por detrás de la hoja de corrección
+    const sh=($('#l-sheet')||{}).offsetHeight||190, ch=sh+80;
+    const cs=fxLayer(root,'bk-low',true); cs.setAttribute('viewBox',`0 0 ${W} ${ch}`); cs.style.height=ch+'px';
+    const inkL=svgEl('g',{},cs), mintL=svgEl('g',{},cs);
+    const bi=svgEl('rect',{x:-10,y:60,width:W+20,height:ch,fill:'#2d0a4e'},inkL), bm=svgEl('rect',{x:-10,y:64,width:W+20,height:ch,fill:'#4ff5a8'},mintL);
+    [bi,bm].forEach(r=>r.animate([{transform:`translateY(${ch}px)`},{transform:'none'}],{duration:300,delay:40,easing:'ease-out',fill:'both'}));
+    const puffs=[]; let x=-6; while(x<W+40){ const r=frnd(34,58); puffs.push({x,r,cy:frnd(6,42)+r}); x+=r*1.12 }
+    const mid=(puffs.length-1)/2;
+    puffs.forEach((p,i)=>{
+      const gi=svgEl('g',{},inkL), gm=svgEl('g',{},mintL);
+      svgEl('circle',{cx:p.x,cy:p.cy,r:p.r+4,fill:'#2d0a4e'},gi); svgEl('circle',{cx:p.x,cy:p.cy,r:p.r,fill:'#4ff5a8'},gm);
+      if(i%2===0){ const rr=p.r*.68,a1=200*Math.PI/180,a2=250*Math.PI/180;
+        svgEl('path',{d:`M${p.x+rr*Math.cos(a1)} ${p.cy+rr*Math.sin(a1)} A${rr} ${rr} 0 0 1 ${p.x+rr*Math.cos(a2)} ${p.cy+rr*Math.sin(a2)}`,fill:'none',stroke:'#d6ffeb','stroke-width':6,'stroke-linecap':'round'},gm) }
+      [gi,gm].forEach(g=>{ g.style.transformBox='fill-box'; g.style.transformOrigin='50% 100%';
+        g.animate([{transform:`translateY(${ch}px) scale(.5)`},{transform:'translateY(-12px) scale(1.08)',offset:.7},{transform:'none'}],{duration:480,delay:50+Math.abs(i-mid)*32,easing:'cubic-bezier(.3,1.3,.5,1)',fill:'both'}) });
+    });
+    // rayitos alrededor de la palabra
+    for(let i=0;i<8;i++){
+      const th=(i*45+22)*Math.PI/180,rx=W*.38,ry=95;
+      const z=document.createElement('div'); z.className='bk-zap';
+      z.innerHTML='<svg viewBox="0 0 30 56" width="30" height="56"><path d="M19 2 L4 31 L15 31 L10 54 L27 21 L16 21 Z" fill="#f7ee55" stroke="#2d0a4e" stroke-width="3" stroke-linejoin="round"/></svg>';
+      z.style.left=(cx-15)+'px'; z.style.top=(cy-28)+'px'; front.appendChild(z);
+      const rot=th*180/Math.PI+90,dx=Math.cos(th),dy=Math.sin(th);
+      z.animate([
+        {transform:`translate(${dx*rx*.45}px,${dy*ry*.45}px) rotate(${rot}deg) scale(0)`,opacity:1},
+        {transform:`translate(${dx*rx}px,${dy*ry}px) rotate(${rot}deg) scale(1.15)`,opacity:1,offset:.45},
+        {transform:`translate(${dx*rx*1.12}px,${dy*ry*1.12}px) rotate(${rot}deg) scale(1)`,opacity:1,offset:.75},
+        {transform:`translate(${dx*rx*1.25}px,${dy*ry*1.25}px) rotate(${rot}deg) scale(0)`,opacity:0}
+      ],{duration:820,delay:140+i*22,easing:'ease-out',fill:'both'});
+    }
+    // rombos de colores
+    const cols=['#4ff5a8','#f7ee55','#fb6ee8','#b1fbfb'];
+    for(let i=0;i<16;i++){
+      const g=document.createElement('div'); g.className='bk-gem'; g.style.background=cols[i%4];
+      g.style.left=(cx-8)+'px'; g.style.top=(cy-8)+'px'; front.appendChild(g);
+      const th=frnd(0,Math.PI*2),dist=frnd(110,200),dx=Math.cos(th)*dist,dy=Math.sin(th)*dist*.75,spin=frnd(-220,220);
+      g.animate([{transform:'translate(0,0) rotate(45deg) scale(0)',opacity:1},
+        {transform:`translate(${dx*.75}px,${dy*.75-20}px) rotate(${45+spin/2}deg) scale(1)`,opacity:1,offset:.4},
+        {transform:`translate(${dx}px,${dy+70}px) rotate(${45+spin}deg) scale(.5)`,opacity:0}],{duration:1050,delay:110,easing:'cubic-bezier(.2,.7,.4,1)',fill:'both'});
+    }
+    const body=$('#l-body');
+    if(body) body.animate([{transform:'none'},{transform:'translate(-6px,3px)'},{transform:'translate(6px,-3px)'},{transform:'translate(-4px,2px)'},{transform:'translate(2px,-1px)'},{transform:'none'}],{duration:320,delay:90});
+  }
+  // la palabra
+  const wd=document.createElement('div'); wd.className='bk-word';
+  wd.innerHTML=`<span class="in"><span class="b">${esc(eu.toUpperCase())}</span><span class="f">${esc(eu.toUpperCase())}</span></span><span class="es">${esc(es)}</span>`;
+  front.appendChild(wd);
+  const inn=wd.firstChild, maxW=W-24;
+  if(inn.offsetWidth>maxW) inn.style.fontSize=Math.floor(70*maxW/inn.offsetWidth)+'px';
+  const sk='skewX(-8deg)';
+  inn.animate([{transform:`${sk} scale(0) rotate(-25deg)`},{transform:`${sk} scale(1.3) rotate(4deg)`,offset:.45},{transform:`${sk} scale(.92) rotate(-2deg)`,offset:.65},{transform:`${sk} scale(1.04)`,offset:.82},{transform:`${sk} scale(1)`}],{duration:620,easing:'ease-out',fill:'both'});
+  wd.lastChild.animate([{opacity:0,transform:'translateY(-8px) scale(.6)'},{opacity:1,transform:'none'}],{duration:240,delay:380,easing:'cubic-bezier(.3,1.6,.5,1)',fill:'both'});
+  const bw='translate(-50%,-50%) rotate(-7deg)';
+  wd.animate([{opacity:1,transform:bw},{opacity:0,transform:bw+' translateY(-24px) scale(1.25)'}],{duration:260,delay:1600,easing:'ease-in',fill:'forwards'}).onfinish=()=>front.remove();
+  return eu;
+}
+function flameD(w,h,lean){ return `M${-w} 0 C${-w*1.15} ${-h*.42} ${lean-w*.2} ${-h*.68} ${lean} ${-h} C${lean+w*.3} ${-h*.66} ${w*1.15} ${-h*.42} ${w} 0 A${w} ${w*.75} 0 0 1 ${-w} 0 Z` }
+function flame(parent,x,y,w,h,delay){
+  const g=svgEl('g',{transform:`translate(${x} ${y})`},parent); const lean=frnd(-w*.6,w*.6);
+  [[1,'#ff4d3a',4],[.68,'#ffad3b',0],[.38,'#f7ee55',0]].forEach(([s,f,sw])=>{
+    const p=svgEl('path',{d:flameD(w*s,h*s,lean*s),fill:f,stroke:sw?'#2d0a4e':'none','stroke-width':sw,'stroke-linejoin':'round'},g);
+    p.style.transformBox='fill-box'; p.style.transformOrigin='50% 100%';
+    p.animate([{transform:'scale(0)'},{transform:'scale(1.1)',offset:.7},{transform:'scale(1)'}],{duration:360,delay,easing:'ease-out',fill:'both'})
+      .onfinish=()=>{ if(p.isConnected) p.animate([{transform:'scale(1,1) skewX(0deg)'},{transform:`scale(.94,1.12) skewX(${frnd(-6,6)}deg)`},{transform:'scale(1.04,.92) skewX(0deg)'}],{duration:frnd(260,420),iterations:Infinity,direction:'alternate',easing:'ease-in-out'}) };
+  });
+}
+// fallo: arden las fichas mal colocadas; si todas están bien pero falta alguna, arde el hueco del final
+function fuego(root,badTiles,lastTile){
+  badTiles.forEach((t,i)=>setTimeout(()=>t.classList.add('burn'),80+i*60));
+  if(!root||!root.animate||noMotion()) return;
+  clearFx(root,true);
+  const W=root.clientWidth,H=root.clientHeight,rr=root.getBoundingClientRect();
+  const spots=badTiles.map(t=>t.getBoundingClientRect());
+  if(!spots.length&&lastTile){ const b=lastTile.getBoundingClientRect(); spots.push({left:b.right+8,top:b.top,width:52,height:b.height}) }
+  if(!spots.length) return;
+  const front=fxLayer(root,'bk-front');
+  const sv=fxLayer(root,'bk-front',true); sv.setAttribute('viewBox',`0 0 ${W} ${H}`);
+  spots.forEach((b,i)=>{
+    const bx=b.left-rr.left, by=b.top-rr.top+6, g=svgEl('g',{},sv), n=Math.max(2,Math.round(b.width/26));
+    for(let k=0;k<n;k++) flame(g,bx+(k+.5)*b.width/n,by,frnd(9,13),frnd(28,44),100+i*60+k*40);
+    g.animate([{opacity:1},{opacity:1,offset:.7},{opacity:0}],{duration:1500,delay:i*60,fill:'both'});
+    for(let k=0;k<4;k++){ // chispas
+      const d=document.createElement('div'); d.className='bk-dot'; const s=frnd(5,9);
+      d.style.cssText+=`width:${s}px;height:${s}px;background:${k%2?'#ffad3b':'#f7ee55'};border:2px solid #2d0a4e;left:${bx+frnd(0,b.width)}px;top:${by}px`;
+      front.appendChild(d);
+      d.animate([{transform:'translate(0,0) scale(.4)',opacity:0},{transform:`translate(${frnd(-20,20)}px,-40px) scale(1)`,opacity:1,offset:.2},{transform:`translate(${frnd(-50,50)}px,${-frnd(120,220)}px) scale(.3)`,opacity:0}],{duration:frnd(1100,1600),delay:frnd(0,400),easing:'ease-out',fill:'both'});
+    }
+    for(let k=0;k<3;k++){ // humo
+      const sm=document.createElement('div'); sm.className='bk-dot'; const sz=frnd(14,22);
+      sm.style.cssText+=`width:${sz}px;height:${sz}px;background:rgba(80,70,100,.45);left:${bx+frnd(0,b.width)}px;top:${by-10}px`;
+      front.appendChild(sm);
+      sm.animate([{transform:'translateY(0) scale(.5)',opacity:0},{opacity:.9,offset:.3},{transform:`translate(${frnd(-15,15)}px,-70px) scale(1.6)`,opacity:0}],{duration:1200,delay:500+k*150+i*60,easing:'ease-out',fill:'both'});
+    }
+  });
+  setTimeout(()=>{ sv.remove(); front.remove() },2100);
+}
+
 /* corrección común */
 function grade(ok,info,msg,sayEu){
   R.answered=true;
@@ -1616,7 +1944,7 @@ function grade(ok,info,msg,sayEu){
   else { R.combo=0; $('#l-combo').classList.remove('on'); SFX.bad(); vibrate(120); $('#l-body').classList.add('shake'); setTimeout(()=>$('#l-body')&&$('#l-body').classList.remove('shake'),400);
     R.retried.add(it); R.queue.push(it); }
   setProgress();
-  const praise=['¡Bikain!','¡Oso ondo!','¡Zuzena!','¡Primeran!','¡Ederki!'];
+  const praise=['Bikain!','Oso ondo!','Zuzena!','Primeran!','Ederki!']; // en euskera no se usa «¡»
   $('#s-t').textContent= ok? praise[Math.floor(Math.random()*praise.length)] : 'Ez da zuzena';
   $('#s-ic').innerHTML= ok? `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#12c270" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>` : `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#d8445c" stroke-width="4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>`;
   $('#s-b').innerHTML=(msg||'')+(sayEu&&canSpeak()?` ${spkBtn(sayEu)}`:'');
