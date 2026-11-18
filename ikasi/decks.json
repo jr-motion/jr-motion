@@ -69,5 +69,667 @@
     "note": "laguntzailea = ayudante"
    }
   ]
+ },
+ {
+  "id": "animaliak",
+  "ch": "latxi",
+  "level": "A1",
+  "source": "Ikasi! · ilustraciones · 2026-11-18",
+  "title": "Animaliak · animales",
+  "words": [
+   {
+    "es": "el animal",
+    "eu": "animalia",
+    "note": "Plural: animaliak"
+   },
+   {
+    "es": "el perro",
+    "eu": "txakurra",
+    "ex": "Hau nire txakurra da",
+    "exEs": "Este es mi perro"
+   },
+   {
+    "es": "el gato",
+    "eu": "katua",
+    "ex": "Hori zure katua da?",
+    "exEs": "¿Ese es tu gato?"
+   },
+   {
+    "es": "el caballo",
+    "eu": "zaldia",
+    "ex": "Zaldi bat eta asto bat",
+    "exEs": "Un caballo y un burro"
+   },
+   {
+    "es": "el burro",
+    "eu": "astoa"
+   },
+   {
+    "es": "el cerdo",
+    "eu": "txerria",
+    "note": "txerrikia = la carne de cerdo"
+   },
+   {
+    "es": "la cabra",
+    "eu": "ahuntza"
+   },
+   {
+    "es": "la oveja",
+    "eu": "ardia",
+    "ex": "Latxi ardia da",
+    "exEs": "Latxi es una oveja",
+    "note": "La latxa es la oveja típica de Euskal Herria: de su leche sale el queso Idiazabal"
+   },
+   {
+    "es": "el oso",
+    "eu": "hartza",
+    "ex": "Hartza Pirinioetan bizi da",
+    "exEs": "El oso vive en los Pirineos"
+   },
+   {
+    "es": "el conejo",
+    "eu": "untxia"
+   },
+   {
+    "es": "el ratón",
+    "eu": "sagua",
+    "note": "También el ratón del ordenador"
+   },
+   {
+    "es": "la paloma",
+    "eu": "usoa"
+   },
+   {
+    "es": "el pájaro",
+    "eu": "txoria",
+    "note": "txori bat = un pájaro"
+   }
+  ]
+ },
+ {
+  "id": "herri-kirolak",
+  "ch": "harri",
+  "level": "A1",
+  "source": "Ikasi! · ilustraciones · 2026-11-18",
+  "title": "Herri kirolak eta pertsonaiak",
+  "words": [
+   {
+    "es": "el/la pelotari",
+    "eu": "pilotaria",
+    "ex": "Unai pilotaria da",
+    "exEs": "Unai es pelotari",
+    "note": "pilota = la pelota"
+   },
+   {
+    "es": "el/la aizkolari (corta troncos)",
+    "eu": "aizkolaria",
+    "ex": "Aitor aizkolaria da",
+    "exEs": "Aitor es aizkolari",
+    "note": "aizkora = el hacha"
+   },
+   {
+    "es": "el levantador / la levantadora de piedra",
+    "eu": "harri-jasotzailea",
+    "note": "harria = la piedra; jaso = levantar"
+   },
+   {
+    "es": "el remero / la remera",
+    "eu": "arraunlaria",
+    "ex": "Itziar arraunlaria da",
+    "exEs": "Itziar es remera",
+    "note": "arrauna = el remo"
+   },
+   {
+    "es": "el/la sokatiralari (tira de la cuerda)",
+    "eu": "sokatiralaria",
+    "note": "soka = la cuerda; sokatira = la prueba de tirar de la cuerda"
+   },
+   {
+    "es": "el pescador / la pescadora",
+    "eu": "arrantzalea",
+    "ex": "Koldo arrantzalea da. Bermeokoa da",
+    "exEs": "Koldo es pescador. Es de Bermeo",
+    "note": "arraina = el pescado; arrantza = la pesca"
+   },
+   {
+    "es": "el carbonero / la carbonera",
+    "eu": "ikazkina",
+    "ex": "Olentzero ikazkina da",
+    "exEs": "Olentzero es carbonero",
+    "note": "ikatza = el carbón"
+   },
+   {
+    "es": "Basajaun, el señor del bosque",
+    "eu": "basajauna",
+    "note": "Mitología vasca: basa (salvaje, del monte) + jauna (señor)"
+   }
+  ]
+ },
+ {
+  "id": "adjektiboak-ika",
+  "ch": "karmele",
+  "level": "A1",
+  "source": "Euskaltegi · IKA, hoja «Nolakoa da? / Nola dago?» · 2026-11-18",
+  "title": "Nolakoa da? · más adjetivos (lista IKA)",
+  "words": [
+   {
+    "es": "largo/a",
+    "eu": "luzea"
+   },
+   {
+    "es": "corto/a",
+    "eu": "laburra"
+   },
+   {
+    "es": "humilde",
+    "eu": "umila"
+   },
+   {
+    "es": "limpio/a",
+    "eu": "garbia"
+   },
+   {
+    "es": "sucio/a",
+    "eu": "zikina"
+   },
+   {
+    "es": "bromista",
+    "eu": "bromazalea"
+   },
+   {
+    "es": "responsable",
+    "eu": "arduratsua"
+   },
+   {
+    "es": "irresponsable",
+    "eu": "arduragabea"
+   },
+   {
+    "es": "de sangre caliente, impulsivo/a",
+    "eu": "odolberoa"
+   },
+   {
+    "es": "vago/a",
+    "eu": "alferra"
+   },
+   {
+    "es": "trabajador/a",
+    "eu": "langilea"
+   },
+   {
+    "es": "gigante",
+    "eu": "erraldoia"
+   },
+   {
+    "es": "diminuto/a",
+    "eu": "ñimiñoa"
+   },
+   {
+    "es": "húmedo/a",
+    "eu": "hezea"
+   },
+   {
+    "es": "seco/a",
+    "eu": "lehorra"
+   },
+   {
+    "es": "caliente",
+    "eu": "beroa"
+   },
+   {
+    "es": "frío/a",
+    "eu": "hotza"
+   },
+   {
+    "es": "templado/a, tibio/a",
+    "eu": "epela"
+   },
+   {
+    "es": "lleno/a de gente, concurrido/a",
+    "eu": "jendetsua"
+   },
+   {
+    "es": "ligero/a",
+    "eu": "arina"
+   },
+   {
+    "es": "lento/a",
+    "eu": "geldoa"
+   },
+   {
+    "es": "fácil",
+    "eu": "erraza"
+   },
+   {
+    "es": "difícil",
+    "eu": "zaila"
+   },
+   {
+    "es": "comprensible",
+    "eu": "ulergarria"
+   },
+   {
+    "es": "incomprensible",
+    "eu": "ulertezina"
+   },
+   {
+    "es": "entretenido/a",
+    "eu": "entretenigarria"
+   },
+   {
+    "es": "divertido/a",
+    "eu": "dibertigarria"
+   },
+   {
+    "es": "aburrido/a",
+    "eu": "aspergarria",
+    "note": "Que aburre. «Estoy aburrido» es aspertuta nago"
+   },
+   {
+    "es": "pesado/a",
+    "eu": "astuna",
+    "note": "También de una persona pesada"
+   },
+   {
+    "es": "que pesa mucho",
+    "eu": "pisutsua"
+   },
+   {
+    "es": "tacaño/a, avaro/a",
+    "eu": "zekena"
+   },
+   {
+    "es": "ruidoso/a",
+    "eu": "zaratatsua",
+    "note": "En la hoja pone «zaratasua»: la forma correcta es zaratatsua (zarata + -tsu)"
+   },
+   {
+    "es": "prudente",
+    "eu": "zuhurra"
+   },
+   {
+    "es": "eficaz",
+    "eu": "eraginkorra"
+   },
+   {
+    "es": "ácido/a, agrio/a",
+    "eu": "garratza"
+   },
+   {
+    "es": "flexible",
+    "eu": "malgua"
+   },
+   {
+    "es": "rico/a (con dinero)",
+    "eu": "aberatsa"
+   },
+   {
+    "es": "rico/a (de sabor), dulce",
+    "eu": "gozoa",
+    "note": "En la calle también goxoa"
+   },
+   {
+    "es": "cotilla",
+    "eu": "kuxkuxeroa"
+   },
+   {
+    "es": "cabezota",
+    "eu": "burugogorra"
+   },
+   {
+    "es": "duro/a",
+    "eu": "gogorra"
+   },
+   {
+    "es": "blando/a",
+    "eu": "biguna"
+   },
+   {
+    "es": "luminoso/a",
+    "eu": "argitsua"
+   },
+   {
+    "es": "oscuro/a",
+    "eu": "iluna"
+   },
+   {
+    "es": "hábil, mañoso/a",
+    "eu": "trebea"
+   },
+   {
+    "es": "torpe",
+    "eu": "baldarra",
+    "note": "También traketsa"
+   },
+   {
+    "es": "peligroso/a",
+    "eu": "arriskutsua"
+   },
+   {
+    "es": "seguro/a",
+    "eu": "ziurra"
+   },
+   {
+    "es": "cariñoso/a",
+    "eu": "maitekorra"
+   },
+   {
+    "es": "grosero/a, brusco/a",
+    "eu": "zakarra"
+   },
+   {
+    "es": "feo/a, cutre",
+    "eu": "zatarra",
+    "note": "En Bizkaia también «sucio»"
+   },
+   {
+    "es": "peludo/a",
+    "eu": "iletsua"
+   },
+   {
+    "es": "ancho/a",
+    "eu": "zabala"
+   },
+   {
+    "es": "estrecho/a",
+    "eu": "estua"
+   },
+   {
+    "es": "montañoso/a",
+    "eu": "menditsua"
+   },
+   {
+    "es": "llano/a, plano/a",
+    "eu": "laua"
+   },
+   {
+    "es": "liso/a, suave",
+    "eu": "leuna"
+   },
+   {
+    "es": "valiente",
+    "eu": "ausarta"
+   },
+   {
+    "es": "miedoso/a",
+    "eu": "beldurtia"
+   },
+   {
+    "es": "cobarde",
+    "eu": "koldarra"
+   },
+   {
+    "es": "formal",
+    "eu": "formala"
+   },
+   {
+    "es": "astuto/a, malicioso/a",
+    "eu": "maltzurra"
+   },
+   {
+    "es": "malo/a",
+    "eu": "txarra",
+    "note": "De calidad: ardo txarra (vino malo)"
+   },
+   {
+    "es": "malvado/a",
+    "eu": "gaiztoa",
+    "note": "Persona mala: gizon gaiztoa"
+   },
+   {
+    "es": "exigente; afilado/a",
+    "eu": "zorrotza"
+   },
+   {
+    "es": "gracioso/a, ridículo/a",
+    "eu": "barregarria",
+    "note": "Literalmente «que da risa»"
+   },
+   {
+    "es": "vengativo/a",
+    "eu": "mendekaria"
+   },
+   {
+    "es": "escandaloso/a, alborotador/a",
+    "eu": "iskanbilatsua"
+   },
+   {
+    "es": "poderoso/a",
+    "eu": "boteretsua"
+   },
+   {
+    "es": "salado/a",
+    "eu": "gazia"
+   },
+   {
+    "es": "amargo/a",
+    "eu": "mingotsa"
+   },
+   {
+    "es": "pobre",
+    "eu": "txiroa",
+    "note": "También pobrea"
+   },
+   {
+    "es": "doloroso/a",
+    "eu": "mingarria"
+   },
+   {
+    "es": "famoso/a",
+    "eu": "ospetsua"
+   },
+   {
+    "es": "desconocido/a",
+    "eu": "ezezaguna"
+   },
+   {
+    "es": "sensible",
+    "eu": "sentibera"
+   },
+   {
+    "es": "bondadoso/a, compasivo/a",
+    "eu": "bihozbera"
+   },
+   {
+    "es": "generoso/a",
+    "eu": "eskuzabala",
+    "note": "esku (mano) + zabal (abierta)"
+   },
+   {
+    "es": "egoísta",
+    "eu": "berekoia"
+   },
+   {
+    "es": "ladrón/a",
+    "eu": "lapurra"
+   },
+   {
+    "es": "elegante",
+    "eu": "dotorea"
+   },
+   {
+    "es": "orgulloso/a, presumido/a",
+    "eu": "harroa"
+   },
+   {
+    "es": "con gafas",
+    "eu": "betaurrekoduna",
+    "note": "betaurrekoak (gafas) + -dun"
+   },
+   {
+    "es": "esbelto/a",
+    "eu": "liraina"
+   },
+   {
+    "es": "sonriente",
+    "eu": "irribarretsua"
+   },
+   {
+    "es": "serio/a",
+    "eu": "serioa"
+   },
+   {
+    "es": "peleón/a",
+    "eu": "liskartia"
+   },
+   {
+    "es": "pacífico/a",
+    "eu": "bakezalea"
+   },
+   {
+    "es": "precioso/a, hermoso/a",
+    "eu": "ederra"
+   },
+   {
+    "es": "ingenuo/a",
+    "eu": "inozoa"
+   },
+   {
+    "es": "violento/a",
+    "eu": "bortitza"
+   },
+   {
+    "es": "débil",
+    "eu": "ahula",
+    "note": "También makala"
+   },
+   {
+    "es": "brillante, deslumbrante",
+    "eu": "disdiratsua"
+   },
+   {
+    "es": "excelente",
+    "eu": "bikaina"
+   },
+   {
+    "es": "inteligente",
+    "eu": "inteligentea"
+   },
+   {
+    "es": "digno/a",
+    "eu": "duina"
+   },
+   {
+    "es": "traidor/a",
+    "eu": "traidorea"
+   },
+   {
+    "es": "indeciso/a",
+    "eu": "zalantzatia"
+   },
+   {
+    "es": "bocazas",
+    "eu": "ahozabala"
+   },
+   {
+    "es": "resbaladizo/a",
+    "eu": "labaina",
+    "note": "También irristagarria"
+   },
+   {
+    "es": "baboso/a",
+    "eu": "adurtia",
+    "note": "adur (baba) + -ti (propenso a)"
+   },
+   {
+    "es": "sediento/a",
+    "eu": "egartia",
+    "note": "egarri (sed) + -ti. Igual que gosetia (hambriento)"
+   }
+  ]
+ },
+ {
+  "id": "gorputza-apuntes",
+  "ch": "jon",
+  "level": "A1",
+  "source": "Euskaltegi · IKA «Gorputza» y apuntes de clase · 2026-11-18",
+  "title": "Gorputza · más palabras (IKA y apuntes)",
+  "words": [
+   {
+    "es": "la frente (sinónimo de kopeta)",
+    "eu": "bekokia"
+   },
+   {
+    "es": "el cuello, la garganta",
+    "eu": "sama",
+    "note": "También lepoa (cuello)"
+   },
+   {
+    "es": "la lengua (sinónimo de mihia)",
+    "eu": "mingaina"
+   },
+   {
+    "es": "las muelas",
+    "eu": "haginak",
+    "note": "Un diente: hortz bat; una muela: hagin bat"
+   },
+   {
+    "es": "las arrugas",
+    "eu": "zimurrak"
+   },
+   {
+    "es": "el estómago",
+    "eu": "urdaila",
+    "ex": "Urdaileko mina daukat",
+    "exEs": "Me duele el estómago",
+    "note": "Sabela es la tripa, el vientre"
+   },
+   {
+    "es": "el costado",
+    "eu": "saihetsa"
+   },
+   {
+    "es": "el ombligo",
+    "eu": "zilborra"
+   },
+   {
+    "es": "la cadera",
+    "eu": "aldaka"
+   },
+   {
+    "es": "la muñeca (del brazo)",
+    "eu": "eskumuturra",
+    "note": "esku (mano) + muturra (punta). La muñeca de juguete es panpina"
+   },
+   {
+    "es": "las uñas",
+    "eu": "azazkalak",
+    "note": "También atzazalak; las dos formas son batua"
+   },
+   {
+    "es": "el muslo",
+    "eu": "izterra"
+   },
+   {
+    "es": "el tobillo",
+    "eu": "orkatila"
+   },
+   {
+    "es": "pelirrojo/a",
+    "eu": "ilegorria",
+    "note": "ile (pelo) + gorri (rojo), como ilehoria (rubio/a)"
+   },
+   {
+    "es": "los pechos",
+    "eu": "titiak"
+   },
+   {
+    "es": "los pezones",
+    "eu": "titiburuak",
+    "note": "titi + buru (cabeza, punta)"
+   },
+   {
+    "es": "el pene",
+    "eu": "zakila"
+   },
+   {
+    "es": "los testículos",
+    "eu": "barrabilak"
+   },
+   {
+    "es": "la vulva",
+    "eu": "alua"
+   }
+  ]
  }
 ]

@@ -1,6 +1,6 @@
 // Ikasi! funciona sin conexión: guarda la app, las imágenes y las fuentes en caché.
 // Al cambiar cualquier archivo, sube el número de CACHE.
-const CACHE = "ikasi-v2";
+const CACHE = "ikasi-v3";
 const CORE = [
   "./", "index.html", "manifest.webmanifest", "decks.json",
   "icon-180.png", "icon-192.png", "icon-512.png", "icon-maskable-512.png",
@@ -8,7 +8,14 @@ const CORE = [
   "fonts/montserrat-latin-800-normal.woff2", "fonts/montserrat-latin-900-normal.woff2",
   "img/icon.webp", "img/icon-96.png", "img/scene.webp",
   "img/latxi.webp", "img/ane.webp", "img/joxe.webp", "img/uxue.webp",
-  "img/peio.webp", "img/miren.webp", "img/harri.webp"
+  "img/peio.webp", "img/miren.webp", "img/harri.webp",
+  // v1.4: personajes, escena del caserío y animales
+  "img/unai.webp", "img/aitor.webp", "img/olentzero.webp", "img/maialen.webp", "img/koldo.webp",
+  "img/nerea.webp", "img/itziar.webp", "img/patxi.webp", "img/maddi.webp", "img/basajaun.webp",
+  "img/gorka.webp", "img/kepa.webp", "img/txomin.webp", "img/karmele.webp", "img/jon.webp",
+  "img/eneko.webp", "img/irati.webp", "img/baserria.webp",
+  "img/astoa.webp", "img/zaldia.webp", "img/txerria.webp", "img/txakurra.webp", "img/katua.webp",
+  "img/usoa.webp", "img/txoria.webp", "img/ahuntza.webp", "img/hartza.webp", "img/sagua.webp", "img/untxia.webp"
 ];
 self.addEventListener("install", e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(CORE))); self.skipWaiting(); });
 self.addEventListener("activate", e => {
