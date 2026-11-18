@@ -2004,6 +2004,7 @@ document.addEventListener('keydown',e=>{
 /* =========================================================
    FINAL DE LECCIÓN · celebraciones (v1.9)
    Orden de prioridad (sale solo una):
+   0. nivel terminado (A0, A1, A2…: todas sus unidades hechas y ninguna pendiente en ROADMAP) → Latxi dorada
    1. unidad terminada (la última lección que faltaba) → Latxi con toga
    2. la racha llega a 3, 7, 14, 30, 50, 100… días → cápsula de fuego
    3. repaso → cápsula del fantasma (palabras olvidadas)
@@ -2011,9 +2012,10 @@ document.addEventListener('keydown',e=>{
    5. menos del 60 % a la primera → cápsula «Dena ondo dago…» (la casa en llamas)
    Si no, final normal (los tres personajes), también con los datos animados.
    ========================================================= */
-const CEL_IMGS=['latxi-toga','bikain-azterketa','latxi-indartsu','kapsula-sua','kapsula-mamua','kapsula-lasai'];
+const CEL_IMGS=['latxi-urrea','latxi-toga','bikain-azterketa','latxi-indartsu','kapsula-sua','kapsula-mamua','kapsula-lasai'];
 const STREAK_MS=[3,7,14,30,50,100,150,200,250,300,365,500,1000];
 const CEL={
+  maila:{img:'latxi-urrea',band:'#a77bff',t:c=>`${c.level} maila gaindituta!`,s:c=>`Has terminado todas las unidades del nivel ${c.level}`},
   toga:{img:'latxi-toga',band:'#fb6ee8',t:'Unitatea gaindituta!',s:c=>`Has terminado la unidad «${c.unitTitle}»`},
   sua:{img:'kapsula-sua',card:1,band:'#ffad3b',t:c=>`${c.st} egun jarraian!`,s:c=>`Racha de ${c.st} días seguidos`},
   mamua:{img:'kapsula-mamua',card:1,band:'#c9a2ff',t:'Mamuak uxatuta!',s:()=>'Has repasado las palabras que se te olvidaban'},
@@ -2022,6 +2024,7 @@ const CEL={
   lasai:{img:'kapsula-lasai',card:1,band:'#ff7c8f',t:'Dena ondo dago…',s:()=>'Ha costado, pero está hecha. Los fallos vuelven en el repaso'}
 };
 function pickCel(c){
+  if(c.levelDone) return 'maila';
   if(c.unitDone) return 'toga';
   if(c.st) return 'sua';
   if(c.review) return 'mamua';
@@ -2061,14 +2064,16 @@ function finish(){
   const m=R.meta, acc=R.first?Math.round(R.firstOk/R.first*100):100, secs=Math.round((Date.now()-R.start)/1000);
   let xp = m.review ? Math.max(5,R.firstOk) : 10 + (acc===100?5:0);
   const st0=streak(); addXP(xp); const st1=streak();
-  let unitDone=false, unitTitle='';
+  let unitDone=false, unitTitle='', levelDone=false, level='';
   if(m.id && !m.review){
     const u=m.unit?UNITS.find(x=>x.id===m.unit):null, ls=u?lessonsOf(u):null, was=ls?ls.every(l=>S.done[l.id]):true;
     const prev=S.done[m.id]||{n:0,best:0}; S.done[m.id]={n:prev.n+1,best:Math.max(prev.best,acc)};
-    if(ls&&!was&&ls.every(l=>S.done[l.id])){ unitDone=true; unitTitle=u.title }
+    if(ls&&!was&&ls.every(l=>S.done[l.id])){ unitDone=true; unitTitle=u.title; level=u.level;
+      // nivel terminado: todas sus unidades hechas y ninguna unidad de ese nivel pendiente en ROADMAP
+      levelDone=UNITS.filter(x=>x.level===u.level).every(x=>lessonsOf(x).every(l=>S.done[l.id])) && !ROADMAP.some(r=>r[0]===u.level) }
   }
   save();
-  const ctx={unitDone,unitTitle,st:(st1>st0&&STREAK_MS.includes(st1))?st1:0,review:!!m.review,acc,kind:m.kind};
+  const ctx={levelDone,level,unitDone,unitTitle,st:(st1>st0&&STREAK_MS.includes(st1))?st1:0,review:!!m.review,acc,kind:m.kind};
   const key=pickCel(ctx), cel=key?CEL[key]:null;
   R.celKey=key; window.__lastCel=key; // para las pruebas
   $('#lesson').remove();
@@ -2119,7 +2124,7 @@ function celIntro(f,cel,title,sub2,T,key){
   },380));
   // 2 · se recoge la banda, el personaje queda flotando con chispas y cambia el título
   T.push(setTimeout(()=>{ if(!f.isConnected) return;
-    SFX.done(); if(key==='toga') confetti();
+    SFX.done(); if(key==='toga'||key==='maila') confetti();
     band.animate([{transform:'skewY(-9deg)',opacity:1},{transform:'skewY(-9deg) scaleY(0)',opacity:0}],{duration:260,easing:'ease-in',fill:'forwards'});
     hw.animate([{transform:(cel.card?'perspective(700px) ':'')+big},{transform:(cel.card?'perspective(700px) ':'')+'scale(.84)'}],{duration:380,easing:'cubic-bezier(.3,1.5,.5,1)',fill:'forwards'});
     const sr=stage.getBoundingClientRect(), fr=f.getBoundingClientRect(), cx=sr.left-fr.left+sr.width/2, cy=sr.top-fr.top+sr.height/2;

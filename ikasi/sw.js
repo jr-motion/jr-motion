@@ -1,6 +1,6 @@
 // Ikasi! funciona sin conexión: guarda la app, las imágenes y las fuentes en caché.
 // Al cambiar cualquier archivo, sube el número de CACHE.
-const CACHE = "ikasi-v5";
+const CACHE = "ikasi-v6";
 const CORE = [
   "./", "index.html", "manifest.webmanifest", "decks.json",
   "icon-180.png", "icon-192.png", "icon-512.png", "icon-maskable-512.png",
@@ -18,7 +18,9 @@ const CORE = [
   "img/usoa.webp", "img/txoria.webp", "img/ahuntza.webp", "img/hartza.webp", "img/sagua.webp", "img/untxia.webp",
   // v1.9: celebraciones de fin de lección
   "img/latxi-toga.webp", "img/bikain-azterketa.webp", "img/latxi-indartsu.webp",
-  "img/kapsula-sua.webp", "img/kapsula-mamua.webp", "img/kapsula-lasai.webp"
+  "img/kapsula-sua.webp", "img/kapsula-mamua.webp", "img/kapsula-lasai.webp",
+  // v1.9.1: nivel terminado
+  "img/latxi-urrea.webp"
 ];
 self.addEventListener("install", e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(CORE))); self.skipWaiting(); });
 self.addEventListener("activate", e => {
