@@ -7,65 +7,65 @@
   "words": [
    {
     "es": "el carnicero / la carnicera",
-    "eu": "harakina"
+    "eu": "harakin(a)"
    },
    {
     "es": "el pescadero / la pescadera",
-    "eu": "arrain-saltzailea",
+    "eu": "arrain-saltzaile(a)",
     "note": "arraina (pescado) + saltzailea"
    },
    {
     "es": "el frutero / la frutera",
-    "eu": "fruta-saltzailea"
+    "eu": "fruta-saltzaile(a)"
    },
    {
     "es": "el verdulero / la verdulera",
-    "eu": "barazki-saltzailea",
+    "eu": "barazki-saltzaile(a)",
     "note": "barazkiak = verduras"
    },
    {
     "es": "el charcutero / la charcutera",
-    "eu": "txerriki-saltzailea",
+    "eu": "txerriki-saltzaile(a)",
     "note": "Literalmente «vendedor de carne de cerdo» (txerrikia). Confírmalo con la profesora"
    },
    {
     "es": "el vendedor / la vendedora de ropa",
-    "eu": "arropa-saltzailea"
+    "eu": "arropa-saltzaile(a)"
    },
    {
     "es": "el/la dibujante",
-    "eu": "marrazkilaria",
+    "eu": "marrazkilari(a)",
     "note": "marrazkia (dibujo) + -lari"
    },
    {
     "es": "el pintor / la pintora",
-    "eu": "margolaria"
+    "eu": "margolari(a)"
    },
    {
     "es": "el minero / la minera",
-    "eu": "meatzaria"
+    "eu": "meatzari(a)"
    },
    {
     "es": "el herrero / la herrera",
-    "eu": "errementaria"
+    "eu": "errementari(a)"
    },
    {
     "es": "el animador / la animadora",
-    "eu": "animatzailea"
+    "eu": "animatzaile(a)"
    },
    {
     "es": "el/la transportista",
-    "eu": "garraiolaria",
+    "eu": "garraiolari(a)",
     "note": "garraioa = transporte"
    },
    {
     "es": "el ganadero / la ganadera",
-    "eu": "abeltzaina",
+    "eu": "abeltzain(a)",
     "note": "abelak (ganado) + zain (el que cuida)"
    },
    {
     "es": "el/la auxiliar de veterinaria",
-    "eu": "albaitari laguntzailea",
+    "eu": "albaitari laguntzaile(a)",
     "note": "laguntzailea = ayudante"
    }
   ]
@@ -84,64 +84,64 @@
    },
    {
     "es": "el perro",
-    "eu": "txakurra",
+    "eu": "txakur(ra)",
     "ex": "Hau nire txakurra da",
     "exEs": "Este es mi perro"
    },
    {
     "es": "el gato",
-    "eu": "katua",
+    "eu": "katu(a)",
     "ex": "Hori zure katua da?",
     "exEs": "¿Ese es tu gato?"
    },
    {
     "es": "el caballo",
-    "eu": "zaldia",
+    "eu": "zaldi(a)",
     "ex": "Zaldi bat eta asto bat",
     "exEs": "Un caballo y un burro"
    },
    {
     "es": "el burro",
-    "eu": "astoa"
+    "eu": "asto(a)"
    },
    {
     "es": "el cerdo",
-    "eu": "txerria",
+    "eu": "txerri(a)",
     "note": "txerrikia = la carne de cerdo"
    },
    {
     "es": "la cabra",
-    "eu": "ahuntza"
+    "eu": "ahuntz(a)"
    },
    {
     "es": "la oveja",
-    "eu": "ardia",
+    "eu": "ardi(a)",
     "ex": "Latxi ardia da",
     "exEs": "Latxi es una oveja",
     "note": "La latxa es la oveja típica de Euskal Herria: de su leche sale el queso Idiazabal"
    },
    {
     "es": "el oso",
-    "eu": "hartza",
+    "eu": "hartz(a)",
     "ex": "Hartza Pirinioetan bizi da",
     "exEs": "El oso vive en los Pirineos"
    },
    {
     "es": "el conejo",
-    "eu": "untxia"
+    "eu": "untxi(a)"
    },
    {
     "es": "el ratón",
-    "eu": "sagua",
+    "eu": "sagu(a)",
     "note": "También el ratón del ordenador"
    },
    {
     "es": "la paloma",
-    "eu": "usoa"
+    "eu": "uso(a)"
    },
    {
     "es": "el pájaro",
-    "eu": "txoria",
+    "eu": "txori(a)",
     "note": "txori bat = un pájaro"
    }
   ]
@@ -155,52 +155,52 @@
   "words": [
    {
     "es": "el/la pelotari",
-    "eu": "pilotaria",
+    "eu": "pilotari(a)",
     "ex": "Unai pilotaria da",
     "exEs": "Unai es pelotari",
     "note": "pilota = la pelota"
    },
    {
     "es": "el/la aizkolari (corta troncos)",
-    "eu": "aizkolaria",
+    "eu": "aizkolari(a)",
     "ex": "Aitor aizkolaria da",
     "exEs": "Aitor es aizkolari",
     "note": "aizkora = el hacha"
    },
    {
     "es": "el levantador / la levantadora de piedra",
-    "eu": "harri-jasotzailea",
+    "eu": "harri-jasotzaile(a)",
     "note": "harria = la piedra; jaso = levantar"
    },
    {
     "es": "el remero / la remera",
-    "eu": "arraunlaria",
+    "eu": "arraunlari(a)",
     "ex": "Itziar arraunlaria da",
     "exEs": "Itziar es remera",
     "note": "arrauna = el remo"
    },
    {
     "es": "el/la sokatiralari (tira de la cuerda)",
-    "eu": "sokatiralaria",
+    "eu": "sokatiralari(a)",
     "note": "soka = la cuerda; sokatira = la prueba de tirar de la cuerda"
    },
    {
     "es": "el pescador / la pescadora",
-    "eu": "arrantzalea",
+    "eu": "arrantzale(a)",
     "ex": "Koldo arrantzalea da. Bermeokoa da",
     "exEs": "Koldo es pescador. Es de Bermeo",
     "note": "arraina = el pescado; arrantza = la pesca"
    },
    {
     "es": "el carbonero / la carbonera",
-    "eu": "ikazkina",
+    "eu": "ikazkin(a)",
     "ex": "Olentzero ikazkina da",
     "exEs": "Olentzero es carbonero",
     "note": "ikatza = el carbón"
    },
    {
     "es": "Basajaun, el señor del bosque",
-    "eu": "basajauna",
+    "eu": "basajaun(a)",
     "note": "Mitología vasca: basa (salvaje, del monte) + jauna (señor)"
    }
   ]
@@ -214,313 +214,313 @@
   "words": [
    {
     "es": "largo/a",
-    "eu": "luzea"
+    "eu": "luze(a)"
    },
    {
     "es": "corto/a",
-    "eu": "laburra"
+    "eu": "labur(ra)"
    },
    {
     "es": "humilde",
-    "eu": "umila"
+    "eu": "umil(a)"
    },
    {
     "es": "limpio/a",
-    "eu": "garbia"
+    "eu": "garbi(a)"
    },
    {
     "es": "sucio/a",
-    "eu": "zikina"
+    "eu": "zikin(a)"
    },
    {
     "es": "bromista",
-    "eu": "bromazalea"
+    "eu": "bromazale(a)"
    },
    {
     "es": "responsable",
-    "eu": "arduratsua"
+    "eu": "arduratsu(a)"
    },
    {
     "es": "irresponsable",
-    "eu": "arduragabea"
+    "eu": "arduragabe(a)"
    },
    {
     "es": "de sangre caliente, impulsivo/a",
-    "eu": "odolberoa"
+    "eu": "odolbero(a)"
    },
    {
     "es": "vago/a",
-    "eu": "alferra"
+    "eu": "alfer(ra)"
    },
    {
     "es": "trabajador/a",
-    "eu": "langilea"
+    "eu": "langile(a)"
    },
    {
     "es": "gigante",
-    "eu": "erraldoia"
+    "eu": "erraldoi(a)"
    },
    {
     "es": "diminuto/a",
-    "eu": "ñimiñoa"
+    "eu": "ñimiño(a)"
    },
    {
     "es": "húmedo/a",
-    "eu": "hezea"
+    "eu": "heze(a)"
    },
    {
     "es": "seco/a",
-    "eu": "lehorra"
+    "eu": "lehor(ra)"
    },
    {
     "es": "caliente",
-    "eu": "beroa"
+    "eu": "bero(a)"
    },
    {
     "es": "frío/a",
-    "eu": "hotza"
+    "eu": "hotz(a)"
    },
    {
     "es": "templado/a, tibio/a",
-    "eu": "epela"
+    "eu": "epel(a)"
    },
    {
     "es": "lleno/a de gente, concurrido/a",
-    "eu": "jendetsua"
+    "eu": "jendetsu(a)"
    },
    {
     "es": "ligero/a",
-    "eu": "arina"
+    "eu": "arin(a)"
    },
    {
     "es": "lento/a",
-    "eu": "geldoa"
+    "eu": "geldo(a)"
    },
    {
     "es": "fácil",
-    "eu": "erraza"
+    "eu": "erraz(a)"
    },
    {
     "es": "difícil",
-    "eu": "zaila"
+    "eu": "zail(a)"
    },
    {
     "es": "comprensible",
-    "eu": "ulergarria"
+    "eu": "ulergarri(a)"
    },
    {
     "es": "incomprensible",
-    "eu": "ulertezina"
+    "eu": "ulertezin(a)"
    },
    {
     "es": "entretenido/a",
-    "eu": "entretenigarria"
+    "eu": "entretenigarri(a)"
    },
    {
     "es": "divertido/a",
-    "eu": "dibertigarria"
+    "eu": "dibertigarri(a)"
    },
    {
     "es": "aburrido/a",
-    "eu": "aspergarria",
+    "eu": "aspergarri(a)",
     "note": "Que aburre. «Estoy aburrido» es aspertuta nago"
    },
    {
     "es": "pesado/a",
-    "eu": "astuna",
+    "eu": "astun(a)",
     "note": "También de una persona pesada"
    },
    {
     "es": "que pesa mucho",
-    "eu": "pisutsua"
+    "eu": "pisutsu(a)"
    },
    {
     "es": "tacaño/a, avaro/a",
-    "eu": "zekena"
+    "eu": "zeken(a)"
    },
    {
     "es": "ruidoso/a",
-    "eu": "zaratatsua",
+    "eu": "zaratatsu(a)",
     "note": "En la hoja pone «zaratasua»: la forma correcta es zaratatsua (zarata + -tsu)"
    },
    {
     "es": "prudente",
-    "eu": "zuhurra"
+    "eu": "zuhur(ra)"
    },
    {
     "es": "eficaz",
-    "eu": "eraginkorra"
+    "eu": "eraginkor(ra)"
    },
    {
     "es": "ácido/a, agrio/a",
-    "eu": "garratza"
+    "eu": "garratz(a)"
    },
    {
     "es": "flexible",
-    "eu": "malgua"
+    "eu": "malgu(a)"
    },
    {
     "es": "rico/a (con dinero)",
-    "eu": "aberatsa"
+    "eu": "aberats(a)"
    },
    {
     "es": "rico/a (de sabor), dulce",
-    "eu": "gozoa",
+    "eu": "gozo(a)",
     "note": "En la calle también goxoa"
    },
    {
     "es": "cotilla",
-    "eu": "kuxkuxeroa"
+    "eu": "kuxkuxero(a)"
    },
    {
     "es": "cabezota",
-    "eu": "burugogorra"
+    "eu": "burugogor(ra)"
    },
    {
     "es": "duro/a",
-    "eu": "gogorra"
+    "eu": "gogor(ra)"
    },
    {
     "es": "blando/a",
-    "eu": "biguna"
+    "eu": "bigun(a)"
    },
    {
     "es": "luminoso/a",
-    "eu": "argitsua"
+    "eu": "argitsu(a)"
    },
    {
     "es": "oscuro/a",
-    "eu": "iluna"
+    "eu": "ilun(a)"
    },
    {
     "es": "hábil, mañoso/a",
-    "eu": "trebea"
+    "eu": "trebe(a)"
    },
    {
     "es": "torpe",
-    "eu": "baldarra",
+    "eu": "baldar(ra)",
     "note": "También traketsa"
    },
    {
     "es": "peligroso/a",
-    "eu": "arriskutsua"
+    "eu": "arriskutsu(a)"
    },
    {
     "es": "seguro/a",
-    "eu": "ziurra"
+    "eu": "ziur(ra)"
    },
    {
     "es": "cariñoso/a",
-    "eu": "maitekorra"
+    "eu": "maitekor(ra)"
    },
    {
     "es": "grosero/a, brusco/a",
-    "eu": "zakarra"
+    "eu": "zakar(ra)"
    },
    {
     "es": "feo/a, cutre",
-    "eu": "zatarra",
+    "eu": "zatar(ra)",
     "note": "En Bizkaia también «sucio»"
    },
    {
     "es": "peludo/a",
-    "eu": "iletsua"
+    "eu": "iletsu(a)"
    },
    {
     "es": "ancho/a",
-    "eu": "zabala"
+    "eu": "zabal(a)"
    },
    {
     "es": "estrecho/a",
-    "eu": "estua"
+    "eu": "estu(a)"
    },
    {
     "es": "montañoso/a",
-    "eu": "menditsua"
+    "eu": "menditsu(a)"
    },
    {
     "es": "llano/a, plano/a",
-    "eu": "laua"
+    "eu": "lau(a)"
    },
    {
     "es": "liso/a, suave",
-    "eu": "leuna"
+    "eu": "leun(a)"
    },
    {
     "es": "valiente",
-    "eu": "ausarta"
+    "eu": "ausart(a)"
    },
    {
     "es": "miedoso/a",
-    "eu": "beldurtia"
+    "eu": "beldurti(a)"
    },
    {
     "es": "cobarde",
-    "eu": "koldarra"
+    "eu": "koldar(ra)"
    },
    {
     "es": "formal",
-    "eu": "formala"
+    "eu": "formal(a)"
    },
    {
     "es": "astuto/a, malicioso/a",
-    "eu": "maltzurra"
+    "eu": "maltzur(ra)"
    },
    {
     "es": "malo/a",
-    "eu": "txarra",
+    "eu": "txar(ra)",
     "note": "De calidad: ardo txarra (vino malo)"
    },
    {
     "es": "malvado/a",
-    "eu": "gaiztoa",
+    "eu": "gaizto(a)",
     "note": "Persona mala: gizon gaiztoa"
    },
    {
     "es": "exigente; afilado/a",
-    "eu": "zorrotza"
+    "eu": "zorrotz(a)"
    },
    {
     "es": "gracioso/a, ridículo/a",
-    "eu": "barregarria",
+    "eu": "barregarri(a)",
     "note": "Literalmente «que da risa»"
    },
    {
     "es": "vengativo/a",
-    "eu": "mendekaria"
+    "eu": "mendekari(a)"
    },
    {
     "es": "escandaloso/a, alborotador/a",
-    "eu": "iskanbilatsua"
+    "eu": "iskanbilatsu(a)"
    },
    {
     "es": "poderoso/a",
-    "eu": "boteretsua"
+    "eu": "boteretsu(a)"
    },
    {
     "es": "salado/a",
-    "eu": "gazia"
+    "eu": "gazi(a)"
    },
    {
     "es": "amargo/a",
-    "eu": "mingotsa"
+    "eu": "mingots(a)"
    },
    {
     "es": "pobre",
-    "eu": "txiroa",
+    "eu": "txiro(a)",
     "note": "También pobrea"
    },
    {
     "es": "doloroso/a",
-    "eu": "mingarria"
+    "eu": "mingarri(a)"
    },
    {
     "es": "famoso/a",
-    "eu": "ospetsua"
+    "eu": "ospetsu(a)"
    },
    {
     "es": "desconocido/a",
-    "eu": "ezezaguna"
+    "eu": "ezezagun(a)"
    },
    {
     "es": "sensible",
@@ -532,108 +532,108 @@
    },
    {
     "es": "generoso/a",
-    "eu": "eskuzabala",
+    "eu": "eskuzabal(a)",
     "note": "esku (mano) + zabal (abierta)"
    },
    {
     "es": "egoísta",
-    "eu": "berekoia"
+    "eu": "berekoi(a)"
    },
    {
     "es": "ladrón/a",
-    "eu": "lapurra"
+    "eu": "lapur(ra)"
    },
    {
     "es": "elegante",
-    "eu": "dotorea"
+    "eu": "dotore(a)"
    },
    {
     "es": "orgulloso/a, presumido/a",
-    "eu": "harroa"
+    "eu": "harro(a)"
    },
    {
     "es": "con gafas",
-    "eu": "betaurrekoduna",
+    "eu": "betaurrekodun(a)",
     "note": "betaurrekoak (gafas) + -dun"
    },
    {
     "es": "esbelto/a",
-    "eu": "liraina"
+    "eu": "lirain(a)"
    },
    {
     "es": "sonriente",
-    "eu": "irribarretsua"
+    "eu": "irribarretsu(a)"
    },
    {
     "es": "serio/a",
-    "eu": "serioa"
+    "eu": "serio(a)"
    },
    {
     "es": "peleón/a",
-    "eu": "liskartia"
+    "eu": "liskarti(a)"
    },
    {
     "es": "pacífico/a",
-    "eu": "bakezalea"
+    "eu": "bakezale(a)"
    },
    {
     "es": "precioso/a, hermoso/a",
-    "eu": "ederra"
+    "eu": "eder(ra)"
    },
    {
     "es": "ingenuo/a",
-    "eu": "inozoa"
+    "eu": "inozo(a)"
    },
    {
     "es": "violento/a",
-    "eu": "bortitza"
+    "eu": "bortitz(a)"
    },
    {
     "es": "débil",
-    "eu": "ahula",
+    "eu": "ahul(a)",
     "note": "También makala"
    },
    {
     "es": "brillante, deslumbrante",
-    "eu": "disdiratsua"
+    "eu": "disdiratsu(a)"
    },
    {
     "es": "excelente",
-    "eu": "bikaina"
+    "eu": "bikain(a)"
    },
    {
     "es": "inteligente",
-    "eu": "inteligentea"
+    "eu": "inteligente(a)"
    },
    {
     "es": "digno/a",
-    "eu": "duina"
+    "eu": "duin(a)"
    },
    {
     "es": "traidor/a",
-    "eu": "traidorea"
+    "eu": "traidore(a)"
    },
    {
     "es": "indeciso/a",
-    "eu": "zalantzatia"
+    "eu": "zalantzati(a)"
    },
    {
     "es": "bocazas",
-    "eu": "ahozabala"
+    "eu": "ahozabal(a)"
    },
    {
     "es": "resbaladizo/a",
-    "eu": "labaina",
+    "eu": "labain(a)",
     "note": "También irristagarria"
    },
    {
     "es": "baboso/a",
-    "eu": "adurtia",
+    "eu": "adurti(a)",
     "note": "adur (baba) + -ti (propenso a)"
    },
    {
     "es": "sediento/a",
-    "eu": "egartia",
+    "eu": "egarti(a)",
     "note": "egarri (sed) + -ti. Igual que gosetia (hambriento)"
    }
   ]
@@ -647,7 +647,7 @@
   "words": [
    {
     "es": "la frente (sinónimo de kopeta)",
-    "eu": "bekokia"
+    "eu": "bekoki(a)"
    },
    {
     "es": "el cuello, la garganta",
@@ -656,31 +656,31 @@
    },
    {
     "es": "la lengua (sinónimo de mihia)",
-    "eu": "mingaina"
+    "eu": "mingain(a)"
    },
    {
     "es": "las muelas",
-    "eu": "haginak",
+    "eu": "hagin(ak)",
     "note": "Un diente: hortz bat; una muela: hagin bat"
    },
    {
     "es": "las arrugas",
-    "eu": "zimurrak"
+    "eu": "zimur(rak)"
    },
    {
     "es": "el estómago",
-    "eu": "urdaila",
+    "eu": "urdail(a)",
     "ex": "Urdaileko mina daukat",
     "exEs": "Me duele el estómago",
     "note": "Sabela es la tripa, el vientre"
    },
    {
     "es": "el costado",
-    "eu": "saihetsa"
+    "eu": "saihets(a)"
    },
    {
     "es": "el ombligo",
-    "eu": "zilborra"
+    "eu": "zilbor(ra)"
    },
    {
     "es": "la cadera",
@@ -688,17 +688,17 @@
    },
    {
     "es": "la muñeca (del brazo)",
-    "eu": "eskumuturra",
+    "eu": "eskumutur(ra)",
     "note": "esku (mano) + muturra (punta). La muñeca de juguete es panpina"
    },
    {
     "es": "las uñas",
-    "eu": "azazkalak",
+    "eu": "azazkal(ak)",
     "note": "También atzazalak; las dos formas son batua"
    },
    {
     "es": "el muslo",
-    "eu": "izterra"
+    "eu": "izter(ra)"
    },
    {
     "es": "el tobillo",
@@ -706,29 +706,29 @@
    },
    {
     "es": "pelirrojo/a",
-    "eu": "ilegorria",
+    "eu": "ilegorri(a)",
     "note": "ile (pelo) + gorri (rojo), como ilehoria (rubio/a)"
    },
    {
     "es": "los pechos",
-    "eu": "titiak"
+    "eu": "titi(ak)"
    },
    {
     "es": "los pezones",
-    "eu": "titiburuak",
+    "eu": "titiburu(ak)",
     "note": "titi + buru (cabeza, punta)"
    },
    {
     "es": "el pene",
-    "eu": "zakila"
+    "eu": "zakil(a)"
    },
    {
     "es": "los testículos",
-    "eu": "barrabilak"
+    "eu": "barrabil(ak)"
    },
    {
     "es": "la vulva",
-    "eu": "alua"
+    "eu": "alu(a)"
    }
   ]
  },
@@ -1088,6 +1088,60 @@
     "eu": "guztiz",
     "ex": "Ez nago guztiz ziur",
     "exEs": "No estoy del todo seguro"
+   }
+  ]
+ },
+ {
+  "id": "non-kasua-hoja",
+  "ch": "irati",
+  "level": "A1",
+  "source": "Euskaltegi · hoja «Non kasua» · 2026-11-19",
+  "title": "Non kasua · más palabras de la hoja",
+  "words": [
+   {
+    "es": "las setas",
+    "eu": "perretxiko(ak)",
+    "ex": "Basoetan perretxikoak daude",
+    "exEs": "En los bosques hay setas"
+   },
+   {
+    "es": "el incendio",
+    "eu": "sute(a)",
+    "note": "su (fuego) + -te"
+   },
+   {
+    "es": "el moratón",
+    "eu": "ubeldura",
+    "ex": "Ubeldura bat dauka izterrean",
+    "exEs": "Tiene un moratón en el muslo",
+    "note": "La -a es de la palabra: ubeldura bat"
+   },
+   {
+    "es": "el alemán (idioma)",
+    "eu": "alemaniera"
+   },
+   {
+    "es": "el chino (idioma)",
+    "eu": "txinera"
+   },
+   {
+    "es": "de al lado",
+    "eu": "ondoko",
+    "ex": "Ondoko dendan",
+    "exEs": "En la tienda de al lado"
+   },
+   {
+    "es": "cada vez más …",
+    "eu": "gero eta … -ago",
+    "ex": "Gero eta eskola gehiagotan",
+    "exEs": "En cada vez más escuelas"
+   },
+   {
+    "es": "caer (Bizkaia)",
+    "eu": "jausi",
+    "ex": "Euli bat jausi da",
+    "exEs": "Se ha caído una mosca",
+    "note": "Con izan. En batua lo normal es erori, que ya está en NORK eta UKAN"
    }
   ]
  }

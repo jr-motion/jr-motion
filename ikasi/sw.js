@@ -1,6 +1,6 @@
 // Ikasi! funciona sin conexión: guarda la app, las imágenes y las fuentes en caché.
 // Al cambiar cualquier archivo, sube el número de CACHE.
-const CACHE = "ikasi-v7";
+const CACHE = "ikasi-v8";
 const CORE = [
   "./", "index.html", "manifest.webmanifest", "decks.json",
   "icon-180.png", "icon-192.png", "icon-512.png", "icon-maskable-512.png",
@@ -20,7 +20,25 @@ const CORE = [
   "img/latxi-toga.webp", "img/bikain-azterketa.webp", "img/latxi-indartsu.webp",
   "img/kapsula-sua.webp", "img/kapsula-mamua.webp", "img/kapsula-lasai.webp",
   // v1.9.1: nivel terminado
-  "img/latxi-urrea.webp"
+  "img/latxi-urrea.webp",
+  // v1.13: kit de caras de Espioiaren bila
+  "img/aurpegiak/base_m.webp", "img/aurpegiak/base_w.webp", "img/aurpegiak/beard_m_beltza.webp", "img/aurpegiak/beard_m_gorria.webp",
+  "img/aurpegiak/beard_m_horia.webp", "img/aurpegiak/beard_m_marroia.webp", "img/aurpegiak/beard_m_urdina.webp", "img/aurpegiak/brow_m_beltza.webp",
+  "img/aurpegiak/brow_m_gorria.webp", "img/aurpegiak/brow_m_horia.webp", "img/aurpegiak/brow_m_marroia.webp", "img/aurpegiak/brow_m_urdina.webp",
+  "img/aurpegiak/brow_w_beltza.webp", "img/aurpegiak/brow_w_gorria.webp", "img/aurpegiak/brow_w_horia.webp", "img/aurpegiak/brow_w_marroia.webp",
+  "img/aurpegiak/brow_w_urdina.webp", "img/aurpegiak/gl_m.webp", "img/aurpegiak/gl_w.webp", "img/aurpegiak/hair_m_laburra_kizkurra_beltza.webp",
+  "img/aurpegiak/hair_m_laburra_kizkurra_gorria.webp", "img/aurpegiak/hair_m_laburra_kizkurra_horia.webp", "img/aurpegiak/hair_m_laburra_kizkurra_marroia.webp", "img/aurpegiak/hair_m_laburra_kizkurra_urdina.webp",
+  "img/aurpegiak/hair_m_laburra_lisoa_beltza.webp", "img/aurpegiak/hair_m_laburra_lisoa_gorria.webp", "img/aurpegiak/hair_m_laburra_lisoa_horia.webp", "img/aurpegiak/hair_m_laburra_lisoa_marroia.webp",
+  "img/aurpegiak/hair_m_laburra_lisoa_urdina.webp", "img/aurpegiak/hair_m_luzea_kizkurra_beltza.webp", "img/aurpegiak/hair_m_luzea_kizkurra_gorria.webp", "img/aurpegiak/hair_m_luzea_kizkurra_horia.webp",
+  "img/aurpegiak/hair_m_luzea_kizkurra_marroia.webp", "img/aurpegiak/hair_m_luzea_kizkurra_urdina.webp", "img/aurpegiak/hair_m_luzea_lisoa_beltza.webp", "img/aurpegiak/hair_m_luzea_lisoa_gorria.webp",
+  "img/aurpegiak/hair_m_luzea_lisoa_horia.webp", "img/aurpegiak/hair_m_luzea_lisoa_marroia.webp", "img/aurpegiak/hair_m_luzea_lisoa_urdina.webp", "img/aurpegiak/hair_w_laburra_kizkurra_beltza.webp",
+  "img/aurpegiak/hair_w_laburra_kizkurra_gorria.webp", "img/aurpegiak/hair_w_laburra_kizkurra_horia.webp", "img/aurpegiak/hair_w_laburra_kizkurra_marroia.webp", "img/aurpegiak/hair_w_laburra_kizkurra_urdina.webp",
+  "img/aurpegiak/hair_w_laburra_lisoa_beltza.webp", "img/aurpegiak/hair_w_laburra_lisoa_gorria.webp", "img/aurpegiak/hair_w_laburra_lisoa_horia.webp", "img/aurpegiak/hair_w_laburra_lisoa_marroia.webp",
+  "img/aurpegiak/hair_w_laburra_lisoa_urdina.webp", "img/aurpegiak/hair_w_luzea_kizkurra_beltza.webp", "img/aurpegiak/hair_w_luzea_kizkurra_gorria.webp", "img/aurpegiak/hair_w_luzea_kizkurra_horia.webp",
+  "img/aurpegiak/hair_w_luzea_kizkurra_marroia.webp", "img/aurpegiak/hair_w_luzea_kizkurra_urdina.webp", "img/aurpegiak/hair_w_luzea_lisoa_beltza.webp", "img/aurpegiak/hair_w_luzea_lisoa_gorria.webp",
+  "img/aurpegiak/hair_w_luzea_lisoa_horia.webp", "img/aurpegiak/hair_w_luzea_lisoa_marroia.webp", "img/aurpegiak/hair_w_luzea_lisoa_urdina.webp", "img/aurpegiak/must_m_beltza.webp",
+  "img/aurpegiak/must_m_gorria.webp", "img/aurpegiak/must_m_horia.webp", "img/aurpegiak/must_m_marroia.webp", "img/aurpegiak/must_m_urdina.webp",
+  "img/aurpegiak/wr_m.webp", "img/aurpegiak/wr_w.webp"
 ];
 self.addEventListener("install", e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(CORE))); self.skipWaiting(); });
 self.addEventListener("activate", e => {
