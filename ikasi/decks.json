@@ -922,5 +922,173 @@
     "note": "Como lagundu: amari deitu diot (más adelante)"
    }
   ]
+ },
+ {
+  "id": "egoerak-ika",
+  "ch": "patxi",
+  "level": "A1",
+  "source": "Euskaltegi · lista IKA «Nolakoa da? / Nola dago?» · 2026-11-19",
+  "title": "Nola dago? · más estados (lista IKA)",
+  "words": [
+   {
+    "es": "(estar) serio/a",
+    "eu": "serio",
+    "ex": "Gaur oso serio dago",
+    "exEs": "Hoy está muy serio"
+   },
+   {
+    "es": "(estar) entretenido/a",
+    "eu": "entretenituta",
+    "ex": "Umeak entretenituta daude",
+    "exEs": "Los niños están entretenidos"
+   },
+   {
+    "es": "(estar) emocionado/a",
+    "eu": "hunkituta",
+    "note": "De emoción que conmueve; muy contento es pozik"
+   },
+   {
+    "es": "(estar) pensativo/a",
+    "eu": "pentsakor",
+    "ex": "Aitona pentsakor dago",
+    "exEs": "El abuelo está pensativo"
+   },
+   {
+    "es": "(estar) convencido/a",
+    "eu": "konbentzituta",
+    "ex": "Ez nago konbentzituta",
+    "exEs": "No estoy convencido"
+   },
+   {
+    "es": "(estar) invitado/a",
+    "eu": "gonbidatuta",
+    "ex": "Ezkontzara gonbidatuta gaude",
+    "exEs": "Estamos invitados a la boda"
+   },
+   {
+    "es": "(estar) hecho/a",
+    "eu": "eginda",
+    "ex": "Lana eginda dago",
+    "exEs": "El trabajo está hecho"
+   },
+   {
+    "es": "(estar) torcido/a",
+    "eu": "okertuta",
+    "note": "oker: torcido, equivocado"
+   },
+   {
+    "es": "(estar) corregido/a",
+    "eu": "zuzenduta",
+    "ex": "Azterketak zuzenduta daude",
+    "exEs": "Los exámenes están corregidos"
+   },
+   {
+    "es": "(estar) hinchado/a",
+    "eu": "handituta",
+    "ex": "Orkatila handituta dago",
+    "exEs": "El tobillo está hinchado"
+   },
+   {
+    "es": "(estar) dolido/a, ofendido/a",
+    "eu": "minduta"
+   },
+   {
+    "es": "(estar) curado/a",
+    "eu": "sendatuta",
+    "ex": "Zauria sendatuta dago",
+    "exEs": "La herida está curada"
+   },
+   {
+    "es": "(estar) completo/a",
+    "eu": "osatuta",
+    "note": "Ikasgaia osatuta: lección completada"
+   },
+   {
+    "es": "(estar) investigado/a",
+    "eu": "ikertuta"
+   },
+   {
+    "es": "(estar) indignado/a, furioso/a",
+    "eu": "suminduta",
+    "note": "Más fuerte que haserre"
+   },
+   {
+    "es": "(estar) libre",
+    "eu": "aske",
+    "ex": "Txoria aske dago",
+    "exEs": "El pájaro está libre"
+   },
+   {
+    "es": "(estar) preso/a",
+    "eu": "preso"
+   },
+   {
+    "es": "(estar) detenido/a",
+    "eu": "atxilotuta"
+   },
+   {
+    "es": "(estar) juzgado/a",
+    "eu": "epaituta"
+   },
+   {
+    "es": "(estar) aceptado/a, aprobado/a",
+    "eu": "onartuta",
+    "ex": "Eskaera onartuta dago",
+    "exEs": "La solicitud está aprobada"
+   },
+   {
+    "es": "(estar) denegado/a",
+    "eu": "ukatuta"
+   },
+   {
+    "es": "(estar) cancelado/a, anulado/a",
+    "eu": "ezeztatuta",
+    "ex": "Hegaldia ezeztatuta dago",
+    "exEs": "El vuelo está cancelado"
+   },
+   {
+    "es": "(estar) aplastado/a; oprimido/a",
+    "eu": "zapalduta"
+   },
+   {
+    "es": "(estar) pegado/a, sujeto/a",
+    "eu": "atxikita"
+   },
+   {
+    "es": "(estar) sangrando",
+    "eu": "odoletan",
+    "ex": "Belauna odoletan dago",
+    "exEs": "La rodilla está sangrando"
+   },
+   {
+    "es": "(estar) lavado/a, limpiado/a",
+    "eu": "garbituta",
+    "note": "Garbi dago: está limpio; garbituta dago: ya lo han lavado"
+   },
+   {
+    "es": "(estar) doblado/a",
+    "eu": "tolestuta",
+    "ex": "Arropa tolestuta dago",
+    "exEs": "La ropa está doblada"
+   },
+   {
+    "es": "totalmente",
+    "eu": "zeharo",
+    "ex": "Zeharo nekatuta nago",
+    "exEs": "Estoy totalmente cansado"
+   },
+   {
+    "es": "completamente",
+    "eu": "erabat",
+    "ex": "Erabat ados nago",
+    "exEs": "Estoy completamente de acuerdo"
+   },
+   {
+    "es": "del todo, por completo",
+    "eu": "guztiz",
+    "ex": "Ez nago guztiz ziur",
+    "exEs": "No estoy del todo seguro"
+   }
+  ]
  }
 ]

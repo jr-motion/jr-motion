@@ -417,7 +417,7 @@ const UNITS = [
   vocab:[
     ['kaixo','hola'],['agur','adiós'],['egun on','buenos días','Por la mañana, hasta la hora de comer'],
     ['arratsalde on','buenas tardes'],['gabon','buenas noches','Sirve para saludar y despedirse de noche'],
-    ['gero arte','hasta luego'],['bihar arte','hasta mañana'],['ikusi arte','hasta la vista'],['laster arte','hasta pronto'],['aspaldiko!','¡cuánto tiempo!'],['baita zuri ere','igualmente'],['hepa','hola (informal)'],['eskerrik asko','muchas gracias'],
+    ['gero arte','hasta luego'],['bihar arte','hasta mañana'],['ikusi arte','hasta la vista'],['laster arte','hasta pronto'],['aspaldiko!','¡cuánto tiempo!'],['baita zuri ere','igualmente'],['epa','hola (informal)','También aupa, aupi o hepa. Kaixo es el «hola» neutro'],['eskerrik asko','muchas gracias'],
     ['ez horregatik','de nada'],['mesedez','por favor'],['barkatu','perdón / disculpa'],
     ['bai','sí'],['ez','no'],['ongi etorri','bienvenido/a'],['zer moduz?','¿qué tal?'],
     ['ondo','bien'],['oso ondo','muy bien'],['nahiko ondo','bastante bien'],['gaizki','mal'],['eta zu?','¿y tú?']
@@ -1221,13 +1221,163 @@ const UNITS = [
     ['Irakaslea berandu iritsi da','La profesora ha llegado tarde'],
     ['Haiek etxera itzuli dira','Ellos han vuelto a casa']
   ]
+},
+{ id:'a1-ego', ch:'patxi', level:'A1', title:'Nola dago?', sub:'Cómo está · egon (nago, zaude, dago…) · estados · Nolakoa? ≠ Nola?',
+  split:[15,15,15],
+  vocab:[
+    ['nago','(yo) estoy — egon','Etxean nago: estoy en casa'],
+    ['zaude','(tú) estás — egon','Nola zaude? ¿Cómo estás?'],
+    ['dago','(él/ella) está — egon','Jon triste dago'],
+    ['gaude','(nosotros) estamos — egon','Gu pozik gaude'],
+    ['zaudete','(vosotros) estáis — egon','Zuek urduri zaudete'],
+    ['daude','(ellos) están — egon','En Bizkaia se oye dagoz; en batua, daude'],
+    ['Nola zaude?','¿Cómo estás?'],
+    ['Zer moduz zaude?','¿Qué tal estás?','Respuesta: Ondo nago, eta zu?'],
+    ['Nola dago?','¿Cómo está (él/ella)?','No confundir con Nolakoa da? (cómo es)'],
+    ['primeran','genial, de maravilla','Primeran nago!'],
+    ['ez oso ondo','no muy bien','Ez nago oso ondo: no estoy muy bien'],
+    ['erdipurdi','regular, así así','Nola zaude? — Erdipurdi'],
+    ['hobeto','mejor','Gaur hobeto nago: hoy estoy mejor'],
+    ['pozik','(estar) contento/a','Siempre sin artículo: pozik nago, pozik gaude'],
+    ['haserre','(estar) enfadado/a','Zergatik zaude haserre? ¿Por qué estás enfadado?'],
+    ['triste','(estar) triste','Con egon, sin -a: triste dago. Tristea da = es una persona triste'],
+    ['alai','(estar) alegre','Alai dago = hoy está alegre; alaia da = es alegre'],
+    ['lasai','(estar) tranquilo/a','También para calmar a alguien: Lasai!'],
+    ['urduri','(estar) nervioso/a','Azterketa baino lehen urduri nago'],
+    ['nekatuta','(estar) cansado/a','nekatu (cansarse) + -ta'],
+    ['harrituta','(estar) sorprendido/a','harritu (sorprenderse) + -ta'],
+    ['aspertuta','(estar) aburrido/a','Aspergarria da = es aburrido (izan)'],
+    ['beldurtuta','(estar) asustado/a','beldur (miedo) → beldurtu → beldurtuta'],
+    ['kezkatuta','(estar) preocupado/a','kezka (preocupación)'],
+    ['maiteminduta','(estar) enamorado/a','maite (amor) + min (dolor)'],
+    ['lanpetuta','(estar) ocupado/a','Orain lanpetuta nago: ahora estoy liado'],
+    ['gaixorik','(estar) enfermo/a','gaixo + -rik. Gaixoa = el enfermo (persona)'],
+    ['lotan','(estar) dormido/a','Umea lotan dago'],
+    ['esna','(estar) despierto/a','Lo contrario de lotan'],
+    ['negarrez','(estar) llorando','negar (llanto) + -rez'],
+    ['isilik','(estar) callado/a','Isilik egon! ¡Estate callado! Isila da = es callado'],
+    ['zutik','(estar) de pie','Joseba zutik dago'],
+    ['eserita','(estar) sentado/a','eseri (sentarse) + -ta'],
+    ['etzanda','(estar) tumbado/a','etzan (tumbarse) + -da'],
+    ['garbi','(estar) limpio/a','Katua garbia da (es limpio) ≠ katua garbi dago (está limpio)'],
+    ['zikin','(estar) sucio/a','Txerriak zikin daude'],
+    ['itxita','(estar) cerrado/a','Dendak itxita daude'],
+    ['irekita','(estar) abierto/a','Atea irekita dago'],
+    ['apurtuta','(estar) roto/a','Betaurrekoak apurtuta daude'],
+    ['konponduta','(estar) arreglado/a','konpondu (arreglar) + -ta'],
+    ['bustita','(estar) mojado/a','busti (mojar) + -ta'],
+    ['lehor','(estar) seco/a','Arropa lehor dago'],
+    ['prest','(estar) listo/a, preparado/a','Prest zaude? ¿Estás listo?'],
+    ['bizirik','(estar) vivo/a','bizi + -rik'],
+    ['hilda','(estar) muerto/a','hil (morir) + -da']
+  ],
+  grammar:[
+    { t:'EGON: nago, zaude, dago…', h:`
+      <p><b>Egon</b> es «estar». Sirve para decir <b>cómo</b> está alguien o algo ahora y <b>dónde</b> está.</p>
+      <table><tr><th>Sujeto</th><th>Egon</th><th>Castellano</th></tr>
+      <tr><td>ni</td><td><b>nago</b></td><td>estoy</td></tr>
+      <tr><td>zu</td><td><b>zaude</b></td><td>estás</td></tr>
+      <tr><td>hura</td><td><b>dago</b></td><td>está</td></tr>
+      <tr><td>gu</td><td><b>gaude</b></td><td>estamos</td></tr>
+      <tr><td>zuek</td><td><b>zaudete</b></td><td>estáis</td></tr>
+      <tr><td>haiek</td><td><b>daude</b></td><td>están</td></tr></table>
+      <p>Fíjate: el sujeto va <b>sin -k</b> (es NOR, como con izan): <i>ni nago</i>, nunca «nik nago».</p>
+      <div class="ex"><b>Etxean nago.</b><span>Estoy en casa.</span></div>
+      <div class="ex"><b>Afrika oso urruti dago.</b><span>África está muy lejos.</span></div>
+      <div class="ex"><b>Zenbat ikasle daude? — Hamar.</b><span>¿Cuántos alumnos hay? — Diez.</span></div>
+      <p>El «dónde» (<i>Non dago?</i>) se ve a fondo en la unidad <i>Non dago?</i>.</p>
+      <div class="warn">En Bizkaia oirás <i>dagoz</i> por <b>daude</b> y <i>zagoz</i> por <b>zaude</b>. En batua: <b>daude</b>, <b>zaude</b>.</div>` },
+    { t:'Zer moduz zaude?', h:`
+      <p>Para preguntar qué tal está alguien:</p>
+      <div class="ex"><b>Zer moduz zaude? / Nola zaude?</b><span>¿Qué tal estás? / ¿Cómo estás?</span></div>
+      <p>Respuestas, de mejor a peor:</p>
+      <table><tr><th>Euskera</th><th>Castellano</th></tr>
+      <tr><td><b>Primeran</b> nago</td><td>estoy genial</td></tr>
+      <tr><td><b>Oso ondo</b> nago</td><td>estoy muy bien</td></tr>
+      <tr><td><b>Ondo</b> nago</td><td>estoy bien</td></tr>
+      <tr><td><b>Nahiko ondo</b> nago</td><td>estoy bastante bien</td></tr>
+      <tr><td><b>Erdipurdi</b> nago</td><td>estoy regular</td></tr>
+      <tr><td><b>Ez nago oso ondo</b></td><td>no estoy muy bien</td></tr>
+      <tr><td><b>Gaizki</b> nago</td><td>estoy mal</td></tr></table>
+      <div class="ex"><b>Ni oso ondo nago, eta zuek zer moduz zaudete?</b><span>Yo estoy muy bien, ¿y vosotros qué tal estáis?</span></div>
+      <div class="warn"><b>Ondo</b> (bien) no es <b>ona</b> (bueno): <i>ondo nago</i> = estoy bien; <i>ona da</i> = es bueno.</div>` },
+    { t:'Izan con -a, egon sin -a', h:`
+      <p>Con <b>izan</b> (es) el adjetivo lleva artículo. Con <b>egon</b> (está) va <b>sin artículo</b>, y no cambia en plural:</p>
+      <table><tr><th>Nolakoa da? (izan)</th><th>Nola dago? (egon)</th></tr>
+      <tr><td>Katu<b>a</b> garbi<b>a</b> da</td><td>Katu<b>a</b> garbi dago</td></tr>
+      <tr><td>Txerri<b>ak</b> zikin<b>ak</b> dira</td><td>Txerri<b>ak</b> zikin daude</td></tr>
+      <tr><td>Garbi<b>a</b> naiz</td><td>Garbi nago</td></tr>
+      <tr><td>Garbi<b>ak</b> gara</td><td>Garbi gaude</td></tr></table>
+      <p>El nombre (<i>katua, txerriak</i>) sí lleva su artículo; lo que se queda desnudo es el adjetivo que va con egon.</p>
+      <div class="warn">«Gu tristeak gaude» es incorrecto: <b>Gu triste gaude</b>. Y «Ni pozika nago» tampoco: <b>pozik nago</b>.</div>` },
+    { t:'Palabras en -ta, -ik y -rez', h:`
+      <p>Muchas palabras de estado ya tienen su propia terminación. Se usan tal cual con egon, nunca con -a ni -ak:</p>
+      <table><tr><th>Terminación</th><th>Ejemplos</th></tr>
+      <tr><td>verbo + <b>-ta / -da</b> (como «-ado» en castellano)</td><td>nekatu → nekatu<b>ta</b>, itxi → itxi<b>ta</b>, eseri → eseri<b>ta</b>, hil → hil<b>da</b>, etzan → etzan<b>da</b></td></tr>
+      <tr><td><b>-(r)ik</b></td><td>poz<b>ik</b>, gaixo<b>rik</b>, isil<b>ik</b>, bizi<b>rik</b>, zut<b>ik</b></td></tr>
+      <tr><td><b>-(r)ez</b></td><td>negar<b>rez</b> (llorando)</td></tr></table>
+      <div class="ex"><b>Neska horiek nekatuta daude.</b><span>Esas chicas están cansadas.</span></div>
+      <div class="ex"><b>Amona gaixorik dago.</b><span>La abuela está enferma.</span></div>
+      <p>La <b>-a</b> final de <i>nekatuta</i> no es un artículo: es parte de la palabra. Por eso no se quita y no pasa a «nekatutak».</p>` },
+    { t:'Nolakoa? ≠ Nola?', h:`
+      <p>Con la misma palabra cambia el sentido: <b>da</b> habla de cómo <b>es</b> (carácter, siempre); <b>dago</b>, de cómo <b>está</b> ahora.</p>
+      <table><tr><th>Es (izan)</th><th>Está (egon)</th></tr>
+      <tr><td>Ane alai<b>a da</b> — es alegre</td><td>Ane alai <b>dago</b> — está alegre</td></tr>
+      <tr><td>Lasai<b>a naiz</b> — soy tranquilo</td><td>Lasai <b>nago</b> — estoy tranquilo</td></tr>
+      <tr><td>Isil<b>ak zarete</b> — sois callados</td><td>Isil<b>ik zaudete</b> — estáis callados</td></tr>
+      <tr><td>Triste<b>a zara</b> — eres triste</td><td>Triste <b>zaude</b> — estás triste</td></tr></table>
+      <p>Y la pregunta va a juego:</p>
+      <div class="ex"><b>Jon triste dago. → Nola dago Jon?</b><span>Jon está triste. → ¿Cómo está Jon?</span></div>
+      <div class="ex"><b>Marta argala da. → Nolakoa da Marta?</b><span>Marta es delgada. → ¿Cómo es Marta?</span></div>` },
+    { t:'Ez nago…, …zaude?', h:`
+      <p>En la negativa, <b>ez + egon</b> salta delante y el estado va detrás:</p>
+      <div class="ex"><b>Nekatuta nago. → Ez nago nekatuta.</b><span>Estoy cansado. → No estoy cansado.</span></div>
+      <div class="ex"><b>Marta ez dago lotan.</b><span>Marta no está dormida.</span></div>
+      <p>Para preguntar, basta con la entonación:</p>
+      <div class="ex"><b>Nekatuta zaude? — Bai, nekatuta nago. / Ez, ez nago nekatuta.</b><span>¿Estás cansado? — Sí, lo estoy. / No, no lo estoy.</span></div>
+      <p>Para graduar, igual que con izan: <i>oso urduri nago</i>, <i>nahiko lasai dago</i>, <i>ez nago batere urduri</i> (nada nervioso).</p>` }
+  ],
+  drills:[
+    { q:'«Estoy cansado»', s:'Nekatuta ___', o:['nago','naiz','dago'], a:0 },
+    { q:'«¿Cómo estás?»', s:'Nola ___?', o:['zaude','zara','dago'], a:0 },
+    { q:'«Estamos contentos»', s:'Gu pozik ___', o:['gaude','gara','daude'], a:0 },
+    { q:'«Estáis nerviosos»', s:'Zuek urduri ___', o:['zaudete','zarete','zaude'], a:0 },
+    { q:'«Las tiendas están cerradas»', s:'Dendak itxita ___', o:['daude','dira','dago'], a:0 },
+    { q:'Es su carácter:', s:'Maite ___ da', o:['alaia','alai','alaiak'], a:0 },
+    { q:'Hoy, ahora:', s:'Umea ___ dago', o:['alai','alaia','alaiak'], a:0 },
+    { q:'Katua garbia da ≠', s:'Katua ___ dago', o:['garbi','garbia','garbiak'], a:0 },
+    { q:'Plural con egon:', s:'Txerriak ___ daude', o:['zikin','zikinak','zikina'], a:0 },
+    { q:'Plural con izan:', s:'Txerriak ___ dira', o:['zikinak','zikin','zikina'], a:0 },
+    { q:'La pregunta que va con la respuesta:', s:'Jon triste dago. ___ Jon?', o:['Nola dago','Nolakoa da','Nor da'], a:0 },
+    { q:'La pregunta que va con la respuesta:', s:'Marta argala da. ___ Marta?', o:['Nolakoa da','Nola dago','Nongoa da'], a:0 },
+    { q:'«No estoy cansado»', s:'___ nekatuta', o:['Ez nago','Nago ez','Ez naiz'], a:0 },
+    { q:'«Estamos tranquilos» (ahora)', s:'Gu ___ gaude', o:['lasai','lasaiak','lasaia'], a:0 },
+    { q:'«Están cansadas»', s:'Neska horiek ___ daude', o:['nekatuta','nekatutak','nekatua'], a:0 },
+    { q:'«Muy bien»', s:'Zer moduz zaude? — Oso ___ nago', o:['ondo','ona','onak'], a:0 },
+    { q:'«La abuela está enferma»', s:'Amona ___ dago', o:['gaixorik','gaixoa','gaixoak'], a:0 },
+    { q:'«Estoy contento»', s:'Ni ___ nago', o:['pozik','pozika','pozikoa'], a:0 }
+  ],
+  sentences:[
+    ['Nola zaude?','¿Cómo estás?'],
+    ['Ni oso ondo nago','Yo estoy muy bien'],
+    ['Gaur nekatuta nago','Hoy estoy cansado'],
+    ['Jon triste dago','Jon está triste'],
+    ['Gu pozik gaude','Nosotros estamos contentos'],
+    ['Dendak itxita daude','Las tiendas están cerradas'],
+    ['Ane alaia da baina gaur triste dago','Ane es alegre pero hoy está triste'],
+    ['Ez nago batere urduri','No estoy nada nervioso'],
+    ['Umea lotan dago','El niño está dormido'],
+    ['Zuek oso lanpetuta zaudete','Vosotros estáis muy ocupados'],
+    ['Katua garbia da baina orain zikin dago','El gato es limpio pero ahora está sucio'],
+    ['Amona gaixorik dago','La abuela está enferma'],
+    ['Nekatuta zaude?','¿Estás cansado?']
+  ]
 }
 ];
 
 /* Temario pendiente (se mostrará bloqueado) */
 const ROADMAP = [
   ['A1','Familia','la familia · posesivos · genitivo -ren'],
-  ['A1','Nola dago?','egon (estar) · estados · Nolakoa? ≠ Nola?'],
   ['A1','Non dago?','-an / -ean / -etan · aurrean, atzean, gainean…'],
   ['A1','Ordua eta egutegia','la hora · días · meses · estaciones'],
   ['A1','Arropa','ropa y complementos'],
@@ -1285,6 +1435,11 @@ async function flush(){
 
 /* índice de palabras */
 let WORDS = {};          // key -> {eu,es,note,src}
+/* Respuestas alternativas aceptadas al escribir (clave = forma principal) */
+const ALTS={
+  'epa':['hepa','aupa','aupi','apa'],
+  'baita zuri ere':['berdin','bardin','zuri ere','bai eta zuri ere','baita zuri be']
+};
 function W(arr,src){ return {eu:arr[0],es:arr[1],note:arr[2]||'',src} }
 UNITS.forEach(u=>{ u.words=u.vocab.map(v=>W(v,u.id)); });
 function allDecks(){ return [...CLOUD_DECKS, ...S.userDecks] }
@@ -1769,13 +1924,14 @@ function rType(it,body){
   const tb=$('#tb'); setTimeout(()=>tb.focus(),250);
   setBtn('Comprobar',false,null);
   const check=()=>{
-    const raw=norm(tb.value), targets=w.eu.split('/').map(norm);
+    const raw=norm(tb.value), main=w.eu.split('/').map(norm), targets=[...main,...(ALTS[norm(w.eu)]||[]).map(norm)];
     const sj=subjCheck(raw,targets), a=sj.rest;
     let ok=targets.includes(a), near=false;
     if(!ok && targets.some(t=>t.length>4 && lev(a,t)<=1)){ ok=true; near=true }
     const subj=subjFor(targets[0]);
     let fb='';
     if(ok && sj.bad){ ok=false; fb=`Con <b>${esc(subj.v)}</b> el sujeto es <b>${esc(subj.p[0])}</b>${subj.erg?' (NORK, con -k)':' (NOR, sin -k)'}. Correcto: <b>${esc(subj.p[0]+' '+w.eu)}</b>`; }
+    else if(ok && !near && !main.includes(sj.rest)) fb=`También vale. Forma de referencia: <b>${esc(w.eu)}</b>`;
     else if(ok) fb=near?`Casi perfecto. Se escribe: <b>${esc(sj.pron?sj.pron+' '+w.eu:w.eu)}</b>`:'';
     else fb=`Correcto: <b>${esc(w.eu)}</b>`+(subj?` <span style="opacity:.75">(o ${esc(subj.p[0]+' '+w.eu)})</span>`:'');
     tb.disabled=true;
