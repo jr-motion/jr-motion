@@ -2452,7 +2452,7 @@ function renderLearn(){
     clearTimeout(pc._t); pc._t=setTimeout(()=>{say.classList.remove('on');pc.classList.remove('talking')},2600) });
   const hero=$('#hero-ch'); if(hero) hero.onclick=()=>{ act(hero,'jump'); SFX.pair(); speak(greeting().replace('!','')) };
   const gr=$('#go-review'); if(gr) gr.onclick=()=>{ SFX.tap(); startReview() };
-  const cur=$('.node.current'); if(cur && !renderLearn._scrolled){ renderLearn._scrolled=true; setTimeout(()=>cur.scrollIntoView({block:'center',behavior:'smooth'}),400) }
+  /* v1.21.x: al abrir la app ya no se baja al nodo actual: siempre empieza arriba (petición del usuario) */
 }
 
 function secHead(t){ return `<div class="ttl"><span class="pillhead">${t}</span></div>` }
@@ -3213,9 +3213,15 @@ const BOOT_CH=[ // [id, izquierda %, arriba %, ancho %, giro al entrar]
   ['amona', 1, 3,38,-14],['peio',56, 1,37, 12],['latxi', 3,30,52,-8],['joxe',58,24,39,10],
   ['harri',57,49,33,-10],['uxue',13,62,45, 6],['ane',63,72,32,12]];
 let BOOT=null;
-function bootIntro(){
+const BOOT_KEY='ikasi-boot', BOOT_GAP=15000;
+function toTop(){ try{ window.scrollTo(0,0); document.documentElement.scrollTop=0; document.body.scrollTop=0 }catch(e){} }
+function bootIntro(manual){
   let el=$('#boot');
   if(BOOT) return;
+  // si la página se carga dos veces seguidas (el visor la recarga al arrancar), la intro solo sale la primera
+  if(!manual){ let last=0; try{ last=+localStorage.getItem(BOOT_KEY)||0 }catch(e){}
+    if(Date.now()-last<BOOT_GAP){ if(el) el.remove(); toTop(); return }
+    try{ localStorage.setItem(BOOT_KEY,String(Date.now())) }catch(e){} }
   if(!el){ el=document.createElement('div'); el.className='boot'; el.id='boot'; document.body.appendChild(el) }
   if(quiet()||!el.animate){ el.remove(); return }
   const T=[]; BOOT={el,T};
@@ -3226,7 +3232,7 @@ function bootIntro(){
   const H=innerHeight;
   let fin=false;
   const end=()=>{ // el icono sube y se desvanece; el fondo se va y la pantalla entra
-    if(fin) return; fin=true; T.forEach(clearTimeout);
+    if(fin) return; fin=true; T.forEach(clearTimeout); toTop();
     logo.getAnimations().forEach(a=>a.cancel());
     logo.animate([{opacity:1,transform:'none'},{opacity:0,transform:'translateY(-110px) scale(.9)'}],{duration:520,easing:EASE.soft,fill:'forwards'});
     el.animate([{opacity:1},{opacity:0}],{duration:380,delay:120,easing:'ease-out',fill:'forwards'}).onfinish=()=>{ el.remove(); BOOT=null };
@@ -3263,7 +3269,7 @@ function bootIntro(){
     T.forEach(clearTimeout); chs.forEach(c=>c.remove()); lines.forEach(l=>l.remove());
     if(!logo.getAnimations().length) showLogo(0,560); else end() };
 }
-$('#btn-home').onclick=()=>{ SFX.tap(); if(R) return; bootIntro() };
+$('#btn-home').onclick=()=>{ SFX.tap(); if(R) return; bootIntro(true) };
 
 /* confeti */
 let CONF_STOP=false;
@@ -3278,6 +3284,8 @@ function confetti(){
 /* =========================================================
    ARRANQUE + conexión con la base de datos del artefacto
    ========================================================= */
+try{ history.scrollRestoration='manual' }catch(e){}
+toTop();
 render();
 bootIntro();
 try{ localStorage.removeItem('ikasi-splash') }catch(e){}
