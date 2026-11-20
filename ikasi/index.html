@@ -111,6 +111,8 @@ input,textarea{font-family:inherit;font-weight:700;color:var(--ink)}
 .node svg{width:32px;height:32px}
 .node:active{transform:translateY(4px);box-shadow:inset 0 -4px 0 var(--nd),0 1px 0 rgba(45,10,78,.35)}
 .node.done{--nc:var(--yellow);--nd:var(--yellow-d)}
+.half-b{position:absolute;top:-10px;right:-14px;background:#fff;color:var(--ink);border:3px solid var(--ink);border-radius:999px;font-size:12px;font-weight:900;padding:1px 6px;line-height:1.3;box-shadow:0 3px 0 rgba(45,10,78,.35)}
+.next-review.resume{background:#fff;box-shadow:inset 0 -6px 0 #e6e0f0}
 .node.current{outline:5px solid #fff;outline-offset:3px;animation:bob 1.6s ease-in-out infinite}
 .node-label{font-size:12px;color:#fff;margin-top:10px;font-weight:900;text-shadow:0 2px 0 rgba(45,10,78,.4)}
 .start-tip{position:absolute;top:-44px;background:#fff;border:3px solid var(--ink);border-radius:14px;padding:5px 12px;font-size:14px;font-weight:900;color:var(--ink);white-space:nowrap;animation:bob 1.6s ease-in-out infinite;z-index:3}
@@ -279,22 +281,24 @@ canvas#confetti{position:fixed;inset:0;pointer-events:none;z-index:70}
 
 /* repaso */
 .rev-hero{display:flex;align-items:flex-end;gap:8px;text-align:left}
+/* Gramatika (v1.18): Latxi leyendo con los demás */
+.gram-hero{border:var(--bw) solid var(--ink);border-radius:22px;overflow:hidden;box-shadow:0 6px 0 rgba(45,10,78,.35);margin:0 0 14px;background:#fff}
+.gram-hero img{display:block;width:100%;aspect-ratio:1000/558;object-fit:cover}
 .rev-hero img{height:150px;flex:none}
 .memrow{display:flex;align-items:center;gap:10px;margin:10px 0}
 .memrow span{width:96px;font-size:13px;color:var(--ink2)}
 .memrow .bar{height:18px;border-width:3px}
 .memrow b{width:34px;text-align:right}
 
-/* inicio (splash) */
-.splash{position:fixed;inset:0;z-index:95;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 18px calc(24px + env(safe-area-inset-bottom));background:linear-gradient(180deg,var(--sky1) 0%,var(--sky2) 50%,var(--sky3) 100%);animation:fadein .3s}
-.splash .logo{display:flex;flex-direction:column;align-items:center;margin-bottom:18px}
-.splash .logo img{width:132px;animation:logoin .7s cubic-bezier(.3,1.6,.5,1) both;filter:drop-shadow(0 6px 0 rgba(45,10,78,.35))}
-.splash .wm-wrap{transform:rotate(-4deg);margin-top:-6px}
-.splash .logo .wordmark{display:inline-block;font-size:64px;animation:logoin .7s .15s cubic-bezier(.3,1.6,.5,1) both}
-.splash .scene{width:100%;max-width:480px;border:var(--bw) solid var(--ink);border-radius:26px;overflow:hidden;box-shadow:0 6px 0 rgba(45,10,78,.35);animation:rise .6s .25s both}
-.splash .scene img{display:block;width:100%}
-.splash .tag{margin:16px 0 18px;font-weight:800;text-align:center}
-.splash .btn{max-width:480px;font-size:24px;padding:16px 22px 22px}
+/* pantalla de carga (v1.17): sale al abrir la app en frío; los personajes caen y aparece el icono */
+.boot{position:fixed;inset:0;z-index:95;overflow:hidden;background:var(--boot-bg,linear-gradient(180deg,var(--sky1) 0%,var(--sky2) 50%,var(--sky3) 100%));touch-action:none}
+.boot .b-lines{position:absolute;inset:0;pointer-events:none}
+.boot .b-lines i{position:absolute;bottom:-30%;width:5px;border-radius:5px;background:rgba(255,255,255,.55);opacity:0}
+.boot .b-stage{position:absolute;left:50%;top:50%;width:min(100vw,560px,calc(100vh / 1.72));aspect-ratio:10/17.2;transform:translate(-50%,-50%)}
+.boot .b-ch{position:absolute;display:block;will-change:transform;opacity:0}
+.boot .b-ch img{display:block;width:100%;filter:drop-shadow(0 6px 0 rgba(45,10,78,.18))}
+.boot .b-logo{position:absolute;left:50%;top:50%;width:150px;margin:-75px 0 0 -75px;opacity:0}
+.boot .b-logo img{display:block;width:100%;filter:drop-shadow(0 6px 0 rgba(45,10,78,.35))}
 @keyframes logoin{0%{transform:scale(0) rotate(-20deg)}100%{transform:scale(1) rotate(0)}}
 
 /* modal */
@@ -443,6 +447,7 @@ canvas#confetti{position:fixed;inset:0;pointer-events:none;z-index:70}
 </style>
 </head>
 <body>
+<div class="boot" id="boot" aria-hidden="true"></div>
 <div class="app" id="app">
   <header class="top">
     <div class="l"><div class="chip fire" title="Racha de días"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c1 3.5 5 5.6 5 10.2A5 5 0 0 1 12 17a5 5 0 0 1-5-4.8c0-1.9.9-3.4 2-4.5.2 1.5 1 2.6 2.2 3C10.6 8.6 11.3 5 12 2z"/><path d="M12 22a7 7 0 0 1-7-7c0-1.2.3-2.3.8-3.3A6.5 6.5 0 0 0 12 19a6.5 6.5 0 0 0 6.2-7.3c.5 1 .8 2.1.8 3.3a7 7 0 0 1-7 7z" opacity=".55"/></svg><span id="st-streak">0</span></div></div>
@@ -1781,6 +1786,46 @@ async function flush(){
   if(pendingSave){pendingSave=false;flush()}
 }
 
+/* lecciones a medias (v1.16): se guarda la cola entera de la lección en S.runs[id],
+   al mostrar cada ejercicio y al corregirlo; así sobrevive a salir, cerrar la app o cambiar de dispositivo */
+const RUN_MAX=6, RUN_DAYS=30;
+function canResume(m){ return !!(m&&m.id) }
+function runPct(r){ return Math.min(99,Math.round((r.done||0)/(r.total||1)*100)) }
+function dropRun(id){ if(S.runs&&S.runs[id]){ delete S.runs[id]; save() } }
+function pruneRuns(){
+  const old=Date.now()-RUN_DAYS*864e5;
+  const ks=Object.keys(S.runs).filter(k=>S.runs[k]&&S.runs[k].at>old).sort((a,b)=>S.runs[b].at-S.runs[a].at);
+  const keep={}; ks.slice(0,RUN_MAX).forEach(k=>keep[k]=S.runs[k]); S.runs=keep;
+}
+function lastRun(){ if(!S.runs) return null; pruneRuns(); const ks=Object.keys(S.runs); if(!ks.length) return null;
+  return ks.map(k=>S.runs[k]).sort((a,b)=>b.at-a.at)[0] }
+function saveRun(at){
+  if(!R||!canResume(R.meta)||R.saveOff) return;
+  try{
+    const uniq=[...new Set(R.queue)];
+    // el juego del espía guarda su partida en it.g (con Sets): no se guarda, se empieza otra al volver
+    const items=JSON.parse(JSON.stringify(uniq.map(it=>it.t==='spygame'?{t:'spygame'}:it),(k,v)=>v instanceof Set?undefined:v));
+    const meta=Object.assign({},R.meta); delete meta.words;
+    S.runs=S.runs||{};
+    S.runs[R.meta.id]={v:1,at:Date.now(),i:at,items,q:R.queue.map(o=>uniq.indexOf(o)),re:uniq.map((o,k)=>R.retried.has(o)?k:-1).filter(k=>k>=0),
+      total:R.total,done:R.done,first:R.first,firstOk:R.firstOk,combo:R.combo,maxCombo:R.maxCombo,el:Date.now()-R.start,meta,ch:R.ch};
+    pruneRuns(); save();
+  }catch(e){}
+}
+function resumeLesson(r){
+  const objs=r.items, queue=r.q.map(k=>objs[k]);
+  if(!queue.length||queue.some(x=>!x)){ dropRun(r.meta.id); toast('No se pudo recuperar la lección'); return }
+  startLesson(queue,r.meta,{ch:r.ch||r.meta.ch||'latxi',i:Math.min(r.i,queue.length),total:r.total,done:r.done,first:r.first,firstOk:r.firstOk,combo:0,maxCombo:r.maxCombo||0,start:Date.now()-(r.el||0),retried:new Set((r.re||[]).map(k=>objs[k]))});
+}
+function openLesson(build,meta,emptyMsg){
+  const r=S.runs&&S.runs[meta.id];
+  const fresh=()=>{ const q=build(); if(!q.length){ toast(emptyMsg||'No hay ejercicios'); return } dropRun(meta.id); startLesson(q,meta) };
+  if(!r) return fresh();
+  modal(`<h2>Lección a medias</h2><p>Dejaste <b>${esc(meta.title||'esta lección')}</b> al ${runPct(r)} %. ¿Sigues donde lo dejaste?</p><div class="acts"><button class="btn btn-green wide" id="c-ok">Continuar</button><button class="btn btn-white wide" id="c-no">Empezar de nuevo</button></div>`,(m,close)=>{
+    $('#c-ok',m).onclick=()=>{ SFX.tap(); close(); resumeLesson(r) }; $('#c-no',m).onclick=()=>{ SFX.tap(); close(); fresh() }; });
+}
+function flushNow(){ clearTimeout(saveT); flush() }
+
 /* índice de palabras */
 let WORDS = {};          // key -> {eu,es,note,src}
 /* Respuestas alternativas aceptadas al escribir (clave = forma principal) */
@@ -2313,6 +2358,8 @@ function renderLearn(){
   UNITS.forEach(u=>lessonsOf(u).forEach(L=>{ if(!firstOpen && !S.done[L.id]) firstOpen=L.id }));
   const hc=dayChar(), st=streak();
   let h=`<div class="hero"><div class="h-txt"><div class="bub">${greeting()}</div><div class="goal-line">${goalRing(tx,GOAL)}<div><b>Objetivo diario</b><br>${tx} / ${GOAL} XP · racha de ${st} día${st===1?'':'s'}</div></div></div>${chImg(hc,'hc','id="hero-ch"')}</div>`;
+  const half=lastRun();
+  if(half) h+=`<div class="next-review resume"><div><b>Lección a medias</b><br>${esc(half.meta.title||'Lección')} · ${runPct(half)} %</div><button class="btn sm btn-green" id="go-resume" data-run="${esc(half.meta.id)}">Jarraitu</button></div>`;
   const due=dueWords().length;
   if(due) h+=`<div class="next-review"><div><b>${due} palabra${due===1?'':'s'} para repasar</b><br>El repaso espaciado fija el vocabulario.</div><button class="btn sm" id="go-review">Repasar</button></div>`;
   let lvl='', ui=0, un=0;
@@ -2322,8 +2369,8 @@ function renderLearn(){
     const offs=side==='r'?[0,-54,0,54]:[0,54,0,-54];
     h+=`<section class="ublock" style="--nc:${nc};--nd:${nd};--uc:${nc}"><div class="unit"><div class="u-txt"><small>${u.level} · Unidad ${un}</small><h2>${esc(u.title)}</h2></div><button class="u-gram" data-gram="${u.id}" aria-label="Ver gramática">${ICONS.gram}</button></div><div class="u-sub">${esc(u.sub)}</div><div class="nodes">`;
     lessonsOf(u).forEach((L,i)=>{
-      const done=!!S.done[L.id], cur=L.id===firstOpen;
-      h+=`<div class="node-wrap" style="transform:translateX(${offs[i%4]}px)">${cur?'<div class="start-tip">HASI!</div>':''}<button class="node ${done?'done':''} ${cur?'current':''}" data-lesson="${L.id}">${done?ICONS.check:ICONS[L.icon]}</button><div class="node-label">${L.title}</div></div>`;
+      const done=!!S.done[L.id], cur=L.id===firstOpen, hr=S.runs&&S.runs[L.id];
+      h+=`<div class="node-wrap" style="transform:translateX(${offs[i%4]}px)">${cur?'<div class="start-tip">HASI!</div>':''}<button class="node ${done?'done':''} ${cur?'current':''} ${hr?'half':''}" data-lesson="${L.id}">${done?ICONS.check:ICONS[L.icon]}${hr?`<span class="half-b">${runPct(hr)}%</span>`:''}</button><div class="node-label">${L.title}</div></div>`;
     });
     h+=`<div class="pchar ${side}" data-pc="${u.id}"><div class="say"></div>${chImg(unitChar(u))}</div></div></section>`;
   });
@@ -2334,7 +2381,8 @@ function renderLearn(){
   });
   h+=`<div style="height:30px"></div>`;
   $('#view').innerHTML=h;
-  $('#view').querySelectorAll('[data-lesson]').forEach(b=>b.onclick=()=>{ SFX.tap(); const L=UNITS.flatMap(lessonsOf).find(x=>x.id===b.dataset.lesson); startLesson(buildLesson(L),{id:L.id,unit:L.unit.id,kind:L.kind,title:L.unit.title+' · '+L.title,words:L.kind==='vocab'?L.words:L.unit.words,ch:unitChar(L.unit)}) });
+  $('#view').querySelectorAll('[data-lesson]').forEach(b=>b.onclick=()=>{ SFX.tap(); const L=UNITS.flatMap(lessonsOf).find(x=>x.id===b.dataset.lesson); openLesson(()=>buildLesson(L),{id:L.id,unit:L.unit.id,kind:L.kind,title:L.unit.title+' · '+L.title,words:L.kind==='vocab'?L.words:L.unit.words,ch:unitChar(L.unit)}) });
+  const gr2=$('#go-resume'); if(gr2) gr2.onclick=()=>{ SFX.tap(); const r=S.runs[gr2.dataset.run]; if(r) resumeLesson(r) };
   $('#view').querySelectorAll('[data-gram]').forEach(b=>b.onclick=()=>{ SFX.tap(); showGrammarModal(UNITS.find(u=>u.id===b.dataset.gram)) });
   $('#view').querySelectorAll('[data-pc]').forEach(pc=>pc.onclick=()=>{
     const u=UNITS.find(x=>x.id===pc.dataset.pc); const w=pick(u.words,1)[0]; const say=pc.querySelector('.say'), img=pc.querySelector('img');
@@ -2361,7 +2409,7 @@ function renderReview(){
   $('#rev-start').onclick=()=>{ SFX.tap(); startReview() };
   const rc=$('#rev-ch'); rc.onclick=()=>{ act(rc,'jump'); SFX.pair() };
 }
-function startReview(){ const q=reviewLesson(); if(!q.length){toast('No hay nada pendiente');return} startLesson(q,{id:'review',title:'Repaso',review:true,ch:'miren'}) }
+function startReview(){ openLesson(()=>reviewLesson(),{id:'review',title:'Repaso',review:true,ch:'miren'},'No hay nada pendiente') }
 
 let dictQuery='';
 function renderDict(){
@@ -2391,12 +2439,12 @@ function fillDict(){
   box.innerHTML=h;
   box.querySelectorAll('[data-acc] .acc-h').forEach(b=>b.onclick=()=>{SFX.tap();b.parentElement.classList.toggle('open')});
   $('#add-deck').onclick=()=>{SFX.tap();showImportModal()};
-  box.querySelectorAll('[data-deck]').forEach(b=>b.onclick=()=>{ SFX.tap(); const d=allDecks().find(x=>x.id===b.dataset.deck); const q=deckLesson(d); if(!q.length){toast('La ficha está vacía');return} startLesson(q,{id:'deck-'+d.id,title:d.title||'Ficha',ch:(d.ch&&CHARS[d.ch])?d.ch:'uxue'}) });
+  box.querySelectorAll('[data-deck]').forEach(b=>b.onclick=()=>{ SFX.tap(); const d=allDecks().find(x=>x.id===b.dataset.deck); openLesson(()=>deckLesson(d),{id:'deck-'+d.id,title:d.title||'Ficha',ch:(d.ch&&CHARS[d.ch])?d.ch:'uxue'},'La ficha está vacía') });
   box.querySelectorAll('[data-deldeck]').forEach(b=>b.onclick=()=>{ showConfirm('¿Borrar esta ficha?','Se borran sus palabras de la lista (tu progreso de repaso se conserva).','Borrar',()=>{ S.userDecks=S.userDecks.filter(x=>x.id!==b.dataset.deldeck); rebuildIndex(); save(); fillDict(); }) });
 }
 
 function renderGram(){
-  let h=`<div class="sec">${secHead('Gramatika')}<div class="panel"><p class="sub">Todas las explicaciones del curso, para consultar cuando quieras.</p>`;
+  let h=`<div class="sec">${secHead('Gramatika')}<div class="panel"><div class="gram-hero"><img src="img/gramatika.webp" alt="Latxi lee un libro de gramática con los demás personajes"></div><p class="sub">Todas las explicaciones del curso, para consultar cuando quieras.</p>`;
   UNITS.forEach(u=>{ h+=`<div class="card acc" data-acc><button class="acc-h"><span><span class="pill">${u.level}</span><br><b style="font-size:17px">${esc(u.title)}</b><br><span class="meta">${u.grammar.map(g=>esc(g.t)).join(' · ')}</span></span><span class="chev">${ICONS.chev}</span></button><div class="acc-b tip">${u.grammar.map(g=>`<h4>${esc(g.t)}</h4>${g.h}`).join('')}</div></div>` });
   h+=`</div></div>`;
   $('#view').innerHTML=h;
@@ -2449,7 +2497,7 @@ $('#btn-settings').onclick=()=>{ SFX.tap();
     $('#bk-copy',m).onclick=async()=>{ try{ await navigator.clipboard.writeText(JSON.stringify(S)); toast('Progreso copiado') }catch(e){ toast('No se pudo copiar') } };
     $('#bk-paste',m).onclick=()=>{ close(); modal(`<h2>Restaurar</h2><p>Pega aquí el texto copiado.</p><textarea id="rs-t"></textarea><div class="acts"><button class="btn btn-green wide" id="rs-ok">Restaurar</button></div>`,(m2,c2)=>{
       $('#rs-ok',m2).onclick=()=>{ try{ const d=JSON.parse($('#rs-t',m2).value); if(typeof d!=='object'||!d.srs) throw 0; S=Object.assign({v:1,xp:0,days:{},done:{},srs:{},userDecks:[],settings:{sound:true}},d); rebuildIndex(); save(); c2(); render(); toast('Progreso restaurado') }catch(e){ toast('Texto no válido') } } }) };
-    $('#bk-reset',m).onclick=()=>{ close(); showConfirm('¿Borrar todo?','Perderás XP, racha, lecciones hechas y repasos. Tus fichas se conservan.','Borrar progreso',()=>{ S.xp=0;S.days={};S.done={};S.srs={}; save(); render(); }) };
+    $('#bk-reset',m).onclick=()=>{ close(); showConfirm('¿Borrar todo?','Perderás XP, racha, lecciones hechas y repasos. Tus fichas se conservan.','Borrar progreso',()=>{ S.xp=0;S.days={};S.done={};S.srs={};S.runs={}; save(); render(); }) };
   });
 };
 
@@ -2457,26 +2505,28 @@ $('#btn-settings').onclick=()=>{ SFX.tap();
    MOTOR DE LECCIÓN
    ========================================================= */
 let R=null; // run actual
-function startLesson(queue,meta){
-  R={ch:meta.ch||'latxi',queue:queue.slice(),i:0,total:queue.length,done:0,meta,first:0,firstOk:0,combo:0,maxCombo:0,start:Date.now(),retried:new Set(),answered:null,sel:null};
+function startLesson(queue,meta,st){
+  R=Object.assign({ch:meta.ch||'latxi',queue:queue.slice(),i:0,total:queue.length,done:0,meta,first:0,firstOk:0,combo:0,maxCombo:0,start:Date.now(),retried:new Set(),answered:null,sel:null},st||{});
   const el=document.createElement('div'); el.className='lesson'; el.id='lesson';
   el.innerHTML=`<div class="l-deco"><i></i><i></i><i></i></div><div class="l-top"><button class="l-x" id="l-x" aria-label="Salir"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button><div class="bar"><i id="l-bar"></i></div><div class="combo" id="l-combo"></div></div>
   <div class="l-body" id="l-body"></div>
   <div class="l-foot"><button class="btn btn-green wide" id="l-btn" disabled>Comprobar</button>
   <div class="sheet" id="l-sheet">${chImg(R.ch,'schar','id="s-ch"')}<div class="s-h"><span class="ic" id="s-ic"></span><span id="s-t"></span></div><div class="s-b" id="s-b"></div><button class="btn wide" id="s-btn">Continuar</button></div></div>`;
   document.body.appendChild(el); document.body.style.overflow='hidden'; lessonIn(el);
-  $('#l-x').onclick=()=>{ SFX.tap(); showConfirm('¿Salir de la lección?','Perderás el progreso de esta lección.','Salir',endLesson) };
+  $('#l-x').onclick=()=>{ SFX.tap(); if(!canResume(R.meta)){ showConfirm('¿Salir de la lección?','Perderás el progreso de esta lección.','Salir',endLesson); return }
+    modal(`<h2>¿Salir de la lección?</h2><p>Tu progreso queda guardado: la próxima vez podrás seguir donde lo has dejado.</p><div class="acts"><button class="btn btn-green wide" id="c-ok">Salir y guardar</button><button class="btn btn-white wide" id="c-no">Seguir con la lección</button></div>`,(m,close)=>{
+      $('#c-ok',m).onclick=()=>{ close(); flushNow(); endLesson() }; $('#c-no',m).onclick=close; }) };
   $('#s-btn').onclick=next;
   $('#l-btn').onclick=()=>{ if(R.ready) R.ready() };
-  showItem();
+  if(R.i>=R.queue.length) finish(); else showItem();
 }
-function endLesson(){ const l=$('#lesson'); R=null; if(!l){ document.body.style.overflow=''; render(); viewIn(); return } l.id=''; render(); setTimeout(viewIn,180); lessonOut(l,()=>{ l.remove(); document.body.style.overflow='' }) }
+function endLesson(){ const l=$('#lesson'); R=null; if(!l){ document.body.style.overflow=''; render(); viewIn(); return } l.id=''; l.querySelectorAll('[id]').forEach(e=>e.removeAttribute('id')); render(); setTimeout(viewIn,180); lessonOut(l,()=>{ l.remove(); document.body.style.overflow='' }) }
 function setProgress(){ $('#l-bar').style.width=(R.done/R.total*100)+'%' }
 function setBtn(label,enabled,fn,cls='btn-green'){ const b=$('#l-btn'); b.textContent=label; b.disabled=!enabled; b.className='btn wide '+cls; R.ready=fn }
 function cur(){ return R.queue[R.i] }
 
 function showItem(){
-  setProgress();
+  setProgress(); saveRun(R.i);
   const it=cur(); const body=$('#l-body'); body.scrollTop=0; R.sel=null;
   $('#l-sheet').className='sheet'; $('#l-btn').style.visibility='visible'; clearFx($('#lesson'));
   if(it.t==='intro') rIntro(it,body);
@@ -2665,7 +2715,7 @@ function lessonOut(el,done){
   el.classList.add('leaving');
   if(quiet()||!el.animate){ done(); return }
   const out={duration:220,easing:'cubic-bezier(.5,0,.75,0)',fill:'forwards'};
-  [...$('#l-body',el).children,$('.l-foot',el)].forEach((c,i)=>c&&c.animate([{transform:'none',opacity:1},{transform:'translateY(60px)',opacity:0}],{...out,delay:i*25}));
+  [...$('.l-body',el).children,$('.l-foot',el)].forEach((c,i)=>c&&c.animate([{transform:'none',opacity:1},{transform:'translateY(60px)',opacity:0}],{...out,delay:i*25}));
   $('.l-x',el).animate([{transform:'none',opacity:1},{transform:'translateX(-80px) rotate(-90deg)',opacity:0}],out);
   $('.l-top .bar',el).animate([{transform:'none',opacity:1},{transform:'translateY(-30px)',opacity:0}],out);
   el.querySelectorAll('.l-deco i').forEach((c,i)=>{ const o=DECO[i]; c.animate([{transform:'none',opacity:1},{transform:`translate(${o.x}px,${o.y}px) scale(.4)`,opacity:0}],{duration:320,delay:i*40,easing:'cubic-bezier(.5,0,.75,0)',fill:'forwards'}) });
@@ -2847,6 +2897,7 @@ function grade(ok,info,msg,sayEu){
   setTimeout(()=>act($('#s-ch'),ok?'jump':'sad'),120);
   $('#l-btn').style.visibility='hidden';
   if(sayEu&&ok&&canSpeak()) setTimeout(()=>speak(sayEu),150);
+  saveRun(R.i+1);
 }
 function next(){ SFX.tap(); advance() }
 function advance(){
@@ -2922,6 +2973,7 @@ function animStats(f,delay,T){
   },delay+i*700)));
 }
 function finish(){
+  dropRun(R.meta.id);
   const m=R.meta, acc=R.first?Math.round(R.firstOk/R.first*100):100, secs=Math.round((Date.now()-R.start)/1000);
   let xp = m.review ? Math.max(5,R.firstOk) : 10 + (acc===100?5:0);
   const st0=streak(); addXP(xp); const st1=streak();
@@ -3004,17 +3056,66 @@ function celIntro(f,cel,title,sub2,T,key){
   animStats(f,2100,T);
 }
 
-/* pantalla de inicio: una vez al día (fecha en este navegador, no en el progreso) */
-const SPL='ikasi-splash';
-function showSplash(){
-  if($('#splash')) return;
-  const st=streak();
-  const el=document.createElement('div'); el.className='splash'; el.id='splash';
-  el.innerHTML=`<div class="logo"><img src="img/icon.webp" alt=""><div class="wm-wrap"><span class="wordmark">ikasi!</span></div></div><div class="scene"><img src="img/scene.webp" alt="Los personajes de Ikasi en un prado con un caserío"></div><div class="tag">Euskara A0–A2 · ${st?`racha de ${st} día${st===1?'':'s'}`:'Ongi etorri!'}</div><button class="btn btn-green wide" id="sp-go">Hasi!</button>`;
-  document.body.appendChild(el);
-  $('#sp-go',el).onclick=()=>{ SFX.done(); try{localStorage.setItem(SPL,today())}catch(e){} el.style.transition='opacity .25s,transform .25s'; el.style.opacity='0'; el.style.transform='scale(1.04)'; setTimeout(()=>{ el.remove(); viewIn(); act($('#hero-ch'),'jump') },250) };
+/* pantalla de carga (v1.17): cada vez que la app se abre en frío (cargar la página).
+   Volver a la app desde la multitarea no recarga la página, así que no sale.
+   Fases: fondo vacío → los personajes caen dentro → se quedan cayendo (rayas de velocidad) →
+   salen por abajo → fondo vacío → icono con rebote → el icono sube y se desvanece mientras
+   la pantalla entra como al cambiar de pestaña (viewIn). Un toque la salta. */
+const BOOT_CH=[ // [id, izquierda %, arriba %, ancho %, giro al entrar]
+  ['amona', 1, 3,38,-14],['peio',56, 1,37, 12],['latxi', 3,30,52,-8],['joxe',58,24,39,10],
+  ['harri',57,49,33,-10],['uxue',13,62,45, 6],['ane',63,72,32,12]];
+let BOOT=null;
+function bootIntro(){
+  let el=$('#boot');
+  if(BOOT) return;
+  if(!el){ el=document.createElement('div'); el.className='boot'; el.id='boot'; document.body.appendChild(el) }
+  if(quiet()||!el.animate){ el.remove(); return }
+  const T=[]; BOOT={el,T};
+  el.innerHTML=`<div class="b-lines">${Array.from({length:9},(_,i)=>`<i style="left:${6+i*11+frnd(-3,3)}%;height:${Math.round(frnd(70,160))}px"></i>`).join('')}</div>
+    <div class="b-stage">${BOOT_CH.map(([id,x,y,w])=>`<span class="b-ch" style="left:${x}%;top:${y}%;width:${w}%"><img src="img/caida-${id}.webp" alt=""></span>`).join('')}</div>
+    <div class="b-logo"><img src="img/icon.webp" alt=""></div>`;
+  const chs=[...el.querySelectorAll('.b-ch')], lines=[...el.querySelectorAll('.b-lines i')], logo=$('.b-logo',el);
+  const H=innerHeight;
+  let fin=false;
+  const end=()=>{ // el icono sube y se desvanece; el fondo se va y la pantalla entra
+    if(fin) return; fin=true; T.forEach(clearTimeout);
+    logo.getAnimations().forEach(a=>a.cancel());
+    logo.animate([{opacity:1,transform:'none'},{opacity:0,transform:'translateY(-110px) scale(.9)'}],{duration:520,easing:EASE.soft,fill:'forwards'});
+    el.animate([{opacity:1},{opacity:0}],{duration:380,delay:120,easing:'ease-out',fill:'forwards'}).onfinish=()=>{ el.remove(); BOOT=null };
+    setTimeout(()=>{ if(BOOT&&BOOT.el===el){ el.remove(); BOOT=null } },900);
+    viewIn(); act($('#hero-ch'),'jump');
+  };
+  const showLogo=(d,hold=1000)=>T.push(setTimeout(()=>{ if(fin) return;
+    logo.animate([{opacity:0,transform:'scale(0) rotate(-20deg)'},{opacity:1,transform:'none'}],{duration:620,easing:EASE.bounce,fill:'forwards'});
+    T.push(setTimeout(end,hold)) },d));
+  const run=()=>{
+    if(fin) return;
+    // rayas de velocidad: suben sin parar mientras caen
+    lines.forEach((l,i)=>l.animate([{transform:'translateY(0)',opacity:0},{opacity:1,offset:.15},{opacity:1,offset:.8},{transform:`translateY(-${H*1.5}px)`,opacity:0}],
+      {duration:frnd(380,560),delay:120+i*55,iterations:Infinity,easing:'linear'}));
+    chs.forEach((c,i)=>{ const r=BOOT_CH[i][4], d=i*70;
+      // 1 · entran desde arriba frenando
+      c.animate([{transform:`translateY(-${H}px) rotate(${r}deg)`,opacity:1},{transform:'none',opacity:1}],{duration:760,delay:d,easing:'cubic-bezier(.16,.9,.3,1)',fill:'both'});
+      // 2 · flotan cayendo: balanceo propio de cada uno
+      const im=c.firstChild, dir=i%2?1:-1;
+      im.animate([{transform:'translateY(0) rotate(0)'},{transform:`translateY(-12px) rotate(${3*dir}deg)`},{transform:'translateY(4px) rotate(0)'},{transform:`translateY(-6px) rotate(${-2*dir}deg)`},{transform:'translateY(0) rotate(0)'}],
+        {duration:1500+i*90,iterations:Infinity,easing:'ease-in-out'});
+      // 3 · salen por abajo acelerando
+      T.push(setTimeout(()=>{ if(fin) return;
+        c.animate([{transform:'none',opacity:1},{transform:`translateY(${H*1.25}px) rotate(${-r}deg)`,opacity:1}],{duration:560,easing:'cubic-bezier(.55,0,.85,.35)',fill:'forwards'});
+      },1750+i*55));
+    });
+    T.push(setTimeout(()=>{ lines.forEach(l=>l.getAnimations().forEach(a=>a.cancel())) },2500));
+    showLogo(2600);
+  };
+  // se espera a tener las imágenes (como mucho 1,5 s): si no, caerían a medio cargar
+  const imgs=[...el.querySelectorAll('img')];
+  Promise.race([Promise.all(imgs.map(i=>i.decode?i.decode().catch(()=>{}):Promise.resolve())),new Promise(r=>setTimeout(r,1500))]).then(run);
+  el.onclick=()=>{ if(fin) return; // un toque: se salta hasta el icono
+    T.forEach(clearTimeout); chs.forEach(c=>c.remove()); lines.forEach(l=>l.remove());
+    if(!logo.getAnimations().length) showLogo(0,560); else end() };
 }
-$('#btn-home').onclick=()=>{ SFX.tap(); if(R) return; showSplash() };
+$('#btn-home').onclick=()=>{ SFX.tap(); if(R) return; bootIntro() };
 
 /* confeti */
 let CONF_STOP=false;
@@ -3030,7 +3131,8 @@ function confetti(){
    ARRANQUE + conexión con la base de datos del artefacto
    ========================================================= */
 render();
-try{ if(localStorage.getItem(SPL)!==today()) showSplash() }catch(e){ showSplash() }
+bootIntro();
+try{ localStorage.removeItem('ikasi-splash') }catch(e){}
 (async()=>{
   try{
     if(!window.claude||typeof window.claude.use!=='function'){ loadStaticDecks(); return; }
@@ -3039,6 +3141,8 @@ try{ if(localStorage.getItem(SPL)!==today()) showSplash() }catch(e){ showSplash(
     const user=await claude.use('user');
     const id=user? await user.id() : null;
     if(id){
+      // el respaldo del navegador es de otra persona (otra cuenta de Claude en este mismo navegador): se empieza de cero
+      if(S.uid&&S.uid!==id&&!R){ S={v:1,xp:0,days:{},done:{},srs:{},userDecks:[],settings:{sound:true},updatedAt:0}; rebuildIndex(); render() }
       UREF=db.doc('data/users/'+id+'/state');
       try{
         const s=await UREF.get();
@@ -3047,6 +3151,7 @@ try{ if(localStorage.getItem(SPL)!==today()) showSplash() }catch(e){ showSplash(
           else if((S.updatedAt||0)>(d.updatedAt||0)) flush();
         } else if(S.updatedAt) flush();
       }catch(e){}
+      if(S.uid!==id){ S.uid=id; try{localStorage.setItem(LS,JSON.stringify(S))}catch(e){} }
     }
     db.collection('decks').onSnapshot(q=>{
       CLOUD_DECKS=q.docs.map(d=>Object.assign({},d.data(),{id:d.id,cloud:true})).filter(d=>Array.isArray(d.words));

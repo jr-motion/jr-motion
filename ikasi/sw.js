@@ -1,6 +1,6 @@
 // Ikasi! funciona sin conexión: guarda la app, las imágenes y las fuentes en caché.
 // Al cambiar cualquier archivo, sube el número de CACHE.
-const CACHE = "ikasi-v8";
+const CACHE = "ikasi-v9";
 const CORE = [
   "./", "index.html", "manifest.webmanifest", "decks.json",
   "icon-180.png", "icon-192.png", "icon-512.png", "icon-maskable-512.png",
@@ -38,7 +38,10 @@ const CORE = [
   "img/aurpegiak/hair_w_luzea_kizkurra_marroia.webp", "img/aurpegiak/hair_w_luzea_kizkurra_urdina.webp", "img/aurpegiak/hair_w_luzea_lisoa_beltza.webp", "img/aurpegiak/hair_w_luzea_lisoa_gorria.webp",
   "img/aurpegiak/hair_w_luzea_lisoa_horia.webp", "img/aurpegiak/hair_w_luzea_lisoa_marroia.webp", "img/aurpegiak/hair_w_luzea_lisoa_urdina.webp", "img/aurpegiak/must_m_beltza.webp",
   "img/aurpegiak/must_m_gorria.webp", "img/aurpegiak/must_m_horia.webp", "img/aurpegiak/must_m_marroia.webp", "img/aurpegiak/must_m_urdina.webp",
-  "img/aurpegiak/wr_m.webp", "img/aurpegiak/wr_w.webp"
+  "img/aurpegiak/wr_m.webp", "img/aurpegiak/wr_w.webp",
+  // v1.17: pantalla de carga (escena de caída) · v1.18: cabecera de Gramatika
+  "img/caida-amona.webp", "img/caida-latxi.webp", "img/caida-peio.webp", "img/caida-joxe.webp",
+  "img/caida-harri.webp", "img/caida-uxue.webp", "img/caida-ane.webp", "img/gramatika.webp"
 ];
 self.addEventListener("install", e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(CORE))); self.skipWaiting(); });
 self.addEventListener("activate", e => {
