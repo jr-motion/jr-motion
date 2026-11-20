@@ -352,7 +352,6 @@ canvas#confetti{position:fixed;inset:0;pointer-events:none;z-index:70}
 .card.ext p{margin:4px 0 10px}
 .ext-btns{display:flex;flex-direction:column;gap:8px;margin-bottom:10px}
 .ext-btns .btn{text-align:center;text-decoration:none;color:var(--ink);display:block}
-.ext-warn{font-size:12px;color:var(--ink2)}
 .wlist .wthumb{width:34px;height:34px;object-fit:contain;flex:none}
 @keyframes hop{0%,55%,100%{transform:translateY(0) scale(1,1)}65%{transform:translateY(0) scale(1.06,.93)}78%{transform:translateY(-14px) scale(.97,1.04)}90%{transform:translateY(0) scale(1.04,.96)}}
 @keyframes sway{0%,100%{transform:rotate(-2.5deg)}50%{transform:rotate(2.5deg)}}
@@ -2476,7 +2475,7 @@ function startReview(){ openLesson(()=>reviewLesson(),{id:'review',title:'Repaso
 
 let dictQuery='';
 function renderDict(){
-  let h=`<div class="sec">${secHead('Hiztegia')}<div class="panel"><p class="sub">Busca una palabra o una frase en euskera o en castellano. Si no está en la app, te llevo a Elhuyar o al traductor.</p>
+  let h=`<div class="sec">${secHead('Hiztegia')}<div class="panel"><p class="sub">Busca una palabra o una frase en euskera o en castellano. Si no está en la app, te llevo al diccionario Elhuyar.</p>
   <input class="search" id="dq" placeholder="¿Cómo se dice…? Busca en euskera o castellano" value="${esc(dictQuery)}" autocomplete="off" enterkeyhint="search">
   <div id="dres"></div></div></div>`;
   $('#view').innerHTML=h;
@@ -2503,7 +2502,7 @@ function fillDict(){
   box.querySelectorAll('[data-deldeck]').forEach(b=>b.onclick=()=>{ showConfirm('¿Borrar esta ficha?','Se borran sus palabras de la lista (tu progreso de repaso se conserva).','Borrar',()=>{ S.userDecks=S.userDecks.filter(x=>x.id!==b.dataset.deldeck); rebuildIndex(); save(); fillDict(); }) });
 }
 
-/* Diccionario de dudas (v1.21): busca en la app y, si no está, lleva a Elhuyar o al traductor */
+/* Diccionario de dudas (v1.21; sin traductor desde v1.21.1): busca en la app y, si no está, lleva a Elhuyar */
 function srcLabel(w){
   if(!w||!w.src) return '';
   const src=String(w.src);
@@ -2542,29 +2541,18 @@ function hitList(ws){
   return `<ul class="wlist hits">${ws.map(w=>{ const src=srcLabel(w);
     return `<li>${dots(w)}${picOf(w)?picImg(picOf(w),'wthumb'):''}<span class="eu">${esc(w.eu)}${src?`<small class="src">${esc(src)}</small>`:''}</span><span class="es">${esc(w.es)}</span></li>` }).join('')}</ul>`;
 }
-function copyText(t){
-  try{ if(navigator.clipboard&&navigator.clipboard.writeText){ return navigator.clipboard.writeText(t).then(()=>true,()=>legacyCopy(t)) } }catch(e){}
-  return Promise.resolve(legacyCopy(t));
-}
-function legacyCopy(t){
-  try{ const a=document.createElement('textarea'); a.value=t; a.setAttribute('readonly',''); a.style.position='fixed'; a.style.opacity='0'; document.body.appendChild(a); a.select(); const ok=document.execCommand('copy'); a.remove(); return ok }catch(e){ return false }
-}
 const EXT={
-  elhuyar:(dir,q)=>'https://hiztegiak.elhuyar.eus/'+dir+'/'+encodeURIComponent(q.trim()),
-  batua:dir=>'https://www.batua.eus/es/'+dir+'/'
+  elhuyar:(dir,q)=>'https://hiztegiak.elhuyar.eus/'+dir+'/'+encodeURIComponent(q.trim())
 };
 function extHelp(raw){
   const q=raw.trim(); const es=looksSpanish(q);
   const el=[['es_eu','castellano → euskera'],['eu_es','euskera → castellano']];
-  const tr=[['es2eu','castellano → euskera'],['eu2es','euskera → castellano']];
-  if(!es){ el.reverse(); tr.reverse(); }
+  if(!es) el.reverse();
   const words=q.split(/\s+/).length;
   const elBtns=el.map(([d,l])=>`<a class="btn btn-white sm ext-b" href="${EXT.elhuyar(d,q)}" target="_blank" rel="noopener">Elhuyar · ${l}</a>`).join('');
-  const trBtns=tr.map(([d,l])=>`<button class="btn btn-white sm ext-b" data-tr="${d}">Traductor · ${l}</button>`).join('');
   return `<div class="card ext"><h3>¿No está, o quieres más?</h3>
-    <p class="meta">Se abre fuera de la app (hace falta conexión). ${words>2?'Para frases, el traductor; para palabras sueltas, mejor Elhuyar.':'Para palabras, Elhuyar es la referencia; el traductor, para frases.'}</p>
-    <div class="ext-btns">${words>2?trBtns+elBtns:elBtns+trBtns}</div>
-    <p class="meta ext-warn">El traductor automático se equivoca a veces con la -k y los auxiliares: compruébalo antes de aprenderlo.</p>
+    <p class="meta">Se abre el diccionario Elhuyar fuera de la app (hace falta conexión).${words>2?' Elhuyar es un diccionario: con frases largas, busca mejor la palabra que te falta.':''}</p>
+    <div class="ext-btns">${elBtns}</div>
     <button class="btn btn-green wide" id="add-doubt">+ Guardar en «Nire zalantzak»</button></div>`;
 }
 function fillDictSearch(box){
@@ -2577,9 +2565,6 @@ function fillDictSearch(box){
   if(!res.length&&!sents.length) h+=`<div class="empty" style="color:#fff">No está en la app.</div>`;
   h+=extHelp(raw);
   box.innerHTML=h;
-  box.querySelectorAll('[data-tr]').forEach(b=>b.onclick=()=>{ SFX.tap(); const t=raw.trim();
-    copyText(t).then(ok=>toast(ok?'Texto copiado: pégalo en el traductor':'Copia el texto y pégalo en el traductor'));
-    window.open(EXT.batua(b.dataset.tr),'_blank','noopener'); });
   box.querySelectorAll('.ext-b[href]').forEach(a=>a.addEventListener('click',()=>SFX.tap()));
   const ad=$('#add-doubt'); if(ad) ad.onclick=()=>{ SFX.tap(); showDoubtModal(raw.trim()) };
 }
