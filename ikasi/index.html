@@ -243,6 +243,8 @@ input,textarea{font-family:inherit;font-weight:700;color:var(--ink)}
 .sheet .s-h .ic{width:38px;height:38px;border-radius:50%;background:#fff;border:3px solid var(--ink);display:grid;place-items:center;flex:none}
 .sheet .s-b{font-size:16px;font-weight:700;margin-bottom:14px;line-height:1.4;padding-right:32%;min-height:22px}
 .sheet .s-b small{display:block;font-weight:600;opacity:.85;margin-top:4px}
+.sheet .s-b .why{display:block;font-size:14px;font-weight:600;line-height:1.35;margin-top:8px;opacity:.9}
+.sheet .s-b .why b{font-weight:800}
 .sheet .schar{position:absolute;right:8px;bottom:calc(100% - 96px);max-height:150px;max-width:31%;width:auto;height:auto;pointer-events:none}
 
 /* final */
@@ -2016,7 +2018,7 @@ function splitTiles(s){
   return out;
 }
 function buildEx(sent,lang,unit){
-  const [eu,es]=sent; const target=lang==='eu'?eu:es;
+  const [eu,es,x]=sent; const target=lang==='eu'?eu:es;
   const display=splitTiles(target);
   const toks=display.map(tileKey);
   const disp=s=>s.replace(/[¿?¡!.,;:]/g,'').split(/\s+/).filter(Boolean);
@@ -2025,7 +2027,7 @@ function buildEx(sent,lang,unit){
   const nw=toks.filter(t=>!PUNCT.test(t)).length;
   const dist=pick(others,Math.min(3,Math.max(2,Math.round(nw/2))));
   const fin=(target.trim().match(/[?!.]+$/)||[''])[0].slice(-1); // signo final: ficha opcional
-  return {t:'build',lang,eu,es,toks,opt:fin||null,tiles:shuffle([...display,...(fin?[fin]:[]),...dist])};
+  return {t:'build',lang,eu,es,toks,opt:fin||null,tiles:shuffle([...display,...(fin?[fin]:[]),...dist]),...(x?{x}:{})};
 }
 function vocabLesson(words,unit){
   const q=[]; const chunks=[];
@@ -2210,6 +2212,37 @@ function mutate(f){
   if(k==='fh') g.fh=pick([null,'bizarra','bibotea'].filter(x=>x!==f.fh),1)[0];
   return g;
 }
+/* --- explicación de «Deskribatu» (v1.19): el porqué de la frase y, si se falla, qué ha fallado --- */
+function spyX(kind,eu,N){
+  const w=eu.split(' ');
+  if(kind==='izan') return `Dice <b>cómo es</b> → verbo <b>izan</b>: <b>${esc(N)} … da</b>. Con <b>da</b> el sujeto va <b>sin -k</b>.`;
+  if(kind==='ilea') return `Dice <b>qué tiene</b> → verbo <b>eduki</b>. Quien tiene lleva <b>-k</b> (<b>${esc(N)}k</b>). <b>Ile ${esc(w[2])}</b> es una sola cosa → <b>dauka</b>, al final.`;
+  if(kind==='plural') return `<b>Betaurrekoak</b> es siempre plural (como «las gafas») → <b>dauzka</b>. Y quien tiene lleva <b>-k</b>: <b>${esc(N)}k</b>.`;
+  if(kind==='rik'){ const o=w[3], base=o==='betaurrekorik'?'betaurrekoak':'bizarra';
+    return `«No tener» va con <b>-rik</b> (<b>${base}</b> → <b>${o}</b>) y con <b>-rik</b> el verbo va en singular: <b>ez dauka</b>${base==='betaurrekoak'?', aunque las gafas sean plural':''}. <b>Ez + verbo</b> van delante.`; }
+  if(kind==='aurpegia') return `<b>${esc(cap(w[1]))}</b> es una sola cosa → <b>dauka</b> (no <i>dauzka</i>). Quien tiene lleva <b>-k</b>: <b>${esc(N)}k</b>.`;
+  return '';
+}
+function spyDiag(it,ak){
+  const N=norm(it.face.name), want=it.toks, has=t=>ak.includes(t), out=[];
+  if(it.kind==='izan'){
+    if(has(N+'k')) out.push(`Has puesto <b>${esc(it.face.name)}k</b>: con <b>da</b> no hay -k.`);
+    if(has('dauka')) out.push(`Has puesto <b>dauka</b>: esto dice cómo es, no algo que tiene → <b>da</b>.`);
+  } else {
+    if(has(N)&&!has(N+'k')) out.push(`Falta la <b>-k</b>: con dauka / dauzka, quien tiene es <b>${esc(it.face.name)}k</b>.`);
+    if(has('da')) out.push(`Has puesto <b>da</b>: esto es algo que tiene → eduki (<b>dauka</b>).`);
+    if(it.kind==='rik'){
+      if(has('dauzka')) out.push(`Has puesto <b>dauzka</b>: ${want[3]==='betaurrekorik'?'aunque <b>betaurrekoak</b> sea plural, ':''}con <b>-rik</b> el verbo va siempre en singular → <b>dauka</b>.`);
+      if(has('betaurrekoak')||has('bizarra')) out.push(`En negativa, lo que no se tiene lleva <b>-rik</b>: <b>${esc(want[3])}</b>.`);
+    } else if(it.kind==='plural'){
+      if(has('dauka')) out.push(`Has puesto <b>dauka</b>: <b>betaurrekoak</b> es plural → <b>dauzka</b>.`);
+    } else if(has('dauzka')) out.push(`Has puesto <b>dauzka</b>: es una sola cosa → <b>dauka</b>. Dauzka es para varias (betaurrekoak dauzka).`);
+  }
+  if(!out.length){ const same=ak.length===want.length&&[...ak].sort().join()===[...want].sort().join();
+    if(same) out.push(it.kind==='rik'?`Las palabras están bien, falla el orden: en negativa <b>ez + verbo</b> va antes de lo que no se tiene.`:`Las palabras están bien, falla el orden: sujeto, lo que es o tiene y el verbo al final.`);
+    else if(ak.length<want.length) out.push(`Falta alguna palabra.`); }
+  return out.join(' ');
+}
 function spyPickEx(){
   const sex=pick(['m','w'],1)[0];
   const t=randFace(sex), fs=[t], seen=new Set([fkey(t)]); let guard=0;
@@ -2247,7 +2280,7 @@ function spyDescEx(kind){
     }
     if(!s) continue;
     const display=s[0].split(' ');
-    return {t:'build',lang:'eu',eu:s[0],es:s[1],toks:display.map(tileKey),opt:null,tiles:shuffle([...display,...s[2]]),face:f};
+    return {t:'build',lang:'eu',eu:s[0],es:s[1],toks:display.map(tileKey),opt:null,tiles:shuffle([...display,...s[2]]),face:f,kind,x:spyX(kind,s[0],N)};
   }
   return spyDescEx('izan');
 }
@@ -2638,7 +2671,8 @@ function rBuild(it,body){
   const upd=()=>{ ans.innerHTML=chosen.map((i,k)=>`<button class="tile${PUNCT.test(it.tiles[i])?' punct':''}" data-k="${k}">${esc(it.tiles[i])}</button>`).join('');
     ans.querySelectorAll('.tile').forEach(b=>b.onclick=()=>{ if(R.answered)return; SFX.tap(); const i=chosen.splice(+b.dataset.k,1)[0]; bank.querySelector(`[data-i="${i}"]`).classList.remove('used'); upd() });
     setBtn('Comprobar',chosen.length>0,()=>{ const ak=chosen.map(i=>tileKey(it.tiles[i])); if(it.opt&&ak[ak.length-1]===it.opt) ak.pop(); const ok=ak.join(' ')===it.toks.join(' ');
-      grade(ok,null, ok?(toEu?'':`<small>${esc(it.es)}</small>`):`Correcto: <b>${esc(toEu?it.eu:it.es)}</b>`, toEu?it.eu:null);
+      const diag=!ok&&it.face&&it.kind?spyDiag(it,ak):'', why=diag?`<span class="why">${diag}</span>`:(it.x?`<span class="why">${it.x}</span>`:'');
+      grade(ok,null, (ok?(toEu?'':`<small>${esc(it.es)}</small>`):`Correcto: <b>${esc(toEu?it.eu:it.es)}</b>`)+why, toEu?it.eu:null);
       const tiles=[...ans.querySelectorAll('.tile')];
       if(ok){ tiles.forEach((t,k)=>setTimeout(()=>t.classList.add('ok'),k*70));
         if(shouldBikain(it.toks.filter(t=>!PUNCT.test(t)).length)){ const w=bikain($('#lesson')); $('#s-t').textContent=w; SFX.zap() } }
