@@ -2660,8 +2660,11 @@ function startLesson(queue,meta,st){
   <div class="sheet" id="l-sheet">${chImg(R.ch,'schar','id="s-ch"')}<div class="s-h"><span class="ic" id="s-ic"></span><span id="s-t"></span></div><div class="s-b" id="s-b"></div><button class="btn wide" id="s-btn">Continuar</button></div></div>`;
   document.body.appendChild(el); document.body.style.overflow='hidden'; lessonIn(el);
   $('#l-x').onclick=()=>{ SFX.tap(); if(!canResume(R.meta)){ showConfirm('¿Salir de la lección?','Perderás el progreso de esta lección.','Salir',endLesson); return }
-    modal(`<h2>¿Salir de la lección?</h2><p>Tu progreso queda guardado: la próxima vez podrás seguir donde lo has dejado.</p><div class="acts"><button class="btn btn-green wide" id="c-ok">Salir y guardar</button><button class="btn btn-white wide" id="c-no">Seguir con la lección</button></div>`,(m,close)=>{
-      $('#c-ok',m).onclick=()=>{ close(); flushNow(); endLesson() }; $('#c-no',m).onclick=close; }) };
+    modal(`<h2>¿Salir de la lección?</h2><p>Si guardas, la próxima vez podrás seguir donde lo has dejado. Si te has equivocado de lección, sal sin guardar.</p><div class="acts"><button class="btn btn-green wide" id="c-ok">Salir y guardar</button><button class="btn btn-red wide" id="c-drop">Salir sin guardar</button><button class="btn btn-white wide" id="c-no">Seguir con la lección</button></div>`,(m,close)=>{
+      $('#c-ok',m).onclick=()=>{ close(); flushNow(); endLesson() };
+      // v1.22: salir sin guardar borra la lección a medias (también la que se guardó antes, si se había reanudado)
+      $('#c-drop',m).onclick=()=>{ close(); R.saveOff=true; dropRun(R.meta.id); flushNow(); endLesson() };
+      $('#c-no',m).onclick=close; }) };
   $('#s-btn').onclick=next;
   $('#l-btn').onclick=()=>{ if(R.ready) R.ready() };
   if(R.i>=R.queue.length) finish(); else showItem();

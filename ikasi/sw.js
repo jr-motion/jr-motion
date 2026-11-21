@@ -1,6 +1,6 @@
 // Ikasi! funciona sin conexión: guarda la app, las imágenes y las fuentes en caché.
 // Al cambiar cualquier archivo, sube el número de CACHE.
-const CACHE = "ikasi-v15";
+const CACHE = "ikasi-v16";
 const CORE = [
   "./", "index.html", "manifest.webmanifest", "decks.json",
   "icon-180.png", "icon-192.png", "icon-512.png", "icon-maskable-512.png",
