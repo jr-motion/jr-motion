@@ -2205,11 +2205,11 @@ function buildLesson(L){
   if(L.kind==='vocab') return vocabLesson(L.words,u);
   if(L.kind==='spy') return spyLesson();
   if(L.kind==='grammar'){
-    return [...u.grammar.map(g=>({t:'tip',g})), ...shuffle(rankPick(u.drills,dKey,G_MAX)).map(d=>({t:'drill',d})), ...rankPick(u.sentences,sKey,2).map(s=>sentEx(s,'eu',u))];
+    return [...u.grammar.map(g=>({t:'tip',g})), ...shuffle([...rankPick(u.drills,dKey,G_MAX), ...genDrills(u,4,true)]).map(d=>({t:'drill',d})), ...rankPick(u.sentences,sKey,2).map(s=>sentEx(s,'eu',u))];
   }
-  // práctica: frases (2 de cada 3 en euskera, al azar), huecos que menos han salido y vocabulario de la unidad
+  // práctica: frases (2 de cada 3 en euskera, al azar), huecos que menos han salido, huecos generados (v1.26) y vocabulario de la unidad
   const ws=pick(u.words,4);
-  const ex=[ ...rankPick(u.sentences,sKey,P_SENT).map(s=>sentEx(s,Math.random()<1/3?'es':'eu',u)), ...rankPick(u.drills,dKey,3).map(d=>({t:'drill',d})),
+  const ex=[ ...rankPick(u.sentences,sKey,P_SENT).map(s=>sentEx(s,Math.random()<1/3?'es':'eu',u)), ...[...rankPick(u.drills,dKey,3), ...genDrills(u,3,false)].map(d=>({t:'drill',d})),
     matchEx(u.words), ...ws.slice(0,3).map(typeEx), ...ws.slice(3).map(w=>mcEx(w,'es')) ];
   return shuffle(ex);
 }
@@ -2222,6 +2222,201 @@ function deckLesson(d){
 function reviewLesson(){
   const due=shuffle(dueWords()).slice(0,12);
   return due.map((w,i)=>{ const r=i%3; return r===0?(picEx(w)||mcEx(w,'eu')):r===1?mcEx(w,'es'):typeEx(w) }).map(e=>(e.review=true,e));
+}
+
+/* =========================================================
+   HUECOS GENERADOS · VERBOS (v1.26)
+   Cada vez que se abre Gramatika o Praktika se fabrican huecos nuevos combinando reglas con palabras
+   de las unidades ya vistas (las de la unidad actual y las anteriores del camino). Sin IA: las formas
+   salen de tablas y las palabras de listas hechas a mano (por eso las frases tienen sentido).
+   · izan (desde Nor zara?): profesión o cómo es → Ni irakaslea naiz / Haiek altuak dira.
+   · urte (desde Zenbat urte dituzu?): Nik hogeita hamar urte ditut.
+   · eduki (desde Gorputza eta itxura): Nik ile luzea daukat / Zuk betaurrekoak dauzkazu / Hark ez dauka bizarrik.
+   · ukan e izan con participio (desde NORK eta UKAN): Nik ogia jan dut / Ni gaur etorri naiz / Nik ez dut ezer erosi.
+   · egon (desde Nola dago?): Ni nekatuta nago; y ¿izan o egon?: Ni lasaia naiz ≠ Ni lasai nago.
+   Cada hueco lleva su explicación (x) y la frase en castellano (en q, salvo en «¿izan o egon?», donde la
+   delataría: ahí va en la explicación). gen:true → no se cuenta en S.seen. Se puede pasar a JSON (lección a medias).
+   ========================================================= */
+const GV={
+  pr:[{nor:'ni',nork:'nik',es:'Yo'},{nor:'zu',nork:'zuk',es:'Tú'},{nor:'hura',nork:'hark',es:'Él / ella'},
+      {nor:'gu',nork:'guk',es:'Nosotros'},{nor:'zuek',nork:'zuek',es:'Vosotros'},{nor:'haiek',nork:'haiek',es:'Ellos'}],
+  izan:['naiz','zara','da','gara','zarete','dira'],
+  egon:['nago','zaude','dago','gaude','zaudete','daude'],
+  du:['dut','duzu','du','dugu','duzue','dute'], ditu:['ditut','dituzu','ditu','ditugu','dituzue','dituzte'],
+  dauka:['daukat','daukazu','dauka','daukagu','daukazue','daukate'], dauzka:['dauzkat','dauzkazu','dauzka','dauzkagu','dauzkazue','dauzkate'],
+  ser:['soy','eres','es','somos','sois','son'], estar:['estoy','estás','está','estamos','estáis','están'],
+  tener:['tengo','tienes','tiene','tenemos','tenéis','tienen'], haber:['he','has','ha','hemos','habéis','han'], refl:['me','te','se','nos','os','se']
+};
+GV.tbl={izan:'ni naiz, zu zara, hura da, gu gara, zuek zarete, haiek dira', egon:'ni nago, zu zaude, hura dago, gu gaude, zuek zaudete, haiek daude',
+  du:'nik dut, zuk duzu, hark du, guk dugu, zuek duzue, haiek dute', ditu:'nik ditut, zuk dituzu, hark ditu, guk ditugu, zuek dituzue, haiek dituzte',
+  dauka:'nik daukat, zuk daukazu, hark dauka, guk daukagu, zuek daukazue, haiek daukate', dauzka:'nik dauzkat, zuk dauzkazu, hark dauzka, guk dauzkagu, zuek dauzkazue, haiek dauzkate'};
+/* [euskera con la notación del artículo, castellano singular, castellano plural, unidad] */
+GV.lan=[['ikasle(a)','estudiante','estudiantes','a1-1'],['irakasle(a)','profesor/a','profesores/as','a1-1'],['mediku(a)','médico/a','médicos/as','a1-1'],
+  ['sukaldari(a)','cocinero/a','cocineros/as','a1-1'],['zerbitzari(a)','camarero/a','camareros/as','a1-1'],['diseinatzaile(a)','diseñador/a','diseñadores/as','a1-1'],
+  ['langabetu(a)','parado/a','parados/as','a1-1'],['erizain(a)','enfermero/a','enfermeros/as','a1-lan'],['polizia','policía','policías','a1-lan'],
+  ['suhiltzaile(a)','bombero/a','bomberos/as','a1-lan'],['okin(a)','panadero/a','panaderos/as','a1-lan'],['saltzaile(a)','vendedor/a','vendedores/as','a1-lan'],
+  ['mekanikari(a)','mecánico/a','mecánicos/as','a1-lan'],['kazetari(a)','periodista','periodistas','a1-lan'],['informatikari(a)','informático/a','informáticos/as','a1-lan'],
+  ['arkitekto(a)','arquitecto/a','arquitectos/as','a1-lan'],['idazle(a)','escritor/a','escritores/as','a1-lan'],['gidari(a)','conductor/a','conductores/as','a1-lan'],
+  ['abokatu(a)','abogado/a','abogados/as','a1-lan'],['abeslari(a)','cantante','cantantes','a1-lan'],['argazkilari(a)','fotógrafo/a','fotógrafos/as','a1-lan'],
+  ['albaitari(a)','veterinario/a','veterinarios/as','a1-lan'],['iturgin(a)','fontanero/a','fontaneros/as','a1-lan']];
+GV.adj=[['altu(a)','alto/a','altos/as'],['baxu(a)','bajo/a','bajos/as'],['gazte(a)','joven','jóvenes'],['zahar(ra)','mayor','mayores'],['lodi(a)','gordo/a','gordos/as'],
+  ['argal(a)','delgado/a','delgados/as'],['polit(a)','guapo/a','guapos/as'],['indartsu(a)','fuerte','fuertes'],['atsegin(a)','simpático/a','simpáticos/as'],
+  ['jator(ra)','majo/a','majos/as'],['alai(a)','alegre','alegres'],['lasai(a)','tranquilo/a','tranquilos/as'],['urduri(a)','nervioso/a','nerviosos/as'],
+  ['berritsu(a)','hablador/a','habladores/as'],['isil(a)','callado/a','callados/as'],['lotsati(a)','tímido/a','tímidos/as'],['azkar(ra)','listo/a','listos/as'],
+  ['zintzo(a)','formal','formales'],['bihurri(a)','travieso/a','traviesos/as'],['ilehori(a)','rubio/a','rubios/as'],['beltzaran(a)','moreno/a','morenos/as']].map(a=>[...a,'a1-nol']);
+/* estados con egon: [euskera, castellano singular, castellano plural] (unidad Nola dago?) */
+GV.ego=[['pozik','contento/a','contentos/as'],['haserre','enfadado/a','enfadados/as'],['triste','triste','tristes'],['alai','alegre','alegres'],['lasai','tranquilo/a','tranquilos/as'],
+  ['urduri','nervioso/a','nerviosos/as'],['nekatuta','cansado/a','cansados/as'],['harrituta','sorprendido/a','sorprendidos/as'],['aspertuta','aburrido/a','aburridos/as'],
+  ['beldurtuta','asustado/a','asustados/as'],['kezkatuta','preocupado/a','preocupados/as'],['maiteminduta','enamorado/a','enamorados/as'],['lanpetuta','ocupado/a','ocupados/as'],
+  ['gaixorik','enfermo/a','enfermos/as'],['lotan','dormido/a','dormidos/as'],['esna','despierto/a','despiertos/as'],['negarrez','llorando','llorando'],
+  ['isilik','callado/a','callados/as'],['zutik','de pie','de pie'],['eserita','sentado/a','sentados/as'],['etzanda','tumbado/a','tumbados/as'],['prest','listo/a','listos/as']];
+/* ¿izan o egon?: [adjetivo de Nolakoa da?, estado de Nola dago?, castellano] */
+GV.ie=[['alai(a)','alai','alegre'],['lasai(a)','lasai','tranquilo/a'],['triste(a)','triste','triste'],['urduri(a)','urduri','nervioso/a'],['isil(a)','isilik','callado/a']];
+/* cosas que se tienen (eduki): eu, castellano, 1 = una cosa / 2 = varias, forma con -rik, castellano en negativa, unidad */
+GV.have=[['ile luzea','el pelo largo',1,'','','a1-gor'],['ile laburra','el pelo corto',1,'','','a1-gor'],['ile kizkurra','el pelo rizado',1,'','','a1-gor'],
+  ['ile lisoa','el pelo liso',1,'','','a1-gor'],['ile beltza','el pelo negro',1,'','','a1-gor'],['ile urdina','canas',1,'','','a1-gor'],
+  ['sudur handia','la nariz grande',1,'','','a1-gor'],['aho txikia','la boca pequeña',1,'','','a1-gor'],['begi urdinak','los ojos azules',2,'','','a1-gor'],
+  ['begi handiak','los ojos grandes',2,'','','a1-gor'],['begi beltzak','los ojos negros',2,'','','a1-gor'],['belarri handiak','las orejas grandes',2,'','','a1-gor'],
+  ['esku txikiak','las manos pequeñas',2,'','','a1-gor'],['hanka luzeak','las piernas largas',2,'','','a1-gor'],['irribarre polita','una sonrisa bonita',1,'','','a1-gor'],
+  ['ahots polita','una voz bonita',1,'','','a1-gor'],['bizarra','barba',1,'bizarrik','barba','a1-gor'],['bibotea','bigote',1,'biboterik','bigote','a1-gor'],
+  ['betaurrekoak','gafas',2,'betaurrekorik','gafas','a1-gor'],['liburu bat','un libro',1,'libururik','ningún libro','a0-eus'],['bi liburu','dos libros',2,'libururik','ningún libro','a0-eus'],
+  ['arkatz bat','un lápiz',1,'arkatzik','ningún lápiz','a0-eus'],['hiru arkatz','tres lápices',2,'arkatzik','ningún lápiz','a0-eus'],['etxe bat','una casa',1,'etxerik','casa','a1-3'],
+  ['bi etxe','dos casas',2,'etxerik','casa','a1-3'],['telefono bat','un teléfono',1,'telefonorik','teléfono','a1-3'],['giltzak','las llaves',2,'giltzarik','llaves','a1-nork']];
+/* objetos para ukan: eu, castellano, 1/2 */
+GV.obj={ogia:['el pan',1],kafea:['el café',1],'kafe bat':['un café',1],'garagardo bat':['una cerveza',1],'bi garagardo':['dos cervezas',2],
+  liburua:['el libro',1],liburuak:['los libros',2],'liburu bat':['un libro',1],'bi liburu':['dos libros',2],'arkatz bat':['un lápiz',1],arkatza:['el lápiz',1],
+  'hiru arkatz':['tres lápices',2],'etxe bat':['una casa',1],etxea:['la casa',1],'telefono bat':['un teléfono',1],telefonoa:['el teléfono',1],giltzak:['las llaves',2],
+  irakaslea:['al profesor',1],'lagun bat':['a un amigo',1],'bi lagun':['a dos amigos',2],mahaia:['la mesa',1],'hitz bat':['una palabra',1],'galdera bat':['una pregunta',1],
+  galdera:['la pregunta',1],erantzuna:['la respuesta',1]};
+/* verbos con objeto (ukan): participio, castellano, objetos posibles */
+GV.vt=[['jan','comido',['ogia']],['edan','bebido',['kafea','kafe bat','garagardo bat','bi garagardo']],
+  ['erosi','comprado',['ogia','liburu bat','bi liburu','arkatz bat','hiru arkatz','etxe bat','telefono bat','giltzak','liburuak']],
+  ['ikusi','visto',['irakaslea','lagun bat','bi lagun','etxea','liburua']],['ekarri','traído',['liburua','giltzak','ogia','kafe bat']],
+  ['galdu','perdido',['giltzak','telefonoa','liburua','arkatza']],['hartu','cogido',['liburua','giltzak','arkatz bat']],['ireki','abierto',['liburua']],
+  ['itxi','cerrado',['liburua']],['garbitu','limpiado',['mahaia','etxea']],['prestatu','preparado',['kafea','kafe bat']],['saldu','vendido',['etxea','liburuak','bi liburu']],
+  ['idatzi','escrito',['hitz bat','galdera bat','erantzuna']],['irakurri','leído',['liburua','liburu bat','galdera']]];
+/* verbos sin objeto (izan): participio, castellano, reflexivo en castellano */
+GV.vi=[['etorri','venido'],['joan','ido'],['iritsi','llegado'],['sartu','entrado'],['atera','salido'],['igo','subido'],['jaitsi','bajado'],
+  ['erori','caído',1],['jaiki','levantado',1],['esnatu','despertado',1],['geratu','quedado',1],['itzuli','vuelto']];
+GV.ezer=[['jan','comido'],['edan','bebido'],['erosi','comprado'],['ikusi','visto'],['esan','dicho'],['egin','hecho']];
+GV.num=[['hamar','diez','a0-2'],['hamabost','quince','a0-2'],['hemezortzi','dieciocho','a0-2'],['hogei','veinte','a0-2'],['hogeita bat','veintiún','a1-4'],
+  ['hogeita hamar','treinta','a1-4'],['hogeita hamabost','treinta y cinco','a1-4'],['berrogei','cuarenta','a1-4'],['berrogeita hamar','cincuenta','a1-4'],
+  ['hirurogei','sesenta','a1-4'],['hirurogeita hamar','setenta','a1-4'],['laurogei','ochenta','a1-4'],['laurogeita hamar','noventa','a1-4'],['ehun','cien','a1-4']];
+
+const gIdx=id=>UNITS.findIndex(u=>u.id===id);
+const gOk=(uid,ui)=>{ const k=gIdx(uid); return k>=0 && k<=ui };
+const gOne=a=>a[Math.floor(Math.random()*a.length)];
+/* singular y plural con artículo: ile(a) → ilea / ileak, zahar(ra) → zaharra / zaharrak, polizia → polizia / poliziak */
+const gSg=w=>artFull(w);
+const gPl=w=>hasArt(w)?artFull(w)+'k':w+'k';
+const esPron=(p,txt)=>p===2?txt.replace(/^/,'Él / ella '):GV.pr[p].es+' '+txt;
+/* opciones: la buena primero; distractores sin repetir hasta tener n */
+function gOpts(right,cands,n=4){ const o=[right]; for(const c of cands){ if(c&&!o.includes(c)) o.push(c); if(o.length===n) break } return o }
+const otherP=(p,same)=>shuffle([0,1,2,3,4,5].filter(q=>q!==p&&(same===undefined||(q<3)===(p<3))));
+const pairP=p=>(p+3)%6; // ni ↔ gu, zu ↔ zuek, hura ↔ haiek
+function gDrill(q,s,right,cands,x,n){ const o=gOpts(right,cands,n); return {q,s:s.replace(/\.$/,''),o,a:0,x,gen:true} } // sin punto final, como los huecos de clase
+
+/* izan: profesión o cómo es */
+function genIzan(ui){
+  const pool=[...GV.lan,...GV.adj].filter(w=>gOk(w[3],ui)); if(!pool.length) return null;
+  const w=gOne(pool), p=Math.floor(Math.random()*6), pl=p>=3, isLan=GV.lan.includes(w);
+  const eu=pl?gPl(w[0]):gSg(w[0]), es=pl?w[2]:w[1], f=GV.izan[p], mode=gOne(['a','a','neg','q']);
+  const S=cap(GV.pr[p].nor);
+  const s=mode==='neg'?`${S} ez ___ ${eu}.`:mode==='q'?`${S} ${eu} ___?`:`${S} ${eu} ___.`;
+  const esS=mode==='neg'?esPron(p,`no ${GV.ser[p]} ${es}`):mode==='q'?'¿'+esPron(p,`${GV.ser[p]} ${es}`)+'?':esPron(p,`${GV.ser[p]} ${es}`);
+  const egonOk=gOk('a1-ego',ui);
+  const cands=[GV.izan[pairP(p)], egonOk?GV.egon[p]:null, ...otherP(p).map(q=>GV.izan[q])];
+  const x=`<b>${GV.pr[p].nor}</b> → <b>${f}</b> (${GV.tbl.izan}). ${isLan?'Profesión (qué es)':'Cómo es'} → izan${pl?`; con sujeto plural, la palabra lleva <b>-ak</b>: <i>${eu}</i>`:`; la palabra lleva <b>-a</b>: <i>${eu}</i>`}.${mode==='neg'?' En negativa, <b>ez</b> + verbo van delante.':''}`;
+  return gDrill(`«${esS}»`,s,f,cands,x);
+}
+/* edad: urte + ditut (antes de NORK eta UKAN, solo nik, zuk, hark) */
+function genUrte(ui){
+  const nums=GV.num.filter(n=>gOk(n[2],ui)); if(!nums.length) return null;
+  const all=gOk('a1-nork',ui), p=Math.floor(Math.random()*(all?6:3)), n=gOne(nums), f=GV.ditu[p], q=p%3!==0&&Math.random()<.3; // «¿Yo cuántos años tengo?» no se pregunta
+  const s=q?`${cap(GV.pr[p].nork)} zenbat urte ___?`:`${cap(GV.pr[p].nork)} ${n[0]} urte ___.`;
+  const es=q?'¿'+esPron(p,`cuántos años ${GV.tener[p]}`)+'?':esPron(p,`${GV.tener[p]} ${n[1]} años`);
+  const cands=all?[GV.du[p], ...otherP(p,true).map(x=>GV.ditu[x]), GV.ditu[pairP(p)]]:[0,1,2].filter(x=>x!==p).map(x=>GV.ditu[x]);
+  const x=`<b>${GV.pr[p].nork}</b> (con -k) → <b>${f}</b>. Con un número, <i>urte</i> va sin -ak, pero son varios años: <b>${f}</b>${all?`, no ${GV.du[p]}`:''}. En clase también vale <i>${GV.dauzka[p]}</i>.`;
+  return gDrill(`«${es}»`,s,f,cands,x,all?4:3);
+}
+/* eduki: una cosa / varias, -rik y ba- */
+function genEduki(ui){
+  const pool=GV.have.filter(h=>gOk(h[5],ui)); if(!pool.length) return null;
+  const h=gOne(pool), rk=pool.filter(x=>x[3]);
+  let mode=gOne(['a','a','a','neg','q']); if(mode!=='a'&&!rk.length) mode='a';
+  if(mode==='a'){
+    const p=Math.floor(Math.random()*6), many=h[2]===2, f=(many?GV.dauzka:GV.dauka)[p], alt=(many?GV.dauka:GV.dauzka)[p];
+    const cands=[alt, ...otherP(p).map(q=>(many?GV.dauzka:GV.dauka)[q])];
+    const x=`<b>${GV.pr[p].nork}</b> (quien tiene, con -k) + ${many?`varias cosas (<i>${h[0]}</i>) → <b>${f}</b>`:`una cosa (<i>${h[0]}</i>) → <b>${f}</b>`}. ${many?`Una sola cosa sería ${alt}.`:`Varias cosas serían ${alt}.`}${/^(bi|hiru) /.test(h[0])?' Con número la palabra va sin artículo, pero son varias.':''}`;
+    return gDrill(`«${esPron(p,`${GV.tener[p]} ${h[1]}`)}»`,`${cap(GV.pr[p].nork)} ${h[0]} ___.`,f,cands,x);
+  }
+  const r=gOne(rk);
+  if(mode==='neg'){
+    const p=Math.floor(Math.random()*6), f=GV.dauka[p];
+    const cands=[GV.dauzka[p], ...otherP(p).map(q=>GV.dauka[q])];
+    const x=`Con <b>-rik</b> (<i>${r[3]}</i>, ningún/ninguna) el verbo va <b>siempre en singular</b>: ez <b>${f}</b>${r[2]===2?`, aunque <i>${r[0]}</i> sea plural`:''}. <b>${GV.pr[p].nork}</b> → ${f}.`;
+    return gDrill(`«${esPron(p,`no ${GV.tener[p]} ${r[4]}`)}»`,`${cap(GV.pr[p].nork)} ez ___ ${r[3]}.`,f,cands,x);
+  }
+  const p=gOne([1,2,4]), f='ba'+GV.dauka[p];
+  const cands=['ba'+GV.dauzka[p], ...otherP(p).map(q=>'ba'+GV.dauka[q])];
+  const x=`Pregunta con <b>-rik</b> (<i>${r[3]}</i>): <b>ba-</b> + verbo en singular → <b>${f}</b>${r[2]===2?`, aunque <i>${r[0]}</i> sea plural`:''}.`;
+  return gDrill(`«¿${esPron(p,`${GV.tener[p]} ${r[4].replace(/^ningún /,'algún ')}`)}?»`,`${cap(GV.pr[p].nork)} ___ ${r[3]}?`,f,cands,x);
+}
+/* ukan o izan con participio */
+function genUkan(ui){
+  const mode=gOne(['vt','vt','vt','vi','vi','neg','ezer']), p=Math.floor(Math.random()*6), P=GV.pr[p], adv=Math.random()<.35?gOne([['gaur','hoy'],['berriro','otra vez']]):null;
+  if(mode==='vi'){
+    const v=gOne(GV.vi), f=GV.izan[p];
+    const es=esPron(p,`${v[2]?GV.refl[p]+' ':''}${GV.haber[p]} ${v[1]}${adv?' '+adv[1]:''}`);
+    const cands=[GV.du[p], GV.izan[pairP(p)], ...otherP(p).map(q=>GV.izan[q])];
+    const x=`<i>${v[0]}</i> no lleva objeto (no se puede preguntar «zer?») → <b>izan</b>, y el sujeto va sin -k: <b>${P.nor} ${f}</b> (${GV.tbl.izan}).`;
+    return gDrill(`«${es}»`,`${cap(P.nor)}${adv?' '+adv[0]:''} ${v[0]} ___.`,f,cands,x);
+  }
+  if(mode==='ezer'){
+    const v=gOne(GV.ezer), f=GV.du[p];
+    const cands=[GV.ditu[p], GV.izan[p], ...otherP(p).map(q=>GV.du[q])];
+    const x=`<i>${v[0]}</i> lleva objeto (zer? → <i>ezer</i>, nada) → ukan con <b>${P.nork}</b>. Con <i>ezer</i> el verbo va en singular: ez <b>${f}</b>.`;
+    return gDrill(`«${esPron(p,`no ${GV.haber[p]} ${v[1]} nada`)}»`,`${cap(P.nork)} ez ___ ezer ${v[0]}.`,f,cands,x);
+  }
+  const neg=mode==='neg'; // en negativa, solo objetos concretos (Nik ez dut ogia jan; no «ez dut hitz bat idatzi»)
+  const v=gOne(neg?GV.vt.filter(v=>v[2].some(o=>!/ bat$|^(bi|hiru) /.test(o))):GV.vt), os=neg?v[2].filter(o=>!/ bat$|^(bi|hiru) /.test(o)):v[2];
+  const o=gOne(os), [oes,n]=GV.obj[o], many=n===2, f=(many?GV.ditu:GV.du)[p], alt=(many?GV.du:GV.ditu)[p];
+  const cands=[alt, GV.izan[p], ...otherP(p).map(q=>(many?GV.ditu:GV.du)[q])];
+  const es=esPron(p,`${neg?'no ':''}${GV.haber[p]} ${v[1]} ${oes}${adv&&!neg?' '+adv[1]:''}`);
+  const s=neg?`${cap(P.nork)} ez ___ ${o} ${v[0]}.`:`${cap(P.nork)}${adv?' '+adv[0]:''} ${o} ${v[0]} ___.`;
+  const x=`<i>${v[0]}</i> lleva objeto (zer? → <i>${o}</i>) y el sujeto va con -k (<b>${P.nork}</b>) → ukan. ${many?`Varias cosas → <b>${f}</b> (una sola: ${alt})`:`Una cosa → <b>${f}</b> (varias: ${alt})`}.${neg?' En negativa: <b>ez</b> + auxiliar delante y el participio al final.':''}`;
+  return gDrill(`«${es}»`,s,f,cands,x);
+}
+/* egon: estados */
+function genEgon(ui){
+  const w=gOne(GV.ego), p=Math.floor(Math.random()*6), P=GV.pr[p], f=GV.egon[p], mode=gOne(['a','gaur','neg','q','oso']);
+  const es=p>=3?w[2]:w[1], S=cap(P.nor), noOso=/^(zutik|eserita|etzanda|lotan|esna|negarrez|prest)$/.test(w[0]);
+  const s=mode==='neg'?`${S} ez ___ ${w[0]}.`:mode==='q'?`${S} ${w[0]} ___?`:mode==='oso'&&!noOso?`${S} oso ${w[0]} ___.`:mode==='gaur'?`${S} gaur ${w[0]} ___.`:`${S} ${w[0]} ___.`;
+  const oso=s.includes(' oso ');
+  const esS=mode==='neg'?esPron(p,`no ${GV.estar[p]} ${es}`):mode==='q'?'¿'+esPron(p,`${GV.estar[p]} ${es}`)+'?':esPron(p,`${GV.estar[p]} ${oso?'muy ':''}${es}${s.includes(' gaur ')?' hoy':''}`);
+  const cands=[GV.izan[p], GV.egon[pairP(p)], ...otherP(p).map(q=>GV.egon[q])];
+  const x=`Cómo está (estado) → <b>egon</b>: <b>${P.nor} ${f}</b> (${GV.tbl.egon}). <i>${w[0]}</i> va sin artículo.${mode==='neg'?' En negativa, <b>ez</b> + verbo delante.':''}`;
+  return gDrill(`«${esS}»`,s,f,cands,x);
+}
+/* ¿izan o egon? (Nolakoa? ≠ Nola?) */
+function genIzanEgon(ui){
+  const w=gOne(GV.ie), p=Math.floor(Math.random()*6), P=GV.pr[p], isIzan=Math.random()<.5, pl=p>=3;
+  const word=isIzan?(pl?gPl(w[0]):gSg(w[0])):w[1], f=(isIzan?GV.izan:GV.egon)[p];
+  const cands=[(isIzan?GV.egon:GV.izan)[p], (isIzan?GV.izan:GV.egon)[pairP(p)], (isIzan?GV.egon:GV.izan)[pairP(p)]];
+  const esW=pl?w[2].replace(/o\/a$/,'os/as').replace(/e$/,'es'):w[2];
+  const x=isIzan?`<i>${word}</i>, con <b>-${pl?'ak':'a'}</b>: cómo es (carácter) → <b>izan</b>: ${P.nor} ${f}. «${esPron(p,`${GV.ser[p]} ${esW}`)}». Sin artículo (<i>${w[1]}</i>) sería cómo está ahora: ${GV.egon[p]}.`
+                :`<i>${word}</i>, sin artículo: cómo está ahora (estado) → <b>egon</b>: ${P.nor} ${f}. «${esPron(p,`${GV.estar[p]} ${esW}`)}». Con artículo (<i>${pl?gPl(w[0]):gSg(w[0])}</i>) sería cómo es: ${GV.izan[p]}.`;
+  return gDrill('¿Izan o egon?',`${cap(P.nor)} ${word} ___.`,f,cands,x);
+}
+const GENS=[{home:'a1-1',f:genIzan},{home:'a1-4',f:genUrte},{home:'a1-gor',f:genEduki},{home:'a1-nork',f:genUkan},{home:'a1-ego',f:genEgon},{home:'a1-ego',f:genIzanEgon}];
+/* n huecos nuevos para la unidad u. home: solo los generadores de la propia unidad (Gramatika);
+   si no, todos los ya vistos en el camino, con más peso los de la unidad (Praktika). */
+function genDrills(u,n,home){
+  const ui=UNITS.indexOf(u); if(ui<0) return [];
+  const gs=GENS.filter(g=>gOk(g.home,ui) && (!home || g.home===u.id)); if(!gs.length) return [];
+  const w=gs.flatMap(g=>g.home===u.id?[g,g,g]:[g]), out=[], seen=new Set();
+  for(let k=0;k<n*8 && out.length<n;k++){ const d=gOne(w).f(ui); if(d && !seen.has(d.s)){ seen.add(d.s); out.push(d) } }
+  return out;
 }
 
 /* =========================================================
