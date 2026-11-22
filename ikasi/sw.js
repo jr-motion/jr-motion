@@ -1,6 +1,6 @@
 // Ikasi! funciona sin conexión: guarda la app, las imágenes y las fuentes en caché.
 // Al cambiar cualquier archivo, sube el número de CACHE.
-const CACHE = "ikasi-v18";
+const CACHE = "ikasi-v19";
 const CORE = [
   "./", "index.html", "manifest.webmanifest", "decks.json",
   "icon-180.png", "icon-192.png", "icon-512.png", "icon-maskable-512.png",
@@ -21,6 +21,7 @@ const CORE = [
   "img/kapsula-sua.webp", "img/kapsula-mamua.webp", "img/kapsula-lasai.webp",
   // v1.9.1: nivel terminado
   "img/latxi-urrea.webp", "img/latxi-sin.webp",
+  "img/latxi-salto.webp", "img/latxi-agurra.webp", "img/latxi-aspertuta.webp", "img/latxi-korrika.webp", "img/latxi-maiteminduta.webp", "img/latxi-haserre.webp", "img/latxi-negarrez.webp",
   // v1.13: kit de caras de Espioiaren bila
   "img/aurpegiak/base_m.webp", "img/aurpegiak/base_w.webp", "img/aurpegiak/beard_m_beltza.webp", "img/aurpegiak/beard_m_gorria.webp",
   "img/aurpegiak/beard_m_horia.webp", "img/aurpegiak/beard_m_marroia.webp", "img/aurpegiak/beard_m_urdina.webp", "img/aurpegiak/brow_m_beltza.webp",
