@@ -2092,28 +2092,36 @@ function lessonsOf(u){
     ...(u.game==='espioia'?[{id:u.id+'-e',kind:'spy',title:'Espioia',unit:u,icon:'spy'}]:[])
   ];
 }
-function poolFor(w){ // distractores
-  const same=Object.values(WORDS).filter(x=>x.src===w.src && norm(x.eu)!==norm(w.eu));
-  return same.length>=3?same:Object.values(WORDS).filter(x=>norm(x.eu)!==norm(w.eu));
+/* Distractores (v1.25): primero palabras de la misma unidad o ficha que ya se han presentado en esta lección
+   (known) o que ya están en el repaso (S.srs); después, las demás de la misma unidad; si no llegan, cualquiera.
+   Devuelve la lista ya ordenada (barajada dentro de cada grupo). */
+function isKnown(x,known){ const k=norm(x.eu); return (known&&known.has(k)) || !!S.srs[k] }
+function poolFor(w,known){
+  const k=norm(w.eu), all=Object.values(WORDS).filter(x=>norm(x.eu)!==k), same=all.filter(x=>x.src===w.src);
+  const a=same.filter(x=>isKnown(x,known)), b=same.filter(x=>!isKnown(x,known));
+  const out=[...shuffle(a),...shuffle(b)];
+  return out.length>=3?out:[...out,...shuffle(all.filter(x=>x.src!==w.src))];
 }
-function mcEx(w,dir){
+function mcEx(w,dir,known){
   const dist=[]; const seen=new Set([norm(dir==='eu'?w.es:w.eu)]);
-  for(const x of shuffle(poolFor(w))){ const t=dir==='eu'?x.es:x.eu; if(!seen.has(norm(t))){seen.add(norm(t));dist.push(t)} if(dist.length===3)break }
+  for(const x of poolFor(w,known)){ const t=dir==='eu'?x.es:x.eu; if(!seen.has(norm(t))){seen.add(norm(t));dist.push(t)} if(dist.length===3)break }
   const right=dir==='eu'?w.es:w.eu;
   const opts=shuffle([right,...dist]);
   return {t:'mc',dir,w,opts,a:opts.indexOf(right)};
 }
 /* «Elige la imagen»: 4 imágenes distintas, preferiblemente de la misma unidad o ficha */
-function picPool(w){
+function picPool(w,known){
   const p=picOf(w); if(!p || NOQUIZ.has(norm(w.eu))) return null;
   const all=Object.values(WORDS).filter(x=>{ const q=picOf(x); return q && q!==p && !NOQUIZ.has(norm(x.eu)) && norm(x.es)!==norm(w.es) });
   const same=all.filter(x=>x.src===w.src);
   const out=[], used=new Set([p]);
-  for(const x of [...shuffle(same),...shuffle(all)]){ const q=picOf(x); if(!used.has(q)){ used.add(q); out.push(x) } if(out.length===3) break }
+  for(const x of [...shuffle(same.filter(x=>isKnown(x,known))),...shuffle(same),...shuffle(all)]){ const q=picOf(x); if(!used.has(q)){ used.add(q); out.push(x) } if(out.length===3) break }
   return out.length===3?out:null;
 }
-function picEx(w){ const d=picPool(w); if(!d) return null; const opts=shuffle([w,...d]); return {t:'pic',w,opts,a:opts.indexOf(w)} }
+function picEx(w,known){ const d=picPool(w,known); if(!d) return null; const opts=shuffle([w,...d]); return {t:'pic',w,opts,a:opts.indexOf(w)} }
 function canPic(w){ return !!picPool(w) }
+/* «¿Cómo se dice?» (castellano → euskera); con dibujo en lugar del castellano si la palabra lo tiene */
+function mcEs(w,known){ const e=mcEx(w,'es',known); if(picOf(w) && !NOQUIZ.has(norm(w.eu))) e.pic=picOf(w); return e }
 function matchEx(words){ return {t:'match',pairs:pick(words,Math.min(5,words.length))} }
 function typeEx(w){ return {t:'type',w} }
 /* «Traduce la frase» (v1.12.3): la coma, el punto, ? y ! que separan dos partes
@@ -2142,30 +2150,67 @@ function buildEx(sent,lang,unit){
   const fin=(target.trim().match(/[?!.]+$/)||[''])[0].slice(-1); // signo final: ficha opcional
   return {t:'build',lang,eu,es,toks,opt:fin||null,tiles:shuffle([...display,...(fin?[fin]:[]),...dist]),...(x?{x}:{})};
 }
+/* Hitzak (v1.25, a partir de la revisión del 2026-11-22): reparto por palabra.
+   · Las palabras se presentan de 3 en 3. Las preguntas de un grupo llegan después de presentar el grupo
+     siguiente (no justo detrás), para que no baste con la memoria de unos segundos.
+   · En cada grupo, una palabra se pregunta euskera → castellano (o «elige la imagen») y otra castellano → euskera.
+   · Al final: «¿cómo se dice?» para las que no tuvieron pregunta, «Escribe» para algunas que solo tuvieron
+     la de reconocimiento, y unir parejas con todas las palabras (grupos de 3 a 5, sin repetir ninguna).
+   · Así cada palabra sale 2 o 3 veces, nunca más, y ninguna pregunta sale dos veces igual.
+   · Las opciones falsas salen de palabras ya presentadas en la lección o ya aprendidas (poolFor). */
 function vocabLesson(words,unit){
-  const q=[]; const chunks=[];
+  const q=[], chunks=[], known=new Set(), used={};
   for(let i=0;i<words.length;i+=3) chunks.push(words.slice(i,i+3));
-  chunks.forEach(c=>{
-    c.forEach(w=>q.push({t:'intro',w}));
-    const pw=shuffle(c.filter(canPic))[0];
-    q.push(pw?picEx(pw):mcEx(pick(c,1)[0],'eu'));
-    if(c.length>1) q.push(mcEx(pick(c,1)[0],'es'));
+  const mark=(w,k)=>{ (used[norm(w.eu)]=used[norm(w.eu)]||[]).push(k) };
+  const quiz=c=>{ const ws=shuffle(c).sort((a,b)=>canPic(b)-canPic(a)), out=[];
+    if(ws[0]){ const w=ws[0]; out.push(picEx(w,known)||mcEx(w,'eu',known)); mark(w,'rec') }
+    if(ws[1]){ const w=ws[1]; out.push(mcEs(w,known)); mark(w,'es') }
+    return out };
+  chunks.forEach((c,k)=>{
+    c.forEach(w=>{ q.push({t:'intro',w}); known.add(norm(w.eu)) });
+    if(k>0) q.push(...quiz(chunks[k-1]));
   });
-  // si la palabra tiene imagen, «¿cómo se dice?» se pregunta con la imagen en vez del castellano
-  const end=[matchEx(words), ...pick(words,2).map(typeEx), ...pick(words,2).map(w=>{ const e=mcEx(w,'es'); if(picOf(w) && !NOQUIZ.has(norm(w.eu))) e.pic=picOf(w); return e })];
-  if(words.length>6) end.push(matchEx(words));
+  if(chunks.length) q.push(...quiz(chunks[chunks.length-1]));
+  const end=[];
+  words.filter(w=>!used[norm(w.eu)]).forEach(w=>{ end.push(mcEs(w,known)); mark(w,'es') });
+  const nType=Math.max(2,Math.round(words.length/5));
+  const recOnly=shuffle(words.filter(w=>(used[norm(w.eu)]||[]).join()==='rec'));
+  const esOnly=shuffle(words.filter(w=>(used[norm(w.eu)]||[]).join()==='es'));
+  [...recOnly,...esOnly].slice(0,nType).forEach(w=>{ end.push(typeEx(w)); mark(w,'type') });
+  if(words.length>=3){ const g=Math.ceil(words.length/5), sh=shuffle(words);
+    for(let i=0;i<g;i++) end.push({t:'match',pairs:sh.filter((_,j)=>j%g===i)}) }
   return [...q,...shuffle(end)];
 }
+/* Huecos y frases variados (v1.25): se cuenta cuántas veces ha salido cada hueco y cada frase de las unidades
+   (S.seen[clave] = [veces, falló la última vez]). Gramatika saca como mucho G_MAX huecos y Praktika P_SENT frases:
+   primero los que no han salido nunca, luego los fallados la última vez y luego los que menos han salido, al azar
+   dentro de cada grupo. Así, al repetir, sale otra parte, y Praktika no repite lo que acaba de salir en Gramatika. */
+const G_MAX=14, P_SENT=10;
+function hkey(t){ let h=5381; for(const c of t) h=((h*33)^c.charCodeAt(0))>>>0; return h.toString(36) }
+const dKey=d=>'d'+hkey(d.q+'|'+d.s), sKey=st=>'s'+hkey(st[0]);
+function itemKey(it){
+  if(it.t==='drill' && it.d && !it.d.gen) return dKey(it.d);
+  if(it.t==='build' && !it.face && it.sk) return it.sk;
+  return null;
+}
+function seenOf(k){ return (S.seen&&S.seen[k])||[0,0] }
+function rankPick(arr,keyFn,n){
+  return shuffle(arr).map(x=>{ const v=seenOf(keyFn(x)); return {x, r: v[0]===0?0 : v[1]?1 : 1+v[0]} })
+    .sort((a,b)=>a.r-b.r).slice(0,n).map(o=>o.x);
+}
+function noteSeen(it,ok){ const k=itemKey(it); if(!k) return; S.seen=S.seen||{}; const v=S.seen[k]||[0,0]; S.seen[k]=[v[0]+1, ok?0:1] }
+function sentEx(st,lang,u){ const e=buildEx(st,lang,u); e.sk=sKey(st); return e }
 function buildLesson(L){
   const u=L.unit;
   if(L.kind==='vocab') return vocabLesson(L.words,u);
   if(L.kind==='spy') return spyLesson();
   if(L.kind==='grammar'){
-    return [...u.grammar.map(g=>({t:'tip',g})), ...shuffle(u.drills).map(d=>({t:'drill',d})), ...pick(u.sentences,2).map(s=>buildEx(s,'eu',u))];
+    return [...u.grammar.map(g=>({t:'tip',g})), ...shuffle(rankPick(u.drills,dKey,G_MAX)).map(d=>({t:'drill',d})), ...rankPick(u.sentences,sKey,2).map(s=>sentEx(s,'eu',u))];
   }
-  // práctica
-  const ex=[ ...u.sentences.map((s,i)=>buildEx(s,i%3===2?'es':'eu',u)), ...pick(u.drills,3).map(d=>({t:'drill',d})),
-    matchEx(u.words), ...pick(u.words,3).map(typeEx), mcEx(pick(u.words,1)[0],'es') ];
+  // práctica: frases (2 de cada 3 en euskera, al azar), huecos que menos han salido y vocabulario de la unidad
+  const ws=pick(u.words,4);
+  const ex=[ ...rankPick(u.sentences,sKey,P_SENT).map(s=>sentEx(s,Math.random()<1/3?'es':'eu',u)), ...rankPick(u.drills,dKey,3).map(d=>({t:'drill',d})),
+    matchEx(u.words), ...ws.slice(0,3).map(typeEx), ...ws.slice(3).map(w=>mcEx(w,'es')) ];
   return shuffle(ex);
 }
 function deckLesson(d){
@@ -2730,7 +2775,7 @@ $('#btn-settings').onclick=()=>{ SFX.tap();
     $('#bk-copy',m).onclick=async()=>{ try{ await navigator.clipboard.writeText(JSON.stringify(S)); toast('Progreso copiado') }catch(e){ toast('No se pudo copiar') } };
     $('#bk-paste',m).onclick=()=>{ close(); modal(`<h2>Restaurar</h2><p>Pega aquí el texto copiado.</p><textarea id="rs-t"></textarea><div class="acts"><button class="btn btn-green wide" id="rs-ok">Restaurar</button></div>`,(m2,c2)=>{
       $('#rs-ok',m2).onclick=()=>{ try{ const d=JSON.parse($('#rs-t',m2).value); if(typeof d!=='object'||!d.srs) throw 0; S=Object.assign({v:1,xp:0,days:{},done:{},srs:{},userDecks:[],settings:{sound:true}},d); rebuildIndex(); save(); c2(); render(); toast('Progreso restaurado') }catch(e){ toast('Texto no válido') } } }) };
-    $('#bk-reset',m).onclick=()=>{ close(); showConfirm('¿Borrar todo?','Perderás XP, racha, lecciones hechas y repasos. Tus fichas se conservan.','Borrar progreso',()=>{ S.xp=0;S.days={};S.done={};S.srs={};S.runs={};S.tower=null; save(); render(); }) };
+    $('#bk-reset',m).onclick=()=>{ close(); showConfirm('¿Borrar todo?','Perderás XP, racha, lecciones hechas y repasos. Tus fichas se conservan.','Borrar progreso',()=>{ S.xp=0;S.days={};S.done={};S.srs={};S.runs={};S.seen={};S.tower=null; save(); render(); }) };
   });
 };
 
@@ -3691,7 +3736,7 @@ function fuego(root,badTiles,lastTile){
 function grade(ok,info,msg,sayEu){
   R.answered=true;
   const it=cur(); const firstTry=!R.retried.has(it);
-  if(firstTry){ R.first++; if(ok) R.firstOk++ }
+  if(firstTry){ R.first++; if(ok) R.firstOk++; noteSeen(it,ok) }
   let mastered=false;
   if(info&&info.word){ srsSeen(info.word); mastered=srsGrade(info.word,ok,info.strong) }
   if(ok){ R.done++; R.combo++; R.maxCombo=Math.max(R.maxCombo,R.combo); SFX.ok();
