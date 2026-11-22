@@ -299,8 +299,11 @@ canvas#confetti{position:fixed;inset:0;pointer-events:none;z-index:70}
 .boot .b-stage{position:absolute;left:50%;top:50%;width:min(100vw,560px,calc(100vh / 1.72));aspect-ratio:10/17.2;transform:translate(-50%,-50%)}
 .boot .b-ch{position:absolute;display:block;will-change:transform;opacity:0}
 .boot .b-ch img{display:block;width:100%;filter:drop-shadow(0 6px 0 rgba(45,10,78,.18))}
-.boot .b-logo{position:absolute;left:50%;top:50%;width:150px;margin:-75px 0 0 -75px;opacity:0}
-.boot .b-logo img{display:block;width:100%;filter:drop-shadow(0 6px 0 rgba(45,10,78,.35))}
+.boot .b-logo{position:absolute;left:50%;top:50%;width:300px;margin-left:-150px;transform:translateY(-50%);display:flex;flex-direction:column;align-items:center;pointer-events:none}
+.boot .b-icon{width:150px;opacity:0}
+.boot .b-icon img{display:block;width:100%;filter:drop-shadow(0 6px 0 rgba(45,10,78,.35))}
+.boot .b-word{display:flex;margin-top:14px;font-weight:900;font-size:66px;line-height:1;letter-spacing:-1.5px;color:#fff;text-shadow:0 6px 18px rgba(25,45,120,.38),0 2px 3px rgba(25,45,120,.25)}
+.boot .b-word span{display:block;opacity:0;transform-origin:50% 90%}
 @keyframes logoin{0%{transform:scale(0) rotate(-20deg)}100%{transform:scale(1) rotate(0)}}
 
 /* modal */
@@ -386,6 +389,33 @@ canvas#confetti{position:fixed;inset:0;pointer-events:none;z-index:70}
 @keyframes chjump{0%{transform:none}25%{transform:translateY(4px) scale(1.08,.9)}55%{transform:translateY(-34px) scale(.95,1.06) rotate(-6deg)}80%{transform:translateY(0) scale(1.05,.95) rotate(3deg)}100%{transform:none}}
 @keyframes chsad{0%,100%{transform:none}20%{transform:rotate(-6deg)}40%{transform:rotate(5deg)}60%{transform:rotate(-4deg) translateY(4px)}80%{transform:translateY(4px) scale(1,.97)}}
 @keyframes chtalk{0%,100%{transform:none}30%{transform:scale(1.04,.96)}60%{transform:scale(.98,1.03) translateY(-3px)}}
+.tw{cursor:pointer;border-bottom:2px dotted rgba(45,10,78,.45);transition:background .2s}
+.tw:active{background:var(--cyan-l)}
+.tw.tw-new{animation:twNew 1s ease-out}
+@keyframes twNew{0%{background:var(--yellow)}100%{background:transparent}}
+.wpop{position:absolute;z-index:6;width:min(300px,calc(100% - 16px));background:#fff;border:3px solid var(--ink);border-radius:18px;padding:10px 14px 11px;box-shadow:0 6px 0 rgba(45,10,78,.22);font-size:15px;line-height:1.3;animation:wpIn .32s cubic-bezier(.3,1.5,.5,1) both;transform-origin:var(--ax,50%) 0}
+.wpop::before{content:"";position:absolute;top:-9px;left:calc(var(--ax,50%) - 7px);width:12px;height:12px;background:#fff;border-left:3px solid var(--ink);border-top:3px solid var(--ink);transform:rotate(45deg)}
+.wpop b{display:block;font-size:19px;font-weight:900}
+.wpop b i{font-weight:700;color:var(--ink2)}
+.wpop>span{display:block;color:var(--ink2);font-size:16px}
+.wpop small{display:block;font-size:12.5px;color:var(--ink2);font-weight:700;margin-top:3px}
+@keyframes wpIn{from{opacity:0;transform:translateY(-6px) scale(.85)}to{opacity:1;transform:none}}
+.wp-tag{position:relative;margin-top:9px;border-radius:12px;padding:7px 10px;display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-weight:900;font-size:15px;animation:wpTag .55s .15s cubic-bezier(.3,1.6,.5,1) both}
+.wp-tag small{flex-basis:100%;margin:0}
+.wp-rev{background:var(--cyan-l);border:2px solid var(--cyan-d)}
+.wp-rev .wp-ic{animation:wpSpin .8s .3s cubic-bezier(.5,0,.3,1) both}
+.wp-new{background:var(--yellow-l);border:2px solid var(--yellow-d)}
+.wpop.new{border-color:var(--ink);box-shadow:0 6px 0 var(--yellow-d)}
+.wp-burst{position:absolute;left:18px;top:14px;width:6px;height:6px;border-radius:50%;pointer-events:none;
+  box-shadow:0 -18px 0 var(--pink),13px -13px 0 var(--yellow-d),18px 0 0 var(--cyan-d),13px 13px 0 var(--pink),0 18px 0 var(--yellow-d),-13px 13px 0 var(--cyan-d),-18px 0 0 var(--pink),-13px -13px 0 var(--yellow-d);
+  animation:wpBurst .7s .2s ease-out both}
+@keyframes wpTag{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:none}}
+@keyframes wpSpin{from{transform:rotate(-360deg)}to{transform:none}}
+@keyframes wpBurst{0%{opacity:1;transform:scale(.2)}70%{opacity:1}100%{opacity:0;transform:scale(1.6)}}
+.hint-btn{display:inline-flex;align-items:center;gap:6px;margin:-10px 0 14px;padding:6px 14px;border-radius:999px;border:3px solid var(--ink);background:var(--yellow);box-shadow:inset 0 -4px 0 var(--yellow-d);font:inherit;font-size:15px;font-weight:900;color:var(--ink);cursor:pointer}
+.hint-btn:active{transform:translateY(2px)}
+.hint-t{display:none;margin:-10px 0 16px;padding:10px 14px;border-radius:16px;background:var(--yellow-l);border:3px solid var(--ink);font-size:15px}
+.hint-t.on{display:block;animation:wpIn .3s cubic-bezier(.3,1.5,.5,1) both}
 @media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important;transition:none!important}}
 
 /* final con celebración (v1.9): banda con personaje, cambio de título y datos que se animan */
@@ -910,8 +940,8 @@ const UNITS = [
     { q:'«Ane es abogada»', s:'Ane ___ da', o:['abokatua','abokatu','abokatuak'], a:0, x:'Profesión con artículo: <b>abokatua</b>.' },
     { q:'Quieres saber su profesión:', s:'___ zara?', o:['Zer','Nor','Non'], a:0, x:'Por la profesión se pregunta con <b>zer</b>: Zer zara?' },
     { q:'Qué hace el panadero:', s:'Okinak ___ egiten du', o:['ogia','ileak','gutunak'], a:0, x:'El panadero hace pan: <b>ogia</b>.' },
-    { q:'¿Una cosa o varias?', s:'Postariak gutunak banatzen ___', o:['ditu','du','da'], a:0, x:'Gutunak son varias → <b>ditu</b>.' },
-    { q:'¿Una cosa o varias?', s:'Sukaldariak janaria prestatzen ___', o:['du','ditu','da'], a:0, x:'Janaria es una cosa → <b>du</b>.' },
+    { q:'«El cartero reparte las cartas»', h:'Mira el objeto: ¿una cosa o varias?', s:'Postariak gutunak banatzen ___', o:['ditu','du','da'], a:0, x:'<i>Gutunak</i> (las cartas) lleva -ak: son varias → <b>ditu</b>. Con una sola carta (<i>gutuna</i>), du.' },
+    { q:'«El cocinero prepara la comida»', h:'Mira el objeto: ¿una cosa o varias?', s:'Sukaldariak janaria prestatzen ___', o:['du','ditu','da'], a:0, x:'<i>Janaria</i> (la comida), con -a: es una cosa → <b>du</b>. Varias cosas serían ditu.' },
     { q:'«El panadero hace pan»', s:'___ ogia egiten du', o:['Okinak','Okina','Okinek'], a:0, x:'Egin va con du: el sujeto lleva -k, <b>okinak</b>.' },
     { q:'«Trabajo en la escuela»', s:'Eskolan ___', o:['lan egiten dut','lan egiten naiz','lan naiz'], a:0, x:'Lan egin va con ukan: lan egiten <b>dut</b>.' },
     { q:'— Non egiten duzu lan?', s:'— ___', o:['Ospitalean','Ospitalea','Ospitalekoa'], a:0, x:'Dónde: ospitale + <b>an</b>.' },
@@ -1066,7 +1096,7 @@ const UNITS = [
   drills:[
     { q:'Preguntas cómo es Patxi:', s:'___ da Patxi?', o:['Nolakoa','Nola','Nongoa'], a:0, x:'Cómo es → <b>nolakoa</b>. Nola es cómo está.' },
     { q:'«Aitor es fuerte»', s:'Aitor ___ da', o:['indartsua','indartsu','indartsuak'], a:0, x:'Con izan, el adjetivo lleva artículo: <b>indartsua</b>.' },
-    { q:'Son dos personas:', s:'___ dira Txomin eta Karmele?', o:['Nolakoak','Nolakoa','Nola'], a:0, x:'Dos personas → <b>nolakoak</b> (plural) y dira.' },
+    { q:'«¿Cómo son Txomin y Karmele?»', h:'Fíjate en el verbo: dira.', s:'___ dira Txomin eta Karmele?', o:['Nolakoak','Nolakoa','Nola'], a:0, x:'Son dos personas (<i>dira</i>), así que la pregunta va en plural: <b>Nolakoak</b> dira? Nola sería «cómo están».' },
     { q:'«Nosotros no somos delgados»', s:'Gu ez gara ___', o:['argalak','argala','argal'], a:0, x:'Gu → plural: <b>argalak</b>.' },
     { q:'«Sonia es bastante joven»', s:'Sonia ___ gaztea da', o:['nahiko','batere','ez'], a:0, x:'Bastante = <b>nahiko</b>.' },
     { q:'«Jesus no es nada joven»', s:'Jesus ez da ___ gaztea', o:['batere','nahiko','oso'], a:0, x:'«Nada» con ez = <b>batere</b>.' },
@@ -1078,7 +1108,7 @@ const UNITS = [
     { q:'Lo contrario de berritsua:', s:'Maite ez da berritsua, ___ da', o:['isila','alaia','lasaia'], a:0, x:'berritsua (hablador) ≠ <b>isila</b> (callado).' },
     { q:'Lo contrario de lodia:', s:'Eneko ez da lodia, ___ da', o:['argala','altua','txikia'], a:0, x:'lodia (gordo) ≠ <b>argala</b> (delgado).' },
     { q:'Los colores de la ikurriña:', s:'Ikurriña gorria, berdea eta ___ da', o:['zuria','beltza','horia'], a:0, x:'La ikurriña es roja, verde y <b>blanca</b>: zuria.' },
-    { q:'Es, no está:', s:'Ane ___ da', o:['alaia','alai','alaiak'], a:0, x:'Cómo es (izan): con -a, <b>alaia</b>. Alai sin -a es con egon.' }
+    { q:'«Ane es alegre»', h:'El verbo es da (izan). ¿La palabra lleva artículo?', s:'Ane ___ da', o:['alaia','alai','alaiak'], a:0, x:'Con izan (cómo es), el adjetivo lleva artículo: <b>alaia</b>. Sin artículo, alai, va con egon: Ane alai dago (está alegre).' }
   ],
   sentences:[
     ['Nolakoa da Aitor?','¿Cómo es Aitor?','<b>Nolakoa?</b> pregunta cómo es alguien (carácter o aspecto). Va con izan: da.'],
@@ -1203,15 +1233,15 @@ const UNITS = [
     { q:'«¡Tengo una idea!»', s:'Ideia bat ___!', o:['daukat','dauzkat','dauka'], a:0, x:'Una cosa → <b>daukat</b>.' },
     { q:'«Tiene los ojos azules»', s:'Ainhoak begi urdinak ___', o:['dauzka','dauka','dauzkat'], a:0, x:'Begiak son varios → <b>dauzka</b>.' },
     { q:'«Tiene el pelo largo»', s:'Mikelek ile ___ dauka', o:['luzea','luzeak','luze'], a:0, x:'El adjetivo con artículo al final: ile <b>luzea</b>.' },
-    { q:'Quien tiene lleva -k:', s:'___ bizarra dauka', o:['Mikelek','Mikel','Mikela'], a:0, x:'Mikel acaba en consonante → <b>Mikelek</b>.' },
-    { q:'Quien tiene lleva -k:', s:'___ irribarre polita dauka', o:['Karmelek','Karmele','Karmeleek'], a:0, x:'Karmele acaba en vocal → <b>Karmelek</b>.' },
+    { q:'«Mikel tiene barba»', h:'Quien tiene (eduki) lleva -k. ¿Mikel acaba en vocal o en consonante?', s:'___ bizarra dauka', o:['Mikelek','Mikel','Mikela'], a:0, x:'Con eduki, quien tiene lleva -k. Mikel acaba en consonante → <b>-ek</b>: Mikelek.' },
+    { q:'«Karmele tiene una sonrisa bonita»', h:'Quien tiene lleva -k. Karmele acaba en vocal.', s:'___ irribarre polita dauka', o:['Karmelek','Karmele','Karmeleek'], a:0, x:'Con eduki, quien tiene lleva -k. Karmele acaba en vocal → solo <b>-k</b>: Karmelek (no Karmeleek).' },
     { q:'«¿Tienes perro?»', s:'___ txakurrik?', o:['Badaukazu','Daukazu','Badauzkazu'], a:0, x:'Pregunta con -rik: <b>ba-</b> + daukazu.' },
     { q:'«No tiene barba»', s:'Ez dauka ___', o:['bizarrik','bizarra','bizarrak'], a:0, x:'«No… ningún» → <b>-rik</b>: bizarrik.' },
     { q:'«No tengo gafas»', s:'Ez daukat ___', o:['betaurrekorik','betaurrekoak','betaurrekoik'], a:0, x:'Negativa → betaurreko + <b>rik</b>, aunque las gafas sean plural.' },
     { q:'«¿Tienes bigote? — Sí»', s:'Bai, ___', o:['badaukat','daukat','badauka'], a:0, x:'Respuesta afirmativa sin nada más: <b>ba-</b> + daukat.' },
-    { q:'Zuk y varias cosas:', s:'Zuk begi politak ___', o:['dauzkazu','daukazu','dauzkat'], a:0, x:'Zuk y varias cosas → <b>dauzkazu</b>.' },
+    { q:'«Tienes los ojos bonitos»', h:'Zuk, y begi politak son varias cosas.', s:'Zuk begi politak ___', o:['dauzkazu','daukazu','dauzkat'], a:0, x:'<b>zuk</b> + varias cosas (<i>begi politak</i>, con -ak) → <b>dauzkazu</b>. Una sola sería daukazu.' },
     { q:'«Hoy no tenemos clase»', s:'Gaur ez ___ eskolarik', o:['daukagu','dauzkagu','dauka'], a:0, x:'Con -rik, el verbo en singular: gu → <b>daukagu</b>.' },
-    { q:'Haiek y una cosa:', s:'Haiek etxe handi bat ___', o:['daukate','dauzkate','daukagu'], a:0, x:'Haiek y una cosa → <b>daukate</b>.' },
+    { q:'«Ellos tienen una casa grande»', h:'Haiek, y etxe handi bat es una cosa.', s:'Haiek etxe handi bat ___', o:['daukate','dauzkate','daukagu'], a:0, x:'<b>haiek</b> + una cosa (<i>etxe handi bat</i>) → <b>daukate</b>. Varias serían dauzkate.' },
     { q:'«Tengo dos hermanos»', s:'Nik bi anaia ___', o:['dauzkat','daukat','dauzka'], a:0, x:'Dos hermanos son varios → <b>dauzkat</b>; tras número, anaia sin -k.' },
     { q:'«Peio tiene el pelo rubio»', s:'Peiok ile horia ___', o:['dauka','da','dauzka'], a:0, x:'Lo que tiene (eduki): <b>dauka</b>. Una cosa: ile horia.' },
     { q:'«Peio es rubio»', s:'Peio ilehoria ___', o:['da','dauka','dago'], a:0, x:'Cómo es (izan): ilehoria <b>da</b>.' },
@@ -1341,16 +1371,16 @@ const UNITS = [
   drills:[
     { q:'«He comido pan»', s:'Nik ogia jan ___', o:['dut','naiz','ditut'], a:0, x:'Jan tiene objeto (ogia) → <b>dut</b>.' },
     { q:'«He venido»', s:'Ni etorri ___', o:['naiz','dut','da'], a:0, x:'Etorri no tiene objeto → <b>naiz</b>.' },
-    { q:'Con objeto, el sujeto lleva -k:', s:'___ ogia erosi du', o:['Kepak','Kepa','Kepaek'], a:0, x:'Con objeto, -k: <b>Kepak</b>.' },
-    { q:'Sin objeto, sin -k:', s:'___ berandu etorri da', o:['Kepa','Kepak','Kepek'], a:0, x:'Sin objeto, sin -k: <b>Kepa</b>.' },
-    { q:'Nombre acabado en consonante:', s:'___ autoa ekarri du', o:['Jonek','Jonk','Jon'], a:0, x:'Tras consonante, <b>-ek</b>: Jonek.' },
-    { q:'Nombre acabado en -r:', s:'___ esnea erosi du', o:['Aitorrek','Aitorek','Aitor'], a:0, x:'Tras -r, la r se dobla: <b>Aitorrek</b>.' },
+    { q:'«Kepa ha comprado pan»', h:'Erosi lleva objeto (zer? → ogia).', s:'___ ogia erosi du', o:['Kepak','Kepa','Kepaek'], a:0, x:'<i>Erosi</i> lleva objeto (zer? → <i>ogia</i>) y el auxiliar es du (ukan): el sujeto lleva <b>-k</b>. Kepa acaba en vocal → <b>Kepak</b>.' },
+    { q:'«Kepa ha llegado tarde»', h:'Etorri no lleva objeto. ¿El sujeto lleva -k?', s:'___ berandu etorri da', o:['Kepa','Kepak','Kepek'], a:0, x:'<i>Etorri</i> no lleva objeto (no se puede preguntar «zer?») y el auxiliar es da (izan): el sujeto va <b>sin -k</b>, <b>Kepa</b>.' },
+    { q:'«Jon ha traído el coche»', h:'Lleva -k. Jon acaba en consonante.', s:'___ autoa ekarri du', o:['Jonek','Jonk','Jon'], a:0, x:'<i>Ekarri</i> lleva objeto (<i>autoa</i>) → sujeto con -k. Tras consonante, <b>-ek</b>: Jonek (no Jonk).' },
+    { q:'«Aitor ha comprado leche»', h:'Lleva -k. Aitor acaba en -r.', s:'___ esnea erosi du', o:['Aitorrek','Aitorek','Aitor'], a:0, x:'<i>Erosi</i> lleva objeto (<i>esnea</i>) → sujeto con -k. Tras -r, la r se dobla y se añade -ek: <b>Aitorrek</b>.' },
     { q:'«Los alumnos han leído el libro»', s:'___ liburua irakurri dute', o:['Ikasleek','Ikasleak','Ikaslea'], a:0, x:'Plural con -k: ikasle + <b>ek</b>. Liburua es una cosa → dute.' },
-    { q:'Varias cosas, haiek:', s:'Umeek gozoki asko jan ___', o:['dituzte','dute','ditu'], a:0, x:'Haiek y varias cosas → <b>dituzte</b>.' },
+    { q:'«Los niños han comido muchos caramelos»', h:'Umeek = haiek, y gozoki asko son varias cosas.', s:'Umeek gozoki asko jan ___', o:['dituzte','dute','ditu'], a:0, x:'<i>Umeek</i> (los niños, con -ek) es haiek; <i>gozoki asko</i> son varias cosas → <b>dituzte</b>. Una cosa sería dute.' },
     { q:'«He perdido las llaves»', s:'Nik giltzak galdu ___', o:['ditut','dut','ditu'], a:0, x:'Giltzak son varias → <b>ditut</b>.' },
-    { q:'Guk y una cosa:', s:'Guk afaria prestatu ___', o:['dugu','ditugu','gara'], a:0, x:'Guk y una cosa → <b>dugu</b>.' },
-    { q:'Zuek y una cosa:', s:'Zuek filma ikusi ___?', o:['duzue','dute','zarete'], a:0, x:'Zuek y una cosa → <b>duzue</b>.' },
-    { q:'Zuk y una cosa:', s:'Zuk ura edan ___?', o:['duzu','zara','dituzu'], a:0, x:'Zuk y una cosa → <b>duzu</b>.' },
+    { q:'«Hemos preparado la cena»', h:'Guk, y afaria es una cosa.', s:'Guk afaria prestatu ___', o:['dugu','ditugu','gara'], a:0, x:'<b>guk</b> + una cosa (<i>afaria</i>) → <b>dugu</b>. Prestatu lleva objeto, por eso no es gara.' },
+    { q:'«¿Habéis visto la película?»', h:'Zuek, y filma es una cosa.', s:'Zuek filma ikusi ___?', o:['duzue','dute','zarete'], a:0, x:'<b>zuek</b> + una cosa (<i>filma</i>) → <b>duzue</b>. Dute sería «ellos».' },
+    { q:'«¿Has bebido agua?»', h:'Zuk, y ura es una cosa.', s:'Zuk ura edan ___?', o:['duzu','zara','dituzu'], a:0, x:'<b>zuk</b> + una cosa (<i>ura</i>) → <b>duzu</b>. Edan lleva objeto: no es zara.' },
     { q:'«No he comprado pan»', s:'Nik ___ ogia erosi', o:['ez dut','dut ez','ez naiz'], a:0, x:'Negativa: <b>ez dut</b> delante.' },
     { q:'«¿Has traído el coche? — Sí»', s:'Bai, ekarri ___', o:['dut','naiz','duzu'], a:0, x:'Responde yo: ekarri <b>dut</b>.' },
     { q:'«¿Quién ha traído la tarta?»', s:'___ ekarri du pastela?', o:['Nork','Nor','Zer'], a:0, x:'Con du, «quién» es <b>nork</b>.' },
@@ -1642,11 +1672,11 @@ const UNITS = [
     { q:'«Estamos contentos»', s:'Gu pozik ___', o:['gaude','gara','daude'], a:0, x:'Gu → <b>gaude</b>.' },
     { q:'«Estáis nerviosos»', s:'Zuek urduri ___', o:['zaudete','zarete','zaude'], a:0, x:'Zuek → <b>zaudete</b>.' },
     { q:'«Las tiendas están cerradas»', s:'Dendak itxita ___', o:['daude','dira','dago'], a:0, x:'Varias → <b>daude</b>.' },
-    { q:'Es su carácter:', s:'Maite ___ da', o:['alaia','alai','alaiak'], a:0, x:'Carácter, con izan: <b>alaia</b>.' },
-    { q:'Hoy, ahora:', s:'Umea ___ dago', o:['alai','alaia','alaiak'], a:0, x:'Hoy, con egon: <b>alai</b>, sin artículo.' },
+    { q:'«Maite es alegre»', h:'Es su carácter (izan): ¿con artículo o sin él?', s:'Maite ___ da', o:['alaia','alai','alaiak'], a:0, x:'Carácter, con izan (da): el adjetivo lleva artículo, <b>alaia</b>.' },
+    { q:'«El niño está alegre»', h:'Es cómo está ahora (egon): ¿con artículo o sin él?', s:'Umea ___ dago', o:['alai','alaia','alaiak'], a:0, x:'Estado de ahora, con egon (dago): sin artículo, <b>alai</b>.' },
     { q:'Katua garbia da ≠', s:'Katua ___ dago', o:['garbi','garbia','garbiak'], a:0, x:'Ahora, con egon: <b>garbi</b>.' },
-    { q:'Plural con egon:', s:'Txerriak ___ daude', o:['zikin','zikinak','zikina'], a:0, x:'Con egon, sin artículo ni plural: <b>zikin</b>.' },
-    { q:'Plural con izan:', s:'Txerriak ___ dira', o:['zikinak','zikin','zikina'], a:0, x:'Con izan, artículo y plural: <b>zikinak</b>.' },
+    { q:'«Los cerdos están sucios»', h:'Con egon, ¿lleva artículo y plural?', s:'Txerriak ___ daude', o:['zikin','zikinak','zikina'], a:0, x:'Con egon (cómo están), la palabra va sin artículo ni plural: <b>zikin</b>, aunque los cerdos sean varios.' },
+    { q:'«Los cerdos son sucios»', h:'Con izan, ¿lleva artículo y plural?', s:'Txerriak ___ dira', o:['zikinak','zikin','zikina'], a:0, x:'Con izan (cómo son), el adjetivo lleva artículo y, con sujeto plural, -ak: <b>zikinak</b>.' },
     { q:'La pregunta que va con la respuesta:', s:'Jon triste dago. ___ Jon?', o:['Nola dago','Nolakoa da','Nor da'], a:0, x:'Respuesta con dago → <b>nola dago</b>?' },
     { q:'La pregunta que va con la respuesta:', s:'Marta argala da. ___ Marta?', o:['Nolakoa da','Nola dago','Nongoa da'], a:0, x:'Respuesta con da → <b>nolakoa da</b>?' },
     { q:'«No estoy cansado»', s:'___ nekatuta', o:['Ez nago','Nago ez','Ez naiz'], a:0, x:'Negativa: <b>ez nago</b> delante.' },
@@ -2418,6 +2448,118 @@ function genDrills(u,n,home){
   for(let k=0;k<n*8 && out.length<n;k++){ const d=gOne(w).f(ui); if(d && !seen.has(d.s)){ seen.add(d.s); out.push(d) } }
   return out;
 }
+
+/* Glosario (v1.28): palabras que salen en huecos y frases de las unidades y no están en el vocabulario.
+   [euskera con la notación del artículo, castellano, nota, otras formas que llevan a ella].
+   Al tocarlas se «descubren»: van a la ficha propia «Aurkitutako hitzak» y entran en el repaso.
+   Solo léxico y verbos (participio); nombres propios no. Al añadir frases o huecos con palabras nuevas,
+   añadirlas aquí (o al vocabulario). */
+const GLOSA_L=[
+  ['afari(a)','la cena'],['ahal','poder','Berriro azaldu ahal duzu? = ¿puedes explicarlo otra vez?'],['ate(a)','la puerta'],['auto(a)','el coche'],
+  ['azaldu','explicar'],['banatu','repartir','banatzen du = reparte (de costumbre)',['banatzen']],['berandu','tarde','Berandu etorri da = ha llegado tarde'],
+  ['bide(a)','el camino'],['egon','estar','El verbo de nago, zaude, dago…'],['esne(a)','la leche'],['familia','la familia','La -a es de la palabra'],
+  ['filma','la película'],['goiz','pronto, temprano'],['gozoki(a)','el caramelo, la golosina'],['gutun(a)','la carta'],['ideia','la idea','La -a es de la palabra'],
+  ['janari(a)','la comida'],['min(a)','el dolor','Buruko mina = dolor de cabeza'],['nolakoa?','¿cómo es?','Nolakoak? si son varios. Cómo está: nola?'],
+  ['pastel(a)','la tarta, el pastel'],['txapel(a)','la txapela, la boina'],['ikurrin(a)','la ikurriña'],['ume(a)','el niño, la niña','Umeak = los niños'],['neska','la chica','La -a es de la palabra'],
+  ['ur(a)','el agua'],['zein?','¿cuál?','Zein kaletan? = ¿en qué calle?']];
+const GLOSA={}; GLOSA_L.forEach(g=>[norm(artFull(g[0])),norm(artBare(g[0])),...(g[3]||[]).map(norm)].forEach(k=>{ if(!GLOSA[k]) GLOSA[k]=g }));
+/* formas -t(z)en (egiten du = lo hace de costumbre) que llevan al verbo del vocabulario */
+const TZEN={egiten:'egin',prestatzen:'prestatu',ulertzen:'ulertu',gogoratzen:'gogoratu'};
+
+/* =========================================================
+   PALABRAS QUE SE PUEDEN TOCAR (v1.28)
+   En los huecos y en la frase en euskera de «Traduce la frase», cada palabra que la app reconoce se puede tocar:
+   · formas verbales (naiz, dauzkazu, badakit…) → qué son, sin tocar el repaso;
+   · palabras del vocabulario (también declinadas: etxean → etxe(a), Bilbon → Bilbo) → significado,
+     y vuelven antes al repaso (una vez por lección);
+   · palabras del glosario (GLOSA) que no están en el vocabulario → «Hitz berria!»: se guardan en la ficha
+     propia «Aurkitutako hitzak» y desde ahí entran en el repaso y en sus lecciones.
+   Las que no reconoce (nombres propios…) no se pueden tocar.
+   ========================================================= */
+const VFORMS=(()=>{ const m={}, P=['(yo)','(tú)','(él/ella)','(nosotros)','(vosotros)','(ellos)'];
+  const add=(forms,es,verb,extra='')=>forms.split(' ').forEach((f,i)=>m[f]={es:P[i]+' '+es[i]+extra,verb});
+  add('naiz zara da gara zarete dira',['soy','eres','es','somos','sois','son'],'izan');
+  add('nago zaude dago gaude zaudete daude',['estoy','estás','está','estamos','estáis','están'],'egon');
+  add('dut duzu du dugu duzue dute',['he','has','ha','hemos','habéis','han'],'ukan',' · una cosa');
+  add('ditut dituzu ditu ditugu dituzue dituzte',['he','has','ha','hemos','habéis','han'],'ukan',' · varias cosas');
+  add('daukat daukazu dauka daukagu daukazue daukate',['tengo','tienes','tiene','tenemos','tenéis','tienen'],'eduki',' · una cosa');
+  add('dauzkat dauzkazu dauzka dauzkagu dauzkazue dauzkate',['tengo','tienes','tiene','tenemos','tenéis','tienen'],'eduki',' · varias cosas');
+  add('dakit dakizu daki dakigu dakizue dakite',['sé','sabes','sabe','sabemos','sabéis','saben'],'jakin');
+  add('noa zoaz doa goaz zoazte doaz',['voy','vas','va','vamos','vais','van'],'joan');
+  add('nator zatoz dator gatoz zatozte datoz',['vengo','vienes','viene','venimos','venís','vienen'],'etorri');
+  Object.keys(m).forEach(f=>{ if(!m['ba'+f]) m['ba'+f]={es:m[f].es+' (sí; con ba-)',verb:m[f].verb} });
+  return m })();
+const LSUF=['eetan','arekin','rekin','ekoak','ekoa','etan','aren','ekin','koak','koa','ean','tan','rik','ren','ko','an','ak','ek','ik','en','ra','a','k','n'];
+let LIDX=null;
+function lookIdx(){ if(LIDX && LIDX.src===WORDS) return LIDX; const bare={}, phr={}; // se rehace si cambia WORDS (fichas que llegan de la base de datos, palabras descubiertas)
+  Object.values(WORDS).forEach(w=>{ const b=norm(artBare(w.eu)); if(b && !bare[b]) bare[b]=w;
+    const ws=norm(w.eu).split(' '); if(ws.length>1 && !/[-]/.test(w.eu)) ws.forEach(t=>{ if(t.length>1 && !phr[t]) phr[t]=w }) });
+  return LIDX={bare,phr,src:WORDS} }
+const glosaWord=g=>({eu:g[0],es:g[1],note:g[2]||''});
+function lookFind(t){ const I=lookIdx(); return WORDS[t]||I.bare[t]||null }
+function lookup(raw){
+  const t=norm(raw); if(!t || /\s/.test(String(raw).trim())) return null;
+  if(VFORMS[t]) return {kind:'form',t,...VFORMS[t]};
+  let w=lookFind(t); if(w) return {kind:'word',t,w};
+  if(GLOSA[t]) return {kind:'new',t,w:glosaWord(GLOSA[t]),from:norm(artFull(GLOSA[t][0]))!==t?t:null};
+  if(TZEN[t]){ const r=lookup(TZEN[t]); if(r) return {...r,t,from:t,tzen:true} }
+  if(t.length>3) for(const s of LSUF){ if(!t.endsWith(s) || t.length-s.length<2) continue;
+    const b=t.slice(0,-s.length);
+    for(const c of [b, b.replace(/rr$/,'r')]){
+      w=lookFind(c)||lookFind(c+'a'); if(w) return {kind:'word',t,w,from:c};
+      const g=GLOSA[c]||GLOSA[c+'a']; if(g) return {kind:'new',t,w:glosaWord(g),from:c};
+    } }
+  const p=lookIdx().phr[t]; if(p) return {kind:'word',t,w:p,phrase:true};
+  return null;
+}
+
+/* Tocar palabras (v1.28): burbuja con el significado. Palabra del vocabulario → vuelve antes al repaso
+   (baja una caja y queda para hoy; una vez por lección). Palabra del glosario → «Hitz berria!»: a la ficha
+   «Aurkitutako hitzak» y al repaso. Forma verbal → qué es, sin tocar el repaso. */
+const FOUND_ID='aurkituak';
+function tapify(text){
+  return String(text).split(/(\s+)/).map(p=>{
+    if(!p || /^\s+$/.test(p)) return p;
+    const m=p.match(/^([¿¡«("“]*)(.*?)([?!.,;:»)"”]*)$/), core=m[2];
+    return esc(m[1])+(core && lookup(core)?`<span class="tw" data-w="${esc(core)}">${esc(core)}</span>`:esc(core))+esc(m[3]);
+  }).join('');
+}
+function discoverWord(w){
+  let d=S.userDecks.find(x=>x.id===FOUND_ID);
+  if(!d){ d={id:FOUND_ID,title:'Aurkitutako hitzak',ch:'latxi',words:[]}; S.userDecks.push(d) }
+  if(!d.words.some(x=>norm(x.eu)===norm(w.eu))) d.words.push({eu:w.eu,es:w.es,note:w.note||''});
+  rebuildIndex(); LIDX=null;
+  const ww=WORDS[norm(w.eu)]||w; srsSeen(ww); save(); return ww;
+}
+function reviewSoon(w){ const k=norm(w.eu), c=S.srs[k]; if(!c) srsSeen(w); else { c.b=Math.max(0,c.b-1); c.due=today() } save() }
+const REV_SVG='<svg class="wp-ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 1 1-2.6-5.9"/><path d="M20 4v5h-5"/></svg>';
+const BULB_SVG='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2V16h5v-.1c0-.8.4-1.5 1-2A6 6 0 0 0 12 3z"/></svg>';
+function showWord(el){
+  const body=$('#l-body'); if(!body || !R) return;
+  body.querySelectorAll('.wpop').forEach(x=>x.remove());
+  const raw=el.dataset.w, r=lookup(raw); if(!r) return;
+  SFX.tap(); R.looked=R.looked||{};
+  let html='', cls='';
+  if(r.kind==='form'){
+    html=`<b>${esc(raw)}</b><span>${esc(r.es)}</span><small>Verbo ${esc(r.verb)}</small>`;
+  } else {
+    let w=r.w; const fresh=r.kind==='new';
+    if(fresh){ w=discoverWord(w); cls=' new'; el.classList.add('tw-new') }
+    const k=norm(w.eu), base=(norm(raw)!==k && norm(raw)!==norm(artBare(w.eu)))?`<i>${esc(raw)}</i> → `:'';
+    html=`<b>${base}${esc(w.eu)}</b><span>${esc(w.es)}</span>${r.tzen?'<small>Forma -t(z)en: lo hace de costumbre</small>':''}${r.phrase?`<small>Sale en la expresión «${esc(w.eu)}»</small>`:''}${w.note?`<small>${esc(w.note)}</small>`:''}`;
+    if(fresh){ R.looked[k]=1; html+=`<div class="wp-tag wp-new"><span class="wp-burst"></span>Hitz berria!<small>La has descubierto: ya está en «Aurkitutako hitzak» y te la preguntaré en el repaso.</small></div>` }
+    else if(!R.looked[k]){ R.looked[k]=1; reviewSoon(w); html+=`<div class="wp-tag wp-rev">${REV_SVG}Errepasora!<small>Como la has mirado, vuelve antes al repaso.</small></div>` }
+    try{ if(canSpeak()) speak(w.eu) }catch(e){}
+  }
+  const pop=document.createElement('div'); pop.className='wpop'+cls; pop.innerHTML=html; body.appendChild(pop);
+  const br=body.getBoundingClientRect(), er=el.getBoundingClientRect(), pw=pop.offsetWidth;
+  const cx=er.left+er.width/2-br.left, left=Math.max(8,Math.min(br.width-pw-8,cx-pw/2));
+  pop.style.left=left+'px'; pop.style.top=(er.bottom-br.top+body.scrollTop+10)+'px'; pop.style.setProperty('--ax',(cx-left)+'px');
+  if(cls) setTimeout(()=>SFX.ok(),120);
+}
+document.addEventListener('click',e=>{ const t=e.target.closest ? e.target.closest('#l-body .tw') : null; if(t) showWord(t) });
+// la burbuja se cierra al tocar en cualquier otro sitio (pointerdown: también sobre botones desactivados)
+document.addEventListener('pointerdown',e=>{ if(!(e.target.closest && e.target.closest('.wpop, .tw'))) document.querySelectorAll('.wpop').forEach(x=>x.remove()) });
 
 /* =========================================================
    ESPIOIAREN BILA (v1.13) · lección extra de A1-7 Gorputza eta itxura
@@ -3628,8 +3770,9 @@ function markOpts(body,sel,a){ const os=body.querySelectorAll('.opt'); os[a].cla
 function rDrill(it,body){
   // El orden de las opciones se baraja en cada aparición y se guarda en el ejercicio (it), no en el hueco
   // compartido (u.drills): así no arrastra estado entre lecciones ni entre el intento y el reintento.
-  const d=it.d; const parts=esc(d.s).split('___'); const order=it.order=shuffle(d.o.map((_,i)=>i));
-  body.innerHTML=`<div class="q-kind">Gramática</div><h2 class="q-title">${esc(d.q)}</h2><div class="sentence">${parts[0]}<span class="blank" id="blank">&nbsp;</span>${parts[1]||''}</div><div class="opts">${optList(order.map(i=>d.o[i]))}</div>`;
+  const d=it.d; const parts=d.s.split('___').map(tapify); const order=it.order=shuffle(d.o.map((_,i)=>i));
+  body.innerHTML=`<div class="q-kind">Gramática</div><h2 class="q-title">${esc(d.q)}</h2><div class="sentence">${parts[0]}<span class="blank" id="blank">&nbsp;</span>${parts[1]||''}</div>${d.h?`<button class="hint-btn" id="hint-b" type="button">${BULB_SVG}Pista</button><div class="hint-t" id="hint-t">${esc(d.h)}</div>`:''}<div class="opts">${optList(order.map(i=>d.o[i]))}</div>`;
+  if(d.h) $('#hint-b').onclick=()=>{ SFX.tap(); $('#hint-b').remove(); $('#hint-t').classList.add('on') };
   setBtn('Comprobar',false,null);
   bindOpts(body,i=>{ const real=order[i]; const bl=$('#blank'); bl.textContent=d.o[real]; bl.classList.remove('filled'); void bl.offsetWidth; bl.classList.add('filled');
     setBtn('Comprobar',true,()=>{ const ok=real===d.a; markOpts(body,i,order.indexOf(d.a));
@@ -3682,7 +3825,7 @@ function rType(it,body){
 }
 function rBuild(it,body){
   const toEu=it.lang==='eu';
-  body.innerHTML=`<div class="q-kind">${it.face?'Deskribatu':'Traduce la frase'}</div>${it.face?`<div class="desc-face">${faceHTML(it.face)}</div>`:''}<h2 class="q-title">${toEu?esc(it.es):spkBtn(it.eu)+esc(it.eu)}</h2><div class="answer-line" id="ans"></div><div class="bank" id="bank">${it.tiles.map((t,i)=>`<button class="tile${PUNCT.test(t)?' punct':''}" data-i="${i}">${esc(t)}</button>`).join('')}</div>`;
+  body.innerHTML=`<div class="q-kind">${it.face?'Deskribatu':'Traduce la frase'}</div>${it.face?`<div class="desc-face">${faceHTML(it.face)}</div>`:''}<h2 class="q-title">${toEu?esc(it.es):spkBtn(it.eu)+tapify(it.eu)}</h2><div class="answer-line" id="ans"></div><div class="bank" id="bank">${it.tiles.map((t,i)=>`<button class="tile${PUNCT.test(t)?' punct':''}" data-i="${i}">${esc(t)}</button>`).join('')}</div>`;
   const ans=$('#ans'), bank=$('#bank'); const chosen=[];
   const upd=()=>{ ans.innerHTML=chosen.map((i,k)=>`<button class="tile${PUNCT.test(it.tiles[i])?' punct':''}" data-k="${k}">${esc(it.tiles[i])}</button>`).join('');
     ans.querySelectorAll('.tile').forEach(b=>b.onclick=()=>{ if(R.answered)return; SFX.tap(); const i=chosen.splice(+b.dataset.k,1)[0]; bank.querySelector(`[data-i="${i}"]`).classList.remove('used'); upd() });
@@ -4136,20 +4279,25 @@ function bootIntro(manual){
   const T=[]; BOOT={el,T};
   el.innerHTML=`<div class="b-lines">${Array.from({length:9},(_,i)=>`<i style="left:${6+i*11+frnd(-3,3)}%;height:${Math.round(frnd(70,160))}px"></i>`).join('')}</div>
     <div class="b-stage">${BOOT_CH.map(([id,x,y,w])=>`<span class="b-ch" style="left:${x}%;top:${y}%;width:${w}%"><img src="img/caida-${id}.webp" alt=""></span>`).join('')}</div>
-    <div class="b-logo"><img src="img/icon.webp" alt=""></div>`;
-  const chs=[...el.querySelectorAll('.b-ch')], lines=[...el.querySelectorAll('.b-lines i')], logo=$('.b-logo',el);
+    <div class="b-logo"><div class="b-icon"><img src="img/icon.webp" alt=""></div><div class="b-word" aria-label="Ikasi!">${[...'Ikasi!'].map(c=>`<span>${c}</span>`).join('')}</div></div>`;
+  const chs=[...el.querySelectorAll('.b-ch')], lines=[...el.querySelectorAll('.b-lines i')], logo=$('.b-logo',el), icon=$('.b-icon',el), lets=[...el.querySelectorAll('.b-word span')];
   const H=innerHeight;
   let fin=false;
   const end=()=>{ // el icono sube y se desvanece; el fondo se va y la pantalla entra
     if(fin) return; fin=true; T.forEach(clearTimeout); toTop();
-    logo.getAnimations().forEach(a=>a.cancel());
-    logo.animate([{opacity:1,transform:'none'},{opacity:0,transform:'translateY(-110px) scale(.9)'}],{duration:520,easing:EASE.soft,fill:'forwards'});
+    logo.animate([{opacity:1,transform:'translateY(-50%)'},{opacity:0,transform:'translateY(calc(-50% - 110px)) scale(.9)'}],{duration:520,easing:EASE.soft,fill:'forwards'});
     el.animate([{opacity:1},{opacity:0}],{duration:380,delay:120,easing:'ease-out',fill:'forwards'}).onfinish=()=>{ el.remove(); BOOT=null };
     setTimeout(()=>{ if(BOOT&&BOOT.el===el){ el.remove(); BOOT=null } },900);
     viewIn(); act($('#hero-ch'),'jump');
   };
-  const showLogo=(d,hold=1000)=>T.push(setTimeout(()=>{ if(fin) return;
-    logo.animate([{opacity:0,transform:'scale(0) rotate(-20deg)'},{opacity:1,transform:'none'}],{duration:620,easing:EASE.bounce,fill:'forwards'});
+  let shown=false;
+  // v1.27: el icono sale con rebote y, debajo, el nombre «Ikasi!» letra a letra (la ! con un giro al final)
+  const showLogo=(d,hold=1250)=>T.push(setTimeout(()=>{ if(fin) return; shown=true;
+    icon.animate([{opacity:0,transform:'scale(0) rotate(-20deg)'},{opacity:1,transform:'none'}],{duration:620,easing:EASE.bounce,fill:'forwards'});
+    lets.forEach((l,i)=>{ const last=i===lets.length-1;
+      l.animate(last?[{opacity:0,transform:'translateY(34px) scale(.4) rotate(-25deg)'},{opacity:1,transform:'none'}]
+                    :[{opacity:0,transform:'translateY(34px) scale(.6)'},{opacity:1,transform:'none'}],
+        {duration:last?620:480,delay:170+i*55+(last?60:0),easing:EASE.bounce,fill:'both'}) });
     T.push(setTimeout(end,hold)) },d));
   const run=()=>{
     if(fin) return;
@@ -4176,7 +4324,7 @@ function bootIntro(manual){
   Promise.race([Promise.all(imgs.map(i=>i.decode?i.decode().catch(()=>{}):Promise.resolve())),new Promise(r=>setTimeout(r,1500))]).then(run);
   el.onclick=()=>{ if(fin) return; // un toque: se salta hasta el icono
     T.forEach(clearTimeout); chs.forEach(c=>c.remove()); lines.forEach(l=>l.remove());
-    if(!logo.getAnimations().length) showLogo(0,560); else end() };
+    if(!shown) showLogo(0,1100); else end() };
 }
 $('#btn-home').onclick=()=>{ SFX.tap(); if(R) return; bootIntro(true) };
 
