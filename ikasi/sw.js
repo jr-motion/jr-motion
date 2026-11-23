@@ -1,6 +1,6 @@
 // Ikasi! funciona sin conexión: guarda la app, las imágenes y las fuentes en caché.
 // Al cambiar cualquier archivo, sube el número de CACHE.
-const CACHE = "ikasi-v28";
+const CACHE = "ikasi-v29";
 const CORE = [
   "./", "index.html", "manifest.webmanifest", "decks.json",
   "icon-180.png", "icon-192.png", "icon-512.png", "icon-maskable-512.png",
@@ -42,7 +42,15 @@ const CORE = [
   "img/aurpegiak/wr_m.webp", "img/aurpegiak/wr_w.webp",
   // v1.17: pantalla de carga (escena de caída) · v1.18: cabecera de Gramatika
   "img/caida-amona.webp", "img/caida-latxi.webp", "img/caida-peio.webp", "img/caida-joxe.webp",
-  "img/caida-harri.webp", "img/caida-uxue.webp", "img/caida-ane.webp", "img/gramatika.webp"
+  "img/caida-harri.webp", "img/caida-uxue.webp", "img/caida-ane.webp", "img/gramatika.webp",
+  // v1.34: oficios con dibujo
+  "img/lan-abeltzaina.webp", "img/lan-abokatua.webp", "img/lan-aktorea.webp", "img/lan-albaitaria.webp",
+  "img/lan-argazkilaria.webp", "img/lan-arkitektoa.webp", "img/lan-elektrikaria.webp", "img/lan-enpresaria.webp",
+  "img/lan-eraikitzailea.webp", "img/lan-erizaina.webp", "img/lan-errementaria.webp", "img/lan-garbitzailea.webp",
+  "img/lan-gidaria.webp", "img/lan-harakina.webp", "img/lan-idazlea.webp", "img/lan-igeltseroa.webp",
+  "img/lan-ile-apaintzailea.webp", "img/lan-informatikaria.webp", "img/lan-iturgina.webp", "img/lan-kazetaria.webp",
+  "img/lan-lorazaina.webp", "img/lan-mekanikaria.webp", "img/lan-pilotua.webp", "img/lan-polizia.webp",
+  "img/lan-postaria.webp", "img/lan-saltzailea.webp", "img/lan-sendagilea.webp", "img/lan-suhiltzailea.webp"
 ];
 self.addEventListener("install", e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(CORE))); self.skipWaiting(); });
 self.addEventListener("activate", e => {

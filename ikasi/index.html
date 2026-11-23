@@ -2283,6 +2283,14 @@ const PICS={
   okina:'nerea', sukaldaria:'kepa', abeslaria:'maddi', dantzaria:'maialen', musikaria:'peio', baserritarra:'jon',
   tabernaria:'patxi', ikaslea:'irati', pilotaria:'unai', aizkolaria:'aitor', 'harri-jasotzailea':'harri',
   arraunlaria:'itziar', sokatiralaria:'gorka', arrantzalea:'koldo', ikazkina:'olentzero', basajauna:'basajaun',
+  /* oficios con dibujo (v1.34) */
+  erizaina:'lan-erizaina', sendagilea:'lan-sendagilea', polizia:'lan-polizia', suhiltzailea:'lan-suhiltzailea',
+  'ile-apaintzailea':'lan-ile-apaintzailea', mekanikaria:'lan-mekanikaria', iturgina:'lan-iturgina', elektrikaria:'lan-elektrikaria',
+  pilotua:'lan-pilotua', albaitaria:'lan-albaitaria', postaria:'lan-postaria', argazkilaria:'lan-argazkilaria',
+  lorazaina:'lan-lorazaina', garbitzailea:'lan-garbitzailea', gidaria:'lan-gidaria', kazetaria:'lan-kazetaria',
+  informatikaria:'lan-informatikaria', arkitektoa:'lan-arkitektoa', idazlea:'lan-idazlea', igeltseroa:'lan-igeltseroa',
+  eraikitzailea:'lan-eraikitzailea', harakina:'lan-harakina', abeltzaina:'lan-abeltzaina', errementaria:'lan-errementaria',
+  saltzailea:'lan-saltzailea', enpresaria:'lan-enpresaria', abokatua:'lan-abokatua', aktorea:'lan-aktorea',
   kaixo:'baserria'
 };
 const NOQUIZ=new Set(['kaixo']);
@@ -2434,7 +2442,7 @@ function buildLesson(L,reto){
   }
   // práctica: frases (2 de cada 3 en euskera, al azar), huecos que menos han salido, huecos generados (v1.26) y vocabulario de la unidad
   const ws=pick(u.words,4);
-  const ex=[ ...rankPick(u.sentences,sKey,P_SENT).map(s=>sentEx(s,Math.random()<1/3?'es':'eu',u)), ...[...rankPick(u.drills,dKey,3), ...genDrills(u,3,false)].map(d=>({t:'drill',d})),
+  const ex=[ ...rankPick(u.sentences,sKey,P_SENT).map(s=>sentEx(s,Math.random()<1/3?'es':'eu',u)), ...[...rankPick(u.drills,dKey,3), ...genDrills(u,4,false)].map(d=>({t:'drill',d})),
     matchEx(u.words), ...ws.slice(0,3).map(typeEx), ...ws.slice(3).map(w=>mcEx(w,'es')) ];
   return shuffle(ex);
 }
@@ -2730,6 +2738,240 @@ function genDrills(u,n,home){
   for(let k=0;k<n*8 && out.length<n;k++){ const d=gOne(w).f(ui); if(d && !seen.has(d.s)){ seen.add(d.s); out.push(d) } }
   return out;
 }
+
+/* =========================================================
+   HUECOS GENERADOS · DECLINACIÓN (v1.35, fase 3)
+   Como los de verbos (v1.26): sin IA, con reglas y palabras ya vistas, marcadas por tipo
+   (persona, lugar, cosa) para que las frases tengan sentido. Cada caso, desde su unidad:
+   · NONGO (desde Nongoa zara?): Bilbokoa, Gasteizkoa, Madrilgoa, Iruñekoa, hemengoa…
+   · NON con topónimos (desde Non bizi zara?): Bilbon, Gasteizen, Iruñean…
+   · NORK (desde NORK eta UKAN): Kepak, Jonek, Aitorrek, irakasleak / ikasleek; y NOR sin -k con izan.
+   · NOREN (desde Familia): Luisaren, Jonen, Aitorren, amaren, irakaslearen, gurasoen.
+   · NON con nombres comunes y mugagabe (desde Non dago?): mahaian, eskolan, lurrean, basoetan;
+     hiru herritan, zein kaletan, herri askotan, etxe batean, etxe honetan.
+   Reglas que cuidan: -a de la palabra (alaba, eskola, Donostia) frente a -a del artículo (seme(a), Iruñea),
+   -r doble (lur → lurrean, Aitor → Aitorren), nombres propios y mugagabe (solo con palabras en vocal,
+   porque con consonante el mugagabe y el plural coinciden). Las formas que también valdrían
+   (Gasteizekoa, Madrilekoa) no salen nunca como trampa (gdAlt). Mismo formato que los de verbos.
+   ========================================================= */
+const GD={};
+/* nombres propios: [nombre, m/f] (personajes de la app y nombres de las tarjetas) */
+GD.names=[['Kepa','m'],['Ane','f'],['Jon','m'],['Miren','f'],['Aitor','m'],['Uxue','f'],['Peio','m'],['Irati','f'],['Maddi','f'],
+  ['Unai','m'],['Nerea','f'],['Itziar','f'],['Koldo','m'],['Luisa','f'],['Luis','m'],['Antton','m'],['Karmele','f']];
+/* personas: [euskera con la notación del artículo, castellano singular, castellano plural ('' = solo singular), unidad, familia] */
+GD.per=[['irakasle(a)','la profesora','los profesores','a1-1'],['ikasle(a)','el estudiante','los estudiantes','a1-1'],['lagun(a)','el amigo','los amigos','a1-1'],
+  ['mediku(a)','la médica','los médicos','a1-1'],['sukaldari(a)','el cocinero','los cocineros','a1-1'],['zerbitzari(a)','la camarera','los camareros','a1-1'],
+  ['okin(a)','el panadero','los panaderos','a1-lan'],['erizain(a)','la enfermera','los enfermeros','a1-lan'],['polizia','el policía','los policías','a1-lan'],
+  ['saltzaile(a)','la vendedora','los vendedores','a1-lan'],['kazetari(a)','la periodista','los periodistas','a1-lan'],
+  ['aita','el padre','','a1-4',1],['ama','la madre','','a1-4',1],['seme(a)','el hijo','','a1-fam',1],['alaba','la hija','','a1-fam',1],
+  ['aitona','el abuelo','','a1-fam',1],['amona','la abuela','','a1-fam',1],['osaba','el tío','','a1-fam',1],['izeba','la tía','','a1-fam',1],
+  ['lehengusu(a)','el primo','los primos','a1-fam',1],['senar(ra)','el marido','','a1-fam',1],['emazte(a)','la esposa','','a1-fam',1],['guraso(ak)','','los padres','a1-fam',1]];
+/* topónimos: [nombre, castellano, tipo, unidad]. tipo: v = vocal, a = -a de la palabra (Donostia), art = -a artículo (Iruñea → Iruñe-), c = consonante */
+GD.top=[['Bilbo','Bilbao','v','a1-2'],['Getxo','Getxo','v','a1-3'],['Donostia','San Sebastián','a','a1-2'],['Mungia','Mungia','a','a1-2'],
+  ['Espainia','España','a','a1-2'],['Frantzia','Francia','a','a1-2'],['Iruñea','Pamplona','art','a1-3'],['Euskal Herria','el País Vasco','art','a1-2'],
+  ['Gasteiz','Vitoria','c','a1-2'],['Madril','Madrid','c','a1-2'],['Irun','Irun','c','a1-2'],['Paris','París','c','a1-3']];
+/* lugares comunes (NON): [euskera, castellano sg, castellano pl, unidad, género, tipo]
+   tipo: c = cerrado, a = abierto (personas); n = naturaleza; s = superficie y v = vaso (cosas) */
+GD.loc=[['etxe(a)','la casa','las casas','a1-3','f','c'],['kale(a)','la calle','las calles','a1-3','f','a'],['euskaltegi(a)','el euskaltegi','los euskaltegis','a1-3','m','c'],
+  ['herri(a)','el pueblo','los pueblos','a1-2','m','a'],['hiri(a)','la ciudad','las ciudades','a1-2','f','a'],['eskola','la escuela','las escuelas','a1-non','f','c'],
+  ['denda','la tienda','las tiendas','a1-non','f','c'],['taberna','el bar','los bares','a1-non','m','c'],['liburutegi(a)','la biblioteca','las bibliotecas','a1-non','f','c'],
+  ['ospitale(a)','el hospital','los hospitales','a1-non','m','c'],['etxebizitza','el piso','los pisos','a1-non','m','c'],['mendi(a)','el monte','los montes','a1-non','m','n'],
+  ['baso(a)','el bosque','los bosques','a1-non','m','n'],['zelai(a)','el prado','los prados','a1-non','m','n'],['haran(a)','el valle','los valles','a1-non','m','n'],
+  ['mahai(a)','la mesa','las mesas','a0-eus','f','s'],['lur(ra)','el suelo','los suelos','a1-non','m','s'],['edalontzi(a)','el vaso','los vasos','a1-non','m','v']];
+/* cosas que están en un sitio: [como va en la frase, castellano, 1/2, unidad, sitios posibles] */
+GD.thing=[['liburua','el libro',1,'a0-eus',['mahai','lur','etxe','eskola','liburutegi','denda','euskaltegi']],['arkatza','el lápiz',1,'a0-eus',['mahai','lur','etxe','eskola','euskaltegi']],
+  ['telefonoa','el teléfono',1,'a1-3',['mahai','lur','etxe','taberna']],['giltzak','las llaves',2,'a1-nork',['mahai','lur','etxe']],
+  ['ogia','el pan',1,'a1-nork',['mahai','denda','taberna','etxe']],['eulia','la mosca',1,'a1-non',['edalontzi','mahai','taberna']],
+  ['egurra','la leña',1,'a1-non',['lur','baso','etxe']],['zuhaitzak','los árboles',2,'a1-non',['mendi','baso','zelai','haran','kale','herri']]];
+GD.pObj=/^(irakaslea|lagun bat|bi lagun)$/;
+GD.num=[['bi','dos'],['hiru','tres'],['lau','cuatro'],['bost','cinco'],['sei','seis'],['zazpi','siete'],['zortzi','ocho'],['hamar','diez']];
+GD.dem=[['hau','honetan','este','esta','hauek','hauetan','estos','estas'],['hori','horretan','ese','esa','horiek','horietan','esos','esas'],['hura','hartan','aquel','aquella','haiek','haietan','aquellos','aquellas']];
+GD.vivir=['vivo','vives','vive','vivimos','vivís','viven'];
+
+/* formas: bare = sin artículo; own = la -a es de la palabra; stem = tema para -ek / -en / -etan (eskol-, senarr-) */
+const gdBare=w=>hasArt(w)?artBare(w):w;
+const gdOwn=w=>!hasArt(w)&&/a$/.test(w);
+const gdV=s=>/[aeiou]$/.test(s);
+const gdStem=w=>{ const b=gdBare(w); return gdOwn(w)?b.slice(0,-1):/r$/.test(b)?b+'r':b };
+const gdArt=w=>gdOwn(w)?w:/r$/.test(gdBare(w))?gdBare(w)+'ra':gdBare(w)+'a';   // irakaslea, ama, senarra, laguna
+const gdErgSg=w=>gdArt(w)+'k', gdErgPl=w=>gdStem(w)+'ek';
+const gdGenSg=w=>gdArt(w)+'ren', gdGenPl=w=>gdStem(w)+'en';
+const gdNonSg=w=>{ const b=gdBare(w); return gdOwn(w)?w+'n':/r$/.test(b)?b+'rean':gdV(b)?b+'an':b+'ean' };
+const gdNonPl=w=>gdStem(w)+'etan';
+const gdNonMg=w=>{ const b=gdBare(w); return gdV(b)?b+'tan':gdStem(w)+'etan' };
+/* nombres propios */
+const gdPErg=n=>gdV(n)?n+'k':/r$/.test(n)?n+'rek':n+'ek';
+const gdPGen=n=>gdV(n)?n+'ren':/r$/.test(n)?n+'ren':n+'en';                    // Aitor → Aitorren (r doble)
+/* topónimos */
+const gdTBase=t=>t[2]==='art'?t[0].slice(0,-1):t[0];                             // Iruñea → Iruñe
+const gdTNon=t=>t[2]==='c'?t[0]+'en':gdTBase(t)+(t[2]==='art'?'an':'n');
+const gdTNongo=t=>t[2]==='c'?t[0]+(/[nl]$/.test(t[0])?'goa':'koa'):gdTBase(t)+'koa';
+const gdAlt=t=>t[2]==='c'?[t[0]+'ekoa',t[0]+'ekoak']:[];                         // también valen; nunca como trampa
+/* castellano */
+const gdDe=es=>es.replace(/^el /,'del ').replace(/^(?!del )/,'de ');
+const gdMi=es=>es.replace(/^(el|la) /,'mi ').replace(/^(los|las) /,'mis ');
+const gdNoArt=es=>es.replace(/^(el|la|los|las) /,'');
+const gdOk=(row,ui,k=3)=>gOk(row[k],ui);
+/* hueco: opciones con la buena, sin repetir ni la buena ni las que también valen */
+function gdDrill(q,s,right,traps,x,alts=[]){
+  const c=[...new Set(traps)].filter(t=>t&&t!==right&&!alts.includes(t)); if(c.length<3) return null;
+  return gDrill(q,s,right,shuffle(c).slice(0,3),x);
+}
+
+/* NONGO: -koa / -goa / -ekoa (Nongoa zara?) */
+function genNongo(ui){
+  const p=Math.floor(Math.random()*6), P=GV.pr[p], pl=p>=3, S=cap(P.nor);
+  if(Math.random()<.15){ // hemengoa / horkoa / hangoa
+    const a=gOne([['hemen','hemengoa','aquí','hemenkoa'],['hor','horkoa','ahí','horgoa'],['han','hangoa','allí','hankoa']]), k=pl?'k':'';
+    const x=`De aquí, de ahí, de allí: <b>${a[1]}</b>${pl?'k':''}. Tras <i>hemen</i> y <i>han</i> (acaban en -n) va <b>-goa</b>; tras <i>hor</i>, <b>-koa</b>.${pl?' Varios → <b>-ak</b>.':''}`;
+    return gdDrill(`«${esPron(p,`${GV.ser[p]} de ${a[2]}`)}»`,`${S} ___ ${GV.izan[p]}.`,a[1]+k,[a[3]+k,a[0],a[1].slice(0,-1),pl?a[1]:a[1]+'k'],x);
+  }
+  const ts=GD.top.filter(t=>gdOk(t,ui)); if(!ts.length) return null;
+  const t=gOne(ts), base=gdTNongo(t), f=pl?base+'k':base, sw=pl?base:base+'k';
+  const trap=t[2]==='c'?(/[nl]$/.test(t[0])?t[0]+'koa':t[0]+'goa'):t[2]==='art'?t[0]+'koa':t[2]==='a'?t[0].slice(0,-1)+'koa':t[0]+'goa';
+  const traps=[pl?trap+'k':trap, gdTNon(t), sw, base.slice(0,-1)];
+  const why={v:`Acaba en vocal → <b>-ko</b> + artículo: <b>${base}</b>.`,
+    a:`La -a de <i>${t[0]}</i> es de la palabra: se queda → <b>${base}</b> (no ${t[0].slice(0,-1)}koa).`,
+    art:`<i>${t[0]}</i> = ${gdTBase(t)} + <b>a</b> (artículo): el artículo se cae → <b>${base}</b> (no ${t[0]}koa).`,
+    c:/[nl]$/.test(t[0])?`Tras <b>-n</b> o <b>-l</b>, -ko pasa a <b>-go</b>: <b>${base}</b> (nunca ${t[0]}koa). También vale ${t[0]}ekoa.`
+                        :`Tras consonante (que no sea n o l) → <b>-ko</b>: <b>${base}</b> (nunca ${t[0]}goa). También vale ${t[0]}ekoa.`}[t[2]];
+  const x=`De dónde → <b>-ko + a</b>. ${why}${pl?' Varios → <b>-ak</b>: <b>'+f+'</b>.':''} <i>${gdTNon(t)}</i> sería «en ${t[1]}».`;
+  const nm=p===2&&Math.random()<.5?gOne(GD.names):null;
+  const q=nm?`«${nm[0]} es ${gdDe(t[1])}»`:`«${esPron(p,`${GV.ser[p]} ${gdDe(t[1])}`)}»`;
+  return gdDrill(q,`${nm?nm[0]:S} ___ ${GV.izan[p]}.`,f,traps,x,gdAlt(t));
+}
+/* NON con topónimos: -n / -en (Non bizi zara?) */
+function genNonTop(ui){
+  const ts=GD.top.filter(t=>gdOk(t,ui)); if(!ts.length) return null;
+  const t=gOne(ts), f=gdTNon(t), p=Math.floor(Math.random()*6), P=GV.pr[p], egon=gOk('a1-ego',ui)&&Math.random()<.3;
+  const nm=p===2&&Math.random()<.5?gOne(GD.names)[0]:null, S=nm||cap(P.nor), adv=!egon&&Math.random()<.25;
+  const s=egon?`${S} ___ ${GV.egon[p]}.`:`${S}${adv?' orain':''} ___ bizi ${GV.izan[p]}.`;
+  const es=(nm?nm+' ':GV.pr[p].es+' ')+(egon?GV.estar[p]:(adv?'ahora ':'')+GD.vivir[p])+' en '+t[1];
+  const n=t[0], traps={v:[n+'en',n+'an',n+'ean'],a:[n+'an',n.slice(0,-1)+'en',n.slice(0,-1)+'etan'],art:[n,gdTBase(t)+'etan',n+'an'],c:[n+'ean',n+'an',n]}[t[2]];
+  const why={v:`Acaba en vocal → <b>-n</b>: <b>${f}</b>.`,a:`La -a es de la palabra: solo se añade <b>-n</b> → <b>${f}</b> (no ${n}an).`,
+    art:`<i>${n}</i> = ${gdTBase(t)} + <b>a</b> (artículo): ${gdTBase(t)} + <b>-an</b> → <b>${f}</b>, como <i>${gdTNongo(t)}</i>.`,
+    c:`Acaba en consonante → <b>-en</b>: <b>${f}</b>. Con nombres de lugar no se usa -ean (eso es para etxe, mendi…).`}[t[2]];
+  const x=`Dónde, con nombre de lugar → <b>-n / -en</b>. ${why} <i>${gdTNongo(t)}</i> sería «de ${t[1]}».`;
+  return gdDrill(`«${cap(es.trim())}»`,s,f,[...traps.slice(0,2),gdTNongo(t),traps[2]],x);
+}
+/* NORK: -k / -ek / -rrek / -ak / -ek; y NOR sin -k con izan (NORK eta UKAN) */
+function genNork(ui){
+  const prop=Math.random()<.4, per=GD.per.filter(r=>gdOk(r,ui)), intr=Math.random()<.3;
+  let subj, es, pl=false, f, traps, why;
+  if(prop){
+    const n=gOne(GD.names)[0]; subj=n; es=n;
+    if(intr){ f=n; traps=[gdPErg(n),n+(gdV(n)?'ek':'ak'),gdV(n)?n+'ak':n+'k'];
+      why=`Sin objeto, con <b>izan</b> → sin -k: <b>${n}</b>.` }
+    else { f=gdPErg(n);
+      traps=gdV(n)?[n,/a$/.test(n)?n.slice(0,-1)+'ek':n+'ek',n+'ak']:/r$/.test(n)?[n+'ek',n+'k',n]:[n,n+'k',n+'ak'];
+      why=gdV(n)?`Nombre propio en vocal → <b>-k</b>: <b>${f}</b>.`:/r$/.test(n)?`Nombre en <b>-r</b>: la r se duplica → <b>-rrek</b>: <b>${f}</b>.`:`Nombre propio en consonante → <b>-ek</b>: <b>${f}</b>.` }
+  } else {
+    const r0=gOne(per), w=r0[0]; pl=r0[1]===''||(r0[2]!==''&&Math.random()<.4); es=pl?r0[2]:r0[1];
+    const art=gdArt(w), b=gdBare(w);
+    if(intr){ f=pl?art+'k':art;
+      traps=pl?[gdErgPl(w),art,b]:[gdErgSg(w),gdErgPl(w),b];
+      why=pl?`Sin objeto, con <b>izan</b>: sin -k. Varios → <b>-ak</b>: <b>${f}</b> (<i>${gdErgPl(w)}</i> sería con -k).`:`Sin objeto, con <b>izan</b>: sin -k → <b>${f}</b>.` }
+    else if(pl){ f=gdErgPl(w); traps=[(gdOwn(w)?w:art)+'k',art,b];
+      why=`Varios con -k → <b>-ek</b>: <b>${f}</b>${gdOwn(w)?` (la -a de <i>${w}</i> se cae)`:''}. <i>${(gdOwn(w)?w:art)}k</i> sería uno con -k o varios sin -k; el verbo (${'dute / dituzte'}) dice que son varios.` }
+    else { f=gdErgSg(w); traps=[gdErgPl(w),art,gdOwn(w)?w+'ak':b+'k'];
+      why=gdOwn(w)?`La -a es de la palabra: solo <b>-k</b> → <b>${f}</b> (no ${w}ak).`:/r$/.test(b)?`Uno, con artículo y -k: <b>${f}</b> (la r se duplica).`:`Uno, con artículo y -k → <b>-ak</b>: <b>${f}</b>.` }
+    subj=w;
+  }
+  const pp=pl?5:2;
+  if(intr){
+    const v=gOne(GV.vi), aux=GV.izan[pp];
+    const esS=`${cap(es)} ${v[2]?GV.refl[pp]+' ':''}${GV.haber[pp]} ${v[1]}`;
+    return gdDrill(`«${esS}»`,`___ ${v[0]} ${aux}.`,cap(f),traps.map(cap),`<i>${v[0]}</i> no lleva objeto → <b>izan</b> (${aux}). ${why}`);
+  }
+  const v=gOne(GV.vt.filter(v=>v[2].some(o=>!GD.pObj.test(o)))), o=gOne(v[2].filter(o=>!GD.pObj.test(o))), [oes,n]=GV.obj[o];
+  const aux=(n===2?GV.ditu:GV.du)[pp];
+  const esS=`${cap(es)} ${GV.haber[pp]} ${v[1]} ${oes}`;
+  return gdDrill(`«${esS}»`,`___ ${o} ${v[0]} ${aux}.`,cap(f),traps.map(cap),`<i>${v[0]}</i> lleva objeto (zer? → <i>${o}</i>) → el sujeto lleva -k. ${why}`);
+}
+/* NOREN: -ren / -en / -aren / -en plural (Familia) */
+function genNoren(ui){
+  let poss, es, f, traps, why;
+  const r=Math.random();
+  if(r<.35){
+    const n=gOne(GD.names)[0]; es=n; f=gdPGen(n);
+    traps=gdV(n)?[/a$/.test(n)?n.slice(0,-1)+'en':n+'en',n+'aren',gdPErg(n)]:/r$/.test(n)?[n+'en',n+'raren',gdPErg(n)]:[n+'ren',n+'aren',gdPErg(n)];
+    why=gdV(n)?`Nombre propio en vocal → <b>-ren</b>: <b>${f}</b>.${n==='Luisa'?' Ojo: <i>Luisen</i> sería «de Luis».':''}`
+      :/r$/.test(n)?`Nombre en <b>-r</b>: la r se duplica → <b>${f}</b> (no ${n}en).`:`Nombre propio en consonante → <b>-en</b>: <b>${f}</b>.`;
+    poss=n;
+  } else {
+    const per=GD.per.filter(w=>gdOk(w,ui)); const r0=gOne(per), w=r0[0], pl=r0[1]===''||(r0[2]!==''&&Math.random()<.35), mine=r0[4]&&Math.random()<.5;
+    es=pl?r0[2]:r0[1]; if(mine) es=gdMi(es);
+    if(pl){ f=gdGenPl(w); traps=[gdArt(w)+'ren',(gdOwn(w)?w:gdArt(w))+'k',gdBare(w)+(gdOwn(w)?'en':'ren')];
+      why=`Varios → <b>-en</b>: <b>${f}</b>${gdOwn(w)?` (la -a de <i>${w}</i> se cae)`:''}. Uno sería <i>${gdGenSg(w)}</i>.` }
+    else { f=gdGenSg(w); traps=gdOwn(w)?[w+'aren',w.slice(0,-1)+'en',w+'k']:[gdBare(w)+'ren',gdGenPl(w),gdErgSg(w)];
+      why=gdOwn(w)?`La -a es de la palabra: solo <b>-ren</b> → <b>${f}</b> (no ${w}aren).`:`Uno, con artículo → <b>-aren</b>: <b>${f}</b>${/r$/.test(gdBare(w))?' (la r se duplica)':''}. Varios sería <i>${gdGenPl(w)}</i>.` }
+    poss=(mine?'nire ':'')+w;
+  }
+  const pre=poss.startsWith('nire ')?'nire ':'';
+  const things=[['etxe(a)','la casa','f'],['liburu(a)','el libro','m'],['telefono(a)','el teléfono','m'],['arkatz(a)','el lápiz','m']];
+  const t=gOne(things), dem=t[2]==='f'?'Esta':'Este';
+  const x=`De quién → el dueño va <b>delante</b> con -ren. ${why}`;
+  return gdDrill(`«${dem} es ${t[1]} ${gdDe(es)}»`,`Hau ${pre}___ ${gdArt(t[0])} da.`,f,traps,x);
+}
+/* NON con nombres comunes: -an / -ean / -n / -rean / -etan (Non dago?) */
+function genNon(ui){
+  const locs=GD.loc.filter(l=>gdOk(l,ui)), L=k=>locs.find(l=>gdBare(l[0])===k||l[0]===k);
+  let subj, ses, pl, l, lpl=false;
+  if(Math.random()<.5){
+    const th=gOne(GD.thing.filter(t=>gdOk(t,ui)&&t[4].some(L))); if(!th) return null;
+    l=L(gOne(th[4].filter(L))); subj=th[0]; ses=th[1]; pl=th[2]===2;
+    lpl=pl&&l[5]==='n'&&Math.random()<.5;
+  } else {
+    const prop=Math.random()<.4, per=GD.per.filter(w=>gdOk(w,ui));
+    l=gOne(locs.filter(l=>'can'.includes(l[5]))); if(!l) return null;
+    if(prop){ const n=gOne(GD.names)[0]; subj=n; ses=n; pl=false }
+    else { const r0=gOne(per), w=r0[0]; pl=r0[1]===''||(r0[2]!==''&&Math.random()<.4); subj=pl?gdArt(w)+'k':gdArt(w); ses=pl?r0[2]:r0[1] }
+    lpl=pl&&Math.random()<.4;
+  }
+  const w=l[0], b=gdBare(w), f=lpl?gdNonPl(w):gdNonSg(w), verb=pl?'daude':'dago';
+  const traps=lpl?[gdNonSg(w),b+'tan',gdV(b)?b+'ean':b+'en',gdV(b)?b+'en':b+'an']
+    :gdOwn(w)?[w+'an',w.slice(0,-1)+'ean',gdNonPl(w)]:/r$/.test(b)?[b+'ean',b+'ran',gdNonPl(w)]:gdV(b)?[b+'ean',b+'n',gdNonPl(w)]:[b+'an',b+'en',gdNonPl(w)];
+  const why=lpl?`En <b>los/las</b> (plural) → <b>-etan</b>: <b>${f}</b>${gdOwn(w)?` (la -a de <i>${w}</i> se cae)`:''}.`
+    :gdOwn(w)?`La -a es de la palabra: solo <b>-n</b> → <b>${f}</b> (no ${w}an).`
+    :/r$/.test(b)?`Acaba en <b>-r</b>: la r se duplica → <b>${f}</b>.`
+    :gdV(b)?`<i>${b}</i> acaba en vocal → <b>-an</b>: <b>${f}</b>.`:`<i>${b}</i> acaba en consonante → <b>-ean</b>: <b>${f}</b>.`;
+  const S=/^[A-Z]/.test(subj)?subj:cap(subj);
+  const es=`${cap(ses)} ${pl?'están':'está'} en ${lpl?l[2]:l[1]}`;
+  return gdDrill(`«${es}»`,`${S} ___ ${verb}.`,f,traps,`Dónde (Non?) con nombre común → la terminación lleva el artículo dentro. ${why}`);
+}
+/* mugagabe: números, zenbat, zein, zenbait, asko, gutxi; bat, batzuk y demostrativos (Non dago?) */
+function genMuga(ui){
+  const vl=GD.loc.filter(l=>gdOk(l,ui)&&gdV(gdBare(l[0]))&&'ca'.includes(l[5]));
+  const live=vl.filter(l=>/^(etxe|kale|herri|hiri|etxebizitza)/.test(l[0])); if(!vl.length||!live.length) return null;
+  const mode=gOne(['num','num','zenbat','zein','asko','zenbait','bat','batzuk','dem']);
+  const hay=l=>/^(herri|hiri)/.test(l[0])?['euskaltegi bat dago','hay un euskaltegi']:/^(denda|taberna)/.test(l[0])?['ogia dago','hay pan']:/^etxe\(/.test(l[0])?['telefono bat dago','hay un teléfono']:['ikasleak daude','hay estudiantes'];
+  const muchos=(l,m,f)=>l[4]==='f'?f:m;
+  if(mode==='num'||mode==='zenbat'||mode==='zein'||mode==='zenbait'){
+    const l=gOne(mode==='zenbait'?vl:live), w=l[0], b=gdBare(w), f=gdNonMg(w);
+    const traps=[gdNonPl(w),gdNonSg(w),gdOwn(w)?w+'etan':b];
+    const base=`Sin «los/las» en castellano → <b>mugagabe</b>: tras vocal <b>-tan</b>: <b>${f}</b>${gdOwn(w)?' (la -a de la palabra se queda)':''}. <i>${gdNonPl(w)}</i> sería «en los/las …».`;
+    if(mode==='num'){ const n=gOne(GD.num), p=gOne([0,3]);
+      return gdDrill(`«${esPron(p,`${GV.haber[p]} vivido en ${n[1]} ${gdNoArt(l[2])}`)}»`,`${cap(GV.pr[p].nor)} ${n[0]} ___ bizi izan ${GV.izan[p]}.`,f,traps,`Con número (menos <i>bat</i>) va mugagabe. ${base}`) }
+    if(mode==='zenbat') return gdDrill(`«¿En ${muchos(l,'cuántos','cuántas')} ${gdNoArt(l[2])} has vivido?»`,`Zenbat ___ bizi izan zara?`,f,traps,`<i>Zenbat?</i> pide mugagabe. ${base}`);
+    if(mode==='zein') return gdDrill(`«¿En qué ${gdNoArt(l[1])} vives?»`,`Zein ___ bizi zara?`,f,traps,`<i>Zein?</i> pide mugagabe. ${base}`);
+    const h=hay(l); return gdDrill(`«En ${muchos(l,'algunos','algunas')} ${gdNoArt(l[2])} ${h[1]}»`,`Zenbait ___ ${h[0]}.`,f,traps,`<i>Zenbait</i> va delante y pide mugagabe. ${base}`);
+  }
+  if(mode==='asko'){ const l=gOne(vl), few=Math.random()<.35, wd=few?'gutxi':'asko', f=wd+'tan', h=hay(l);
+    return gdDrill(`«En ${few?muchos(l,'pocos','pocas'):muchos(l,'muchos','muchas')} ${gdNoArt(l[2])} ${h[1]}»`,`${cap(gdBare(l[0]))} ___ ${h[0]}.`,f,[wd+'etan',wd+'an',wd],
+      `<i>${wd}</i> va detrás y la terminación se pone en la <b>última palabra</b>: ${gdBare(l[0])} <b>${f}</b>; ${gdBare(l[0])} se queda sin nada. Tras vocal, mugagabe <b>-tan</b>.`) }
+  if(mode==='bat'){ const l=gOne(live), p=Math.floor(Math.random()*3), nm=p===2?gOne(GD.names)[0]:null;
+    return gdDrill(`«${nm||GV.pr[p].es} ${GD.vivir[p]} en ${l[4]==='f'?'una':'un'} ${gdNoArt(l[1])}»`,`${nm||cap(GV.pr[p].nor)} ${gdBare(l[0])} ___ bizi ${GV.izan[p]}.`,'batean',['bat','batetan','batan'],
+      `<i>Bat</i> va detrás del nombre y lleva él la terminación: ${gdBare(l[0])} <b>batean</b> (bat + -ean). El nombre se queda sin nada.`) }
+  if(mode==='batzuk'){ const l=gOne(vl), h=hay(l);
+    return gdDrill(`«En ${muchos(l,'algunos','algunas')} ${gdNoArt(l[2])} ${h[1]}»`,`${cap(gdBare(l[0]))} ___ ${h[0]}.`,'batzuetan',['batzuk','batzutan','batean'],
+      `<i>Batzuk</i> va detrás y lleva la terminación de plural: <b>batzuetan</b>. (Con <i>zenbait</i>, delante: zenbait ${gdNonMg(l[0])}.)`) }
+  const l=gOne(live), d=gOne(GD.dem), many=Math.random()<.35, p=many?gOne([3,5]):gOne([0,1,2]);
+  const f=many?d[5]:d[1], others=GD.dem.filter(z=>z!==d).map(z=>many?z[5]:z[1]);
+  const esD=many?(l[4]==='f'?d[7]:d[6]):(l[4]==='f'?d[3]:d[2]);
+  return gdDrill(`«${esPron(p,`${GD.vivir[p]} en ${esD} ${gdNoArt(many?l[2]:l[1])}`)}»`,`${cap(GV.pr[p].nor)} ${gdBare(l[0])} ___ bizi ${GV.izan[p]}.`,f,[many?d[1]:d[5],...others],
+    `El demostrativo va detrás y lleva la terminación; el nombre, sin nada. <i>${many?d[4]:d[0]}</i> → <b>${f}</b> (${GD.dem.map(z=>z[0]+' → '+z[1]).join(', ')}; plural: ${GD.dem.map(z=>z[5]).join(', ')}).`);
+}
+GENS.push({home:'a1-2',f:genNongo},{home:'a1-3',f:genNonTop},{home:'a1-nork',f:genNork},{home:'a1-fam',f:genNoren},{home:'a1-non',f:genNon},{home:'a1-non',f:genMuga});
 
 /* Glosario (v1.28): palabras que salen en huecos y frases de las unidades y no están en el vocabulario.
    [euskera con la notación del artículo, castellano, nota, otras formas que llevan a ella].
@@ -4940,6 +5182,10 @@ const NI={ // iconos de las novedades
 };
 /* [icono, color de fondo, título corto, una línea en lenguaje de alumno] — como mucho 3 por versión */
 const NEWS=[
+  {v:'1.35', d:'2026-11-23', items:[
+    ['bolt','var(--mint)','Declinación siempre nueva','En Gramatika y Praktika salen huecos nuevos de -k, -n, -koa y -ren con palabras que ya conoces.']]},
+  {v:'1.34', d:'2026-11-23', items:[
+    ['star','var(--yellow)','Oficios con dibujo','Ahora ves cada profesión en Lanbideak y puedes practicarlas eligiendo la imagen.']]},
   {v:'1.33', d:'2026-11-23', items:[
     ['flag','var(--coral)','¿Ves un error? Avisa','Al corregir, toca «Akatsa?» y nos llega el ejercicio para revisarlo.'],
     ['msg','var(--mint)','Cuéntanos tus ideas','En ☰ Ajustes → «Ideiak eta iruzkinak» puedes proponer mejoras.']]},
