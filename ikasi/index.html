@@ -2291,6 +2291,11 @@ const PICS={
   informatikaria:'lan-informatikaria', arkitektoa:'lan-arkitektoa', idazlea:'lan-idazlea', igeltseroa:'lan-igeltseroa',
   eraikitzailea:'lan-eraikitzailea', harakina:'lan-harakina', abeltzaina:'lan-abeltzaina', errementaria:'lan-errementaria',
   saltzailea:'lan-saltzailea', enpresaria:'lan-enpresaria', abokatua:'lan-abokatua', aktorea:'lan-aktorea',
+  /* estados, posturas y platos de Nola dago? (v1.37) */
+  pozik:'ego-pozik', haserre:'ego-haserre', triste:'ego-triste', urduri:'ego-urduri', harrituta:'ego-harrituta', beldurtuta:'ego-beldurtuta', negarrez:'ego-negarrez', nekatuta:'ego-nekatuta',
+  gaixorik:'ego-gaixorik', lotan:'ego-lotan', esna:'ego-esna', zutik:'ego-zutik', eserita:'ego-eserita', etzanda:'ego-etzanda', garbi:'ego-garbi', zikin:'ego-zikin',
+  /* partes del cuerpo de Gorputza eta itxura (v1.39) */
+  aurpegia:'gor-aurpegia', ilea:'gor-ilea', begiak:'gor-begiak', bekainak:'gor-bekainak', sudurra:'gor-sudurra', belarriak:'gor-belarriak', ahoa:'gor-ahoa', masailak:'gor-masailak', lepoa:'gor-lepoa', besoa:'gor-besoa', eskua:'gor-eskua', behatzak:'gor-behatzak', hanka:'gor-hanka', oina:'gor-oina',
   kaixo:'baserria'
 };
 const NOQUIZ=new Set(['kaixo']);
@@ -2355,9 +2360,9 @@ function canPic(w){ return !!picPool(w) }
 /* «¿Cómo se dice?» (castellano → euskera); con dibujo en lugar del castellano si la palabra lo tiene */
 function mcEs(w,known){ const e=mcEx(w,'es',known); if(picOf(w) && !NOQUIZ.has(norm(w.eu))) e.pic=picOf(w); return e }
 function matchEx(words){ return {t:'match',pairs:pick(words,Math.min(5,words.length))} }
-/* ===== KONTRAKOA (v1.36) ===== */
+/* ===== KONTRAKOA (v1.36): «Okela ez dago gogor, ___ dago» · une la frase con su contrario ===== */
 const KP=['Kepa','Ane','Jon','Miren','Aitor','Uxue','Peio','Irati'];
-const KONT=[
+const KONT=[ // [tipo e=egon / i=izan, X, Y, unidad, grupo, sujetos]
   ['e','lotan','esna','a1-ego','egp',KP],['e','alai','triste','a1-ego','egp',KP],['e','lasai','urduri','a1-ego','egp',KP],['e','ondo','gaizki','a1-ego','egp',KP],['e','aske','preso','a1-ego','egp',KP],
   ['e','garbi','zikin','a1-ego','g1',['etxea','mahaia']],['e','itxita','irekita','a1-ego','g2',['taberna','eskola']],['e','apurtuta','konponduta','a1-ego','g3',['telefonoa','mahaia']],
   ['e','bustita','lehor','a1-ego','hum',['liburua','ogia']],['e','bizirik','hilda','a1-ego','g4',['katua','txakurra']],
@@ -2376,7 +2381,7 @@ function kontEx(ui){
   const rows=[], grp=new Set(), subj=new Set(), ans=new Set();
   for(const p of shuffle(cand)){
     if(rows.length>=5) break;
-    const g=p[4];
+    const g=p[4]==='per'||p[4]==='egp'?p[4]:(p[4]==='gen'?'gen':p[4]);
     if(grp.has(g)) continue;
     const sw=Math.random()<.5, X=sw?p[2]:p[1], Y=sw?p[1]:p[2];
     const ss=shuffle(p[5].filter(s=>!subj.has(s))); if(!ss.length||ans.has(Y)) continue;
@@ -2385,7 +2390,6 @@ function kontEx(ui){
   }
   return rows.length>=4 ? {t:'kont',rows} : null;
 }
-
 function typeEx(w){ return {t:'type',w} }
 /* «Traduce la frase» (v1.12.3): la coma, el punto, ? y ! que separan dos partes
    de la frase son fichas obligatorias. El signo del final (? ! .) sale como ficha
@@ -5233,6 +5237,10 @@ const NI={ // iconos de las novedades
 };
 /* [icono, color de fondo, título corto, una línea en lenguaje de alumno] — como mucho 3 por versión */
 const NEWS=[
+  {v:'1.39', d:'2026-11-23', items:[['star','var(--yellow)','El cuerpo con dibujo','En Gorputza eta itxura ves los ojos, la nariz, la mano, el pie y más partes del cuerpo en dibujo, y puedes practicarlas eligiendo la imagen.']]},
+  {v:'1.38', d:'2026-11-23', items:[['star','var(--yellow)','Tres estados más','gaixorik, lotan y esna ya tienen dibujo en Nola dago?. Con esto, todos los estados de la unidad se pueden practicar eligiendo la imagen.']]},
+  {v:'1.37', d:'2026-11-23', items:[
+    ['star','var(--yellow)','Estados con dibujo','En Nola dago? ves pozik, haserre, triste, nekatuta, zutik, garbi, zikin y más en dibujo, y puedes practicarlos eligiendo la imagen.']]},
   {v:'1.36', d:'2026-11-23', items:[
     ['bolt','var(--cyan)','Kontrakoa: los contrarios','En Praktika une cada frase («Kepa ez dago lotan, ___ dago») con su palabra contraria.'],
     ['star','var(--yellow)','Más adjetivos de la lista IKA','Nuevos: irristagarria, makala, motela, gosetia y zapaztoa.']]},

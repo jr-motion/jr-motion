@@ -1,6 +1,6 @@
 // Ikasi! funciona sin conexión: guarda la app, las imágenes y las fuentes en caché.
 // Al cambiar cualquier archivo, sube el número de CACHE.
-const CACHE = "ikasi-v30";
+const CACHE = "ikasi-v31";
 const CORE = [
   "./", "index.html", "manifest.webmanifest", "decks.json",
   "icon-180.png", "icon-192.png", "icon-512.png", "icon-maskable-512.png",
@@ -50,7 +50,17 @@ const CORE = [
   "img/lan-gidaria.webp", "img/lan-harakina.webp", "img/lan-idazlea.webp", "img/lan-igeltseroa.webp",
   "img/lan-ile-apaintzailea.webp", "img/lan-informatikaria.webp", "img/lan-iturgina.webp", "img/lan-kazetaria.webp",
   "img/lan-lorazaina.webp", "img/lan-mekanikaria.webp", "img/lan-pilotua.webp", "img/lan-polizia.webp",
-  "img/lan-postaria.webp", "img/lan-saltzailea.webp", "img/lan-sendagilea.webp", "img/lan-suhiltzailea.webp"
+  "img/lan-postaria.webp", "img/lan-saltzailea.webp", "img/lan-sendagilea.webp", "img/lan-suhiltzailea.webp",
+  // v1.37-v1.38: estados de Nola dago?
+  "img/ego-pozik.webp", "img/ego-haserre.webp", "img/ego-triste.webp", "img/ego-urduri.webp",
+  "img/ego-harrituta.webp", "img/ego-beldurtuta.webp", "img/ego-negarrez.webp", "img/ego-nekatuta.webp",
+  "img/ego-gaixorik.webp", "img/ego-lotan.webp", "img/ego-esna.webp", "img/ego-zutik.webp",
+  "img/ego-eserita.webp", "img/ego-etzanda.webp", "img/ego-garbi.webp", "img/ego-zikin.webp",
+  // v1.39: partes del cuerpo
+  "img/gor-aurpegia.webp", "img/gor-ilea.webp", "img/gor-begiak.webp", "img/gor-bekainak.webp",
+  "img/gor-sudurra.webp", "img/gor-belarriak.webp", "img/gor-ahoa.webp", "img/gor-masailak.webp",
+  "img/gor-lepoa.webp", "img/gor-besoa.webp", "img/gor-eskua.webp", "img/gor-behatzak.webp",
+  "img/gor-hanka.webp", "img/gor-oina.webp"
 ];
 self.addEventListener("install", e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(CORE))); self.skipWaiting(); });
 self.addEventListener("activate", e => {
