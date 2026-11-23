@@ -563,15 +563,95 @@ canvas#confetti{position:fixed;inset:0;pointer-events:none;z-index:70}
 #dorrea .dr-banner small{display:block;font-weight:700;font-size:15px;margin-top:4px;text-shadow:0 2px 0 #1d3f7a}
 #dorrea .dr-ghost{filter:grayscale(1) contrast(.45) brightness(1.75);opacity:.55}
 .next-review.tower-card{background:var(--cyan);box-shadow:inset 0 -6px 0 var(--cyan-d)}
+
+/* v1.29 · paneles de la barra de arriba: racha (Bolada), XP y lorpenak, perfil */
+button.chip{font-family:inherit;cursor:pointer;-webkit-appearance:none;appearance:none}
+.pn h2{display:flex;align-items:center;gap:8px}
+.pn h2 small{font-size:14px;font-weight:700;color:var(--ink2);margin-left:auto}
+.pn .pn-sub{margin:-6px 0 12px;color:var(--ink2);font-weight:700;font-size:14px}
+.pn h3{margin:20px 0 8px;font-size:18px;font-weight:900;display:flex;align-items:baseline;gap:8px}
+.pn h3 small{font-size:13px;font-weight:700;color:var(--ink2);margin-left:auto}
+.pn-hero{display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;padding:14px;border-radius:22px;border:var(--bw) solid var(--ink);background:#fff;box-shadow:inset 0 -6px 0 #e6e0f0}
+.pn-hero.fire{background:#ffe7c2;box-shadow:inset 0 -6px 0 #f6b85e}
+.pn-hero.xp{background:var(--yellow-l);box-shadow:inset 0 -6px 0 var(--yellow-d)}
+.pn-hero .big{font-size:44px;font-weight:900;line-height:1}
+.pn-hero .lbl{font-size:14px;font-weight:800;color:var(--ink2);margin-top:4px}
+.pn-hero .hx{flex:1;min-width:0}
+.pn-hero img{width:96px;max-width:30%;height:auto;flex:none}
+.pn-hero svg.hi{width:46px;height:46px;flex:none}
+.pn-next{flex:1 0 100%;margin-top:4px;font-size:14px;font-weight:700;line-height:1.35}
+.pn-next .mb{height:12px;border-radius:6px;background:rgba(45,10,78,.12);overflow:hidden;margin-top:6px}
+.pn-next .mb i{display:block;height:100%;border-radius:6px;background:var(--coral)}
+.pn-hero.xp .pn-next .mb i{background:var(--mint-d)}
+.pn-tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.pn-tile{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:18px;border:3px solid var(--ink);background:#fff}
+.pn-tile svg{width:28px;height:28px;flex:none}
+.pn-tile b{display:block;font-size:22px;font-weight:900;line-height:1.05}
+.pn-tile span{font-size:12px;font-weight:700;color:var(--ink2)}
+.cal{border:3px solid var(--ink);border-radius:20px;background:#fff;padding:10px 10px 12px}
+.cal-h{display:flex;align-items:center;justify-content:space-between;font-weight:900;font-size:16px;margin-bottom:6px}
+.cal-h button{width:38px;height:38px;border-radius:50%;border:3px solid var(--ink);background:var(--cyan-l);font:900 18px Montserrat,sans-serif;color:var(--ink);cursor:pointer}
+.cal-h button:disabled{opacity:.3}
+.cal-g{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;text-align:center}
+.cal-g .wd{font-size:11px;font-weight:900;color:var(--ink2);padding:2px 0}
+.cal-g .d{aspect-ratio:1;display:grid;place-items:center;border-radius:50%;font-size:13px;font-weight:800;color:var(--ink2)}
+.cal-g .d.on{background:#ffb020;color:#fff;box-shadow:inset 0 -3px 0 #e07a12}
+.cal-g .d.on.l{border-top-right-radius:6px;border-bottom-right-radius:6px}
+.cal-g .d.on.r{border-top-left-radius:6px;border-bottom-left-radius:6px}
+.cal-g .d.today{outline:3px solid var(--ink);outline-offset:-3px}
+.cal-g .d.fut{opacity:.35}
+.cal-f{display:flex;gap:14px;justify-content:center;margin-top:8px;font-size:12px;font-weight:700;color:var(--ink2)}
+.cal-f i{display:inline-block;width:12px;height:12px;border-radius:50%;vertical-align:-2px;margin-right:4px;background:#ffb020}
+.cal-f i.t{background:none;outline:3px solid var(--ink);outline-offset:-3px}
+.wk{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;align-items:end;height:120px;padding:8px 8px 0;border:3px solid var(--ink);border-radius:20px;background:#fff;position:relative}
+.wk .c{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:4px}
+.wk .c i{display:block;width:100%;max-width:30px;border-radius:8px 8px 3px 3px;background:var(--cyan);box-shadow:inset 0 -4px 0 var(--cyan-d);min-height:4px}
+.wk .c.ok i{background:var(--mint);box-shadow:inset 0 -4px 0 var(--mint-d)}
+.wk .c.z i{background:#ece8f0;box-shadow:none}
+.wk .c small{font-size:11px;font-weight:900;color:var(--ink2);padding-bottom:6px}
+.wk .c em{font-style:normal;font-size:10px;font-weight:900;color:var(--ink)}
+.wk .gl{position:absolute;left:6px;right:6px;border-top:2px dashed var(--coral-d);pointer-events:none}
+.wk .gl span{position:absolute;right:0;top:-16px;font-size:10px;font-weight:900;color:var(--coral-d);background:#fff;padding:0 3px}
+.ach{display:flex;gap:14px;align-items:center;padding:12px 0;border-bottom:2px solid rgba(45,10,78,.1)}
+.ach:last-child{border-bottom:0}
+.ach .badge{flex:none;width:72px;height:82px;border-radius:16px;border:3px solid var(--ink);background:var(--bc);box-shadow:inset 0 -6px 0 var(--bcd);display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:6px;overflow:hidden;position:relative}
+.ach .badge img{height:52px;max-width:64px;object-fit:contain}
+.ach .badge span{font-size:10px;font-weight:900;color:#fff;letter-spacing:.5px;text-shadow:0 1px 0 rgba(45,10,78,.5)}
+.ach .badge .st{position:absolute;top:3px;right:4px;display:flex;gap:1px}
+.ach .badge .st svg{width:11px;height:11px;color:#ffe14a;filter:drop-shadow(0 1px 0 rgba(45,10,78,.6))}
+.ach.off .badge{filter:grayscale(1);opacity:.55}
+.ach .at{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
+.ach .at b{font-size:17px;font-weight:900}
+.ach .at>span{font-size:14px;color:var(--ink2);font-weight:700}
+.ach .ap{display:flex;align-items:center;gap:8px}
+.ach .ap .mb{flex:1;height:12px;border-radius:6px;background:rgba(45,10,78,.12);overflow:hidden}
+.ach .ap .mb i{display:block;height:100%;background:var(--yellow);box-shadow:inset 0 -3px 0 var(--yellow-d);border-radius:6px}
+.ach .ap small{font-size:13px;font-weight:800;color:var(--ink2);white-space:nowrap}
+.ach.max .ap .mb i{background:var(--mint);box-shadow:inset 0 -3px 0 var(--mint-d)}
+.prof{display:flex;align-items:center;gap:16px;margin-bottom:6px}
+.prof>img{width:86px;height:86px;border-radius:50%;object-fit:cover;border:var(--bw) solid var(--ink);background:#5fc616;flex:none}
+.prof .nm{font-size:26px;font-weight:900;display:flex;align-items:center;gap:6px;word-break:break-word}
+.prof .nm button{border:0;background:none;color:var(--ink2);padding:6px;cursor:pointer;display:grid}
+.prof .nm button svg{width:20px;height:20px}
+.prof .meta{font-size:14px;font-weight:700;color:var(--ink2)}
+.prof .lvl{display:inline-block;margin-top:6px;padding:4px 12px;border-radius:12px;background:var(--cyan);border:3px solid var(--ink);font-size:13px;font-weight:900;letter-spacing:.5px}
+.lvb{display:flex;align-items:center;gap:10px;margin:8px 0;font-weight:900}
+.lvb>b{width:30px}
+.lvb .mb{flex:1;height:16px;border-radius:9px;border:3px solid var(--ink);background:#fff;overflow:hidden}
+.lvb .mb i{display:block;height:100%;background:var(--mint);box-shadow:inset 0 -4px 0 var(--mint-d)}
+.lvb small{font-size:13px;font-weight:800;color:var(--ink2);min-width:46px;text-align:right}
+.pn .acts{margin-top:18px}
+.pn .pn-link{display:block;width:100%;margin-top:10px;padding:12px;border:3px solid var(--ink);border-radius:16px;background:var(--yellow-l);font:900 15px Montserrat,sans-serif;color:var(--ink);cursor:pointer;text-align:left}
+.pn .pn-link span{float:right}
 </style>
 </head>
 <body>
 <div class="boot" id="boot" aria-hidden="true"></div>
 <div class="app" id="app">
   <header class="top">
-    <div class="l"><div class="chip fire" title="Racha de días"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c1 3.5 5 5.6 5 10.2A5 5 0 0 1 12 17a5 5 0 0 1-5-4.8c0-1.9.9-3.4 2-4.5.2 1.5 1 2.6 2.2 3C10.6 8.6 11.3 5 12 2z"/><path d="M12 22a7 7 0 0 1-7-7c0-1.2.3-2.3.8-3.3A6.5 6.5 0 0 0 12 19a6.5 6.5 0 0 0 6.2-7.3c.5 1 .8 2.1.8 3.3a7 7 0 0 1-7 7z" opacity=".55"/></svg><span id="st-streak">0</span><img id="st-run" class="lx-chip hidden" src="img/latxi-korrika.webp" alt="Racha en marcha: hoy ya has practicado" draggable="false"></div></div>
-    <button class="avatar" id="btn-home" aria-label="Inicio"><img src="img/icon.webp" alt="Ikasi"></button>
-    <div class="r"><div class="chip gem" title="XP total"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.5 7 .9-5.1 4.8 1.3 7L12 17.8 5.8 21.2l1.3-7L2 9.4l7-.9z"/></svg><span id="st-xp">0</span></div>
+    <div class="l"><button class="chip fire" id="btn-streak" title="Racha de días" aria-label="Racha de días"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c1 3.5 5 5.6 5 10.2A5 5 0 0 1 12 17a5 5 0 0 1-5-4.8c0-1.9.9-3.4 2-4.5.2 1.5 1 2.6 2.2 3C10.6 8.6 11.3 5 12 2z"/><path d="M12 22a7 7 0 0 1-7-7c0-1.2.3-2.3.8-3.3A6.5 6.5 0 0 0 12 19a6.5 6.5 0 0 0 6.2-7.3c.5 1 .8 2.1.8 3.3a7 7 0 0 1-7 7z" opacity=".55"/></svg><span id="st-streak">0</span><img id="st-run" class="lx-chip hidden" src="img/latxi-korrika.webp" alt="Racha en marcha: hoy ya has practicado" draggable="false"></button></div>
+    <button class="avatar" id="btn-home" aria-label="Profila"><img src="img/icon.webp" alt="Ikasi"></button>
+    <div class="r"><button class="chip gem" id="btn-xp" title="XP y logros" aria-label="XP y logros"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.5 7 .9-5.1 4.8 1.3 7L12 17.8 5.8 21.2l1.3-7L2 9.4l7-.9z"/></svg><span id="st-xp">0</span></button>
     <button class="chip round" id="btn-settings" aria-label="Ajustes"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 7h14M5 12h14M5 17h14"/></svg></button></div>
   </header>
   <main id="view"></main>
@@ -3122,6 +3202,141 @@ $('#btn-settings').onclick=()=>{ SFX.tap();
 
 
 /* =========================================================
+   PANELES DE LA BARRA DE ARRIBA (v1.29): racha → «Zure bolada» (calendario),
+   estrella → «XP eta lorpenak» (semana y logros por niveles), Latxi → «Profila».
+   ========================================================= */
+const DAY_GOAL=50;
+const PI={
+  fire:'<svg class="hi" viewBox="0 0 24 24" fill="#ff8a00"><path d="M12 2c1 3.5 5 5.6 5 10.2A5 5 0 0 1 12 17a5 5 0 0 1-5-4.8c0-1.9.9-3.4 2-4.5.2 1.5 1 2.6 2.2 3C10.6 8.6 11.3 5 12 2z"/><path d="M12 22a7 7 0 0 1-7-7c0-1.2.3-2.3.8-3.3A6.5 6.5 0 0 0 12 19a6.5 6.5 0 0 0 6.2-7.3c.5 1 .8 2.1.8 3.3a7 7 0 0 1-7 7z" opacity=".55"/></svg>',
+  star:'<svg class="hi" viewBox="0 0 24 24" fill="#f5c518"><path d="M12 2l3 6.5 7 .9-5.1 4.8 1.3 7L12 17.8 5.8 21.2l1.3-7L2 9.4l7-.9z"/></svg>',
+  book:'<svg viewBox="0 0 24 24" fill="none" stroke="#1c8ed6" stroke-width="2.6" stroke-linejoin="round"><path d="M3 5c3-1.3 6-1.3 9 .6 3-1.9 6-1.9 9-.6v14c-3-1.3-6-1.3-9 .6-3-1.9-6-1.9-9-.6z"/><path d="M12 5.6v14"/></svg>',
+  trophy:'<svg viewBox="0 0 24 24" fill="#e5484d"><path d="M7 3h10v2h3v3a4 4 0 0 1-4 4h-.3A5 5 0 0 1 13 15v3h3v3H8v-3h3v-3a5 5 0 0 1-2.7-3H8a4 4 0 0 1-4-4V5h3zm-1 4v1a2 2 0 0 0 1 1.7V7zm12 0v2.7A2 2 0 0 0 19 8V7z"/></svg>',
+  heart:'<svg viewBox="0 0 24 24" fill="#fb6ee8"><path d="M12 21s-8-5.2-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 5.8-8 11-8 11z"/></svg>',
+  unit:'<svg viewBox="0 0 24 24" fill="#12c270"><path d="M12 2l9 5v10l-9 5-9-5V7zm0 3.3L6 8.6v6.8l6 3.3 6-3.3V8.6z"/></svg>',
+  edit:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg>',
+  mstar:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.5 7 .9-5.1 4.8 1.3 7L12 17.8 5.8 21.2l1.3-7L2 9.4l7-.9z"/></svg>'
+};
+const EU_MON=['Urtarrila','Otsaila','Martxoa','Apirila','Maiatza','Ekaina','Uztaila','Abuztua','Iraila','Urria','Azaroa','Abendua'];
+const EU_WD=['AL','AR','AZ','OG','OR','LR','IG']; // astelehena… igandea
+const practiced=d=>(S.days[d]||0)>0;
+function bestStreak(){ // la racha más larga de siempre (los logros no bajan al cortarse la racha)
+  const ds=Object.keys(S.days).filter(practiced).sort(); let best=0, run=0, prev=null;
+  ds.forEach(d=>{ run=(prev&&addDays(prev,1)===d)?run+1:1; best=Math.max(best,run); prev=d });
+  return Math.max(best,streak());
+}
+function sinceDay(){ const ds=Object.keys(S.days).filter(practiced).sort(); return S.since||ds[0]||today() }
+const unitsDone=()=>UNITS.filter(u=>unitComplete(u)).length;
+const lessonsDone=()=>Object.keys(S.done).filter(k=>S.done[k]).length;
+const wordsLearned=()=>Object.keys(S.srs).length;
+const wordsMastered=()=>Object.values(S.srs).filter(c=>c&&c.b>=5).length;
+function curLevel(){ const u=UNITS.find(x=>!unitComplete(x)); return u?u.level:(ROADMAP[0]?ROADMAP[0][0]:'A2') }
+const plural=(n,one,many)=>n===1?one:many;
+function achList(){ // como en la V2 (Profila), con el récord de racha y un logro más: palabras dominadas
+  return [
+    {k:'aitor',c:'#6CC24A',cd:'#4E9C3E',t:'Aizkolaria',d:n=>`Ikasi ${n} egun jarraian`,es:'Días seguidos (tu mejor racha)',v:bestStreak(),st:[3,7,30,100]},
+    {k:'kepa',c:'#4AA8E8',cd:'#2B83C2',t:'Sukaldaria',d:n=>`Ikasi ${n} hitz`,es:'Palabras aprendidas',v:wordsLearned(),st:[10,50,200,500]},
+    {k:'harri',c:'#EF6A5B',cd:'#C94A3D',t:'Harrijasotzailea',d:n=>`Lortu ${n} XP`,es:'XP en total',v:S.xp,st:[50,250,1000,5000]},
+    {k:'maddi',c:'#F59AC9',cd:'#D0679F',t:'Bertsolaria',d:n=>`Menderatu ${n} hitz`,es:'Palabras dominadas (última caja del repaso)',v:wordsMastered(),st:[5,25,100,300]},
+    {k:'latxi-toga',c:'#A77BEA',cd:'#7C4DDB',t:'Txapelduna',d:n=>plural(n,'Gainditu unitate bat',`Gainditu ${n} unitate`),es:'Unidades terminadas',v:unitsDone(),st:[1,3,8,16]}
+  ].map(a=>{ const lvl=a.st.filter(s=>a.v>=s).length, max=lvl>=a.st.length, tgt=a.st[Math.min(lvl,a.st.length-1)];
+    return Object.assign(a,{lvl,max,tgt}) });
+}
+function achHTML(a){
+  const pct=a.max?100:Math.min(100,Math.round(a.v/a.tgt*100));
+  const stars=a.lvl?`<span class="st">${PI.mstar.repeat(a.lvl)}</span>`:'';
+  return `<div class="ach${a.lvl?'':' off'}${a.max?' max':''}"><div class="badge" style="--bc:${a.c};--bcd:${a.cd}">${stars}<img src="img/${a.k}.webp" alt=""><span>${a.max?'GORENA':a.lvl?a.lvl+'. MAILA':'HASI GABE'}</span></div>
+    <div class="at"><b>${a.t}</b><span>${a.max?'Maila guztiak lortuta! · '+esc(a.es):esc(a.d(a.tgt))}</span><div class="ap"><div class="mb"><i style="width:${pct}%"></i></div><small>${a.max?a.v:Math.min(a.v,a.tgt)+'/'+a.tgt}</small></div></div></div>`;
+}
+
+/* 🔥 racha → «Zure bolada» */
+function showStreak(){
+  const st=streak(), best=bestStreak(), done=practiced(today());
+  const nx=STREAK_MS.find(m=>m>st)||null, pv=[...STREAK_MS].reverse().find(m=>m<=st)||0;
+  const pct=nx?Math.round((st-pv)/(nx-pv)*100):100;
+  let ym=today().slice(0,7);
+  const first=(sinceDay()).slice(0,7);
+  const calHTML=()=>{
+    const [y,m]=ym.split('-').map(Number), d1=new Date(y,m-1,1), nd=new Date(y,m,0).getDate(), off=(d1.getDay()+6)%7, t=today();
+    let g=EU_WD.map(w=>`<div class="wd">${w}</div>`).join('')+'<div></div>'.repeat(off), n=0;
+    for(let i=1;i<=nd;i++){ const d=`${ym}-${String(i).padStart(2,'0')}`, on=practiced(d); if(on) n++;
+      const L=on&&practiced(addDays(d,1))&&(off+i)%7!==0, Rr=on&&practiced(addDays(d,-1))&&(off+i-1)%7!==0;
+      g+=`<div class="d${on?' on':''}${L?' l':''}${Rr?' r':''}${d===t?' today':''}${d>t?' fut':''}">${i}</div>` }
+    return {g,n,y,m};
+  };
+  const paint=(m)=>{ const c=calHTML();
+    $('#cal-t',m).textContent=`${EU_MON[c.m-1]} ${c.y}`; $('#cal-g',m).innerHTML=c.g;
+    $('#cal-n',m).textContent=`${c.n} ${plural(c.n,'egun','egun')} ikasten · ${c.n} ${plural(c.n,'día','días')} de práctica este mes`;
+    $('#cal-p',m).disabled=ym<=first; $('#cal-x',m).disabled=ym>=today().slice(0,7) };
+  modal(`<div class="pn"><h2>Zure bolada <small>tu racha</small></h2>
+    <div class="pn-hero fire">${PI.fire}<div class="hx"><div class="big">${st}</div><div class="lbl">${plural(st,'egun','egun')} jarraian · ${st===1?'día seguido':'días seguidos'}</div></div>
+      <img src="img/${done?'latxi-korrika':'latxi-aspertuta'}.webp" alt="" style="width:${done?110:80}px">
+      <div class="pn-next">${done?'<b>Gaur eginda!</b> Hoy ya has practicado.':st?'<b>Gaur oraindik ez…</b> Haz una lección hoy para no perderla.':'<b>Hasi gaur!</b> Una lección hoy y empieza tu racha.'}
+      ${nx?`<br>Hurrengo helburua: <b>${nx} egun</b> · te ${nx-st===1?'falta 1 día':'faltan '+(nx-st)+' días'}<div class="mb"><i style="width:${pct}%"></i></div>`:''}</div></div>
+    <div class="pn-tiles" style="margin-top:12px">
+      <div class="pn-tile">${PI.trophy}<div><b>${best}</b><span>onena · tu mejor racha</span></div></div>
+      <div class="pn-tile">${PI.fire.replace('class="hi"','')}<div><b>${Object.keys(S.days).filter(practiced).length}</b><span>egun guztira · días en total</span></div></div></div>
+    <h3>Egutegia <small>calendario</small></h3>
+    <div class="cal"><div class="cal-h"><button id="cal-p" aria-label="Mes anterior">‹</button><span id="cal-t"></span><button id="cal-x" aria-label="Mes siguiente">›</button></div>
+      <div class="cal-g" id="cal-g"></div><div class="cal-f"><span><i></i>ikasita</span><span><i class="t"></i>gaur</span></div></div>
+    <p class="pn-sub" id="cal-n" style="margin:8px 0 0;text-align:center"></p>
+    <div class="acts"><button class="btn btn-green wide" id="pn-ok">${done?'Primeran!':'Goazen!'}</button></div></div>`,(m,close)=>{
+    paint(m);
+    $('#cal-p',m).onclick=()=>{ SFX.tap(); const [y,mm]=ym.split('-').map(Number); const d=new Date(y,mm-2,1); ym=d.toLocaleDateString('sv').slice(0,7); paint(m) };
+    $('#cal-x',m).onclick=()=>{ SFX.tap(); const [y,mm]=ym.split('-').map(Number); const d=new Date(y,mm,1); ym=d.toLocaleDateString('sv').slice(0,7); paint(m) };
+    $('#pn-ok',m).onclick=()=>{ SFX.tap(); close() };
+  });
+}
+
+/* ⭐ estrella → «XP eta lorpenak» */
+function showXP(){
+  const tx=S.days[today()]||0, ach=achList(), got=ach.reduce((a,x)=>a+x.lvl,0), tot=ach.reduce((a,x)=>a+x.st.length,0);
+  const days=Array.from({length:7},(_,i)=>addDays(today(),i-6)), vals=days.map(d=>S.days[d]||0), wsum=vals.reduce((a,b)=>a+b,0);
+  const BH=70, top=Math.max(DAY_GOAL*1.25,...vals), gy=23+Math.round(DAY_GOAL/top*BH);
+  const wk=days.map((d,i)=>{ const v=vals[i], h=Math.max(4,Math.round(v/top*BH)); const wd=EU_WD[(new Date(d+'T12:00:00').getDay()+6)%7];
+    return `<div class="c${v>=DAY_GOAL?' ok':''}${v?'':' z'}">${v?`<em>${v}</em>`:''}<i style="height:${h}px"></i><small>${d===today()?'GAUR':wd}</small></div>` }).join('');
+  modal(`<div class="pn"><h2>XP eta lorpenak <small>XP y logros</small></h2>
+    <div class="pn-hero xp">${PI.star}<div class="hx"><div class="big">${S.xp}</div><div class="lbl">XP guztira · XP en total</div></div>
+      <div class="pn-next">Gaur: <b>${tx} / ${DAY_GOAL} XP</b>${tx>=DAY_GOAL?' · objetivo diario cumplido':` · te faltan ${DAY_GOAL-tx} XP para el objetivo de hoy`}<div class="mb"><i style="width:${Math.min(100,Math.round(tx/DAY_GOAL*100))}%"></i></div></div></div>
+    <h3>Azken 7 egunak <small>${wsum} XP esta semana</small></h3>
+    <div class="wk"><div class="gl" style="bottom:${gy}px"><span>${DAY_GOAL}</span></div>${wk}</div>
+    <h3>Lorpenak <small>logros · ${got}/${tot} mailak</small></h3>
+    <div>${ach.map(achHTML).join('')}</div>
+    <div class="acts"><button class="btn btn-green wide" id="pn-ok">Ados</button></div></div>`,(m,close)=>{ $('#pn-ok',m).onclick=()=>{ SFX.tap(); close() } });
+}
+
+/* Latxi → «Profila» */
+function showProfile(){
+  if(!S.since){ S.since=sinceDay(); save() }
+  const lv=curLevel(), ach=achList();
+  const lvRow=L=>{ const us=UNITS.filter(u=>u.level===L), tot=us.length+ROADMAP.filter(r=>r[0]===L).length, dn=us.filter(u=>unitComplete(u)).length;
+    return tot?`<div class="lvb"><b>${L}</b><div class="mb"><i style="width:${Math.round(dn/tot*100)}%"></i></div><small>${dn}/${tot}</small></div>`:'' };
+  modal(`<div class="pn"><div class="prof"><img src="img/icon.webp" alt="Latxi"><div><div class="nm"><span id="pf-nm">${esc(S.name||'Ikaslea')}</span><button id="pf-ed" aria-label="Izena aldatu · cambiar el nombre">${PI.edit}</button></div>
+      <div class="meta">Noiztik: ${esc(S.since)}</div><span class="lvl">${lv} MAILA</span></div></div>
+    <h3>Estatistikak <small>estadísticas</small></h3>
+    <div class="pn-tiles">
+      <div class="pn-tile">${PI.fire.replace('class="hi"','')}<div><b>${streak()}</b><span>egun jarraian</span></div></div>
+      <div class="pn-tile">${PI.star.replace('class="hi"','')}<div><b>${S.xp}</b><span>XP guztira</span></div></div>
+      <div class="pn-tile">${PI.book}<div><b>${wordsLearned()}</b><span>hitz ikasita</span></div></div>
+      <div class="pn-tile">${PI.heart}<div><b>${wordsMastered()}</b><span>hitz menderatuta</span></div></div>
+      <div class="pn-tile">${PI.trophy}<div><b>${lessonsDone()}</b><span>ikasgai eginda</span></div></div>
+      <div class="pn-tile">${PI.unit}<div><b>${unitsDone()}</b><span>unitate gaindituta</span></div></div></div>
+    <h3>Mailak <small>niveles · unidades terminadas</small></h3>
+    ${['A0','A1','A2'].map(lvRow).join('')}
+    <button class="pn-link" id="pf-ach">Lorpenak · ${ach.reduce((a,x)=>a+x.lvl,0)}/${ach.reduce((a,x)=>a+x.st.length,0)} mailak <span>›</span></button>
+    <div class="acts"><button class="btn btn-ghost wide" id="pf-intro">Sarrera berriro ikusi</button><button class="btn btn-green wide" id="pn-ok">Ados</button></div></div>`,(m,close)=>{
+    $('#pn-ok',m).onclick=()=>{ SFX.tap(); close() };
+    $('#pf-ach',m).onclick=()=>{ SFX.tap(); close(); showXP() };
+    $('#pf-intro',m).onclick=()=>{ SFX.tap(); close(); bootIntro(true) };
+    $('#pf-ed',m).onclick=()=>{ SFX.tap(); modal(`<h2>Zure izena <small style="font-size:14px;color:var(--ink2)">tu nombre</small></h2><input type="text" id="nm-i" maxlength="24" value="${esc(S.name||'')}" placeholder="Ikaslea"><div class="acts"><button class="btn btn-green wide" id="nm-ok">Gorde</button></div>`,(m2,c2)=>{
+      const i=$('#nm-i',m2); setTimeout(()=>i.focus(),200);
+      const ok=()=>{ S.name=i.value.trim().slice(0,24); save(); c2(); $('#pf-nm',m).textContent=S.name||'Ikaslea'; SFX.ok&&SFX.ok() };
+      $('#nm-ok',m2).onclick=ok; i.onkeydown=e=>{ if(e.key==='Enter') ok() } }) };
+  });
+}
+$('#btn-streak').onclick=()=>{ SFX.tap(); if(R) return; showStreak() };
+$('#btn-xp').onclick=()=>{ SFX.tap(); if(R) return; showXP() };
+
+/* =========================================================
    TORRE «DORREA» (v1.23): una planta por unidad terminada (A0 y A1), material por lección,
    tejado y paloma cuando están todas. Pantalla aparte (#dorrea) que se abre después del final
    de lección y desde la tarjeta del camino. Viene del prototipo «Dorrea» v3.1 (artefacto aparte).
@@ -4326,7 +4541,7 @@ function bootIntro(manual){
     T.forEach(clearTimeout); chs.forEach(c=>c.remove()); lines.forEach(l=>l.remove());
     if(!shown) showLogo(0,1100); else end() };
 }
-$('#btn-home').onclick=()=>{ SFX.tap(); if(R) return; bootIntro(true) };
+$('#btn-home').onclick=()=>{ SFX.tap(); if(R) return; showProfile() }; // v1.29: antes repetía la intro (ahora está en el perfil)
 
 /* racha perdida (v1.24): al abrir la app, si la última racha (de 2 días o más) se cortó y hoy aún no se ha practicado,
    Latxi llorando avisa una sola vez por cada racha cortada (S.lostAck = último día de esa racha). */
