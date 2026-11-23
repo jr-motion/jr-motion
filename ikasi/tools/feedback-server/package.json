@@ -1,0 +1,8 @@
+{
+  "name": "ikasi-feedback",
+  "version": "1.0.0",
+  "description": "Ikasi! · avisos de la app reenviados por Telegram",
+  "main": "index.js",
+  "scripts": { "start": "node index.js" },
+  "engines": { "node": ">=20" }
+}
