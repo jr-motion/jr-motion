@@ -412,6 +412,10 @@ canvas#confetti{position:fixed;inset:0;pointer-events:none;z-index:70}
 @keyframes wpTag{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:none}}
 @keyframes wpSpin{from{transform:rotate(-360deg)}to{transform:none}}
 @keyframes wpBurst{0%{opacity:1;transform:scale(.2)}70%{opacity:1}100%{opacity:0;transform:scale(1.6)}}
+.reto-k{display:inline-block;background:var(--yellow);color:var(--ink);border-radius:10px;padding:0 7px;margin-right:2px}
+.reto-tag{display:inline-block;background:var(--yellow);color:var(--ink);border:2px solid var(--ink);border-radius:10px;padding:0 8px;font-weight:900;font-size:13px;text-transform:uppercase;letter-spacing:.5px}
+.reto-p{font-size:14px;line-height:1.45}
+.reto-cost{display:block;margin-top:6px;font-size:12.5px;opacity:.75;font-weight:700}
 .hint-btn{display:inline-flex;align-items:center;gap:6px;margin:-10px 0 14px;padding:6px 14px;border-radius:999px;border:3px solid var(--ink);background:var(--yellow);box-shadow:inset 0 -4px 0 var(--yellow-d);font:inherit;font-size:15px;font-weight:900;color:var(--ink);cursor:pointer}
 .hint-btn:active{transform:translateY(2px)}
 .hint-t{display:none;margin:-10px 0 16px;padding:10px 14px;border-radius:16px;background:var(--yellow-l);border:3px solid var(--ink);font-size:15px}
@@ -2248,7 +2252,7 @@ function splitTiles(s){
   });
   return out;
 }
-function buildEx(sent,lang,unit){
+function buildEx(sent,lang,unit,extra=0){
   const [eu,es,x]=sent; const target=lang==='eu'?eu:es;
   const display=splitTiles(target);
   const toks=display.map(tileKey);
@@ -2256,7 +2260,7 @@ function buildEx(sent,lang,unit){
   const seen=new Set(toks); const others=[];
   (unit?unit.sentences:[]).filter(s=>s!==sent).flatMap(s=>disp(lang==='eu'?s[0]:s[1])).forEach(t=>{ const k=norm(t); if(!seen.has(k)){seen.add(k);others.push(t)} });
   const nw=toks.filter(t=>!PUNCT.test(t)).length;
-  const dist=pick(others,Math.min(3,Math.max(2,Math.round(nw/2))));
+  const dist=pick(others,Math.min(3,Math.max(2,Math.round(nw/2)))+extra);
   const fin=(target.trim().match(/[?!.]+$/)||[''])[0].slice(-1); // signo final: ficha opcional
   return {t:'build',lang,eu,es,toks,opt:fin||null,tiles:shuffle([...display,...(fin?[fin]:[]),...dist]),...(x?{x}:{})};
 }
@@ -2310,8 +2314,9 @@ function rankPick(arr,keyFn,n){
 }
 function noteSeen(it,ok){ const k=itemKey(it); if(!k) return; S.seen=S.seen||{}; const v=S.seen[k]||[0,0]; S.seen[k]=[v[0]+1, ok?0:1] }
 function sentEx(st,lang,u){ const e=buildEx(st,lang,u); e.sk=sKey(st); return e }
-function buildLesson(L){
+function buildLesson(L,reto){
   const u=L.unit;
+  if(reto && RETO_KINDS.includes(L.kind)) return retoLesson(L);
   if(L.kind==='vocab') return vocabLesson(L.words,u);
   if(L.kind==='spy') return spyLesson();
   if(L.kind==='grammar'){
@@ -2322,6 +2327,93 @@ function buildLesson(L){
   const ex=[ ...rankPick(u.sentences,sKey,P_SENT).map(s=>sentEx(s,Math.random()<1/3?'es':'eu',u)), ...[...rankPick(u.drills,dKey,3), ...genDrills(u,3,false)].map(d=>({t:'drill',d})),
     matchEx(u.words), ...ws.slice(0,3).map(typeEx), ...ws.slice(3).map(w=>mcEx(w,'es')) ];
   return shuffle(ex);
+}
+/* =========================================================
+   MODO RETO · Erronka (v1.30, fase 4 de la revisión de lecciones)
+   Al repetir una lección de unidad ya hecha se puede elegir «Erronka» (o repetirla normal):
+   · Hitzak: sin tarjetas de palabra nueva; cada palabra se produce (Escribe ~40 %, o «¿cómo se dice?»)
+     y la mitad se reconoce después; opciones falsas muy parecidas en euskera (simPool); palabras de
+     unidades anteriores; una sola «unir parejas».
+   · Gramatika: sin tarjetas de gramática; más huecos generados; frases hacia el euskera con más fichas trampa.
+   · Praktika: frases casi todas hacia el euskera y con más trampas, más huecos, más «Escribe»,
+     palabras de unidades anteriores, sin «unir parejas».
+   · Huecos: si el enunciado es la frase en castellano («…»), no se enseña: va detrás de «Pista».
+     En el reto, usar la pista hace que el hueco no cuente como acierto a la primera (no se repite).
+   · Los ejercicios de palabras del reto cuentan como «fuertes» para el repaso (como en Errepasatu).
+   · +5 XP por reto. S.done[id].rt = retos hechos, .rb = mejor % en reto.
+   ========================================================= */
+const RETO_KINDS=['vocab','grammar','practice'];
+const ES_Q=/^«[^»]+»(\s*\([^)]*\))?$/;   // enunciado que es la frase en castellano
+const bareN=t=>norm(artBare(String(t).split('/')[0]));
+/* opciones falsas parecidas: palabras cuyo euskera se parece (distancia de edición, misma terminación, misma unidad) */
+function simPool(w,known){
+  const k=norm(w.eu), kes=norm(w.es), b=bareN(w.eu);
+  // fuera las que podrían valer también: mismo castellano o uno que empieza por el otro («yo» / «yo (con verbos de ukan)»)
+  const clash=x=>{ const e=norm(x.es); return e===kes || e.startsWith(kes) || kes.startsWith(e) };
+  const sc=Object.values(WORDS).filter(x=>norm(x.eu)!==k && !clash(x) && bareN(x.eu)!==b).map(x=>{
+    const c=bareN(x.eu), L=Math.max(b.length,c.length)||1;
+    let r=lev(b,c)/L;
+    if(x.src===w.src) r-=.12;
+    if(b.slice(-2)===c.slice(-2)) r-=.08;
+    if(b.slice(0,2)===c.slice(0,2)) r-=.06;
+    if(isKnown(x,known)) r-=.06;
+    return {x,r} }).sort((a,b2)=>a.r-b2.r);
+  return [...shuffle(sc.slice(0,7).map(o=>o.x)),...poolFor(w,known)];
+}
+function mcHard(w,dir,known){
+  const dist=[]; const right=dir==='eu'?w.es:w.eu; const seen=new Set([norm(right)]);
+  const kes=norm(w.es);
+  for(const x of simPool(w,known)){ const e=norm(x.es); if(e.startsWith(kes)||kes.startsWith(e)) continue; const t=dir==='eu'?x.es:x.eu; if(!seen.has(norm(t))){seen.add(norm(t));dist.push(t)} if(dist.length===3)break }
+  const opts=shuffle([right,...dist]);
+  return {t:'mc',dir,w,opts,a:opts.indexOf(right),reto:true};
+}
+/* palabras de unidades anteriores (primero las que ya están en el repaso) */
+function oldWords(u,n,avoid){
+  const ui=UNITS.indexOf(u); if(ui<=0||n<=0) return [];
+  const bad=new Set(), badEs=new Set(); (avoid||[]).forEach(w=>{ bad.add(norm(w.eu)); badEs.add(norm(w.es)) });
+  const all=UNITS.slice(0,ui).flatMap(x=>x.words).filter(w=>!bad.has(norm(w.eu))&&!badEs.has(norm(w.es))&&WORDS[norm(w.eu)]===w);
+  const a=all.filter(w=>S.srs[norm(w.eu)]), b=all.filter(w=>!S.srs[norm(w.eu)]);
+  return [...shuffle(a),...shuffle(b)].slice(0,n);
+}
+/* pone cada ejercicio de reconocimiento después del de producción de la misma palabra */
+function afterProd(q,rec){
+  rec.forEach(r=>{ const k=norm(r.w.eu); const at=q.findIndex(e=>e.w&&norm(e.w.eu)===k);
+    const lo=Math.min(q.length,at<0?0:at+3); q.splice(lo+Math.floor(Math.random()*(q.length-lo+1)),0,r) });
+  return q;
+}
+function uniqPairs(ws,n){ const o=[], e=new Set(), s=new Set(); for(const w of shuffle(ws)){ const a=norm(w.eu), b=norm(w.es); if(e.has(a)||s.has(b)) continue; e.add(a); s.add(b); o.push(w); if(o.length===n) break } return o }
+function retoVocab(words,u){
+  const known=new Set(words.map(w=>norm(w.eu))), sh=shuffle(words), nType=Math.ceil(words.length*.4);
+  const old=oldWords(u,Math.min(5,Math.max(3,Math.round(words.length/4))),words);
+  const prod=[...sh.map((w,i)=>i<nType?Object.assign(typeEx(w),{reto:true}):mcHard(w,'es',known)),
+              ...old.map(w=>Math.random()<.5?Object.assign(typeEx(w),{reto:true}):mcHard(w,'es',known))];
+  const rec=shuffle(words).slice(0,Math.ceil(words.length/2)).map(w=>mcHard(w,'eu',known));
+  const q=afterProd(shuffle(prod),rec);
+  if(words.length>=3) q.push({t:'match',pairs:uniqPairs([...words,...old],5)});
+  return q;
+}
+function retoLesson(L){
+  const u=L.unit;
+  if(L.kind==='vocab') return retoVocab(L.words,u);
+  const D=d=>({t:'drill',d}), known=new Set(u.words.map(w=>norm(w.eu)));
+  if(L.kind==='grammar') return shuffle([...rankPick(u.drills,dKey,G_MAX), ...genDrills(u,6,true)]).map(D)
+    .concat(rankPick(u.sentences,sKey,3).map(s=>{ const e=buildEx(s,'eu',u,2); e.sk=sKey(s); return e }));
+  const ws=pick(u.words,7), old=oldWords(u,3,u.words);
+  return shuffle([
+    ...rankPick(u.sentences,sKey,P_SENT).map(s=>{ const e=buildEx(s,Math.random()<.2?'es':'eu',u,2); e.sk=sKey(s); return e }),
+    ...[...rankPick(u.drills,dKey,4), ...genDrills(u,4,false)].map(D),
+    ...ws.slice(0,5).map(w=>Object.assign(typeEx(w),{reto:true})), ...ws.slice(5).map(w=>mcHard(w,'es',known)),
+    ...old.map(w=>Math.random()<.5?Object.assign(typeEx(w),{reto:true}):mcHard(w,'es',known)) ]);
+}
+/* al tocar una lección ya hecha: Erronka o normal */
+function retoChoice(L,meta){
+  const d=S.done[L.id]||{}, n=d.n||0;
+  const what=L.kind==='vocab'?'sin tarjetas de palabra nueva, más «Escribe», opciones muy parecidas y palabras de unidades anteriores'
+    :L.kind==='grammar'?'sin tarjetas de gramática, más huecos y frases hacia el euskera con más fichas trampa'
+    :'frases hacia el euskera con más fichas trampa, más huecos y más «Escribe», con palabras de unidades anteriores';
+  modal(`<h2>Lección hecha</h2><p>Ya la has hecho ${n===1?'una vez':n+' veces'}${d.best!=null?` (mejor: ${d.best} %)`:''}${d.rt?` · en reto: ${d.rb} %`:''}.</p><p class="reto-p"><span class="reto-tag">Erronka</span> ${what}. En los huecos, el castellano va detrás de «Pista». +5 XP.</p><div class="acts"><button class="btn btn-yellow wide" id="c-reto">Erronka · modo reto</button><button class="btn btn-white wide" id="c-norm">Repetir normal</button></div>`,(m,close)=>{
+    $('#c-reto',m).onclick=()=>{ SFX.tap(); close(); openLesson(()=>buildLesson(L,true),Object.assign({},meta,{reto:true})) };
+    $('#c-norm',m).onclick=()=>{ SFX.tap(); close(); openLesson(()=>buildLesson(L),meta) }; });
 }
 function deckLesson(d){
   const ws=deckWords(d); if(!ws.length) return [];
@@ -2991,7 +3083,12 @@ function renderLearn(){
   });
   h+=`<div style="height:30px"></div>`;
   $('#view').innerHTML=h;
-  $('#view').querySelectorAll('[data-lesson]').forEach(b=>b.onclick=()=>{ SFX.tap(); const L=UNITS.flatMap(lessonsOf).find(x=>x.id===b.dataset.lesson); openLesson(()=>buildLesson(L),{id:L.id,unit:L.unit.id,kind:L.kind,title:L.unit.title+' · '+L.title,words:L.kind==='vocab'?L.words:L.unit.words,ch:unitChar(L.unit)}) });
+  $('#view').querySelectorAll('[data-lesson]').forEach(b=>b.onclick=()=>{ SFX.tap(); const L=UNITS.flatMap(lessonsOf).find(x=>x.id===b.dataset.lesson);
+    const meta={id:L.id,unit:L.unit.id,kind:L.kind,title:L.unit.title+' · '+L.title,words:L.kind==='vocab'?L.words:L.unit.words,ch:unitChar(L.unit)};
+    const run=S.runs&&S.runs[L.id];
+    if(run){ const rt=!!(run.meta&&run.meta.reto); return openLesson(()=>buildLesson(L,rt),rt?Object.assign(meta,{reto:true}):meta) } // a medias: como estaba (reto o normal)
+    if(S.done[L.id] && RETO_KINDS.includes(L.kind)) return retoChoice(L,meta);
+    openLesson(()=>buildLesson(L),meta) });
   const gr2=$('#go-resume'); if(gr2) gr2.onclick=()=>{ SFX.tap(); const r=S.runs[gr2.dataset.run]; if(r) resumeLesson(r) };
   $('#view').querySelectorAll('[data-gram]').forEach(b=>b.onclick=()=>{ SFX.tap(); showGrammarModal(UNITS.find(u=>u.id===b.dataset.gram)) });
   $('#view').querySelectorAll('[data-pc]').forEach(pc=>pc.onclick=()=>{
@@ -3946,6 +4043,7 @@ function showItem(){
   else if(it.t==='spygame') rSpyGame(it,body);
   // los fallos vuelven al final: se marcan para que no parezca una pregunta repetida
   if(R.retried.has(it)){ const k=body.querySelector('.q-kind'); if(k) k.insertAdjacentHTML('beforeend',' · <span class="again">otra vez</span>') }
+  if(R.meta&&R.meta.reto){ const k=body.querySelector('.q-kind'); if(k) k.insertAdjacentHTML('afterbegin','<span class="reto-k">Erronka</span> ') }
   itemIn(body);
 }
 function rIntro(it,body){
@@ -3970,7 +4068,7 @@ function rMC(it,body){
   setBtn('Comprobar',false,null);
   bindOpts(body,i=>{ R.sel=i; setBtn('Comprobar',true,()=>{
     const ok=i===it.a; markOpts(body,i,it.a);
-    grade(ok,{word:it.w,strong:!!it.review},ok?'':`Correcto: <b>${esc(it.opts[it.a])}</b>`, it.dir==='es'?it.w.eu:null);
+    grade(ok,{word:it.w,strong:!!(it.review||it.reto)},ok?'':`Correcto: <b>${esc(it.opts[it.a])}</b>`, it.dir==='es'?it.w.eu:null);
   }) });
 }
 function rPic(it,body){
@@ -3986,13 +4084,16 @@ function rDrill(it,body){
   // El orden de las opciones se baraja en cada aparición y se guarda en el ejercicio (it), no en el hueco
   // compartido (u.drills): así no arrastra estado entre lecciones ni entre el intento y el reintento.
   const d=it.d; const parts=d.s.split('___').map(tapify); const order=it.order=shuffle(d.o.map((_,i)=>i));
-  body.innerHTML=`<div class="q-kind">Gramática</div><h2 class="q-title">${esc(d.q)}</h2><div class="sentence">${parts[0]}<span class="blank" id="blank">&nbsp;</span>${parts[1]||''}</div>${d.h?`<button class="hint-btn" id="hint-b" type="button">${BULB_SVG}Pista</button><div class="hint-t" id="hint-t">${esc(d.h)}</div>`:''}<div class="opts">${optList(order.map(i=>d.o[i]))}</div>`;
-  if(d.h) $('#hint-b').onclick=()=>{ SFX.tap(); $('#hint-b').remove(); $('#hint-t').classList.add('on') };
+  // reto (v1.30): si el enunciado es la frase en castellano, se esconde detrás de «Pista» (con la regla, si la hay)
+  const rq=!!(R.meta&&R.meta.reto&&ES_Q.test(d.q)), title=rq?'Completa la frase':d.q, hint=rq?(d.q+(d.h?'\n'+d.h:'')):d.h;
+  body.innerHTML=`<div class="q-kind">Gramática</div><h2 class="q-title">${esc(title)}</h2><div class="sentence">${parts[0]}<span class="blank" id="blank">&nbsp;</span>${parts[1]||''}</div>${hint?`<button class="hint-btn" id="hint-b" type="button">${BULB_SVG}Pista${rq?' · castellano':''}</button><div class="hint-t" id="hint-t">${esc(hint).replace(/\n/g,'<br>')}${rq?'<small class="reto-cost">En el reto, con pista no cuenta como acierto a la primera.</small>':''}</div>`:''}<div class="opts">${optList(order.map(i=>d.o[i]))}</div>`;
+  if(hint) $('#hint-b').onclick=()=>{ SFX.tap(); if(rq) it.hinted=true; $('#hint-b').remove(); $('#hint-t').classList.add('on') };
   setBtn('Comprobar',false,null);
   bindOpts(body,i=>{ const real=order[i]; const bl=$('#blank'); bl.textContent=d.o[real]; bl.classList.remove('filled'); void bl.offsetWidth; bl.classList.add('filled');
     setBtn('Comprobar',true,()=>{ const ok=real===d.a; markOpts(body,i,order.indexOf(d.a));
       const why=d.x?`<span class="why">${d.x}</span>`:'';
-      grade(ok,null, (ok?'':`Correcto: <b>${esc(d.s.replace('___',d.o[d.a]))}</b>`)+why); }) });
+      const es=rq?`<small>${esc(d.q)}</small>`:'', cost=rq&&it.hinted&&ok&&!R.retried.has(it)?'<small class="reto-cost">Con pista: no cuenta como acierto a la primera.</small>':'';
+      grade(ok,null, (ok?es:`Correcto: <b>${esc(d.s.replace('___',d.o[d.a]))}</b>${es}`)+why+cost); }) });
 }
 // Sujeto opcional: «zuk dituzu» vale por «dituzu», «ni naiz» por «naiz».
 // La persona y el caso (NOR / NORK) salen de la forma verbal de la respuesta correcta.
@@ -4033,7 +4134,7 @@ function rType(it,body){
     else if(ok) fb=near?`Casi perfecto. Se escribe: <b>${esc(sj.pron?sj.pron+' '+w.eu:w.eu)}</b>`:'';
     else fb=`Correcto: <b>${esc(w.eu)}</b>`+(subj?` <span style="opacity:.75">(o ${esc(subj.p[0]+' '+w.eu)})</span>`:'');
     tb.disabled=true;
-    grade(ok,{word:w,strong:!!it.review}, fb, w.eu);
+    grade(ok,{word:w,strong:!!(it.review||it.reto)}, fb, w.eu);
   };
   tb.oninput=()=>setBtn('Comprobar',!!tb.value.trim(),check);
   tb.onkeydown=e=>{ if(e.key==='Enter'){ e.preventDefault(); if(tb.value.trim()&&!R.answered) check() } };
@@ -4289,7 +4390,7 @@ function fuego(root,badTiles,lastTile){
 function grade(ok,info,msg,sayEu){
   R.answered=true;
   const it=cur(); const firstTry=!R.retried.has(it);
-  if(firstTry){ R.first++; if(ok) R.firstOk++; noteSeen(it,ok) }
+  if(firstTry){ R.first++; if(ok && !(it.hinted&&R.meta&&R.meta.reto)) R.firstOk++; noteSeen(it,ok) }
   let mastered=false;
   if(info&&info.word){ srsSeen(info.word); mastered=srsGrade(info.word,ok,info.strong) }
   if(ok){ R.done++; R.combo++; R.maxCombo=Math.max(R.maxCombo,R.combo); SFX.ok();
@@ -4385,13 +4486,14 @@ function animStats(f,delay,T){
 function finish(){
   dropRun(R.meta.id);
   const m=R.meta, acc=R.first?Math.round(R.firstOk/R.first*100):100, secs=Math.round((Date.now()-R.start)/1000);
-  let xp = m.review ? Math.max(5,R.firstOk) : 10 + (acc===100?5:0);
+  let xp = m.review ? Math.max(5,R.firstOk) : 10 + (acc===100?5:0) + (m.reto?5:0);
   const st0=streak(); addXP(xp); const st1=streak();
   let unitDone=false, unitTitle='', levelDone=false, level='', tev=null;
   if(m.id && !m.review){
     const u=m.unit?UNITS.find(x=>x.id===m.unit):null, ls=u?lessonsOf(u):null, was=ls?ls.every(l=>S.done[l.id]):true;
     towerSync();
-    const prev=S.done[m.id]||{n:0,best:0}; S.done[m.id]={n:prev.n+1,best:Math.max(prev.best,acc)};
+    const prev=S.done[m.id]||{n:0,best:0}; S.done[m.id]=Object.assign({},prev,{n:prev.n+1,best:Math.max(prev.best,acc)});
+    if(m.reto){ S.done[m.id].rt=(prev.rt||0)+1; S.done[m.id].rb=Math.max(prev.rb||0,acc) }
     // torre (v1.23): la primera vez que se termina una lección de una unidad de A0 o A1 llega material o sube una planta
     if(!prev.n && u && ls && ls.some(l=>l.id===m.id) && TOWER_LV.includes(u.level)) tev=towerEvent(u);
     if(ls&&!was&&ls.every(l=>S.done[l.id])){ unitDone=true; unitTitle=u.title; level=u.level;
@@ -4406,7 +4508,7 @@ function finish(){
   const f=document.createElement('div'); f.className='finish'+(cel?' cel cel-'+key:''); f.id='finish';
   const goalNow=S.days[today()]||0, reached=goalNow>=50&&goalNow-xp<50;
   const head=m.review?'Errepasoa eginda!':'Ikasgaia osatuta!';
-  const sub=esc(m.title||'')+(reached?' · ¡Objetivo diario cumplido!':'');
+  const sub=esc(m.title||'')+(m.reto?' · Erronka':'')+(reached?' · ¡Objetivo diario cumplido!':'');
   const stats=`<div class="f-stats"><div class="f-stat" style="--c:var(--yellow)"><div class="h">XP</div><div class="v" data-to="${xp}">0</div></div>
   <div class="f-stat" style="--c:var(--mint)"><div class="h">Aciertos</div><div class="v" data-to="${acc}" data-pct>0%</div></div>
   <div class="f-stat" style="--c:var(--cyan)"><div class="h">Tiempo</div><div class="v" data-to="${secs}" data-time>0:00</div></div></div>`;
