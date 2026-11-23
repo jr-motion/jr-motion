@@ -647,6 +647,79 @@ button.chip{font-family:inherit;cursor:pointer;-webkit-appearance:none;appearanc
 .pn .acts{margin-top:18px}
 .pn .pn-link{display:block;width:100%;margin-top:10px;padding:12px;border:3px solid var(--ink);border-radius:16px;background:var(--yellow-l);font:900 15px Montserrat,sans-serif;color:var(--ink);cursor:pointer;text-align:left}
 .pn .pn-link span{float:right}
+
+/* ---------- guía de bienvenida (v1.31) ---------- */
+#guide{position:fixed;inset:0;z-index:95;display:flex;flex-direction:column;overflow:hidden;color:var(--ink);
+  background:linear-gradient(180deg,var(--sky1) 0%,var(--sky2) 52%,var(--sky3) 100%)}
+#guide .gd-deco{position:absolute;border-radius:50%;background:rgba(255,255,255,.13);pointer-events:none;transition:transform 1.4s cubic-bezier(.22,1,.36,1)}
+#guide .gd-top{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;padding:calc(12px + env(safe-area-inset-top)) 16px 4px;max-width:560px;width:100%;margin:0 auto}
+#guide .gd-n{color:#fff;font-size:14px;font-weight:900;text-shadow:0 2px 0 rgba(45,10,78,.35)}
+#guide .gd-skip{color:#fff;font-size:15px;font-weight:900;padding:8px 4px;text-shadow:0 2px 0 rgba(45,10,78,.35)}
+#guide .gd-skip small{font-weight:700;opacity:.85}
+#guide .gd-track{position:relative;z-index:1;flex:1;display:flex;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
+#guide .gd-track::-webkit-scrollbar{display:none}
+#guide .gd-p{flex:0 0 100%;scroll-snap-align:center;scroll-snap-stop:always;overflow-y:auto;display:flex;justify-content:center;padding:4px 16px 8px}
+#guide .gd-in{width:100%;max-width:520px;display:flex;flex-direction:column}
+#guide .gd-st{position:relative;height:clamp(176px,33vh,270px);flex:none;border-radius:26px;background:rgba(255,255,255,.26);border:3px solid rgba(255,255,255,.55);display:grid;place-items:center;overflow:hidden;margin-bottom:14px}
+#guide .gd-sc{position:absolute;inset:0;display:grid;place-items:center;transform-origin:50% 50%}
+#guide .gd-h{margin:0;font-size:30px;font-weight:900;color:#fff;letter-spacing:-.5px;-webkit-text-stroke:6px var(--ink);paint-order:stroke fill;text-shadow:0 4px 0 var(--ink);line-height:1.15}
+#guide .gd-es{margin:4px 0 10px;color:#fff;font-size:15px;font-weight:800;text-shadow:0 2px 0 rgba(45,10,78,.35)}
+#guide .gd-card{background:#fff;border:3px solid var(--ink);border-radius:20px;padding:6px 14px;box-shadow:0 4px 0 rgba(45,10,78,.3)}
+#guide .gd-li{display:flex;gap:11px;align-items:flex-start;padding:9px 0;font-size:15px;font-weight:700;line-height:1.38}
+#guide .gd-li+.gd-li{border-top:2px dashed #e6e0f0}
+#guide .gd-li>i{flex:none;width:30px;height:30px;border-radius:10px;border:2.5px solid var(--ink);display:grid;place-items:center;font-style:normal;font-size:15px;font-weight:900;background:var(--c,var(--cyan))}
+#guide .gd-li>i svg{width:17px;height:17px}
+#guide .gd-li b{font-weight:900}
+#guide .gd-bot{position:relative;z-index:2;max-width:560px;width:100%;margin:0 auto;padding:8px 16px calc(16px + env(safe-area-inset-bottom));display:flex;align-items:center;gap:12px}
+#guide .gd-dots{flex:1;min-width:0;display:flex;gap:5px;flex-wrap:nowrap}
+#guide .gd-dots button{flex:none;width:8px;height:8px;border-radius:5px;background:rgba(255,255,255,.5);padding:0;transition:width .3s,background .3s}
+#guide .gd-dots button.on{width:20px;background:#fff}
+#guide .gd-back{width:52px;height:56px;padding:0;flex:none}
+#guide .gd-back svg{width:24px;height:24px}
+#guide .gd-next{min-width:150px}
+/* piezas de las maquetas */
+#guide .gd-big{max-height:88%;max-width:70%;object-fit:contain;filter:drop-shadow(0 4px 0 rgba(45,10,78,.25))}
+#guide .gd-bub{position:absolute;background:#fff;border:3px solid var(--ink);border-radius:16px;padding:6px 14px;font-size:20px;font-weight:900;white-space:nowrap}
+#guide .gd-bub small{display:block;font-size:11px;color:var(--ink2);font-weight:700}
+#guide .gd-node{width:58px;height:54px;border-radius:50%;display:grid;place-items:center;border:3px solid var(--ink);background:var(--nc,var(--mint));box-shadow:inset 0 -6px 0 var(--nd,var(--mint-d)),0 4px 0 rgba(45,10,78,.35);position:relative}
+#guide .gd-node svg{width:24px;height:24px}
+#guide .gd-node.done{--nc:var(--yellow);--nd:var(--yellow-d)}
+#guide .gd-node.cur{outline:4px solid #fff;outline-offset:3px}
+#guide .gd-nl{font-size:11px;color:#fff;font-weight:900;margin-top:6px;text-align:center;text-shadow:0 2px 0 rgba(45,10,78,.4)}
+#guide .gd-tip{position:absolute;top:-34px;left:50%;transform:translateX(-50%);background:#fff;border:3px solid var(--ink);border-radius:12px;padding:2px 9px;font-size:12px;font-weight:900;white-space:nowrap}
+#guide .gd-uh{display:flex;align-items:center;gap:8px;background:var(--mint);border:3px solid var(--ink);border-radius:16px;padding:6px 8px 6px 12px;box-shadow:inset 0 -5px 0 var(--mint-d);font-weight:900;font-size:15px}
+#guide .gd-uh small{display:block;font-size:10px;font-weight:800;color:var(--ink2)}
+#guide .gd-uh .gb{width:34px;height:34px;border-radius:12px;background:#fff;border:3px solid var(--ink);display:grid;place-items:center}
+#guide .gd-uh .gb svg{width:18px;height:18px}
+#guide .gd-opt{border:3px solid var(--ink);border-radius:14px;padding:7px 12px 10px;font-size:15px;font-weight:800;background:var(--cyan);box-shadow:inset 0 -5px 0 var(--cyan-d);display:flex;align-items:center;gap:8px}
+#guide .gd-opt.ok{background:var(--mint);box-shadow:inset 0 -5px 0 var(--mint-d)}
+#guide .gd-opt.no{background:var(--coral);box-shadow:inset 0 -5px 0 var(--coral-d)}
+#guide .gd-tile{display:inline-block;border:3px solid var(--ink);border-radius:11px;padding:4px 9px 6px;font-size:14px;font-weight:800;background:#fff;box-shadow:inset 0 -4px 0 #cfc7de}
+#guide .gd-pane{background:var(--cyan-l);border:3px solid var(--ink);border-radius:18px;padding:12px;box-shadow:0 4px 0 rgba(45,10,78,.3)}
+#guide .gd-tw{border-bottom:2.5px dotted rgba(45,10,78,.55)}
+#guide .gd-hint{display:inline-flex;align-items:center;gap:5px;padding:3px 11px;border-radius:999px;border:3px solid var(--ink);background:var(--yellow);box-shadow:inset 0 -3px 0 var(--yellow-d);font-size:13px;font-weight:900}
+#guide .gd-gap{display:inline-block;min-width:54px;border-bottom:3px solid var(--ink);margin:0 3px}
+#guide .gd-chip{height:38px;min-width:62px;padding:0 10px;border-radius:20px;display:inline-flex;align-items:center;justify-content:center;gap:5px;color:#fff;font-weight:900;font-size:15px;background:linear-gradient(180deg,#5a1a4e,var(--plum-d));border:3px solid #6e2d63;box-shadow:inset 0 -3px 0 rgba(0,0,0,.25)}
+#guide .gd-chip svg{width:18px;height:18px}
+#guide .gd-av{width:54px;height:54px;border-radius:50%;padding:3px;background:linear-gradient(180deg,#6e2d63,var(--plum-d))}
+#guide .gd-av img{width:100%;height:100%;border-radius:50%;object-fit:cover;background:#5fc616}
+#guide .gd-lbl{position:absolute;background:#fff;border:2.5px solid var(--ink);border-radius:10px;padding:2px 8px;font-size:12px;font-weight:900;white-space:nowrap}
+#guide .gd-box{width:30px;border:2.5px solid var(--ink);border-radius:8px 8px 4px 4px;background:var(--cyan);box-shadow:inset 0 -4px 0 var(--cyan-d)}
+#guide .gd-box.gold{background:var(--yellow);box-shadow:inset 0 -4px 0 var(--yellow-d)}
+#guide .gd-badge{position:absolute;top:-8px;right:-10px;background:var(--coral-d);color:#fff;border:2.5px solid var(--ink);border-radius:999px;font-size:12px;font-weight:900;padding:0 6px}
+#guide .gd-row{display:flex;align-items:center;gap:10px}
+/* entrada de las piezas al llegar a cada página */
+#guide .gd-p .gd-a{opacity:0}
+#guide .gd-p.on .gd-a{animation:gdIn .62s var(--spring) both;animation-delay:calc(var(--d,0) * 90ms + 60ms)}
+#guide .gd-p.on .gd-a.pop{animation-name:gdPop}
+#guide .gd-p.on .gd-a.side{animation-name:gdSide}
+@keyframes gdIn{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+@keyframes gdPop{from{opacity:0;transform:scale(.3)}to{opacity:1;transform:none}}
+@keyframes gdSide{from{opacity:0;transform:translateX(-30px)}to{opacity:1;transform:none}}
+#guide .gd-p.on .gd-float{animation:gdFloat 2.6s ease-in-out .8s infinite}
+@keyframes gdFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@media (max-height:700px){#guide .gd-st{height:158px;margin-bottom:8px}#guide .gd-sc{inset:-19.5%;transform:scale(.72)}#guide .gd-h{font-size:24px}#guide .gd-es{margin:2px 0 7px;font-size:14px}#guide .gd-li{font-size:13.5px;padding:6px 0;line-height:1.32}#guide .gd-li>i{width:26px;height:26px}#guide .gd-next{min-width:130px}#guide .gd-bot{padding-top:6px}}
+@media (prefers-reduced-motion:reduce){#guide .gd-p .gd-a,#guide .gd-p.on .gd-a,#guide .gd-p.on .gd-float{opacity:1;animation:none}#guide .gd-deco{transition:none}}
 </style>
 </head>
 <body>
@@ -3279,12 +3352,14 @@ function showImportModal(){
 }
 $('#btn-settings').onclick=()=>{ SFX.tap();
   modal(`<h2>Ajustes</h2>
+  <button class="btn btn-yellow wide" id="st-guide" style="margin:2px 0 12px">Cómo funciona Ikasi!</button>
   <div class="toggle"><span>Sonidos</span><button class="sw ${S.settings.sound?'on':''}" id="sw-sound" aria-label="Sonidos"></button></div>
   <div class="toggle"><span>Voz en euskera</span><span class="meta">${canSpeak()?'Disponible':'No disponible en este dispositivo'}</span></div>
   <div class="toggle"><span>Guardado</span><span class="meta">${UREF?'En tu cuenta (sincroniza)':'Solo en este navegador'}</span></div>
   <h3 style="margin:18px 0 6px">Copia de seguridad</h3>
   <p>Copia tu progreso como texto y pégalo aquí en otro dispositivo para restaurarlo.</p>
   <div class="acts"><button class="btn btn-ghost wide" id="bk-copy">Copiar progreso</button><button class="btn btn-ghost wide" id="bk-paste">Restaurar desde texto</button><button class="btn btn-white wide" id="bk-reset" style="color:var(--red)">Borrar todo el progreso</button></div>`,(m,close)=>{
+    $('#st-guide',m).onclick=()=>{ SFX.tap(); close(); showGuide(true) };
     $('#sw-sound',m).onclick=e=>{ S.settings.sound=!S.settings.sound; e.target.classList.toggle('on',S.settings.sound); save(); SFX.tap() };
     $('#bk-copy',m).onclick=async()=>{ try{ await navigator.clipboard.writeText(JSON.stringify(S)); toast('Progreso copiado') }catch(e){ toast('No se pudo copiar') } };
     $('#bk-paste',m).onclick=()=>{ close(); modal(`<h2>Restaurar</h2><p>Pega aquí el texto copiado.</p><textarea id="rs-t"></textarea><div class="acts"><button class="btn btn-green wide" id="rs-ok">Restaurar</button></div>`,(m2,c2)=>{
@@ -4655,9 +4730,150 @@ function lostStreak(){ const t=today(), days=S.days||{};
   return n>=2?{n,last}:null }
 let LOST_DONE=false;
 function checkLost(){ if(LOST_DONE) return;
-  if(BOOT||R||document.querySelector('.modal-bg,#finish,#dorrea')){ setTimeout(checkLost,700); return }
+  if(BOOT||R||document.querySelector('.modal-bg,#finish,#dorrea,#guide')||(!GUIDE_DONE&&!guideSeen())){ setTimeout(checkLost,700); return }
   const L=lostStreak(); if(!L) return; LOST_DONE=true; S.lostAck=L.last; save();
   modal(`<img class="lx-modal lx-sob" src="img/latxi-negarrez.webp" alt="Latxi llorando" draggable="false"><h2>Racha perdida</h2><p>Tu racha de <b>${L.n} días</b> se ha cortado. No pasa nada: <b>gaur berriz hasiko gara!</b> (hoy volvemos a empezar).</p><div class="acts"><button class="btn btn-green wide" id="c-ok">Hasi!</button></div>`,(m,close)=>{ $('#c-ok',m).onclick=()=>{ SFX.tap(); close() } });
+}
+
+
+/* =========================================================
+   GUÍA DE BIENVENIDA (v1.31): la primera vez que se abre la app sale una guía de páginas
+   que se pasan deslizando (cómo funciona: camino, ejercicios, ayudas, salir y retos, repaso,
+   Hiztegia, barra de arriba). Se vuelve a ver desde Ajustes → «Cómo funciona Ikasi!».
+   Vista: S.guide (en el progreso de la cuenta) y GUIDE_KEY en el navegador (por si el progreso
+   de la cuenta llega después y pisa el del navegador).
+   ========================================================= */
+const GUIDE_V=1, GUIDE_KEY='ikasi-guide';
+let GUIDE_DONE=false;
+function guideSeen(){ let ls=0; try{ ls=+localStorage.getItem(GUIDE_KEY)||0 }catch(e){} return (S.guide||0)>=GUIDE_V||ls>=GUIDE_V }
+function guideMark(){ S.guide=GUIDE_V; save(); try{ localStorage.setItem(GUIDE_KEY,String(GUIDE_V)) }catch(e){} }
+function checkGuide(){ if(GUIDE_DONE||guideSeen()) return;
+  if(BOOT||R||document.querySelector('.modal-bg,#finish,#dorrea,#guide')){ setTimeout(checkGuide,600); return }
+  GUIDE_DONE=true; showGuide() }
+const GI={ // iconos pequeños de las listas
+  x:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>',
+  back:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>',
+  menu:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 7h14M5 12h14M5 17h14"/></svg>',
+  search:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L20 20"/></svg>',
+  rev:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 4a8 8 0 0 0-7.4 5H2l3.5 4L9 9H6.8A6 6 0 1 1 6 12H4a8 8 0 1 0 8-8z"/><path d="M11 8h2v4.4l3 1.8-1 1.7-4-2.4z"/></svg>',
+  pen:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16z"/></svg>',
+  bulb:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2zM9 19h6v1.5a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 20.5z"/></svg>',
+  tower:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l6 5h-2v3h2v12H6V10h2V7H6zm-2 10v3h4v-3zm0 5v3h4v-3z"/></svg>'
+};
+function guidePages(){
+  const li=(ico,c,txt)=>`<div class="gd-li"><i style="--c:${c}">${ico}</i><div>${txt}</div></div>`;
+  return [
+  { st:`<div class="gd-bub gd-a pop" style="--d:2;left:10%;top:12%;z-index:2">Kaixo!<small>¡hola!</small></div>
+        <div class="gd-a pop" style="--d:0;position:absolute;inset:6% 10%"><img class="gd-big gd-float" style="width:100%;height:100%;max-width:none;max-height:none" src="img/latxi-agurra.webp" alt="Latxi saluda"></div>`,
+    h:'Ongi etorri!', es:'Bienvenido/a a Ikasi!',
+    li:[li('A0','var(--mint)','Aprende <b>euskera batua</b> de A0 a A2 con lecciones cortas.'),
+        li('ES','var(--yellow)','Todo se explica <b>en castellano</b> y con ejemplos.'),
+        li('→','var(--cyan)','En un minuto te enseño cómo funciona: <b>desliza</b> o pulsa «Hurrengoa».')] },
+  { st:`<div style="display:flex;flex-direction:column;align-items:center;gap:30px;width:92%">
+          <div class="gd-uh gd-a" style="--d:0;width:100%"><div style="flex:1"><small>A1 · Unidad 1</small>Nor zara?</div><span class="gb">${ICONS.gram}</span></div>
+          <div class="gd-row" style="gap:16px;align-items:flex-start">
+            <div class="gd-a pop" style="--d:1"><div class="gd-node done">${ICONS.check}</div><div class="gd-nl">Hitzak</div></div>
+            <div class="gd-a pop" style="--d:2;position:relative;margin-top:-16px"><div class="gd-tip">HASI!</div><div class="gd-node cur" style="--nc:var(--cyan);--nd:var(--cyan-d)">${ICONS.book}</div><div class="gd-nl">Gramatika</div></div>
+            <div class="gd-a pop" style="--d:3"><div class="gd-node" style="--nc:var(--pink);--nd:var(--pink-d)">${ICONS.dumbbell}</div><div class="gd-nl">Praktika</div></div>
+          </div></div>`,
+    h:'Bidea', es:'El camino: unidades y lecciones',
+    li:[li(ICONS.star,'var(--mint)','Cada unidad tiene <b>Hitzak</b> (palabras), <b>Gramatika</b> (la regla con sus huecos) y <b>Praktika</b> (todo mezclado).'),
+        li('✓','var(--yellow)','Sigue la que pone <b>HASI!</b>; las amarillas ya están hechas.'),
+        li(ICONS.book,'var(--cyan)','El <b>libro</b> de cada unidad abre su gramática. Toda junta, en la pestaña <b>Gramatika</b>.')] },
+  { st:`<div style="width:86%;display:flex;flex-direction:column;gap:9px">
+          <div class="gd-a" style="--d:0;color:#fff;font-weight:900;font-size:13px;text-shadow:0 2px 0 rgba(45,10,78,.4)">¿QUÉ SIGNIFICA? · <span style="font-size:20px">etxea</span></div>
+          <div class="gd-opt gd-a side" style="--d:1">la mesa</div>
+          <div class="gd-opt ok gd-a side" style="--d:2">${ICONS.check.replace('<svg','<svg width="18" height="18"')} la casa</div>
+          <div class="gd-a" style="--d:3;display:flex;gap:6px;flex-wrap:wrap;margin-top:4px"><span class="gd-tile">Ni</span><span class="gd-tile">irakaslea</span><span class="gd-tile">naiz</span></div></div>`,
+    h:'Ariketak', es:'Los ejercicios',
+    li:[li(GI.pen,'var(--cyan)','Elegir, escribir, unir parejas, <b>ordenar frases</b> y rellenar huecos.'),
+        li('?','var(--mint)','Al corregir te explica <b>el porqué</b>: el verbo, la -k, el artículo…'),
+        li('↻','var(--coral)','Lo que fallas <b>vuelve al final</b> («otra vez») y luego al repaso. Fallar no tiene castigo.')] },
+  { st:`<div style="width:90%;position:relative">
+          <div class="gd-bub gd-a pop" style="--d:3;right:4%;top:-58px;font-size:16px">berandu<small>tarde</small></div>
+          <div class="gd-pane gd-a" style="--d:0;font-size:18px;font-weight:800">Kepa <span class="gd-tw">berandu</span> <span class="gd-tw">etorri</span> <span class="gd-gap"></span></div>
+          <div class="gd-a" style="--d:1;margin-top:12px;display:flex;gap:8px;align-items:center"><span class="gd-hint">${GI.bulb.replace('<svg','<svg width="15" height="15"')} Pista</span><span style="color:#fff;font-size:13px;font-weight:800;text-shadow:0 2px 0 rgba(45,10,78,.4)">«Kepa ha llegado tarde»</span></div></div>`,
+    h:'Laguntza', es:'Las ayudas dentro de los ejercicios',
+    li:[li(GI.bulb,'var(--yellow)','<b>Pista</b>: en los huecos te da la frase en castellano o la regla. En una lección normal no cuenta como fallo.'),
+        li('…','var(--cyan)','Las palabras <b>subrayadas con puntos</b> se tocan: ves qué significan. Las que miras vuelven antes al repaso.'),
+        li('★','var(--pink)','Si era nueva, <b>Hitz berria!</b>: se guarda en tu ficha «Aurkitutako hitzak».')] },
+  { st:`<div style="width:88%;display:flex;flex-direction:column;gap:8px;align-items:stretch">
+          <div class="gd-a side" style="--d:0;display:flex;align-items:center;gap:10px"><span class="gd-node" style="width:40px;height:40px;--nc:#fff;--nd:#cfc7de">${GI.x.replace('<svg','<svg style="width:18px;height:18px"')}</span><span style="color:#fff;font-weight:900;text-shadow:0 2px 0 rgba(45,10,78,.4)">¿Salir de la lección?</span></div>
+          <div class="gd-opt ok gd-a" style="--d:1;justify-content:center">Salir y guardar</div>
+          <div class="gd-opt no gd-a" style="--d:2;justify-content:center">Salir sin guardar</div>
+          <div class="gd-opt gd-a pop" style="--d:4;justify-content:center;background:var(--yellow);box-shadow:inset 0 -5px 0 var(--yellow-d)">Erronka · modo reto</div></div>`,
+    h:'Gelditu eta jarraitu', es:'Parar, seguir y repetir',
+    li:[li(GI.x,'#fff','Con la <b>✕</b> sales <b>guardando</b> y luego sigues con «Jarraitu». ¿Lección equivocada? «Salir sin guardar».'),
+        li('⚡','var(--yellow)','Al repetir una lección hecha, <b>Erronka</b> (modo reto): más difícil y +5 XP.'),
+        li(GI.tower,'var(--mint)','Cada unidad terminada sube una planta de tu <b>torre</b>.')] },
+  { st:`<img class="gd-a" style="--d:0;position:absolute;left:4%;bottom:0;height:86%;object-fit:contain" src="img/miren.webp" alt="Amona Miren">
+        <div style="position:absolute;right:6%;bottom:18%;display:flex;align-items:flex-end;gap:5px">
+          ${[18,30,44,60,78,96].map((hgt,i)=>`<div class="gd-a${i===5?'':''}" style="--d:${i+1}"><div class="gd-box${i===5?' gold':''}" style="height:${hgt}px"></div></div>`).join('')}</div>
+        <div class="gd-lbl gd-a" style="--d:2;right:6%;top:12%">1 día → 3 → 1 semana… → <span style="color:var(--pink-d)">♥</span></div>`,
+    h:'Errepasatu', es:'El repaso espaciado',
+    li:[li(GI.rev,'var(--cyan)','Cada palabra aprendida entra en el <b>repaso</b> y vuelve justo antes de que la olvides.'),
+        li('12','var(--coral)','El <b>número rojo</b> de la pestaña Errepasatu: las que tocan hoy.'),
+        li('♥','var(--pink)','Si aciertas, la palabra sube de caja. En la última está <b>dominada</b>.')] },
+  { st:`<div style="width:88%;display:flex;flex-direction:column;gap:8px">
+          <div class="gd-pane gd-a" style="--d:0;background:#fff;display:flex;align-items:center;gap:8px;padding:9px 12px;font-size:16px">${GI.search.replace('<svg','<svg width="20" height="20"')} cansado</div>
+          <div class="gd-pane gd-a" style="--d:1;padding:9px 12px"><b style="font-size:17px">nekatuta</b> · (estar) cansado/a<br><small style="color:var(--ink2);font-weight:800">Nola dago?</small></div>
+          <div class="gd-a" style="--d:2;display:flex;gap:6px"><span class="gd-opt" style="flex:1;justify-content:center;font-size:13px">Elhuyar ↗</span><span class="gd-opt ok" style="flex:1.4;justify-content:center;font-size:13px">Nire zalantzak</span></div></div>`,
+    h:'Hiztegia', es:'Tu diccionario de dudas',
+    li:[li(GI.search,'var(--cyan)','Busca <b>en euskera o en castellano</b> en todo lo del curso.'),
+        li('↗','var(--yellow)','Si no está, te lleva a <b>Elhuyar</b>. Guarda tus dudas en <b>Nire zalantzak</b> y se practican.'),
+        li('+','var(--mint)','Ahí están las <b>fichas del euskaltegi</b>; añade las tuyas con «+ Añadir».')] },
+  { st:`<div style="position:relative;display:flex;align-items:center;gap:8px">
+          <span class="gd-chip gd-a pop" style="--d:0">${PI.fire.replace('class="hi"','').replace('fill="#ff8a00"','fill="#ffb020"')}5</span>
+          <span class="gd-av gd-a pop" style="--d:1"><img src="img/icon.webp" alt=""></span>
+          <span class="gd-chip gd-a pop" style="--d:2">${PI.star.replace('class="hi"','').replace('fill="#f5c518"','fill="#ffe14a"')}120</span>
+          <span class="gd-chip gd-a pop" style="--d:3;min-width:38px;width:38px;padding:0">${GI.menu}</span>
+          <span class="gd-lbl gd-a" style="--d:4;left:-6px;top:-38px">Racha</span>
+          <span class="gd-lbl gd-a" style="--d:5;left:66px;top:62px">Perfil</span>
+          <span class="gd-lbl gd-a" style="--d:6;left:118px;top:-38px">XP</span>
+          <span class="gd-lbl gd-a" style="--d:7;right:-12px;top:52px">Ajustes</span></div>`,
+    h:'Goiko barra', es:'Los botones de arriba',
+    li:[li('🔥','var(--orange)','<b>Racha</b>: días seguidos practicando, con tu calendario.'),
+        li('★','var(--yellow)','<b>XP y lorpenak</b> (logros). El objetivo diario es de 50 XP.'),
+        li(GI.menu,'var(--cyan)','<b>Latxi</b> abre tu perfil; <b>☰</b>, los ajustes (y <b>esta guía</b>).')] },
+  { st:`<div class="gd-a pop" style="--d:0;position:absolute;inset:6% 10%"><img class="gd-big gd-float" style="width:100%;height:100%;max-width:none;max-height:none" src="img/latxi-salto.webp" alt="Latxi salta de alegría"></div>`,
+    h:'Prest? Hasi!', es:'¿Listo/a? ¡Empieza!',
+    li:[li('✓','var(--mint)','Tu progreso <b>se guarda solo</b>, aunque cierres a mitad de lección.'),
+        li(GI.menu,'var(--cyan)','Esta guía está siempre en <b>☰ Ajustes → Cómo funciona Ikasi!</b>'),
+        li('♥','var(--pink)','Poco a poco y todos los días: <b>pixkanaka!</b>')] }
+  ];
+}
+function showGuide(manual){
+  if($('#guide')) return;
+  const P=guidePages(), N=P.length, q=quiet();
+  const el=document.createElement('div'); el.id='guide'; el.setAttribute('role','dialog'); el.setAttribute('aria-label','Cómo funciona Ikasi!');
+  el.innerHTML=`<div class="gd-deco" style="width:340px;height:340px;left:-120px;top:-90px"></div><div class="gd-deco" style="width:220px;height:220px;right:-70px;top:34%"></div><div class="gd-deco" style="width:420px;height:420px;left:10%;bottom:-260px"></div>
+    <div class="gd-top"><span class="gd-n" id="gd-n">1 / ${N}</span><button class="gd-skip" id="gd-skip">Saltatu <small>· saltar</small></button></div>
+    <div class="gd-track" id="gd-track">${P.map((p,i)=>`<section class="gd-p" aria-label="${i+1} / ${N}"><div class="gd-in"><div class="gd-st"><div class="gd-sc">${p.st}</div></div><h2 class="gd-h gd-a" style="--d:1">${p.h}</h2><p class="gd-es gd-a" style="--d:2">${p.es}</p><div class="gd-card gd-a" style="--d:3">${p.li.join('')}</div></div></section>`).join('')}</div>
+    <div class="gd-bot"><div class="gd-dots" id="gd-dots">${P.map((_,i)=>`<button aria-label="Página ${i+1}"></button>`).join('')}</div>
+      <button class="btn btn-white gd-back" id="gd-back" aria-label="Atzera · anterior">${GI.back}</button><button class="btn btn-green gd-next" id="gd-next">Hurrengoa</button></div>`;
+  document.body.appendChild(el); document.body.style.overflow='hidden';
+  const tr=$('#gd-track',el), pages=[...el.querySelectorAll('.gd-p')], dots=[...el.querySelectorAll('#gd-dots button')], deco=[...el.querySelectorAll('.gd-deco')];
+  const nx=$('#gd-next',el), bk=$('#gd-back',el); let cur=-1, closing=false;
+  const setPage=i=>{ if(i===cur) return; cur=i;
+    pages.forEach((p,k)=>p.classList.toggle('on',k===i)); dots.forEach((d,k)=>d.classList.toggle('on',k===i));
+    $('#gd-n',el).textContent=`${i+1} / ${N}`; bk.style.visibility=i?'visible':'hidden';
+    nx.textContent=i===N-1?'Hasi!':'Hurrengoa'; nx.classList.toggle('btn-yellow',i===N-1); nx.classList.toggle('btn-green',i<N-1);
+    $('#gd-skip',el).style.visibility=i===N-1?'hidden':'visible';
+    if(!q) deco.forEach((d,k)=>{ d.style.transform=`translate(${Math.sin(i*1.7+k*2)*40}px,${Math.cos(i*1.3+k)*30}px)` }) };
+  const go=i=>{ i=Math.max(0,Math.min(N-1,i)); tr.scrollTo({left:i*tr.clientWidth,behavior:q?'auto':'smooth'}); setPage(i) };
+  let st=null; tr.addEventListener('scroll',()=>{ clearTimeout(st); st=setTimeout(()=>{ const i=Math.round(tr.scrollLeft/Math.max(1,tr.clientWidth)); if(i!==cur){ SFX.tap(); setPage(i) } },90) },{passive:true});
+  const close=()=>{ if(closing) return; closing=true; guideMark(); document.removeEventListener('keydown',key);
+    const fin=()=>{ el.remove(); document.body.style.overflow=''; toTop(); if(!manual) viewIn(); setTimeout(checkLost,400) };
+    if(q||!el.animate) return fin();
+    el.animate([{opacity:1,transform:'none'},{opacity:0,transform:'translateY(40px) scale(.97)'}],{duration:340,easing:'ease-in',fill:'forwards'}).onfinish=fin };
+  const key=e=>{ if(e.key==='ArrowRight') go(cur+1); else if(e.key==='ArrowLeft') go(cur-1); else if(e.key==='Escape') close() };
+  document.addEventListener('keydown',key);
+  nx.onclick=()=>{ SFX.tap(); if(cur===N-1){ SFX.ok&&SFX.ok(); close() } else go(cur+1) };
+  bk.onclick=()=>{ SFX.tap(); go(cur-1) };
+  $('#gd-skip',el).onclick=()=>{ SFX.tap(); close() };
+  dots.forEach((d,k)=>d.onclick=()=>{ SFX.tap(); go(k) });
+  if(!q&&el.animate) el.animate([{opacity:0},{opacity:1}],{duration:260,easing:'ease-out'});
+  setPage(0);
 }
 
 /* confeti */
@@ -4677,6 +4893,7 @@ try{ history.scrollRestoration='manual' }catch(e){}
 toTop();
 render();
 bootIntro();
+setTimeout(checkGuide,700);
 setTimeout(checkLost,900);
 try{ localStorage.removeItem('ikasi-splash') }catch(e){}
 (async()=>{
