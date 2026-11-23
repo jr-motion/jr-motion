@@ -735,6 +735,20 @@ button.chip{font-family:inherit;cursor:pointer;-webkit-appearance:none;appearanc
 .nw-it span{display:block;font-size:14px;font-weight:700;color:var(--ink2);line-height:1.35;margin-top:2px}
 .nw .acts{margin-top:16px}
 .nw-all{display:block;width:100%;margin-top:6px;padding:10px;font-size:14px;font-weight:800;color:var(--ink2);text-decoration:underline;text-underline-offset:3px}
+/* v1.33 · avisos de error e ideas (feedback por Telegram) */
+.sheet .fb-row{margin:-6px 0 10px;padding-right:32%}
+.fb-flag{display:inline-flex;align-items:center;gap:6px;padding:5px 11px 5px 9px;border-radius:14px;border:2px solid currentColor;background:rgba(255,255,255,.55);font:inherit;font-size:13px;font-weight:900;color:var(--ink);cursor:pointer;opacity:.8}
+.fb-flag small{font-weight:700;opacity:.75}
+.fb-flag svg{width:15px;height:15px;flex:none}
+.fb-flag:active{transform:scale(.94)}
+.fb h2 small{display:block;font-size:14px;font-weight:700;color:var(--ink2);margin-top:2px}
+.fb .fb-note{font-size:14px;background:#fff;border:2px dashed var(--ink2);border-radius:14px;padding:10px 12px}
+.fb-ch{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 12px}
+.fb-ch button{font:inherit;font-size:14px;font-weight:800;padding:8px 12px;border-radius:14px;border:3px solid var(--ink);background:#fff;color:var(--ink);cursor:pointer;box-shadow:inset 0 -3px 0 #d9d2e6}
+.fb-ch button.on{background:var(--mint);box-shadow:inset 0 -3px 0 var(--mint-d,#12c270)}
+.modal .fb textarea{min-height:110px}
+@media (max-height:700px){.modal .fb textarea{min-height:64px}.fb .fb-note{font-size:13px;padding:8px 10px}.fb-ch button{padding:6px 10px;font-size:13px}}
+.fb-hp{position:absolute!important;left:-9999px!important;width:1px!important;height:1px!important;opacity:0}
 .nw-v{margin:16px 0 8px;font-size:13px;font-weight:900;color:var(--ink2);text-transform:none}
 .nw.hist .nw-v:first-of-type{margin-top:4px}
 .nw.hist .nw-it{animation:none}
@@ -3375,7 +3389,7 @@ function showImportModal(){
 }
 $('#btn-settings').onclick=()=>{ SFX.tap();
   modal(`<h2>Ajustes</h2>
-  <div class="acts" style="margin:2px 0 12px"><button class="btn btn-yellow wide" id="st-guide">Cómo funciona Ikasi!</button><button class="btn btn-ghost wide" id="st-news">Novedades · v${NEWS[0].v}</button></div>
+  <div class="acts" style="margin:2px 0 12px"><button class="btn btn-yellow wide" id="st-guide">Cómo funciona Ikasi!</button><button class="btn btn-ghost wide" id="st-news">Novedades · v${NEWS[0].v}</button><button class="btn btn-ghost wide" id="st-fb">Ideiak eta iruzkinak · ideas</button></div>
   <div class="toggle"><span>Sonidos</span><button class="sw ${S.settings.sound?'on':''}" id="sw-sound" aria-label="Sonidos"></button></div>
   <div class="toggle"><span>Voz en euskera</span><span class="meta">${canSpeak()?'Disponible':'No disponible en este dispositivo'}</span></div>
   <div class="toggle"><span>Guardado</span><span class="meta">${UREF?'En tu cuenta (sincroniza)':'Solo en este navegador'}</span></div>
@@ -3384,6 +3398,7 @@ $('#btn-settings').onclick=()=>{ SFX.tap();
   <div class="acts"><button class="btn btn-ghost wide" id="bk-copy">Copiar progreso</button><button class="btn btn-ghost wide" id="bk-paste">Restaurar desde texto</button><button class="btn btn-white wide" id="bk-reset" style="color:var(--red)">Borrar todo el progreso</button></div>`,(m,close)=>{
     $('#st-guide',m).onclick=()=>{ SFX.tap(); close(); showGuide(true) };
     $('#st-news',m).onclick=()=>{ SFX.tap(); close(); showNews(NEWS,true) };
+    $('#st-fb',m).onclick=()=>{ SFX.tap(); close(); showFeedback('ideia') };
     $('#sw-sound',m).onclick=e=>{ S.settings.sound=!S.settings.sound; e.target.classList.toggle('on',S.settings.sound); save(); SFX.tap() };
     $('#bk-copy',m).onclick=async()=>{ try{ await navigator.clipboard.writeText(JSON.stringify(S)); toast('Progreso copiado') }catch(e){ toast('No se pudo copiar') } };
     $('#bk-paste',m).onclick=()=>{ close(); modal(`<h2>Restaurar</h2><p>Pega aquí el texto copiado.</p><textarea id="rs-t"></textarea><div class="acts"><button class="btn btn-green wide" id="rs-ok">Restaurar</button></div>`,(m2,c2)=>{
@@ -4109,7 +4124,7 @@ function startLesson(queue,meta,st){
   el.innerHTML=`<div class="l-deco"><i></i><i></i><i></i></div><div class="l-top"><button class="l-x" id="l-x" aria-label="Salir"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button><div class="bar"><i id="l-bar"></i></div><div class="combo" id="l-combo"></div></div>
   <div class="l-body" id="l-body"></div>
   <div class="l-foot"><button class="btn btn-green wide" id="l-btn" disabled>Comprobar</button>
-  <div class="sheet" id="l-sheet">${chImg(R.ch,'schar','id="s-ch"')}<div class="s-h"><span class="ic" id="s-ic"></span><span id="s-t"></span></div><div class="s-b" id="s-b"></div><button class="btn wide" id="s-btn">Continuar</button></div></div>`;
+  <div class="sheet" id="l-sheet">${chImg(R.ch,'schar','id="s-ch"')}<div class="s-h"><span class="ic" id="s-ic"></span><span id="s-t"></span></div><div class="s-b" id="s-b"></div><div class="fb-row"><button class="fb-flag" id="s-flag" type="button" aria-label="Avisar de un error en este ejercicio">${NI.flag}Akatsa? <small>· avisar de un error</small></button></div><button class="btn wide" id="s-btn">Continuar</button></div></div>`;
   document.body.appendChild(el); document.body.style.overflow='hidden'; lessonIn(el);
   $('#l-x').onclick=()=>{ SFX.tap(); if(!canResume(R.meta)){ showConfirm('¿Salir de la lección?','Perderás el progreso de esta lección.','Salir',endLesson); return }
     modal(`<img class="lx-modal lx-huff" src="img/latxi-haserre.webp" alt="Latxi enfadada" draggable="false"><h2>¿Salir de la lección?</h2><p>Si guardas, la próxima vez podrás seguir donde lo has dejado. Si te has equivocado de lección, sal sin guardar.</p><div class="acts"><button class="btn btn-green wide" id="c-ok">Salir y guardar</button><button class="btn btn-red wide" id="c-drop">Salir sin guardar</button><button class="btn btn-white wide" id="c-no">Seguir con la lección</button></div>`,(m,close)=>{
@@ -4118,6 +4133,7 @@ function startLesson(queue,meta,st){
       $('#c-drop',m).onclick=()=>{ close(); R.saveOff=true; dropRun(R.meta.id); flushNow(); endLesson() };
       $('#c-no',m).onclick=close; }) };
   $('#s-btn').onclick=next;
+  $('#s-flag').onclick=()=>{ SFX.tap(); showFeedback('akatsa', R&&R.fbCtx) };
   $('#l-btn').onclick=()=>{ if(R.ready) R.ready() };
   if(R.i>=R.queue.length) finish(); else showItem();
 }
@@ -4489,6 +4505,7 @@ function fuego(root,badTiles,lastTile){
 function grade(ok,info,msg,sayEu){
   R.answered=true;
   const it=cur(); const firstTry=!R.retried.has(it);
+  R.fbCtx=fbCtx(it);
   if(firstTry){ R.first++; if(ok && !(it.hinted&&R.meta&&R.meta.reto)) R.firstOk++; noteSeen(it,ok) }
   let mastered=false;
   if(info&&info.word){ srsSeen(info.word); mastered=srsGrade(info.word,ok,info.strong) }
@@ -4518,6 +4535,7 @@ function advance(){
 }
 document.addEventListener('keydown',e=>{
   if(!R||!$('#lesson')) return;
+  if(document.querySelector('.modal-bg')) return;
   if(e.target.tagName==='TEXTAREA'||e.target.tagName==='INPUT') return;
   if(e.key==='Enter'){ e.preventDefault(); if($('#l-sheet').classList.contains('show')) next(); else if(!$('#l-btn').disabled&&R.ready) R.ready() }
   if(/^[1-4]$/.test(e.key)){ const o=document.querySelectorAll('#l-body .opt')[+e.key-1]; if(o) o.click() }
@@ -4811,7 +4829,7 @@ function guidePages(){
           <div class="gd-a" style="--d:3;display:flex;gap:6px;flex-wrap:wrap;margin-top:4px"><span class="gd-tile">Ni</span><span class="gd-tile">irakaslea</span><span class="gd-tile">naiz</span></div></div>`,
     h:'Ariketak', es:'Los ejercicios',
     li:[li(GI.pen,'var(--cyan)','Elegir, escribir, unir parejas, <b>ordenar frases</b> y rellenar huecos.'),
-        li('?','var(--mint)','Al corregir te explica <b>el porqué</b>: el verbo, la -k, el artículo…'),
+        li('?','var(--mint)','Al corregir te explica <b>el porqué</b>. ¿Ves un error en el ejercicio? Toca <b>Akatsa?</b>'),
         li('↻','var(--coral)','Lo que fallas <b>vuelve al final</b> («otra vez») y luego al repaso. Fallar no tiene castigo.')] },
   { st:`<div style="width:90%;position:relative">
           <div class="gd-bub gd-a pop" style="--d:3;right:4%;top:-58px;font-size:16px">berandu<small>tarde</small></div>
@@ -4858,7 +4876,7 @@ function guidePages(){
     h:'Goiko barra', es:'Los botones de arriba',
     li:[li('🔥','var(--orange)','<b>Racha</b>: días seguidos practicando, con tu calendario.'),
         li('★','var(--yellow)','<b>XP y lorpenak</b> (logros). El objetivo diario es de 50 XP.'),
-        li(GI.menu,'var(--cyan)','<b>Latxi</b> abre tu perfil; <b>☰</b>, los ajustes, con <b>esta guía</b> y las <b>novedades</b>.')] },
+        li(GI.menu,'var(--cyan)','<b>Latxi</b> abre tu perfil; <b>☰</b>, los ajustes: <b>esta guía</b>, las <b>novedades</b> y tus <b>ideas</b>.')] },
   { st:`<div class="gd-a pop" style="--d:0;position:absolute;inset:6% 10%"><img class="gd-big gd-float" style="width:100%;height:100%;max-width:none;max-height:none" src="img/latxi-salto.webp" alt="Latxi salta de alegría"></div>`,
     h:'Prest? Hasi!', es:'¿Listo/a? ¡Empieza!',
     li:[li('✓','var(--mint)','Tu progreso <b>se guarda solo</b>, aunque cierres a mitad de lección.'),
@@ -4916,10 +4934,15 @@ const NI={ // iconos de las novedades
   bulb:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2zM9 19h6v1.5a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 20.5z"/></svg>',
   hand:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 11V4.5a1.5 1.5 0 0 1 3 0V10h.5V3.5a1.5 1.5 0 0 1 3 0V10h.5V5.5a1.5 1.5 0 0 1 3 0V14a8 8 0 0 1-8 8h-.5a7 7 0 0 1-5.6-2.8L2.4 15a1.6 1.6 0 0 1 2.4-2.1L7 15V6.5a1.5 1.5 0 0 1 3 0z"/></svg>',
   star:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.5 7 .9-5.1 4.8 1.3 7L12 17.8 5.8 21.2l1.3-7L2 9.4l7-.9z"/></svg>',
-  user:'<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4.5"/><path d="M3.5 21a8.5 8.5 0 0 1 17 0z"/></svg>'
+  user:'<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4.5"/><path d="M3.5 21a8.5 8.5 0 0 1 17 0z"/></svg>',
+  flag:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 2.5a1.5 1.5 0 0 1 1.5 1.5v.3C8.4 3.6 10 3.4 12 4.3c2.3 1 4.3 1.2 6.6.2.7-.3 1.4.2 1.4.9v8.4c0 .4-.2.7-.6.9-2.8 1.3-5.2 1.1-7.8 0-2-.9-3.6-.8-5.1-.1V21a1.5 1.5 0 0 1-3 0V4A1.5 1.5 0 0 1 5 2.5z"/></svg>',
+  msg:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 3h16a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2h-8.2L7 21.6c-.7.5-1.6 0-1.6-.8V18H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm3 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm5 0a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm5 0a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"/></svg>'
 };
 /* [icono, color de fondo, título corto, una línea en lenguaje de alumno] — como mucho 3 por versión */
 const NEWS=[
+  {v:'1.33', d:'2026-11-23', items:[
+    ['flag','var(--coral)','¿Ves un error? Avisa','Al corregir, toca «Akatsa?» y nos llega el ejercicio para revisarlo.'],
+    ['msg','var(--mint)','Cuéntanos tus ideas','En ☰ Ajustes → «Ideiak eta iruzkinak» puedes proponer mejoras.']]},
   {v:'1.32', d:'2026-11-23', items:[
     ['gift','var(--pink)','Novedades al actualizar','Cuando la app mejore, te lo contamos aquí en un vistazo.'],
     ['map','var(--cyan)','Guía siempre a mano','En ☰ Ajustes tienes «Cómo funciona Ikasi!» y todas las novedades.']]},
@@ -4962,6 +4985,88 @@ function showNews(list,history){
     const all=$('#nw-all',m); if(all) all.onclick=()=>{ SFX.tap(); close(); showNews(NEWS,true) };
     m.addEventListener('click',e=>{ if(e.target===m&&!history) setTimeout(checkLost,400) });
     if(!history&&!quiet()) SFX.pair();
+  });
+}
+
+/* =========================================================
+   AVISOS DE ERROR E IDEAS (v1.33)
+   La app manda el aviso al servicio ikasi-feedback (Cloud Run, proyecto andrea-colas-bot,
+   europe-southwest1), que lo reenvía por Telegram (@feedback_ikasi_bot) al propietario.
+   El token del bot está solo en el servidor. Sin conexión, el aviso se guarda en el navegador
+   (FBQ_KEY, como mucho 10) y se manda cuando vuelve la red. No es para dudas de euskera.
+   ========================================================= */
+const FB_URL='https://ikasi-feedback-kphk77lsva-no.a.run.app/feedback', FBQ_KEY='ikasi-fbq';
+const FB_SRC=/jr-motion/.test(location.hostname)?'web-app':/^(localhost|127\.0\.0\.1)$/.test(location.hostname)?'prueba':'artefacto';
+// El artefacto de Claude no deja conectar con otros servidores (CSP): ahí no se puede enviar.
+const FB_CAN=FB_SRC!=='artefacto';
+const FB_TYPES={mc:'opción múltiple',pic:'elige la imagen',match:'unir parejas',type:'escribir en euskera',drill:'hueco',spypick:'espía · elegir cara',spygame:'espía · quién es quién'};
+function fbCtx(it){
+  const m=(R&&R.meta)||{}, c={v:NEWS[0].v, lesson:[m.title,m.id].filter(Boolean).join(' · ')+(m.reto?' · reto':'')};
+  if(!it) return c;
+  try{
+    c.type= it.t==='build'?(it.face?'deskribatu':'traduce la frase'+(it.lang==='eu'?' (al euskera)':' (al castellano)')) : it.t==='drill'&&it.d&&it.d.gen?'hueco generado' : (FB_TYPES[it.t]||it.t);
+    if(it.t==='drill'){ const d=it.d; c.q=d.q; c.opts=d.o; c.answer=d.s.replace('___',d.o[d.a]); c.x=d.x }
+    else if(it.t==='mc'){ c.q=it.dir==='eu'?'¿Qué significa '+it.w.eu+'?':'¿Cómo se dice «'+it.w.es+'»?'; c.opts=it.opts; c.answer=it.opts[it.a] }
+    else if(it.t==='pic'){ c.q='¿Cuál es '+it.w.eu+'?'; c.answer=it.w.eu+' = '+it.w.es }
+    else if(it.t==='type'){ c.q='«'+it.w.es+'»'; c.answer=it.w.eu }
+    else if(it.t==='build'){ c.q=it.lang==='eu'?it.es:it.eu; c.answer=it.lang==='eu'?it.eu:it.es; c.x=it.x }
+    else if(it.t==='match'){ c.q=it.pairs.map(w=>w.eu+' = '+w.es).join(' · ') }
+    const b=$('#l-body'), sel=b&&b.querySelector('.opt.sel span:last-child'), tb=$('#tb'), ans=$('#ans');
+    c.given= sel?sel.textContent : tb?tb.value : ans?[...ans.querySelectorAll('.tile')].map(t=>t.textContent).join(' ') : '';
+  }catch(e){}
+  return c;
+}
+function fbQueue(){ try{ const q=JSON.parse(localStorage.getItem(FBQ_KEY)||'[]'); return Array.isArray(q)?q:[] }catch(e){ return [] } }
+function fbSaveQ(q){ try{ q.length?localStorage.setItem(FBQ_KEY,JSON.stringify(q.slice(-10))):localStorage.removeItem(FBQ_KEY) }catch(e){} }
+async function fbPost(p){ // text/plain: petición simple, sin preflight de CORS
+  const r=await fetch(FB_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=UTF-8'},body:JSON.stringify(p)}); return r.status }
+async function fbSend(p){
+  if(navigator.onLine===false){ fbSaveQ([...fbQueue(),p]); return 'queued' }
+  try{ const st=await fbPost(p);
+    if(st===200){ setTimeout(fbFlush,800); return 'ok' }
+    if(st===429) return 'rate';
+    if(st>=500){ fbSaveQ([...fbQueue(),p]); return 'queued' }
+    return 'fail' }
+  catch(e){ fbSaveQ([...fbQueue(),p]); return 'queued' }
+}
+let FB_BUSY=false;
+async function fbFlush(){
+  if(!FB_CAN||FB_BUSY||navigator.onLine===false) return; let q=fbQueue(); if(!q.length) return; FB_BUSY=true;
+  try{ while(q.length){ let st; try{ st=await fbPost(q[0]) }catch(e){ break }
+    if(st===200||(st>=400&&st<500&&st!==429)){ q.shift(); fbSaveQ(q) } else break } }
+  finally{ FB_BUSY=false }
+}
+addEventListener('online',()=>setTimeout(fbFlush,1500));
+setTimeout(fbFlush,6000);
+function showFeedback(kind,ctx){
+  if(document.querySelector('.fb')) return; // ya abierta (p. ej. Enter sobre el botón)
+  try{ document.activeElement&&document.activeElement.blur() }catch(e){}
+  const err=kind==='akatsa';
+  if(!FB_CAN){ modal(`<div class="fb"><h2>${err?'Akatsa?':'Ideiak eta iruzkinak'} <small>${err?'¿hay un error en este ejercicio?':'ideas y comentarios sobre la app'}</small></h2><p class="fb-note">Desde la versión de la app de Claude no se pueden enviar avisos: no deja conectar con otros servidores. <b>Ábrela como web-app</b> (la del enlace de Ikasi!) y envíalo desde allí.</p><div class="acts"><button class="btn btn-green wide" id="fb-no">Ados</button></div></div>`,(m,close)=>{ $('#fb-no',m).onclick=()=>{ SFX.tap(); close() } }); return }
+  const opts=err?['La respuesta correcta está mal','Mi respuesta también debería valer','La explicación está mal o no se entiende','Otra cosa']:['Idea para la app','Comentario'];
+  const nm=S.name&&S.name!=='Ikaslea'?S.name:'';
+  modal(`<div class="fb">
+    <h2>${err?'Akatsa? <small>¿hay un error en este ejercicio?</small>':'Ideiak eta iruzkinak <small>ideas y comentarios sobre la app</small>'}</h2>
+    <p class="fb-note">${err?'Nos llega el ejercicio con tu respuesta para revisarlo.':'Propón algo que añadir o mejorar, o cuéntanos qué no te convence.'} <b>No es para dudas de euskera</b>: para eso está tu irakasle${err?', y el porqué de cada fallo ya sale en la corrección':''}.</p>
+    <div class="fb-ch" id="fb-ch">${opts.map((o,i)=>`<button type="button" data-i="${i}"${i===0?' class="on"':''}>${esc(o)}</button>`).join('')}</div>
+    <textarea id="fb-t" maxlength="1000" placeholder="${err?'Cuéntanos qué está mal (opcional)':'Escribe aquí tu idea o comentario'}"></textarea>
+    <input type="text" id="fb-n" maxlength="40" autocomplete="off" placeholder="Tu nombre (opcional)" value="${esc(nm)}">
+    <input type="text" id="fb-w" class="fb-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <div class="acts"><button class="btn btn-green wide" id="fb-ok">Bidali · enviar</button><button class="btn btn-white wide" id="fb-no">Utzi · cancelar</button></div></div>`,(m,close)=>{
+    let sel=0; const t=$('#fb-t',m), ok=$('#fb-ok',m);
+    const need=()=>!err||sel===opts.length-1; // ideas y «Otra cosa»: con texto
+    const upd=()=>{ ok.disabled=need()&&t.value.trim().length<3; t.placeholder= err&&sel===opts.length-1?'Cuéntanos qué pasa':(err?'Cuéntanos qué está mal (opcional)':'Escribe aquí tu idea o comentario') };
+    m.querySelectorAll('#fb-ch button').forEach(b=>b.onclick=()=>{ SFX.tap(); sel=+b.dataset.i; m.querySelectorAll('#fb-ch button').forEach(x=>x.classList.toggle('on',x===b)); upd() });
+    t.oninput=upd; upd();
+    $('#fb-no',m).onclick=()=>{ SFX.tap(); close() };
+    ok.onclick=async()=>{
+      if(ok.disabled) return; ok.disabled=true; ok.textContent='Bidaltzen…';
+      const txt=t.value.trim();
+      const p={kind: err?'akatsa':(sel===0?'ideia':'iruzkina'), text: err?('['+opts[sel]+']'+(txt?' '+txt:'')):txt, ctx: err?(ctx||fbCtx(null)):{v:NEWS[0].v}, src:FB_SRC, name:$('#fb-n',m).value.trim().slice(0,40), web:$('#fb-w',m).value};
+      const r=await fbSend(p);
+      if(r==='ok'||r==='queued'){ close(); SFX.ok(); toast(r==='ok'?'Bidalita! Eskerrik asko':'Sin conexión: se enviará luego', r==='ok'?'latxi-maiteminduta':null) }
+      else { ok.disabled=false; ok.textContent='Bidali · enviar'; toast(r==='rate'?'Demasiados avisos: espera unos minutos':'No se ha podido enviar') }
+    };
   });
 }
 
