@@ -1,6 +1,6 @@
 // Ikasi! funciona sin conexión: guarda la app, las imágenes y las fuentes en caché.
 // Al cambiar cualquier archivo, sube el número de CACHE.
-const CACHE = "ikasi-v31";
+const CACHE = "ikasi-v32";
 const CORE = [
   "./", "index.html", "manifest.webmanifest", "decks.json",
   "icon-180.png", "icon-192.png", "icon-512.png", "icon-maskable-512.png",
@@ -60,7 +60,8 @@ const CORE = [
   "img/gor-aurpegia.webp", "img/gor-ilea.webp", "img/gor-begiak.webp", "img/gor-bekainak.webp",
   "img/gor-sudurra.webp", "img/gor-belarriak.webp", "img/gor-ahoa.webp", "img/gor-masailak.webp",
   "img/gor-lepoa.webp", "img/gor-besoa.webp", "img/gor-eskua.webp", "img/gor-behatzak.webp",
-  "img/gor-hanka.webp", "img/gor-oina.webp"
+  "img/gor-hanka.webp", "img/gor-oina.webp",
+  "img/nork-ireki.webp", "img/nork-itxi.webp", "img/nork-igo.webp", "img/nork-jaitsi.webp", "img/nork-jaiki.webp", "img/nork-erori.webp", "img/nork-jan.webp", "img/nork-edan.webp", "img/nork-erosi.webp", "img/nork-garbitu.webp", "img/nork-ikusi.webp", "img/nork-galdu.webp"
 ];
 self.addEventListener("install", e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(CORE))); self.skipWaiting(); });
 self.addEventListener("activate", e => {
