@@ -2355,6 +2355,37 @@ function canPic(w){ return !!picPool(w) }
 /* «¿Cómo se dice?» (castellano → euskera); con dibujo en lugar del castellano si la palabra lo tiene */
 function mcEs(w,known){ const e=mcEx(w,'es',known); if(picOf(w) && !NOQUIZ.has(norm(w.eu))) e.pic=picOf(w); return e }
 function matchEx(words){ return {t:'match',pairs:pick(words,Math.min(5,words.length))} }
+/* ===== KONTRAKOA (v1.36) ===== */
+const KP=['Kepa','Ane','Jon','Miren','Aitor','Uxue','Peio','Irati'];
+const KONT=[
+  ['e','lotan','esna','a1-ego','egp',KP],['e','alai','triste','a1-ego','egp',KP],['e','lasai','urduri','a1-ego','egp',KP],['e','ondo','gaizki','a1-ego','egp',KP],['e','aske','preso','a1-ego','egp',KP],
+  ['e','garbi','zikin','a1-ego','g1',['etxea','mahaia']],['e','itxita','irekita','a1-ego','g2',['taberna','eskola']],['e','apurtuta','konponduta','a1-ego','g3',['telefonoa','mahaia']],
+  ['e','bustita','lehor','a1-ego','hum',['liburua','ogia']],['e','bizirik','hilda','a1-ego','g4',['katua','txakurra']],
+  ['i','gaztea','zaharra','a1-nol','per',KP],['i','lodia','argala','a1-nol','per',KP],['i','alaia','tristea','a1-nol','per',KP],['i','lasaia','urduria','a1-nol','per',KP],['i','isila','berritsua','a1-nol','per',KP],
+  ['i','lotsatia','lotsagabea','a1-nol','per',KP],['i','alferra','langilea','a1-nol','per',KP],['i','arduratsua','arduragabea','a1-nol','per',KP],['i','trebea','baldarra','a1-nol','per',KP],['i','aberatsa','txiroa','a1-nol','per',KP],
+  ['i','umila','harroa','a1-nol','per',KP],['i','jatorra','zakarra','a1-nol','per',KP],['i','zintzoa','maltzurra','a1-nol','per',KP],['i','indartsua','ahula','a1-nol','per',KP],['i','geldoa','azkarra','a1-nol','per',KP],
+  ['i','handia','txikia','a1-nol','gen',['etxea','mendia','zuhaitza','txakurra']],['i','altua','baxua','a1-nol','gen',['mendia','zuhaitza','mahaia']],['i','luzea','laburra','a1-gor','gen',['kalea','liburua']],
+  ['i','zabala','estua','a1-nol','gen',['kalea']],['i','polita','itsusia','a1-nol','gen',['etxea','kalea','txakurra']],
+  ['i','beroa','hotza','a1-nol','tem',['kafea','ura']],['i','gogorra','biguna','a1-nol','dur',['ogia']],['i','erraza','zaila','a1-nol','dif',['galdera','lana']],['i','ulergarria','ulertezina','a1-nol','dif',['erantzuna']],
+  ['i','arina','astuna','a1-nol','pes',['liburua','mahaia']],['i','argitsua','iluna','a1-nol','lux',['etxea','kalea']],['i','hezea','lehorra','a1-nol','hum',['lurra']]
+];
+function kontEx(ui){
+  if(ui<0) return null;
+  const inU=k=>UNITS.slice(0,ui+1).some(u=>u.words.some(w=>norm(w.eu)===k));
+  const cand=KONT.filter(p=>gOk(p[3],ui) && WORDS[norm(p[1])] && WORDS[norm(p[2])]).flatMap(p=>(inU(norm(p[1]))&&inU(norm(p[2])))?[p,p,p]:[p]);
+  const rows=[], grp=new Set(), subj=new Set(), ans=new Set();
+  for(const p of shuffle(cand)){
+    if(rows.length>=5) break;
+    const g=p[4];
+    if(grp.has(g)) continue;
+    const sw=Math.random()<.5, X=sw?p[2]:p[1], Y=sw?p[1]:p[2];
+    const ss=shuffle(p[5].filter(s=>!subj.has(s))); if(!ss.length||ans.has(Y)) continue;
+    const S=ss[0]; grp.add(g); subj.add(S); ans.add(Y);
+    rows.push({k:norm(Y), s:`${S[0].toUpperCase()+S.slice(1)} ez ${p[0]==='e'?'dago':'da'} ${X}, ___ ${p[0]==='e'?'dago':'da'}.`, a:Y, x:X});
+  }
+  return rows.length>=4 ? {t:'kont',rows} : null;
+}
+
 function typeEx(w){ return {t:'type',w} }
 /* «Traduce la frase» (v1.12.3): la coma, el punto, ? y ! que separan dos partes
    de la frase son fichas obligatorias. El signo del final (? ! .) sale como ficha
@@ -2443,7 +2474,7 @@ function buildLesson(L,reto){
   // práctica: frases (2 de cada 3 en euskera, al azar), huecos que menos han salido, huecos generados (v1.26) y vocabulario de la unidad
   const ws=pick(u.words,4);
   const ex=[ ...rankPick(u.sentences,sKey,P_SENT).map(s=>sentEx(s,Math.random()<1/3?'es':'eu',u)), ...[...rankPick(u.drills,dKey,3), ...genDrills(u,4,false)].map(d=>({t:'drill',d})),
-    matchEx(u.words), ...ws.slice(0,3).map(typeEx), ...ws.slice(3).map(w=>mcEx(w,'es')) ];
+    matchEx(u.words), ...[kontEx(UNITS.indexOf(u))].filter(Boolean), ...ws.slice(0,3).map(typeEx), ...ws.slice(3).map(w=>mcEx(w,'es')) ];
   return shuffle(ex);
 }
 /* =========================================================
@@ -4393,6 +4424,7 @@ function showItem(){
   else if(it.t==='mc') rMC(it,body);
   else if(it.t==='pic') rPic(it,body);
   else if(it.t==='match') rMatch(it,body);
+  else if(it.t==='kont') rKont(it,body);
   else if(it.t==='type') rType(it,body);
   else if(it.t==='build') rBuild(it,body);
   else if(it.t==='drill') rDrill(it,body);
@@ -4511,6 +4543,25 @@ function rBuild(it,body){
       else{ const bad=tiles.filter((t,k)=>tileKey(it.tiles[chosen[k]])!==it.toks[k]); fuego($('#lesson'),bad,tiles[tiles.length-1]) } }) };
   bank.querySelectorAll('.tile').forEach(b=>b.onclick=()=>{ if(R.answered)return; SFX.tap(); b.classList.add('used'); chosen.push(+b.dataset.i); upd() });
   upd();
+}
+function rKont(it,body){
+  const L=shuffle(it.rows), Rr=shuffle(it.rows);
+  body.innerHTML=`<div class="q-kind">Kontrakoa</div><h2 class="q-title">Une cada frase con la palabra contraria que falta</h2><div class="match"><div class="col">${L.map(r=>`<button class="m" data-k="${esc(r.k)}" data-s="l">${esc(r.s)}</button>`).join('')}</div><div class="col">${Rr.map(r=>`<button class="m" data-k="${esc(r.k)}" data-s="r">${esc(r.a)}</button>`).join('')}</div></div>`;
+  $('#l-btn').style.visibility='hidden';
+  let selL=null, selR=null, left=it.rows.length, errs=0;
+  body.querySelectorAll('.m').forEach(b=>b.onclick=()=>{
+    if(b.classList.contains('gone')) return;
+    if(b.dataset.s==='l'){ if(selL)selL.classList.remove('sel'); selL=b } else { if(selR)selR.classList.remove('sel'); selR=b; if(canSpeak()) speak(b.textContent) }
+    b.classList.add('sel'); SFX.tap();
+    if(selL&&selR){
+      const a=selL,c=selR; selL=selR=null;
+      if(a.dataset.k===c.dataset.k){ [a,c].forEach(x=>{x.classList.remove('sel');x.classList.add('ok')}); SFX.pair(); left--;
+        const w=WORDS[a.dataset.k]; if(w){ srsSeen(w); srsGrade(w,true,false) }
+        setTimeout(()=>{[a,c].forEach(x=>{x.classList.remove('ok');x.classList.add('gone')})},350);
+        if(!left) setTimeout(()=>{ $('#l-btn').style.visibility='visible'; const gl=it.rows.map(r=>{const a=WORDS[norm(r.a)],x=WORDS[norm(r.x)]; return (x?x.es:r.x)+' ↔ '+(a?a.es:r.a)}).slice(0,3).join(' · '); grade(true,null,(errs?`${errs} fallo${errs>1?'s':''} por el camino. `:'¡Todas a la primera! ')+gl) },450);
+      } else { errs++; SFX.bad(); vibrate(60); [a,c].forEach(x=>{x.classList.remove('sel');x.classList.add('bad')}); setTimeout(()=>[a,c].forEach(x=>x.classList.remove('bad')),400) }
+    }
+  });
 }
 function rMatch(it,body){
   const L=shuffle(it.pairs), Rr=shuffle(it.pairs);
@@ -5182,6 +5233,9 @@ const NI={ // iconos de las novedades
 };
 /* [icono, color de fondo, título corto, una línea en lenguaje de alumno] — como mucho 3 por versión */
 const NEWS=[
+  {v:'1.36', d:'2026-11-23', items:[
+    ['bolt','var(--cyan)','Kontrakoa: los contrarios','En Praktika une cada frase («Kepa ez dago lotan, ___ dago») con su palabra contraria.'],
+    ['star','var(--yellow)','Más adjetivos de la lista IKA','Nuevos: irristagarria, makala, motela, gosetia y zapaztoa.']]},
   {v:'1.35', d:'2026-11-23', items:[
     ['bolt','var(--mint)','Declinación siempre nueva','En Gramatika y Praktika salen huecos nuevos de -k, -n, -koa y -ren con palabras que ya conoces.']]},
   {v:'1.34', d:'2026-11-23', items:[
@@ -5257,6 +5311,7 @@ function fbCtx(it){
     else if(it.t==='type'){ c.q='«'+it.w.es+'»'; c.answer=it.w.eu }
     else if(it.t==='build'){ c.q=it.lang==='eu'?it.es:it.eu; c.answer=it.lang==='eu'?it.eu:it.es; c.x=it.x }
     else if(it.t==='match'){ c.q=it.pairs.map(w=>w.eu+' = '+w.es).join(' · ') }
+    else if(it.t==='kont'){ c.q=it.rows.map(r=>r.s+' → '+r.a).join(' · ') }
     const b=$('#l-body'), sel=b&&b.querySelector('.opt.sel span:last-child'), tb=$('#tb'), ans=$('#ans');
     c.given= sel?sel.textContent : tb?tb.value : ans?[...ans.querySelectorAll('.tile')].map(t=>t.textContent).join(' ') : '';
   }catch(e){}

@@ -258,7 +258,8 @@
    },
    {
     "es": "gigante",
-    "eu": "erraldoi(a)"
+    "eu": "erraldoi(a)",
+    "note": "La -a es el artículo: erraldoi (gigante) → erraldoia. En la hoja aparece «erraldioa»"
    },
    {
     "es": "diminuto/a",
@@ -295,6 +296,11 @@
    {
     "es": "lento/a",
     "eu": "geldo(a)"
+   },
+   {
+    "es": "lento/a, tardón/a",
+    "eu": "motel(a)",
+    "note": "Sinónimo de geldoa"
    },
    {
     "es": "fácil",
@@ -425,6 +431,11 @@
    {
     "es": "peludo/a",
     "eu": "iletsu(a)"
+   },
+   {
+    "es": "velludo/a, peludo/a",
+    "eu": "zapazto(a)",
+    "note": "Sinónimo de iletsua"
    },
    {
     "es": "ancho/a",
@@ -590,8 +601,12 @@
    },
    {
     "es": "débil",
-    "eu": "ahul(a)",
-    "note": "También makala"
+    "eu": "ahul(a)"
+   },
+   {
+    "es": "flojo/a",
+    "eu": "makal(a)",
+    "note": "Sinónimo de ahula"
    },
    {
     "es": "brillante, deslumbrante",
@@ -623,8 +638,12 @@
    },
    {
     "es": "resbaladizo/a",
-    "eu": "labain(a)",
-    "note": "También irristagarria"
+    "eu": "labain(a)"
+   },
+   {
+    "es": "resbaladizo/a (que resbala)",
+    "eu": "irristagarri(a)",
+    "note": "Sinónimo de labaina"
    },
    {
     "es": "baboso/a",
@@ -634,7 +653,12 @@
    {
     "es": "sediento/a",
     "eu": "egarti(a)",
-    "note": "egarri (sed) + -ti. Igual que gosetia (hambriento)"
+    "note": "egarri (sed) + -ti"
+   },
+   {
+    "es": "hambriento/a",
+    "eu": "goseti(a)",
+    "note": "gose (hambre) + -ti. Igual que egartia (sediento)"
    }
   ]
  },
@@ -1020,7 +1044,8 @@
    },
    {
     "es": "(estar) preso/a",
-    "eu": "preso"
+    "eu": "preso",
+    "note": "Sinónimo: gatibu"
    },
    {
     "es": "(estar) detenido/a",
