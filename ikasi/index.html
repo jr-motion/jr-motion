@@ -822,12 +822,29 @@ const UNITS = [
     { q:'¿Cómo suena «z» (zu)?', s:'z = ___', o:['s española','z española (θ)','ts'], a:0, x:'La <b>z</b> vasca suena como la s española (no como la z de «zapato»): zu, zer.' },
     { q:'¿Cómo suena «x» (xagu)?', s:'x = ___', o:['sh','ks','j'], a:0, x:'La <b>x</b> suena «sh», como en el inglés «she»: xagu.' },
     { q:'Completa la conversación:', s:'— Zer moduz? — ___, eta zu?', o:['Oso ondo','Agur','Mesedez'], a:0, x:'A «zer moduz?» se responde con cómo estás: <b>oso ondo</b>, ondo, nahiko ondo…' },
-    { q:'Te vas a dormir. Te despides:', s:'___!', o:['Gabon','Egun on','Kaixo'], a:0, x:'Al irse a dormir o por la noche: <b>gabon</b>.' }
+    { q:'Te vas a dormir. Te despides:', s:'___!', o:['Gabon','Egun on','Kaixo'], a:0, x:'Al irse a dormir o por la noche: <b>gabon</b>.' },
+    { q:'Son las 17:00. Saludas:', s:'___!', o:['Arratsalde on','Egun on','Gabon'], a:0, x:'Por la tarde, <b>arratsalde on</b>. Por la mañana, egun on; por la noche, gabon.' },
+    { q:'Te despides de alguien que verás mañana:', s:'___!', o:['Bihar arte','Ongi etorri','Aspaldiko'], a:0, x:'<b>Bihar</b> = mañana; <b>bihar arte</b> = hasta mañana. Ongi etorri es «bienvenido/a».' },
+    { q:'Ves a una amiga después de meses:', s:'___! Zer moduz?', o:['Aspaldiko','Barkatu','Ez horregatik'], a:0, x:'<b>Aspaldiko!</b> = ¡cuánto tiempo!, al ver a alguien después de mucho.' },
+    { q:'«Sí, por favor»', s:'Bai, ___', o:['mesedez','barkatu','ez horregatik'], a:0, x:'<b>Mesedez</b> = por favor. Barkatu es «perdón»; ez horregatik, «de nada».' },
+    { q:'«Bastante bien, ¿y tú?»', s:'___, eta zu?', o:['Nahiko ondo','Oso ondo','Gaizki'], a:0, x:'<b>Nahiko</b> = bastante: nahiko ondo. Oso ondo es «muy bien»; gaizki, «mal».' },
+    { q:'Le pisas el pie a alguien sin querer:', s:'___!', o:['Barkatu','Mesedez','Ongi etorri'], a:0, x:'<b>Barkatu</b> = perdón, disculpa. Mesedez es «por favor».' },
+    { q:'Recibes a alguien en tu casa:', s:'___!', o:['Ongi etorri','Gero arte','Barkatu'], a:0, x:'<b>Ongi etorri</b> = bienvenido/a: para recibir a alguien.' }
   ],
   sentences:[
     ['Kaixo, zer moduz?','Hola, ¿qué tal?','<b>Zer moduz?</b> es una fórmula fija: «¿qué tal?». Detrás del saludo va coma: <b>Kaixo, zer moduz?</b>'],['Oso ondo, eta zu?','Muy bien, ¿y tú?','Para devolver la pregunta: <b>eta zu?</b> («¿y tú?»). <b>Oso</b> («muy») va delante: oso ondo.'],
     ['Egun on, Miren!','¡Buenos días, Miren!','<b>Egun on</b> = buenos días (por la mañana). El nombre de la persona va detrás, con coma.'],['Eskerrik asko, agur!','¡Muchas gracias, adiós!','<b>Eskerrik asko</b> = muchas gracias. <b>Agur</b> sirve para despedirse en cualquier momento.'],
-    ['Gero arte, Jon!','¡Hasta luego, Jon!','<b>Gero arte</b> = hasta luego. «… arte» es «hasta…»: bihar arte (hasta mañana), laster arte (hasta pronto).'],['Nahiko ondo, eskerrik asko','Bastante bien, muchas gracias','<b>Nahiko</b> = bastante, delante como oso: nahiko ondo, oso ondo.']
+    ['Gero arte, Jon!','¡Hasta luego, Jon!','<b>Gero arte</b> = hasta luego. «… arte» es «hasta…»: bihar arte (hasta mañana), laster arte (hasta pronto).'],['Nahiko ondo, eskerrik asko','Bastante bien, muchas gracias','<b>Nahiko</b> = bastante, delante como oso: nahiko ondo, oso ondo.'],
+    ['Egun on, zer moduz?','Buenos días, ¿qué tal?','<b>Egun on</b> (solo por la mañana) y, con coma, <b>zer moduz?</b> («¿qué tal?»).'],
+    ['Arratsalde on, Miren!','¡Buenas tardes, Miren!','<b>Arratsalde on</b> = buenas tardes. El nombre va detrás, con coma.'],
+    ['Gabon, Jon!','¡Buenas noches, Jon!','<b>Gabon</b> sirve de noche para saludar y para despedirse. El nombre, detrás y con coma.'],
+    ['Bihar arte, Miren!','¡Hasta mañana, Miren!','<b>Bihar arte</b> = hasta mañana: bihar (mañana) + arte (hasta), como gero arte.'],
+    ['Ez, eskerrik asko','No, muchas gracias','<b>Ez</b> = no. Detrás, con coma, <b>eskerrik asko</b> («muchas gracias»).'],
+    ['Bai, mesedez','Sí, por favor','<b>Bai</b> = sí; <b>mesedez</b> = por favor. Van separados por coma.'],
+    ['Barkatu, Jon','Perdón, Jon','<b>Barkatu</b> sirve para pedir perdón y para llamar la atención («disculpa»).'],
+    ['Aspaldiko! Zer moduz?','¡Cuánto tiempo! ¿Qué tal?','<b>Aspaldiko!</b> = ¡cuánto tiempo! (al ver a alguien después de mucho). Son dos frases: el <b>!</b> las separa.'],
+    ['Ongi etorri, Miren!','¡Bienvenida, Miren!','<b>Ongi etorri</b> = bienvenido/a. No cambia: vale igual para un chico, una chica o un grupo.'],
+    ['Eskerrik asko! Ez horregatik','¡Muchas gracias! De nada','A <b>eskerrik asko</b> se responde <b>ez horregatik</b> («de nada»). El <b>!</b> separa lo que dice cada uno.']
   ]
 },
 { id:'a0-eus', level:'A0', title:'Euskaltegian', sub:'Frases y verbos de clase · pedir ayuda',
@@ -900,7 +917,10 @@ const UNITS = [
     ['Astiroago, mesedez','Más despacio, por favor','<b>Astiro</b> = despacio; con <b>-ago</b>, «más»: astiroago = más despacio.'],['Zer esan nahi du zaila?','¿Qué quiere decir zaila?','<b>Zer esan nahi du …?</b> = ¿qué quiere decir…? La palabra por la que preguntas va al final.'],
     ['Nola esaten da libro euskaraz?','¿Cómo se dice libro en euskera?','<b>Nola esaten da … euskaraz?</b> = ¿cómo se dice… en euskera? Euskara + <b>z</b> = en euskera.'],['Ez dakit, ez dut gogoratzen','No lo sé, no me acuerdo','<b>Ez dakit</b> = no lo sé (jakin). <b>Ez dut gogoratzen</b> = no me acuerdo: ez + dut delante.'],
     ['Bai, badakit','Sí, lo sé','En afirmativa, cuando el verbo va solo, lleva <b>ba-</b>: <b>badakit</b> (sí, lo sé).'],['Berriro azaldu ahal duzu?','¿Puedes explicarlo otra vez?','<b>Ahal</b> = poder: verbo + ahal + duzu. Berriro azaldu <b>ahal duzu</b>? = ¿puedes explicarlo otra vez?'],
-    ['Ariketa hau erraza da','Este ejercicio es fácil','<b>Hau</b> (este) va detrás del nombre y ocupa el sitio del artículo: ariketa <b>hau</b>. Erraz + <b>a</b> da.'],['Irakurri eta idatzi, mesedez','Lee y escribe, por favor','Las órdenes de clase van con el verbo tal cual: <b>irakurri</b> (lee), <b>idatzi</b> (escribe).']
+    ['Ariketa hau erraza da','Este ejercicio es fácil','<b>Hau</b> (este) va detrás del nombre y ocupa el sitio del artículo: ariketa <b>hau</b>. Erraz + <b>a</b> da.'],['Irakurri eta idatzi, mesedez','Lee y escribe, por favor','Las órdenes de clase van con el verbo tal cual: <b>irakurri</b> (lee), <b>idatzi</b> (escribe).'],
+    ['Galdera hau zaila da','Esta pregunta es difícil','<b>Hau</b> va detrás del nombre, en lugar del artículo: galdera <b>hau</b>. Zail + <b>a</b> da.'],
+    ['Ez dut hitz hau ulertzen','No entiendo esta palabra','Negativa: <b>ez dut</b> delante y el verbo al final: ez dut hitz hau <b>ulertzen</b>.'],
+    ['Erantzuna erraza da','La respuesta es fácil','Erantzun + <b>a</b>; cómo es, con izan: erraz + <b>a</b> da.']
   ]
 },
 { id:'a0-2', level:'A0', title:'Zenbakiak', sub:'Números del 0 al 20 · pedir en el bar',
@@ -925,14 +945,28 @@ const UNITS = [
     { q:'«Un café, por favor»', s:'___, mesedez', o:['Kafe bat','Bat kafe','Kafea bat'], a:0, x:'<b>Bat</b> va detrás: kafe bat.' },
     { q:'«Tres cervezas»', s:'___', o:['Hiru garagardo','Garagardo hiru','Hiru garagardoa'], a:0, x:'Número delante y nombre sin artículo: hiru garagardo.' },
     { q:'bost + bost =', s:'___', o:['hamar','hamabost','bederatzi'], a:0, x:'5 + 5 = 10, <b>hamar</b>.' },
-    { q:'¿Cuál es el 18?', s:'18 = ___', o:['hemezortzi','hamazortzi','hamaika'], a:0, x:'18 = <b>hemezortzi</b>, con <b>heme-</b> (como hemezazpi, 17).' },
+    { q:'¿Cuál es el 18?', s:'18 = ___', o:['hemezortzi','hamazortzi','hamaika'], a:0, x:'18 = <b>hemezortzi</b>, con <b>heme-</b> (como hemeretzi, 19). El 17 es hamazazpi, con hama-.' },
     { q:'¿Cuál es el 11?', s:'11 = ___', o:['hamaika','hamabat','hamabi'], a:0, x:'11 = <b>hamaika</b>: no se forma con hamar + bat.' },
-    { q:'hamar + hamar =', s:'___', o:['hogei','hamabost','hamar bi'], a:0, x:'10 + 10 = 20, <b>hogei</b>.' }
+    { q:'hamar + hamar =', s:'___', o:['hogei','hamabost','hamar bi'], a:0, x:'10 + 10 = 20, <b>hogei</b>.' },
+    { q:'«Una cerveza»', s:'___', o:['Garagardo bat','Bat garagardo','Garagardoa bat'], a:0, x:'<b>Bat</b> (1) es el único número que va detrás del nombre: garagardo <b>bat</b>.' },
+    { q:'«Dos cafés, por favor»', s:'___, mesedez', o:['Bi kafe','Bi kafeak','Bi kafea'], a:0, x:'Tras un número, el nombre va <b>sin artículo</b>: bi kafe (no «bi kafeak»).' },
+    { q:'sei + sei =', s:'___', o:['hamabi','hamasei','hamaika'], a:0, x:'6 + 6 = 12, <b>hamabi</b> (hama- + bi).' },
+    { q:'¿Cuál es el 19?', s:'19 = ___', o:['hemeretzi','hamabederatzi','hamazazpi'], a:0, x:'19 = <b>hemeretzi</b>, con <b>heme-</b>, como hemezortzi (18). Del 11 al 17 empiezan por hama-.' },
+    { q:'«¿Cuántas cervezas?»', s:'___ garagardo?', o:['Zenbat','Hamar','Bat'], a:0, x:'<b>Zenbat</b> = cuántos/as, delante del nombre sin artículo: zenbat garagardo?' },
+    { q:'¿Cuál es el 14?', s:'14 = ___', o:['hamalau','hamabost','lauhamar'], a:0, x:'14 = <b>hamalau</b>: hama- + lau (4).' }
   ],
   sentences:[
     ['Kafe bat, mesedez','Un café, por favor','<b>Bat</b> va detrás del nombre: kafe <b>bat</b>. Los demás números, delante.'],['Bi garagardo, mesedez','Dos cervezas, por favor','Los números (salvo bat) van <b>delante</b> y el nombre sin artículo: bi garagardo.'],
     ['Zenbat kafe?','¿Cuántos cafés?','<b>Zenbat</b> (cuántos) va con el nombre sin artículo: zenbat kafe?'],['Hiru kafe eta garagardo bat','Tres cafés y una cerveza','Hiru delante, bat detrás: <b>hiru</b> kafe eta garagardo <b>bat</b>.'],
-    ['Eskerrik asko, agur','Muchas gracias, adiós','<b>Eskerrik asko</b> = muchas gracias; <b>agur</b> = adiós.']
+    ['Eskerrik asko, agur','Muchas gracias, adiós','<b>Eskerrik asko</b> = muchas gracias; <b>agur</b> = adiós.'],
+    ['Lau kafe, mesedez','Cuatro cafés, por favor','<b>Lau</b> (4) va delante y el nombre sin artículo: lau kafe.'],
+    ['Garagardo bat eta kafe bat','Una cerveza y un café','<b>Bat</b> va siempre detrás del nombre: garagardo <b>bat</b>, kafe <b>bat</b>.'],
+    ['Zenbat garagardo?','¿Cuántas cervezas?','<b>Zenbat</b> va delante y el nombre sin artículo, como con los números: zenbat garagardo?'],
+    ['Hamabi kafe eta sei garagardo','Doce cafés y seis cervezas','Los números (salvo bat) van <b>delante</b>: hamabi kafe, sei garagardo.'],
+    ['Kaixo! Bost kafe, mesedez','¡Hola! Cinco cafés, por favor','<b>Bost</b> (5) delante: bost kafe. El <b>!</b> separa el saludo del pedido.'],
+    ['Ez, hiru garagardo','No, tres cervezas','<b>Hiru</b> (3) va delante del nombre, que no lleva artículo: hiru garagardo.'],
+    ['Hogei kafe? Ez, hamabost','¿Veinte cafés? No, quince','<b>Hogei</b> = 20; <b>hamabost</b> = 15 (hamar + bost). El <b>?</b> separa la pregunta de la respuesta.'],
+    ['Zazpi kafe eta bi garagardo, mesedez','Siete cafés y dos cervezas, por favor','<b>Zazpi</b> (7) y <b>bi</b> (2) van delante del nombre, sin artículo.']
   ]
 },
 /* ---------------- A1 ---------------- */
@@ -980,7 +1014,12 @@ const UNITS = [
   sentences:[
     ['Ni Mikel naiz','Yo soy Mikel','Izan con ni: <b>naiz</b>. El verbo va al final: Ni Mikel naiz.'],['Nire izena Ane da','Mi nombre es Ane','<b>Nire</b> (mi) va delante. Izena con artículo: izen + a. Con «él/ella/eso», <b>da</b>.'],['Zu irakaslea zara?','¿Tú eres profesor?','Izan con zu: <b>zara</b>. La pregunta mantiene el orden; solo cambia la entonación.'],
     ['Bai, irakaslea naiz','Sí, soy profesor','Las profesiones llevan artículo: irakasle + <b>a</b>. Con ni, <b>naiz</b>.'],['Ez naiz medikua','No soy médico','En negativa, <b>ez + naiz</b> van delante: ez naiz medikua.'],['Gu ikasleak gara','Nosotros somos estudiantes','Gu: <b>gara</b>. Varios, en plural: ikasle + <b>ak</b>.'],
-    ['Hau nire laguna da','Este es mi amigo','<b>Hau</b> = este. Nire laguna = mi amigo; con <b>da</b>.'],['Nor da hura?','¿Quién es aquel?','En la pregunta, <b>nor</b> (quién) va pegado al verbo: Nor da? <b>Hura</b> = aquel.']
+    ['Hau nire laguna da','Este es mi amigo','<b>Hau</b> = este. Nire laguna = mi amigo; con <b>da</b>.'],['Nor da hura?','¿Quién es aquel?','En la pregunta, <b>nor</b> (quién) va pegado al verbo: Nor da? <b>Hura</b> = aquel.'],
+    ['Ni ikaslea naiz','Yo soy estudiante','La profesión lleva artículo: ikasle + <b>a</b>. Ni → <b>naiz</b>.'],
+    ['Haiek zerbitzariak dira','Ellos son camareros','Haiek → <b>dira</b>. Varios, en plural: zerbitzari + <b>ak</b>.'],
+    ['Zuek irakasleak zarete?','¿Vosotros sois profesores?','Zuek → <b>zarete</b>. Varios, en plural: irakasle + <b>ak</b>.'],
+    ['Hura ez da sukaldaria','Él no es cocinero','Negativa: <b>ez da</b> delante de la profesión: hura <b>ez da</b> sukaldaria.'],
+    ['Hau Ane da, nire laguna','Esta es Ane, mi amiga','<b>Hau</b> = esta. Nire lagun<b>a</b>: el nombre lleva artículo.']
   ]
 },
 { id:'a1-2', level:'A1', title:'Nongoa zara?', sub:'Origen con -ko(a) · nacionalidades',
@@ -1021,7 +1060,13 @@ const UNITS = [
   sentences:[
     ['Nongoa zara zu?','¿De dónde eres tú?','<b>Nongoa?</b> pregunta por el origen (¿de dónde eres?); <b>non?</b> es dónde estás.'],['Ni Mungiakoa naiz','Yo soy de Mungia','Tras vocal, <b>-koa</b>: Mungia + koa. Ni → naiz.'],['Jon Donostiakoa da','Jon es de San Sebastián','Donostia termina en vocal: <b>-koa</b>. Una persona → da.'],
     ['Ane ez da Bilbokoa','Ane no es de Bilbao','Negativa: <b>ez da</b> delante: Ane ez da Bilbokoa.'],['Gu Gasteizkoak gara','Nosotros somos de Vitoria','Varios, en plural: <b>-koak</b>. Gu → gara.'],['Miren frantsesa da','Miren es francesa','La nacionalidad va con artículo, como un adjetivo: frantses + <b>a</b>.'],
-    ['Bilbokoa naiz, eta zu?','Soy de Bilbao, ¿y tú?','Para devolver la pregunta: <b>eta zu?</b> La coma separa las dos partes.']
+    ['Bilbokoa naiz, eta zu?','Soy de Bilbao, ¿y tú?','Para devolver la pregunta: <b>eta zu?</b> La coma separa las dos partes.'],
+    ['Ni euskalduna naiz','Yo soy vascohablante','<b>Euskaldun</b> + <b>a</b>: va con artículo, como un adjetivo. Ni → naiz.'],
+    ['Haiek ingelesak dira','Ellos son ingleses','Varios, en plural: ingeles + <b>ak</b>. Haiek → <b>dira</b>.'],
+    ['Miren ere Bilbokoa da','Miren también es de Bilbao','<b>Ere</b> (también) va justo detrás de la palabra a la que se refiere: Miren <b>ere</b>.'],
+    ['Ane espainiarra da, baina Jon frantsesa da','Ane es española, pero Jon es francés','<b>Baina</b> = pero. Espainiar + <b>ra</b> (la r se dobla); frantses + <b>a</b>.'],
+    ['Zu Bilbokoa zara?','¿Tú eres de Bilbao?','Zu → <b>zara</b>. Bilbo acaba en vocal: Bilbo + <b>koa</b>.'],
+    ['Ni ez naiz Gasteizkoa','Yo no soy de Vitoria','Negativa: <b>ez naiz</b> delante. Gasteiz + <b>koa</b>.']
   ]
 },
 { id:'a1-3', level:'A1', title:'Non bizi zara?', sub:'Dónde vives · inesivo -n / -en',
@@ -1058,7 +1103,13 @@ const UNITS = [
   sentences:[
     ['Non bizi zara?','¿Dónde vives?','Vivir = <b>bizi izan</b>: bizi + izan conjugado. Zu → <b>bizi zara</b>.'],['Mungian bizi naiz','Vivo en Mungia','Pueblo acabado en vocal + <b>-n</b>: Mungia<b>n</b>. Ni → bizi naiz.'],['Bilbokoa naiz, baina Getxon bizi naiz','Soy de Bilbao, pero vivo en Getxo','Origen con <b>-koa</b> (Bilbokoa); dónde vives, con <b>-n</b> (Getxon). <b>Baina</b> = pero.'],
     ['Gu Gasteizen bizi gara','Nosotros vivimos en Vitoria','Tras consonante, <b>-en</b>: Gasteiz<b>en</b>. Gu → bizi gara.'],['Ane Donostian bizi da','Ane vive en San Sebastián','Tras vocal, <b>-n</b>: Donostia<b>n</b>. Una persona → bizi da.'],
-    ['Orain Madrilen bizi naiz','Ahora vivo en Madrid','Tras consonante, <b>-en</b>: Madril<b>en</b>. <b>Orain</b> = ahora.'],['Zuek hemen bizi zarete?','¿Vosotros vivís aquí?','<b>Hemen</b> = aquí. Zuek → bizi <b>zarete</b>.']
+    ['Orain Madrilen bizi naiz','Ahora vivo en Madrid','Tras consonante, <b>-en</b>: Madril<b>en</b>. <b>Orain</b> = ahora.'],['Zuek hemen bizi zarete?','¿Vosotros vivís aquí?','<b>Hemen</b> = aquí. Zuek → bizi <b>zarete</b>.'],
+    ['Ni Iruñean bizi naiz','Yo vivo en Pamplona','En Iruñea la -a es el artículo: Iruñe + <b>an</b>. Ni → bizi naiz.'],
+    ['Haiek Bilbon bizi dira','Ellos viven en Bilbao','Tras vocal, <b>-n</b>: Bilbo<b>n</b>. Haiek → bizi <b>dira</b>.'],
+    ['Zu Getxon bizi zara?','¿Tú vives en Getxo?','Getxo acaba en vocal: Getxo<b>n</b>. Zu → bizi <b>zara</b>.'],
+    ['Jon ez da hemen bizi','Jon no vive aquí','Negativa: <b>ez da</b> va delante y <b>bizi</b> al final: Jon ez da hemen bizi.'],
+    ['Ane han bizi da','Ane vive allí','<b>Han</b> = allí (lejos). Hemen = aquí; hor = ahí.'],
+    ['Gu Mungian bizi gara','Nosotros vivimos en Mungia','Mungia acaba en vocal: Mungia<b>n</b>. Gu → bizi <b>gara</b>.']
   ]
 },
 { id:'a1-lan', ch:'nerea', level:'A1', title:'Lanbideak', sub:'Zer zara? · profesiones · qué hace cada una',
@@ -1147,7 +1198,12 @@ const UNITS = [
     ['Ospitalean egiten dut lan','Trabajo en el hospital','Ospitale + <b>an</b> (en el hospital). Ni → lan egiten <b>dut</b>.'],['Irakaslea naiz eta eskolan egiten dut lan','Soy profesor y trabajo en la escuela','Profesión con izan (<b>naiz</b>); trabajar con ukan (<b>dut</b>). Eskola + n: la -a ya es de la palabra.'],
     ['Nire aita okina da','Mi padre es panadero','<b>Nire</b> va delante y la profesión con artículo: okina da.'],['Okinak ogia egiten du','El panadero hace pan','Egin va con du: quien lo hace lleva <b>-k</b>, okina<b>k</b>. Ogia es una cosa → <b>du</b>.'],
     ['Postariak gutunak banatzen ditu','El cartero reparte cartas','Postaria<b>k</b> con -k (lo hace él). Gutunak son varias → <b>ditu</b>.'],['Gu ez gara poliziak','Nosotros no somos policías','Negativa: <b>ez gara</b> delante. Varios: polizia<b>k</b>.'],
-    ['Jon Bilbokoa da eta kazetaria da','Jon es de Bilbao y es periodista','Dos frases unidas con <b>eta</b>, cada una con su <b>da</b>.']
+    ['Jon Bilbokoa da eta kazetaria da','Jon es de Bilbao y es periodista','Dos frases unidas con <b>eta</b>, cada una con su <b>da</b>.'],
+    ['Miren abokatua da','Miren es abogada','La profesión lleva artículo: abokatu + <b>a</b>. Una persona → <b>da</b>.'],
+    ['Zu argazkilaria zara?','¿Tú eres fotógrafo?','Zu → <b>zara</b>. Argazkilari + <b>a</b>.'],
+    ['Ni ez naiz polizia, suhiltzailea naiz','Yo no soy policía, soy bombero','<b>Polizia</b> ya acaba en -a: no se le añade otra. Suhiltzaile + <b>a</b> naiz.'],
+    ['Haiek iturginak dira','Ellos son fontaneros','Varios, en plural: iturgin + <b>ak</b>. Haiek → <b>dira</b>.'],
+    ['Nire ama erizaina da','Mi madre es enfermera','<b>Nire</b> va delante; la profesión con artículo: erizain + <b>a</b> da.']
   ]
 },
 { id:'a1-4', ch:'txomin', level:'A1', title:'Zenbat urte dituzu?', sub:'Números hasta 100 · la edad · familia básica',
@@ -1184,7 +1240,15 @@ const UNITS = [
   sentences:[
     ['Zenbat urte dituzu?','¿Cuántos años tienes?','La edad va con «tener» (ukan): urte <b>dituzu</b>, en plural porque son varios años.'],['Hogeita hamar urte ditut','Tengo treinta años','30 = hogeita hamar (20 + 10). Tras el número, <b>urte</b> sin artículo. Ni → <b>ditut</b>.'],
     ['Nire aitak hirurogei urte ditu','Mi padre tiene sesenta años','Aita<b>k</b>: lleva -k porque «tiene». 60 = hirurogei (3 × 20). Él → <b>ditu</b>.'],['Nire ama gaztea da','Mi madre es joven','«Joven» es cómo es: <b>izan</b> y adjetivo con artículo, gaztea da.'],
-    ['Zuk berrogei urte dituzu?','¿Tú tienes cuarenta años?','Zuk (con -k) → <b>dituzu</b>. 40 = berrogei (2 × 20).']
+    ['Zuk berrogei urte dituzu?','¿Tú tienes cuarenta años?','Zuk (con -k) → <b>dituzu</b>. 40 = berrogei (2 × 20).'],
+    ['Nik hogeita bat urte ditut','Yo tengo veintiún años','<b>Nik</b> (con -k) → <b>ditut</b>. 21 = hogeita bat (20 + 1).'],
+    ['Nire amak laurogei urte ditu','Mi madre tiene ochenta años','Ama<b>k</b>: lleva -k porque «tiene». 80 = laurogei (4 × 20). Ella → <b>ditu</b>.'],
+    ['Nire aita zaharra da','Mi padre es mayor','Cómo es: <b>izan</b>, y el adjetivo con artículo: zahar + <b>ra</b> (la r se dobla).'],
+    ['Ehun urte? Ez, laurogeita hamar','¿Cien años? No, noventa','<b>Ehun</b> = 100. 90 = laurogeita hamar (80 + 10).'],
+    ['Zuk hogeita hamabost urte dituzu','Tú tienes treinta y cinco años','<b>Zuk</b> (con -k) → <b>dituzu</b>. 35 = hogeita hamabost (20 + 15).'],
+    ['Nire aitak berrogeita hamar urte ditu','Mi padre tiene cincuenta años','Aita<b>k</b>, con -k. 50 = berrogeita hamar (40 + 10). Él → <b>ditu</b>.'],
+    ['Nik ez ditut hirurogei urte','Yo no tengo sesenta años','En negativa, <b>ez ditut</b> va delante y la edad detrás: nik <b>ez ditut</b> hirurogei urte.'],
+    ['Zure ama gaztea da?','¿Tu madre es joven?','Cómo es: <b>izan</b> (da), y el adjetivo con artículo: gazte + <b>a</b>.']
   ]
 },
 { id:'a1-nol', ch:'aitor', level:'A1', title:'Nolakoa da?', sub:'Cómo es · aspecto y carácter · colores · oso, nahiko, batere',
@@ -1473,7 +1537,7 @@ const UNITS = [
     ['hark','él / ella (con verbos de ukan)','hura → hark'],
     ['guk','nosotros/as (con verbos de ukan)','gu → guk. Zuek y haiek no cambian'],
     ['nork?','¿quién? (con ukan)','Nor? va con izan; nork? con ukan: Nork ekarri du?'],
-    ['giltz(ak)','las llaves','Una llave: giltza. Giltzak galdu ditut: he perdido las llaves'],
+    ['giltza(k)','las llaves','Una llave: giltza. Giltzak galdu ditut: he perdido las llaves'],
     ['jan','comer','Nik sagarra jan dut'],
     ['edan','beber'],
     ['ikusi','ver'],
@@ -1742,7 +1806,11 @@ const UNITS = [
     ['Zenbat anai-arreba dituzu?','¿Cuántos hermanos tienes?','<b>Zenbat</b> va con el nombre sin artículo. <b>Anai-arreba</b> = hermanos en general. Varios → <b>dituzu</b>.'],
     ['Ez dut anai-arrebarik','No tengo hermanos','Negativa → -rik: anai-arreba<b>rik</b>.'],
     ['Bi seme-alaba ditut','Tengo dos hijos','Tras número, sin artículo: bi seme-alaba. Varios → <b>ditut</b>.'],
-    ['Ezkonduta nago','Estoy casado','Es un estado: egon (<b>nago</b>) y la palabra en -ta, que no cambia.']
+    ['Ezkonduta nago','Estoy casado','Es un estado: egon (<b>nago</b>) y la palabra en -ta, que no cambia.'],
+    ['Nire aitona eta amona Bilbon bizi dira','Mi abuelo y mi abuela viven en Bilbao','Dos personas → bizi <b>dira</b>. Bilbo + <b>n</b> (en Bilbao).'],
+    ['Irati nire lehengusina da','Irati es mi prima','Lehengusin + <b>a</b>. Una persona → <b>da</b>.'],
+    ['Nire ahizpa ezkongabea da','Mi hermana es soltera','<b>Ahizpa</b> es la hermana de una chica. Ezkongabe + <b>a</b>, con izan (<b>da</b>).'],
+    ['Gure gurasoak ezkonduta daude','Nuestros padres están casados','Es un estado: egon, y varios → <b>daude</b>. Ezkonduta no cambia.']
   ]
 },
 { id:'a1-ego', ch:'patxi', level:'A1', title:'Nola dago?', sub:'Cómo está · egon (nago, zaude, dago…) · estados · Nolakoa? ≠ Nola?',
@@ -2172,6 +2240,35 @@ const ALTS={
   'birraitona':['biraitona'],
   'baita zuri ere':['berdin','bardin','zuri ere','bai eta zuri ere','baita zuri be']
 };
+/* Sinónimos (v1.41, aviso de una alumna: «txarto» también debería valer). Dos clases:
+   · w: palabras que están las dos en el vocabulario (mediku / sendagile): al escribir vale cualquiera,
+     nunca salen como opción falsa la una de la otra y la corrección explica que valen las dos.
+   · v: variantes que no se enseñan como palabra propia (txarto, ongi, zelan…): valen al escribir y la
+     corrección de su palabra lo explica. anaia / neba y arreba / ahizpa NO son sinónimos (depende de quién habla). */
+const SYN=[
+  {w:['gaizki'], v:['txarto'], x:'También se dice <b>txarto</b>: es la forma de Bizkaia y la oirás mucho (también en clase). <b>Gaizki</b> es la forma general de batua. Las dos significan «mal».'},
+  {w:['ondo'], v:['ongi'], x:'También se dice <b>ongi</b> (la de <i>ongi etorri</i>): es la misma palabra, más de Navarra e Iparralde. <b>Ondo</b> y <b>ongi</b> son las dos batua.'},
+  {w:['oso ondo'], v:['oso ongi'], x:'También se dice <b>oso ongi</b>: <b>ondo</b> y <b>ongi</b> («bien») son las dos batua.'},
+  {w:['nahiko ondo'], v:['nahiko ongi'], x:'También se dice <b>nahiko ongi</b>: <b>ondo</b> y <b>ongi</b> («bien») son las dos batua.'},
+  {w:['ez oso ondo'], v:['ez oso ongi'], x:'También se dice <b>ez oso ongi</b>: <b>ondo</b> y <b>ongi</b> («bien») son las dos batua.'},
+  {w:['zer moduz?'], v:['zelan?','zelan zaude?','nola zaude?'], x:'También vale <b>zelan?</b>, el «¿qué tal?» de Bizkaia, y <b>nola zaude?</b> («¿cómo estás?»). <b>Zer moduz?</b> es el más general.'},
+  {w:['gabon'], v:['gau on'], x:'También se dice <b>gau on</b> («buenas noches», sobre todo al irse a dormir). <b>Gabon</b> vale al llegar y al irse.'},
+  {w:['aitona'], v:['aitite'], x:'En Bizkaia se dice mucho <b>aitite</b>. La forma general de batua es <b>aitona</b>. Las dos son «abuelo».'},
+  {w:['amona'], v:['amama'], x:'En Bizkaia se dice mucho <b>amama</b>. La forma general de batua es <b>amona</b>. Las dos son «abuela».'},
+  {w:['haserre'], v:['haserretuta'], x:'También vale <b>haserretuta</b> (de <i>haserretu</i>, «enfadarse»): <b>haserre nago</b> y <b>haserretuta nago</b> son las dos «estoy enfadado/a».'},
+  {w:['mediku(a)','sendagile(a)'], x:'<b>Medikua</b> y <b>sendagilea</b> son las dos batua y significan lo mismo: «el médico / la médica». Sendagile es la palabra vasca de siempre; mediku, la que más se oye en la calle.'},
+  {w:['kopeta','bekoki(a)'], x:'<b>Kopeta</b> y <b>bekokia</b> son las dos batua y significan lo mismo: «la frente».'},
+  {w:['mihi(a)','mingain(a)'], x:'<b>Mihia</b> y <b>mingaina</b> son las dos batua y significan lo mismo: «la lengua» (la del cuerpo). Mingain se oye más en Bizkaia.'},
+  {w:['iritsi','heldu'], x:'<b>Iritsi</b> y <b>heldu</b> son las dos batua y significan «llegar» (<i>heldu</i> también es «agarrar» y «madurar»). Heldu se oye más en Bizkaia.'},
+  {w:['labain(a)','irristagarri(a)'], x:'<b>Labaina</b> e <b>irristagarria</b> son las dos batua y significan lo mismo: «resbaladizo/a».'}
+];
+const SYNI={}; SYN.forEach(g=>[...g.w,...(g.v||[])].forEach(f=>{ SYNI[norm(f)]=g }));
+const synOf=w=>w&&SYNI[norm(w.eu)];
+const synRel=(a,b)=>{ const g=synOf(a); return !!g && g===synOf(b) && norm(a.eu)!==norm(b.eu) };
+const synNote=w=>{ const g=synOf(w); return g?g.x:'' };
+// formas que también valen al escribir (las otras palabras del grupo, con y sin artículo, y las variantes)
+function synAlts(w){ const g=synOf(w); if(!g) return []; const k=norm(w.eu);
+  return [...g.w,...(g.v||[])].filter(f=>norm(f)!==k).flatMap(f=>hasArt(f)?[norm(f),norm(artBare(f))]:[norm(f)]) }
 function W(arr,src){ return {eu:arr[0],es:arr[1],note:arr[2]||'',src} }
 UNITS.forEach(u=>{ u.words=u.vocab.map(v=>W(v,u.id)); });
 function allDecks(){ return [...CLOUD_DECKS, ...S.userDecks] }
@@ -2337,7 +2434,7 @@ function lessonsOf(u){
    Devuelve la lista ya ordenada (barajada dentro de cada grupo). */
 function isKnown(x,known){ const k=norm(x.eu); return (known&&known.has(k)) || !!S.srs[k] }
 function poolFor(w,known){
-  const k=norm(w.eu), all=Object.values(WORDS).filter(x=>norm(x.eu)!==k), same=all.filter(x=>x.src===w.src);
+  const k=norm(w.eu), kes=norm(w.es), all=Object.values(WORDS).filter(x=>norm(x.eu)!==k && norm(x.es)!==kes && !synRel(w,x)), same=all.filter(x=>x.src===w.src);
   const a=same.filter(x=>isKnown(x,known)), b=same.filter(x=>!isKnown(x,known));
   const out=[...shuffle(a),...shuffle(b)];
   return out.length>=3?out:[...out,...shuffle(all.filter(x=>x.src!==w.src))];
@@ -2456,6 +2553,9 @@ function vocabLesson(words,unit){
    primero los que no han salido nunca, luego los fallados la última vez y luego los que menos han salido, al azar
    dentro de cada grupo. Así, al repetir, sale otra parte, y Praktika no repite lo que acaba de salir en Gramatika. */
 const G_MAX=14, P_SENT=10;
+// v1.41 (aviso «repetitiva»): con pocas frases, Praktika las sacaba todas cada vez. Ahora saca como mucho el 60 %
+// (mínimo 5), para que dos Praktikas seguidas no repitan las mismas.
+const pSent=u=>Math.min(P_SENT, Math.max(5, Math.ceil(u.sentences.length*.6)));
 function hkey(t){ let h=5381; for(const c of t) h=((h*33)^c.charCodeAt(0))>>>0; return h.toString(36) }
 const dKey=d=>'d'+hkey(d.q+'|'+d.s), sKey=st=>'s'+hkey(st[0]);
 function itemKey(it){
@@ -2480,7 +2580,7 @@ function buildLesson(L,reto){
   }
   // práctica: frases (2 de cada 3 en euskera, al azar), huecos que menos han salido, huecos generados (v1.26) y vocabulario de la unidad
   const ws=pick(u.words,4);
-  const ex=[ ...rankPick(u.sentences,sKey,P_SENT).map(s=>sentEx(s,Math.random()<1/3?'es':'eu',u)), ...[...rankPick(u.drills,dKey,3), ...genDrills(u,4,false)].map(d=>({t:'drill',d})),
+  const ex=[ ...rankPick(u.sentences,sKey,pSent(u)).map(s=>sentEx(s,Math.random()<1/3?'es':'eu',u)), ...[...rankPick(u.drills,dKey,3), ...genDrills(u,4,false)].map(d=>({t:'drill',d})),
     matchEx(u.words), ...[kontEx(UNITS.indexOf(u))].filter(Boolean), ...ws.slice(0,3).map(typeEx), ...ws.slice(3).map(w=>mcEx(w,'es')) ];
   return shuffle(ex);
 }
@@ -2505,7 +2605,7 @@ const bareN=t=>norm(artBare(String(t).split('/')[0]));
 function simPool(w,known){
   const k=norm(w.eu), kes=norm(w.es), b=bareN(w.eu);
   // fuera las que podrían valer también: mismo castellano o uno que empieza por el otro («yo» / «yo (con verbos de ukan)»)
-  const clash=x=>{ const e=norm(x.es); return e===kes || e.startsWith(kes) || kes.startsWith(e) };
+  const clash=x=>{ const e=norm(x.es); return e===kes || e.startsWith(kes) || kes.startsWith(e) || synRel(w,x) };
   const sc=Object.values(WORDS).filter(x=>norm(x.eu)!==k && !clash(x) && bareN(x.eu)!==b).map(x=>{
     const c=bareN(x.eu), L=Math.max(b.length,c.length)||1;
     let r=lev(b,c)/L;
@@ -2537,7 +2637,7 @@ function afterProd(q,rec){
     const lo=Math.min(q.length,at<0?0:at+3); q.splice(lo+Math.floor(Math.random()*(q.length-lo+1)),0,r) });
   return q;
 }
-function uniqPairs(ws,n){ const o=[], e=new Set(), s=new Set(); for(const w of shuffle(ws)){ const a=norm(w.eu), b=norm(w.es); if(e.has(a)||s.has(b)) continue; e.add(a); s.add(b); o.push(w); if(o.length===n) break } return o }
+function uniqPairs(ws,n){ const o=[], e=new Set(), s=new Set(); for(const w of shuffle(ws)){ const a=norm(w.eu), b=norm(w.es); if(e.has(a)||s.has(b)||o.some(x=>synRel(w,x))) continue; e.add(a); s.add(b); o.push(w); if(o.length===n) break } return o }
 function retoVocab(words,u){
   const known=new Set(words.map(w=>norm(w.eu))), sh=shuffle(words), nType=Math.ceil(words.length*.4);
   const old=oldWords(u,Math.min(5,Math.max(3,Math.round(words.length/4))),words);
@@ -2556,7 +2656,7 @@ function retoLesson(L){
     .concat(rankPick(u.sentences,sKey,3).map(s=>{ const e=buildEx(s,'eu',u,2); e.sk=sKey(s); return e }));
   const ws=pick(u.words,7), old=oldWords(u,3,u.words);
   return shuffle([
-    ...rankPick(u.sentences,sKey,P_SENT).map(s=>{ const e=buildEx(s,Math.random()<.2?'es':'eu',u,2); e.sk=sKey(s); return e }),
+    ...rankPick(u.sentences,sKey,pSent(u)).map(s=>{ const e=buildEx(s,Math.random()<.2?'es':'eu',u,2); e.sk=sKey(s); return e }),
     ...[...rankPick(u.drills,dKey,4), ...genDrills(u,4,false)].map(D),
     ...ws.slice(0,5).map(w=>Object.assign(typeEx(w),{reto:true})), ...ws.slice(5).map(w=>mcHard(w,'es',known)),
     ...old.map(w=>Math.random()<.5?Object.assign(typeEx(w),{reto:true}):mcHard(w,'es',known)) ]);
@@ -4444,7 +4544,7 @@ function showItem(){
 }
 function rIntro(it,body){
   const w=it.w; srsSeen(w);
-  body.innerHTML=`<div class="q-kind">Palabra nueva</div><div class="intro">${chImg(R.ch,'ichar','id="i-ch"')}<div class="intro-card"><span class="new">Berria</span>${picOf(w)&&picOf(w)!==R.ch?picImg(picOf(w),'wpic'):''}<div class="big">${spkBtn(w.eu)}${esc(w.eu)}</div><div class="tr">${esc(w.es)}</div>${artHint(w.eu)}${w.note?`<div class="note">${esc(w.note)}</div>`:''}${w.ex?`<div class="exs"><b>${esc(w.ex)}</b><span>${esc(w.exEs)}</span></div>`:''}</div></div>`;
+  body.innerHTML=`<div class="q-kind">Palabra nueva</div><div class="intro">${chImg(R.ch,'ichar','id="i-ch"')}<div class="intro-card"><span class="new">Berria</span>${picOf(w)&&picOf(w)!==R.ch?picImg(picOf(w),'wpic'):''}<div class="big">${spkBtn(w.eu)}${esc(w.eu)}</div><div class="tr">${esc(w.es)}</div>${artHint(w.eu)}${w.note?`<div class="note">${esc(w.note)}</div>`:''}${synNote(w)?`<div class="note">${synNote(w)}</div>`:''}${w.ex?`<div class="exs"><b>${esc(w.ex)}</b><span>${esc(w.exEs)}</span></div>`:''}</div></div>`;
   const ic=$('#i-ch'); ic.onclick=()=>{ act(ic,'talk'); speak(w.eu) }; body.querySelectorAll('[data-say]').forEach(b=>b.addEventListener('click',()=>act(ic,'talk')));
   setBtn('Continuar',true,()=>{SFX.tap();R.done++;advance()});
 }
@@ -4519,7 +4619,7 @@ function rType(it,body){
   const tb=$('#tb'); setTimeout(()=>tb.focus(),250);
   setBtn('Comprobar',false,null);
   const check=()=>{
-    const raw=norm(tb.value), main=w.eu.split('/').map(norm), targets=[...main,...(ALTS[norm(w.eu)]||[]).map(norm),...(hasArt(w.eu)?w.eu.split('/').map(x=>norm(artBare(x))):[])];
+    const raw=norm(tb.value), main=w.eu.split('/').map(norm), targets=[...main,...(ALTS[norm(w.eu)]||[]).map(norm),...(hasArt(w.eu)?w.eu.split('/').map(x=>norm(artBare(x))):[]),...synAlts(w)];
     const sj=subjCheck(raw,targets), a=sj.rest;
     let ok=targets.includes(a), near=false;
     if(!ok && targets.some(t=>t.length>4 && lev(a,t)<=1)){ ok=true; near=true }
@@ -4535,6 +4635,31 @@ function rType(it,body){
   tb.oninput=()=>setBtn('Comprobar',!!tb.value.trim(),check);
   tb.onkeydown=e=>{ if(e.key==='Enter'){ e.preventDefault(); if(tb.value.trim()&&!R.answered) check() } };
 }
+/* v1.41 (aviso de una alumna): si las palabras están bien y solo falla la puntuación, sigue siendo fallo
+   (los signos de en medio son obligatorios, v1.12.3), pero la corrección lo dice claro: qué signo falta,
+   sobra o está en otro sitio, en lugar de la explicación general de la frase. */
+function puncDiag(it,ak){
+  const W=a=>a.filter(t=>!PUNCT.test(t)).join(' ');
+  if(W(ak)!==W(it.toks)) return null;
+  const words=splitTiles(it.lang==='eu'?it.eu:it.es).filter(t=>!PUNCT.test(t));
+  const marks=a=>{ const m=[]; let n=-1; a.forEach((t,i)=>{ if(PUNCT.test(t)) m.push({n,t,i}); else n++ }); return m };
+  const exp=marks(it.toks), got=marks(ak), K=m=>m.n+m.t;
+  const miss=exp.filter(m=>!got.some(g=>K(g)===K(m))), extra=got.filter(g=>!exp.some(m=>K(m)===K(g)));
+  if(!miss.length&&!extra.length) return null;
+  const NAME={',':'la coma (,)','?':'el signo ?','!':'el signo !','.':'el punto (.)'};
+  const where=n=>n<0?'al principio':`después de «${esc(words[n]||'')}»`;
+  const parts=[];
+  const ex=[...extra];
+  miss.forEach(m=>{ const j=ex.findIndex(e=>e.t===m.t);
+    if(j>=0){ parts.push(`${NAME[m.t]} va ${where(m.n)}, no ${where(ex[j].n)}`); ex.splice(j,1) }
+    else parts.push(`falta ${NAME[m.t]} ${where(m.n)}`) });
+  ex.forEach(e=>parts.push(`sobra ${NAME[e.t]} ${where(e.n)}`));
+  const txt=parts.join('; '); 
+  // fichas que arden: los signos que sobran o están mal y, si falta uno, la palabra después de la que va
+  const wordPos=n=>{ let c=-1; for(let i=0;i<ak.length;i++){ if(!PUNCT.test(ak[i])&&++c===n) return i } return -1 };
+  const bad=[...extra.map(e=>e.i), ...miss.filter(m=>!extra.some(e=>e.t===m.t)).map(m=>wordPos(m.n))].filter(i=>i>=0);
+  return {html:`<b>Las palabras están bien</b>: solo falla la puntuación. ${txt.charAt(0).toUpperCase()+txt.slice(1)}. Los signos de en medio de la frase cuentan; el del final se puede poner o no.`, bad};
+}
 function rBuild(it,body){
   const toEu=it.lang==='eu';
   body.innerHTML=`<div class="q-kind">${it.face?'Deskribatu':'Traduce la frase'}</div>${it.face?`<div class="desc-face">${faceHTML(it.face)}</div>`:''}<h2 class="q-title">${toEu?esc(it.es):spkBtn(it.eu)+tapify(it.eu)}</h2><div class="answer-line" id="ans"></div><div class="bank" id="bank">${it.tiles.map((t,i)=>`<button class="tile${PUNCT.test(t)?' punct':''}" data-i="${i}">${esc(t)}</button>`).join('')}</div>`;
@@ -4542,12 +4667,14 @@ function rBuild(it,body){
   const upd=()=>{ ans.innerHTML=chosen.map((i,k)=>`<button class="tile${PUNCT.test(it.tiles[i])?' punct':''}" data-k="${k}">${esc(it.tiles[i])}</button>`).join('');
     ans.querySelectorAll('.tile').forEach(b=>b.onclick=()=>{ if(R.answered)return; SFX.tap(); const i=chosen.splice(+b.dataset.k,1)[0]; bank.querySelector(`[data-i="${i}"]`).classList.remove('used'); upd() });
     setBtn('Comprobar',chosen.length>0,()=>{ const ak=chosen.map(i=>tileKey(it.tiles[i])); if(it.opt&&ak[ak.length-1]===it.opt) ak.pop(); const ok=ak.join(' ')===it.toks.join(' ');
-      const diag=!ok&&it.face&&it.kind?spyDiag(it,ak):'', why=diag?`<span class="why">${diag}</span>`:(it.x?`<span class="why">${it.x}</span>`:'');
+      const pd=!ok&&!it.face?puncDiag(it,ak):null;   // v1.41: palabras bien, solo falla la puntuación
+      const diag=!ok&&it.face&&it.kind?spyDiag(it,ak):'', why=pd?`<span class="why">${pd.html}</span>`:diag?`<span class="why">${diag}</span>`:(it.x?`<span class="why">${it.x}</span>`:'');
       grade(ok,null, (ok?(toEu?'':`<small>${esc(it.es)}</small>`):`Correcto: <b>${esc(toEu?it.eu:it.es)}</b>`)+why, toEu?it.eu:null);
+      if(pd) $('#s-t').textContent='Ia-ia!';
       const tiles=[...ans.querySelectorAll('.tile')];
       if(ok){ tiles.forEach((t,k)=>setTimeout(()=>t.classList.add('ok'),k*70));
         if(shouldBikain(it.toks.filter(t=>!PUNCT.test(t)).length)){ const w=bikain($('#lesson')); $('#s-t').textContent=w; SFX.zap() } }
-      else{ const bad=tiles.filter((t,k)=>tileKey(it.tiles[chosen[k]])!==it.toks[k]); fuego($('#lesson'),bad,tiles[tiles.length-1]) } }) };
+      else{ const bad=pd?pd.bad.map(k=>tiles[k]).filter(Boolean):tiles.filter((t,k)=>tileKey(it.tiles[chosen[k]])!==it.toks[k]); fuego($('#lesson'),bad,tiles[tiles.length-1]) } }) };
   bank.querySelectorAll('.tile').forEach(b=>b.onclick=()=>{ if(R.answered)return; SFX.tap(); b.classList.add('used'); chosen.push(+b.dataset.i); upd() });
   upd();
 }
@@ -4818,6 +4945,7 @@ function grade(ok,info,msg,sayEu){
   $('#s-t').textContent= ok? praise[Math.floor(Math.random()*praise.length)] : 'Ez da zuzena';
   $('#s-ic').innerHTML= ok? `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#12c270" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>` : `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#d8445c" stroke-width="4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>`;
   $('#s-b').innerHTML=(msg||'')+(sayEu&&canSpeak()?` ${spkBtn(sayEu)}`:'');
+  if(info&&info.word&&synNote(info.word)) $('#s-b').insertAdjacentHTML('beforeend',`<span class="why">${synNote(info.word)}</span>`);
   if(mastered) $('#s-b').insertAdjacentHTML('beforeend',`<div class="lx-note"><img src="img/latxi-maiteminduta.webp" alt="Latxi enamorada" draggable="false"><span><b>${esc(info.word.eu)}</b>: palabra dominada. Ya está en la última caja del repaso.</span></div>`);
   $('#s-btn').className='btn wide '+(ok?'btn-green':'btn-red');
   $('#l-sheet').className='sheet show '+(ok?'ok':'bad');
@@ -5240,6 +5368,7 @@ const NI={ // iconos de las novedades
 };
 /* [icono, color de fondo, título corto, una línea en lenguaje de alumno] — como mucho 3 por versión */
 const NEWS=[
+  {v:'1.41', d:'2026-11-24', items:[['star','var(--yellow)','Menos repetición','Las primeras unidades tienen más frases y huecos, y Praktika ya no saca siempre las mismas.'],['star','var(--mint)','Txarto también vale','Al escribir valen los sinónimos (txarto y gaizki, aitite y aitona, mediku y sendagile…), y la corrección te dice por qué valen los dos.'],['star','var(--coral)','Fallos de puntuación','Si las palabras están bien y solo falta o sobra una coma, la corrección te lo dice tal cual.']]},
   {v:'1.40', d:'2026-11-23', items:[['star','var(--yellow)','Verbos con dibujo','En NORK eta UKAN ves ireki, itxi, igo, jaitsi, jan, edan, erosi, ikusi y más verbos en dibujo, y puedes practicarlos eligiendo la imagen.']]},
   {v:'1.39', d:'2026-11-23', items:[['star','var(--yellow)','El cuerpo con dibujo','En Gorputza eta itxura ves los ojos, la nariz, la mano, el pie y más partes del cuerpo en dibujo, y puedes practicarlas eligiendo la imagen.']]},
   {v:'1.38', d:'2026-11-23', items:[['star','var(--yellow)','Tres estados más','gaixorik, lotan y esna ya tienen dibujo en Nola dago?. Con esto, todos los estados de la unidad se pueden practicar eligiendo la imagen.']]},
