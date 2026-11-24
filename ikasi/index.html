@@ -2018,7 +2018,7 @@ const UNITS = [
     ['inguruan','alrededor (de)','Etxearen inguruan: alrededor de la casa'],
     ['erdian','en el medio, en el centro','Mahaiaren erdian: en el medio de la mesa'],
     ['ertzean','en el borde','Mahaiaren ertzean: en el borde de la mesa'],
-    ['izkinan','en la esquina','izkina (la a es de la palabra) → izkinan, como eskolan'],
+    ['izkinan','en la esquina','izkina (la a es de la palabra) → izkinan, como eskolan. En Bizkaia también izkinean'],
     ['ohe(a)','la cama','Ohe azpian: debajo de la cama'],
     ['telebista','la televisión','La a es de la palabra: telebista gainean, telebistaren gainean'],
     ['udaletxe(a)','el ayuntamiento','udal + etxe (casa). Udaletxe aurrean: delante del ayuntamiento']
@@ -2103,7 +2103,7 @@ const UNITS = [
       <tr><td>a la derecha de</td><td><b>eskuinean</b></td><td>atearen eskuinean</td></tr>
       <tr><td>en el medio de</td><td><b>erdian</b></td><td>mahaiaren erdian</td></tr>
       <tr><td>en el borde de</td><td><b>ertzean</b></td><td>mahaiaren ertzean</td></tr>
-      <tr><td>en la esquina de</td><td><b>izkinan</b></td><td>kalearen izkinan</td></tr>
+      <tr><td>en la esquina de</td><td><b>izkinan</b> / <b>izkinean</b></td><td>kalearen izkinan</td></tr>
       <tr><td>alrededor de</td><td><b>inguruan</b></td><td>etxearen inguruan</td></tr></table>
       <div class="ex"><b>Non dago liburua? — Mahai gainean dago.</b><span>¿Dónde está el libro? — Está encima de la mesa.</span></div>
       <div class="ex"><b>Taberna udaletxe aurrean dago.</b><span>El bar está delante del ayuntamiento.</span></div>
@@ -2209,7 +2209,7 @@ const UNITS = [
     { q:'«Mi madre está arriba»', s:'Nire ama ___ dago', o:['goian','gainean','behean'], a:0, x:'Arriba, a secas → <b>goian</b>. <i>Gainean</i> es «encima de algo» (mahai gainean).' },
     { q:'«El libro está en el medio de la mesa»', s:'Liburua mahaiaren ___ dago', o:['erdian','ertzean','izkinan'], a:0, x:'En el medio → <b>erdian</b>. Ertzean = en el borde; izkinan = en la esquina.' },
     { q:'«El vaso está en el borde de la mesa»', s:'Edalontzia mahaiaren ___ dago', o:['ertzean','erdian','izkinan'], a:0, x:'En el borde → <b>ertzean</b> (ertz + ean).' },
-    { q:'«El bar está en la esquina de la calle»', s:'Taberna kalearen ___ dago', o:['izkinan','izkinetan','izkina'], a:0, x:'La palabra es <i>izkina</i>, con la a de la palabra: solo -n → <b>izkinan</b>, como eskolan.' },
+    { q:'«El bar está en la esquina de la calle»', s:'Taberna kalearen ___ dago', o:['izkinan','izkinetan','izkina'], a:0, x:'La palabra es <i>izkina</i>, con la a de la palabra: solo -n → <b>izkinan</b>, como eskolan. En Bizkaia también se dice <i>izkinean</i>.' },
     { q:'«Los pájaros están alrededor del árbol»', s:'Txoriak zuhaitzaren ___ daude', o:['inguruan','barruan','azpian'], a:0, x:'Alrededor de → <b>inguruan</b>. Zuhaitz + <b>aren</b> (del árbol).' },
     { q:'«Hay un bar delante de mi casa»', s:'Nire etxearen aurrean taberna bat ___', o:['dago','daude','da'], a:0, x:'«Hay» con una cosa → <b>dago</b>. Etxe + <b>aren</b> aurrean.' },
     { q:'«Delante de la casa no hay árboles»', s:'Etxe aurrean ez dago ___', o:['zuhaitzik','zuhaitzak','zuhaitzrik'], a:0, x:'«No hay (ningún)» → -rik; tras consonante, <b>-ik</b>: zuhaitzik. El verbo, en singular.' }
@@ -2372,6 +2372,7 @@ const SYN=[
   {w:['iritsi','heldu'], x:'<b>Iritsi</b> y <b>heldu</b> son las dos batua y significan «llegar» (<i>heldu</i> también es «agarrar» y «madurar»). Heldu se oye más en Bizkaia.'},
   {w:['ondoan','alboan'], x:'<b>Ondoan</b> y <b>alboan</b> son las dos batua y significan «al lado (de)»: <i>nire ondoan</i> = <i>nire alboan</i>.'},
   {w:['eskuinean'], v:['eskuman','eskubian'], x:'En Bizkaia se dice <b>eskuman</b> o <b>eskubian</b>. La forma general de batua es <b>eskuinean</b>. Todas son «a la derecha».'},
+  {w:['izkinan'], v:['izkinean'], x:'También se dice <b>izkinean</b>, sobre todo en Bizkaia (la da por buena la irakasle). <b>Izkinan</b> sale de <i>izkina</i>, con la a de la palabra, como <i>eskolan</i>. Las dos son «en la esquina».'},
   {w:['labain(a)','irristagarri(a)'], x:'<b>Labaina</b> e <b>irristagarria</b> son las dos batua y significan lo mismo: «resbaladizo/a».'}
 ];
 const SYNI={}; SYN.forEach(g=>[...g.w,...(g.v||[])].forEach(f=>{ SYNI[norm(f)]=g }));

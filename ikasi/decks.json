@@ -1186,10 +1186,10 @@
    },
    {
     "es": "el buzón",
-    "eu": "postontzi(a)",
-    "ex": "Eskutitzak postontzian daude",
+    "eu": "buzoi(a)",
+    "ex": "Eskutitzak buzoian daude",
     "exEs": "Las cartas están en el buzón",
-    "note": "posta (correo) + ontzi (recipiente). En la hoja pone buzoi, que se oye mucho pero no es batua"
+    "note": "Así se dice en clase. En el Hiztegi Batua aparece postontzi (posta + ontzi)"
    },
    {
     "es": "la carta (de correo)",
@@ -1319,7 +1319,7 @@
    {
     "es": "la esquina",
     "eu": "izkina",
-    "note": "La a es de la palabra: izkinan (en la libreta pone izkinean)"
+    "note": "La a es de la palabra: izkinan. En Bizkaia también izkinean (vale las dos)"
    },
    {
     "es": "la herramienta",
