@@ -1451,8 +1451,10 @@ const UNITS = [
       <tr><td>vocal</td><td>+ <b>-k</b></td><td>Karmele<b>k</b>, Ane<b>k</b></td></tr>
       <tr><td>consonante</td><td>+ <b>-ek</b></td><td>Mikel<b>ek</b>, Txomin<b>ek</b></td></tr>
       <tr><td>-r</td><td><b>-rrek</b></td><td>Aito<b>rrek</b></td></tr>
-      <tr><td>con artículo</td><td><b>-ak</b></td><td>nire am<b>ak</b>, irakasle<b>ak</b></td></tr></table>
+      <tr><td>con artículo, uno</td><td><b>-ak</b></td><td>nire am<b>ak</b>, irakasle<b>ak</b></td></tr>
+      <tr><td>con artículo, varios</td><td><b>-ek</b></td><td>nire guraso<b>ek</b>, ikasle<b>ek</b></td></tr></table>
       <div class="ex"><b>Mikelek bizarra dauka.</b><span>Mikel tiene barba.</span></div>
+      <div class="ex"><b>Ikasleak liburu bat dauka. / Ikasleek liburu bat daukate.</b><span>El alumno tiene un libro. / Los alumnos tienen un libro.</span></div>
       <div class="ex"><b>Nire amak begi urdinak dauzka.</b><span>Mi madre tiene los ojos azules.</span></div>
       <div class="warn">«Mikel bizarra dauka» es incorrecto: falta la -k. Esto se ve a fondo en <i>NORK eta UKAN</i>.</div>` },
     { t:'Describir: ile luzea dauka', h:`
@@ -1503,7 +1505,9 @@ const UNITS = [
     { q:'«Tengo dos hermanos»', s:'Nik bi anaia ___', o:['dauzkat','daukat','dauzka'], a:0, x:'Dos hermanos son varios → <b>dauzkat</b>; tras número, anaia sin -k.' },
     { q:'«Peio tiene el pelo rubio»', s:'Peiok ile horia ___', o:['dauka','da','dauzka'], a:0, x:'Lo que tiene (eduki): <b>dauka</b>. Una cosa: ile horia.' },
     { q:'«Peio es rubio»', s:'Peio ilehoria ___', o:['da','dauka','dago'], a:0, x:'Cómo es (izan): ilehoria <b>da</b>.' },
-    { q:'«¿Tienes el libro?» (uno concreto)', s:'Badaukazu ___?', o:['liburua','libururik','liburuak'], a:0, x:'Un libro concreto: con artículo, <b>liburua</b>. -rik es «algún/ningún».' }
+    { q:'«¿Tienes el libro?» (uno concreto)', s:'Badaukazu ___?', o:['liburua','libururik','liburuak'], a:0, x:'Un libro concreto: con artículo, <b>liburua</b>. -rik es «algún/ningún».' },
+    { q:'«La profesora tiene gafas»', s:'___ betaurrekoak dauzka', o:['Irakasleak','Irakaslea','Irakasleek'], a:0, x:'Una persona con artículo y -k → <b>-ak</b>: irakasle<b>ak</b>. <i>Irakasleek</i> sería «los profesores» (y el verbo sería <i>dauzkate</i>).' },
+    { q:'«Los alumnos tienen un libro»', s:'___ liburu bat daukate', o:['Ikasleek','Ikasleak','Ikasle'], a:0, x:'Varios con -k → <b>-ek</b>: ikasle<b>ek</b>. El verbo lo confirma: <i>daukate</i> (ellos). <i>Ikasleak</i> sería «el alumno» con -k.' }
   ],
   sentences:[
     ['Basajaunek ile asko dauka','Basajaun tiene mucho pelo','Quien tiene lleva -k; tras consonante, <b>-ek</b>: Basajaun<b>ek</b>. <b>Asko</b> va detrás y sin artículo.'],
@@ -1964,8 +1968,8 @@ const UNITS = [
     ['Nekatuta zaude?','¿Estás cansado?','Pregunta: el orden no cambia. Zu → <b>zaude</b>.']
   ]
 },
-{ id:'a1-non', ch:'irati', level:'A1', title:'Non dago?', sub:'Dónde · -an / -ean / -etan · el mugagabe (-tan) · honetan, batean, askotan… · ez dago …-rik',
-  split:[15,16],
+{ id:'a1-non', ch:'irati', level:'A1', title:'Non dago?', sub:'Dónde · -an / -ean / -etan · el mugagabe (-tan) · honetan, batean, askotan… · ez dago …-rik · aurrean, gainean, azpian…',
+  split:[15,16,20],
   vocab:[
     ['eskola','la escuela','La a es de la palabra: eskolan (en la escuela), eskoletan (en las escuelas)'],
     ['denda','la tienda','Dendan nago: estoy en la tienda'],
@@ -1997,7 +2001,27 @@ const UNITS = [
     ['gehien(ak)','la mayoría','En plural: etxe gehienetan (en la mayoría de las casas)'],
     ['nonbait','en algún sitio','Giltzak nonbait daude'],
     ['inon ez','en ningún sitio','Ez dago inon. En preguntas, inon = en algún sitio: Inon ikusi duzu?'],
-    ['edonon','en cualquier sitio','Edonon dago taberna bat: en cualquier sitio hay un bar']
+    ['edonon','en cualquier sitio','Edonon dago taberna bat: en cualquier sitio hay un bar'],
+    ['aurrean','delante (de)','Mahaiaren aurrean o mahai aurrean. Nire aurrean: delante de mí'],
+    ['atzean','detrás (de)','Atearen atzean: detrás de la puerta. Zure atzean: detrás de ti'],
+    ['gainean','encima (de)','Mahai gainean o mahaiaren gainean: encima de la mesa'],
+    ['azpian','debajo (de)','Ohe azpian o ohearen azpian: debajo de la cama'],
+    ['ondoan','al lado (de)','Nire ondoan: a mi lado. Ojo: ondo solo es «bien»'],
+    ['alboan','junto a, al lado (de)','Lo mismo que ondoan: eskolaren alboan'],
+    ['barruan','dentro (de)','Etxe barruan: dentro de casa. Solo: barruan = dentro'],
+    ['kanpoan','fuera','Kanpoan nago: estoy fuera. «Fuera de clase» se dice klasetik kanpo'],
+    ['goian','arriba','Ama goian dago: mamá está arriba'],
+    ['behean','abajo','Behean daude: están abajo'],
+    ['ezkerrean','a la izquierda (de)','ezker + -rean (la r se duplica): atearen ezkerrean'],
+    ['eskuinean','a la derecha (de)','En Bizkaia también eskuman / eskubian'],
+    ['artean','entre','Koldo eta Aneren artean (-ren solo en el último). Ikasleen artean: entre los alumnos'],
+    ['inguruan','alrededor (de)','Etxearen inguruan: alrededor de la casa'],
+    ['erdian','en el medio, en el centro','Mahaiaren erdian: en el medio de la mesa'],
+    ['ertzean','en el borde','Mahaiaren ertzean: en el borde de la mesa'],
+    ['izkinan','en la esquina','izkina (la a es de la palabra) → izkinan, como eskolan'],
+    ['ohe(a)','la cama','Ohe azpian: debajo de la cama'],
+    ['telebista','la televisión','La a es de la palabra: telebista gainean, telebistaren gainean'],
+    ['udaletxe(a)','el ayuntamiento','udal + etxe (casa). Udaletxe aurrean: delante del ayuntamiento']
   ],
   grammar:[
     { t:'Non? -an, -ean, -etan', h:`
@@ -2065,7 +2089,61 @@ const UNITS = [
       <p>Con <i>dago</i> / <i>daude</i> también se dice «hay»:</p>
       <div class="ex"><b>Herri askotan euskaltegi bat dago.</b><span>En muchos pueblos hay un euskaltegi.</span></div>
       <div class="ex"><b>Basoetan perretxikoak daude.</b><span>En los bosques hay setas.</span></div>
-      <p>Las palabras para decir dónde exactamente (<i>aurrean, atzean, gainean, azpian, ondoan…</i>) llegarán a esta unidad más adelante.</p>` },
+      <p>Para decir dónde exactamente (encima, debajo, delante…) están las tarjetas que siguen.</p>` },
+    { t:'Encima, debajo, delante: gainean, azpian, aurrean', h:`
+      <p>«Encima de», «debajo de», «delante de»… en euskera son una palabra que va <b>detrás</b>, y todas acaban en <b>-an / -ean</b>, porque dicen dónde (Non?):</p>
+      <table><tr><th>Castellano</th><th>Euskera</th><th>Ejemplo</th></tr>
+      <tr><td>encima de</td><td><b>gainean</b></td><td>mahai gainean</td></tr>
+      <tr><td>debajo de</td><td><b>azpian</b></td><td>ohe azpian</td></tr>
+      <tr><td>delante de</td><td><b>aurrean</b></td><td>etxe aurrean</td></tr>
+      <tr><td>detrás de</td><td><b>atzean</b></td><td>ate atzean</td></tr>
+      <tr><td>al lado de</td><td><b>ondoan</b> / <b>alboan</b></td><td>eskola ondoan</td></tr>
+      <tr><td>dentro de</td><td><b>barruan</b></td><td>etxe barruan</td></tr>
+      <tr><td>a la izquierda de</td><td><b>ezkerrean</b></td><td>atearen ezkerrean</td></tr>
+      <tr><td>a la derecha de</td><td><b>eskuinean</b></td><td>atearen eskuinean</td></tr>
+      <tr><td>en el medio de</td><td><b>erdian</b></td><td>mahaiaren erdian</td></tr>
+      <tr><td>en el borde de</td><td><b>ertzean</b></td><td>mahaiaren ertzean</td></tr>
+      <tr><td>en la esquina de</td><td><b>izkinan</b></td><td>kalearen izkinan</td></tr>
+      <tr><td>alrededor de</td><td><b>inguruan</b></td><td>etxearen inguruan</td></tr></table>
+      <div class="ex"><b>Non dago liburua? — Mahai gainean dago.</b><span>¿Dónde está el libro? — Está encima de la mesa.</span></div>
+      <div class="ex"><b>Taberna udaletxe aurrean dago.</b><span>El bar está delante del ayuntamiento.</span></div>
+      <div class="warn">En Bizkaia oirás <b>eskuman</b> o <b>eskubian</b> por <i>eskuinean</i>. La forma de batua es <b>eskuinean</b>.</div>` },
+    { t:'Mahai gainean o mahaiaren gainean', h:`
+      <p>La palabra de delante (la mesa, la cama…) se puede poner de <b>dos maneras</b>, y las dos valen:</p>
+      <table><tr><th>Sola, sin nada</th><th>Con -ren («de la mesa», unidad <i>Familia</i>)</th></tr>
+      <tr><td><b>mahai</b> gainean</td><td><b>mahaiaren</b> gainean</td></tr>
+      <tr><td><b>ohe</b> azpian</td><td><b>ohearen</b> azpian</td></tr>
+      <tr><td><b>telebista</b> gainean</td><td><b>telebistaren</b> gainean</td></tr>
+      <tr><td><b>udaletxe</b> aurrean</td><td><b>udaletxearen</b> aurrean</td></tr></table>
+      <div class="warn">Lo que <b>no</b> vale es ponerle otra terminación: ni el artículo (<i>mahai<b>a</b> gainean</i> ✗, <i>ohe<b>a</b> azpian</i> ✗) ni la de dónde (<i>telebista<b>n</b> gainean</i> ✗). El «en» ya lo lleva <i>gainean</i>; la palabra de delante va sola o con -ren.</div>
+      <p><b>Con personas</b> y con nombres propios, siempre con -ren: <i>am<b>aren</b> ondoan</i>, <i>Jon<b>en</b> atzean</i>, <i>Aitor<b>ren</b> aurrean</i>.</p>
+      <p><b>En plural</b>, -ren pasa a <b>-en</b>: <i>mahai<b>en</b> gainean</i> (encima de las mesas), <i>ikasle<b>en</b> artean</i> (entre los alumnos).</p>
+      <div class="ex"><b>Katua ohe azpian dago. / Katua ohearen azpian dago.</b><span>El gato está debajo de la cama (las dos valen).</span></div>
+      <div class="ex"><b>Giltzak telebista gainean daude.</b><span>Las llaves están encima de la televisión.</span></div>` },
+    { t:'Nire aurrean, zure atzean', h:`
+      <p>«Delante de mí», «detrás de ti»…: se usa la palabra de <b>de quién</b> (unidad <i>Familia</i>), nunca <i>ni, nik</i>:</p>
+      <table><tr><th>de…</th><th>Euskera</th><th>Ejemplo</th></tr>
+      <tr><td>mí</td><td><b>nire</b></td><td>nire ondoan · a mi lado</td></tr>
+      <tr><td>ti</td><td><b>zure</b></td><td>zure atzean · detrás de ti</td></tr>
+      <tr><td>él / ella</td><td><b>bere</b> (o <i>haren</i>)</td><td>bere aurrean · delante de él/ella</td></tr>
+      <tr><td>nosotros</td><td><b>gure</b></td><td>gure artean · entre nosotros</td></tr>
+      <tr><td>vosotros</td><td><b>zuen</b></td><td>zuen ondoan · a vuestro lado</td></tr>
+      <tr><td>ellos / ellas</td><td><b>haien</b> (o <i>euren, beren</i>)</td><td>haien atzean · detrás de ellos</td></tr></table>
+      <div class="ex"><b>Nire lagunak nire ondoan daude.</b><span>Mis amigos están a mi lado.</span></div>
+      <div class="ex"><b>Ni zure atzean nago.</b><span>Estoy detrás de ti.</span></div>
+      <div class="warn"><i>Bere</i>, <i>euren</i> y <i>beren</i> se usan sobre todo cuando «él» o «ellos» es el mismo de quien se habla en la frase (<i>Anek bere ama ikusi du</i>). Para otra persona, <i>haren</i> y <i>haien</i>. Esto se verá más adelante; de momento basta con reconocerlas.</div>` },
+    { t:'Arriba, fuera, entre…', h:`
+      <p>Algunas se usan también <b>solas</b>, sin nada delante:</p>
+      <table><tr><th>Euskera</th><th>Castellano</th><th>Ejemplo</th></tr>
+      <tr><td><b>goian</b></td><td>arriba</td><td>Ama goian dago</td></tr>
+      <tr><td><b>behean</b></td><td>abajo</td><td>Umeak behean daude</td></tr>
+      <tr><td><b>barruan</b></td><td>dentro</td><td>Barruan nago</td></tr>
+      <tr><td><b>kanpoan</b></td><td>fuera</td><td>Kanpoan daude</td></tr></table>
+      <div class="warn"><b>Goian</b> es «arriba» a secas; <b>gainean</b>, «encima de algo»: <i>goian dago</i> (está arriba) / <i>mahai gainean dago</i> (está encima de la mesa).</div>
+      <p><b>Artean</b> (entre) necesita dos cosas o más. Con dos nombres, -ren solo en el <b>último</b>; con varios, plural <b>-en</b>:</p>
+      <div class="ex"><b>Txakurra Koldo eta Aneren artean dago.</b><span>El perro está entre Koldo y Ane.</span></div>
+      <div class="ex"><b>Irakaslea ikasleen artean dago.</b><span>La profesora está entre los alumnos.</span></div>
+      <p>«Fuera de clase» se dice <b>klasetik kanpo</b> (con -tik, «desde», que se verá en <i>Nora zoaz?</i>).</p>` },
     { t:'Ez dago …-rik (no hay)', h:`
       <p>Para decir que <b>no hay</b> algo: <span class="hl">ez dago</span> y la cosa con <b>-rik / -ik</b>, sin artículo. Es lo mismo que <i>ez dauka betaurrekorik</i> (unidad <i>Gorputza</i>), pero con egon.</p>
       <div class="ex"><b>Euli bat dago edalontzian. → Edalontzian ez dago eulirik.</b><span>Hay una mosca en el vaso. → En el vaso no hay ninguna mosca.</span></div>
@@ -2112,7 +2190,29 @@ const UNITS = [
     { q:'«En el bosque no hay árboles»', s:'Basoan ez dago ___', o:['zuhaitzik','zuhaitzrik','zuhaitzak'], a:0, x:'Tras consonante: zuhaitz + <b>ik</b>.' },
     { q:'«¿Hay algún euskaltegi en este pueblo?»', s:'Herri honetan ___ euskaltegirik?', o:['badago','badaude','dago'], a:0, x:'Pregunta con -rik: <b>ba-</b> + dago, en singular.' },
     { q:'«Los alumnos no están en el euskaltegi» (los de siempre)', s:'Ikasleak ez ___ euskaltegian', o:['daude','dago','dira'], a:0, x:'Son unos alumnos concretos («los»): sin -rik, con artículo y en plural, <b>daude</b>.' },
-    { q:'«En el euskaltegi no hay alumnos» (ninguno)', s:'Euskaltegian ez dago ___', o:['ikaslerik','ikasleak','ikasleik'], a:0, x:'Cabe «ningún»: -rik. ikasle + <b>rik</b>, y el verbo en singular.' }
+    { q:'«En el euskaltegi no hay alumnos» (ninguno)', s:'Euskaltegian ez dago ___', o:['ikaslerik','ikasleak','ikasleik'], a:0, x:'Cabe «ningún»: -rik. ikasle + <b>rik</b>, y el verbo en singular.' },
+    { q:'«El libro está encima de la mesa»', s:'Liburua mahaiaren ___ dago', o:['gainean','azpian','aurrean','atzean'], a:0, x:'Encima de → <b>gainean</b>. Azpian = debajo; aurrean = delante; atzean = detrás.' },
+    { q:'«El libro está encima de la mesa»', s:'Liburua ___ gainean dago', o:['mahaiaren','mahaian','mahaia'], a:0, x:'Delante de gainean, la palabra va sola (<i>mahai gainean</i>) o con -ren: <b>mahaiaren</b> gainean. «Mahaia gainean» y «mahaian gainean» no valen: el «en» ya lo lleva <i>gainean</i>.' },
+    { q:'«El gato está debajo de la cama»', s:'Katua ___ azpian dago', o:['ohe','ohea','ohean'], a:0, x:'La palabra va sola: <b>ohe</b> azpian (o <i>ohearen azpian</i>). Con artículo (<i>ohea azpian</i>) no vale.' },
+    { q:'«Las llaves están encima de la televisión»', s:'Giltzak ___ gainean daude', o:['telebista','telebistan','telebistak'], a:0, x:'<b>Telebista</b> gainean (o <i>telebistaren gainean</i>). «Telebistan gainean» no vale: no se pone -n delante de gainean.' },
+    { q:'«El bar está delante del ayuntamiento»', s:'Taberna udaletxe ___ dago', o:['aurrean','atzean','ondoan','barruan'], a:0, x:'Delante de → <b>aurrean</b>. Atzean = detrás; ondoan = al lado; barruan = dentro.' },
+    { q:'«El euskaltegi está detrás de la escuela»', s:'Euskaltegia eskolaren ___ dago', o:['atzean','aurrean','azpian','gainean'], a:0, x:'Detrás de → <b>atzean</b>. Eskola acaba en -a de la palabra: eskola + <b>ren</b>.' },
+    { q:'«Mis amigos están a mi lado»', s:'Nire lagunak ___ ondoan daude', o:['nire','ni','nik'], a:0, x:'«De mí» delante de ondoan → <b>nire</b>: nire ondoan. Nunca «ni ondoan».' },
+    { q:'«Estoy detrás de ti»', s:'Ni ___ atzean nago', o:['zure','zu','zuk'], a:0, x:'«De ti» → <b>zure</b>: zure atzean.' },
+    { q:'«El perro está entre Koldo y Ane»', s:'Txakurra Koldo eta ___ artean dago', o:['Aneren','Ane','Anek'], a:0, x:'Con dos nombres, -ren solo en el <b>último</b>: Koldo eta <b>Aneren</b> artean. Ane acaba en vocal → -ren.' },
+    { q:'«La profesora está entre los alumnos»', s:'Irakaslea ___ artean dago', o:['ikasleen','ikaslearen','ikasleetan'], a:0, x:'Varios → plural <b>-en</b>: <b>ikasleen</b> artean. <i>Ikaslearen</i> sería «del alumno».' },
+    { q:'«Los libros están encima de las mesas»', s:'Liburuak ___ gainean daude', o:['mahaien','mahaiaren','mahaietan'], a:0, x:'«De las mesas», plural → <b>mahaien</b> gainean. <i>Mahaiaren</i> sería «de la mesa».' },
+    { q:'«Ane está a la izquierda de la puerta»', s:'Ane atearen ___ dago', o:['ezkerrean','eskuinean','ezkerran'], a:0, x:'A la izquierda → ezker + <b>rean</b> (la r se duplica, como lurrean): <b>ezkerrean</b>.' },
+    { q:'«La tienda está a la derecha del bar»', s:'Denda tabernaren ___ dago', o:['eskuinean','ezkerrean','eskuinan'], a:0, x:'A la derecha → <b>eskuinean</b> (eskuin + ean). En Bizkaia también eskuman o eskubian.' },
+    { q:'«La mosca está dentro del vaso»', s:'Eulia edalontzi ___ dago', o:['barruan','kanpoan','gainean'], a:0, x:'Dentro de → <b>barruan</b>. También se puede decir solo <i>edalontzian</i> (en el vaso).' },
+    { q:'«Los niños están fuera»', s:'Umeak ___ daude', o:['kanpoan','barruan','behean'], a:0, x:'Fuera → <b>kanpoan</b>, sin nada delante.' },
+    { q:'«Mi madre está arriba»', s:'Nire ama ___ dago', o:['goian','gainean','behean'], a:0, x:'Arriba, a secas → <b>goian</b>. <i>Gainean</i> es «encima de algo» (mahai gainean).' },
+    { q:'«El libro está en el medio de la mesa»', s:'Liburua mahaiaren ___ dago', o:['erdian','ertzean','izkinan'], a:0, x:'En el medio → <b>erdian</b>. Ertzean = en el borde; izkinan = en la esquina.' },
+    { q:'«El vaso está en el borde de la mesa»', s:'Edalontzia mahaiaren ___ dago', o:['ertzean','erdian','izkinan'], a:0, x:'En el borde → <b>ertzean</b> (ertz + ean).' },
+    { q:'«El bar está en la esquina de la calle»', s:'Taberna kalearen ___ dago', o:['izkinan','izkinetan','izkina'], a:0, x:'La palabra es <i>izkina</i>, con la a de la palabra: solo -n → <b>izkinan</b>, como eskolan.' },
+    { q:'«Los pájaros están alrededor del árbol»', s:'Txoriak zuhaitzaren ___ daude', o:['inguruan','barruan','azpian'], a:0, x:'Alrededor de → <b>inguruan</b>. Zuhaitz + <b>aren</b> (del árbol).' },
+    { q:'«Hay un bar delante de mi casa»', s:'Nire etxearen aurrean taberna bat ___', o:['dago','daude','da'], a:0, x:'«Hay» con una cosa → <b>dago</b>. Etxe + <b>aren</b> aurrean.' },
+    { q:'«Delante de la casa no hay árboles»', s:'Etxe aurrean ez dago ___', o:['zuhaitzik','zuhaitzak','zuhaitzrik'], a:0, x:'«No hay (ningún)» → -rik; tras consonante, <b>-ik</b>: zuhaitzik. El verbo, en singular.' }
   ],
   sentences:[
     ['Txakurra kalean dago','El perro está en la calle','Kale + <b>an</b> (en la calle). Una cosa → <b>dago</b>.'],
@@ -2130,7 +2230,17 @@ const UNITS = [
     ['Mahaian ez dago ogirik','En la mesa no hay pan','«No hay» = ez dago + <b>-rik</b>: ogirik.'],
     ['Kale honetan ez dago tabernarik','En esta calle no hay bares','Con -rik, verbo en singular: ez <b>dago</b> tabernarik.'],
     ['Herri honetan badago euskaltegirik?','¿En este pueblo hay algún euskaltegi?','Pregunta: <b>ba</b>dago + -rik.'],
-    ['Ikasleak ez daude euskaltegian','Los alumnos no están en el euskaltegi','Alumnos concretos: con artículo, sin -rik → <b>daude</b>.']
+    ['Ikasleak ez daude euskaltegian','Los alumnos no están en el euskaltegi','Alumnos concretos: con artículo, sin -rik → <b>daude</b>.'],
+    ['Liburua mahai gainean dago','El libro está encima de la mesa','<b>Mahai gainean</b>: la palabra va sola delante de gainean (también vale mahaiaren gainean).'],
+    ['Katua ohe azpian dago','El gato está debajo de la cama','<b>Ohe azpian</b>: sola, sin artículo (o ohearen azpian).'],
+    ['Taberna udaletxearen aurrean dago','El bar está delante del ayuntamiento','udaletxe + <b>aren</b> (del ayuntamiento) + aurrean.'],
+    ['Giltzak telebistaren gainean daude','Las llaves están encima de la televisión','La a de telebista es de la palabra: solo <b>-ren</b>. Varias llaves → daude.'],
+    ['Nire lagunak nire ondoan daude','Mis amigos están a mi lado','«A mi lado» = <b>nire ondoan</b>.'],
+    ['Ni zure atzean nago','Estoy detrás de ti','«Detrás de ti» = <b>zure atzean</b>. Ni → nago.'],
+    ['Euskaltegia eskolaren ondoan dago','El euskaltegi está al lado de la escuela','eskola + <b>ren</b> (la a es de la palabra) + ondoan.'],
+    ['Irakaslea ikasleen artean dago','La profesora está entre los alumnos','Varios → plural <b>-en</b>: ikasleen artean.'],
+    ['Umeak kanpoan daude','Los niños están fuera','<b>Kanpoan</b> = fuera, sin nada delante.'],
+    ['Nire ama goian dago','Mi madre está arriba','Arriba, a secas → <b>goian</b>.']
   ]
 }
 
@@ -2260,6 +2370,8 @@ const SYN=[
   {w:['kopeta','bekoki(a)'], x:'<b>Kopeta</b> y <b>bekokia</b> son las dos batua y significan lo mismo: «la frente».'},
   {w:['mihi(a)','mingain(a)'], x:'<b>Mihia</b> y <b>mingaina</b> son las dos batua y significan lo mismo: «la lengua» (la del cuerpo). Mingain se oye más en Bizkaia.'},
   {w:['iritsi','heldu'], x:'<b>Iritsi</b> y <b>heldu</b> son las dos batua y significan «llegar» (<i>heldu</i> también es «agarrar» y «madurar»). Heldu se oye más en Bizkaia.'},
+  {w:['ondoan','alboan'], x:'<b>Ondoan</b> y <b>alboan</b> son las dos batua y significan «al lado (de)»: <i>nire ondoan</i> = <i>nire alboan</i>.'},
+  {w:['eskuinean'], v:['eskuman','eskubian'], x:'En Bizkaia se dice <b>eskuman</b> o <b>eskubian</b>. La forma general de batua es <b>eskuinean</b>. Todas son «a la derecha».'},
   {w:['labain(a)','irristagarri(a)'], x:'<b>Labaina</b> e <b>irristagarria</b> son las dos batua y significan lo mismo: «resbaladizo/a».'}
 ];
 const SYNI={}; SYN.forEach(g=>[...g.w,...(g.v||[])].forEach(f=>{ SYNI[norm(f)]=g }));
@@ -3109,7 +3221,47 @@ function genMuga(ui){
   return gdDrill(`«${esPron(p,`${GD.vivir[p]} en ${esD} ${gdNoArt(many?l[2]:l[1])}`)}»`,`${cap(GV.pr[p].nor)} ${gdBare(l[0])} ___ bizi ${GV.izan[p]}.`,f,[many?d[1]:d[5],...others],
     `El demostrativo va detrás y lleva la terminación; el nombre, sin nada. <i>${many?d[4]:d[0]}</i> → <b>${f}</b> (${GD.dem.map(z=>z[0]+' → '+z[1]).join(', ')}; plural: ${GD.dem.map(z=>z[5]).join(', ')}).`);
 }
-GENS.push({home:'a1-2',f:genNongo},{home:'a1-3',f:genNonTop},{home:'a1-nork',f:genNork},{home:'a1-fam',f:genNoren},{home:'a1-non',f:genNon},{home:'a1-non',f:genMuga});
+/* Posposiciones (v1.42): mahai gainean / mahaiaren gainean, nire ondoan (Non dago?) */
+GD.pos={gainean:'encima de',azpian:'debajo de',aurrean:'delante de',atzean:'detrás de',ondoan:'al lado de',barruan:'dentro de'};
+/* referencias: [euskera, castellano, unidad, posposiciones que tienen sentido, quién puede estar: o = objetos pequeños, p = personas, e = eulia] */
+GD.ref=[['mahai(a)','la mesa','a0-eus',['gainean','azpian','ondoan','aurrean','atzean'],'o'],['ohe(a)','la cama','a1-non',['gainean','azpian','ondoan'],'o'],
+  ['telebista','la televisión','a1-non',['gainean','ondoan','aurrean','atzean'],'o'],['etxe(a)','la casa','a1-3',['aurrean','atzean','ondoan','barruan'],'p'],
+  ['eskola','la escuela','a1-non',['aurrean','atzean','ondoan','barruan'],'p'],['udaletxe(a)','el ayuntamiento','a1-non',['aurrean','atzean','ondoan'],'p'],
+  ['taberna','el bar','a1-non',['aurrean','atzean','ondoan','barruan'],'p'],['liburutegi(a)','la biblioteca','a1-non',['aurrean','atzean','ondoan','barruan'],'p'],
+  ['zuhaitz(a)','el árbol','a1-non',['azpian','ondoan','atzean','aurrean'],'p'],['edalontzi(a)','el vaso','a1-non',['barruan','ondoan'],'e']];
+GD.mine=[['nire','mí','ni','nik'],['zure','ti','zu','zuk'],['gure','nosotros','gu','guk'],['zuen','vosotros','zuek','zuen?']];
+const gdDel=es=>es.replace(/^el /,'del ').replace(/^la /,'de la ');
+function genPos(ui){
+  const refs=GD.ref.filter(r=>gdOk(r,ui,2)); if(!refs.length) return null;
+  const r=gOne(refs), w=r[0], pos=gOne(r[3]);
+  let subj, ses, pl=false;
+  if(r[4]==='o'){ const th=gOne(GD.thing.filter(t=>gdOk(t,ui)&&/^(liburua|arkatza|telefonoa|giltzak)$/.test(t[0]))); if(!th) return null; subj=th[0]; ses=th[1]; pl=th[2]===2 }
+  else if(r[4]==='e'){ subj='eulia'; ses='la mosca' }
+  else if(Math.random()<.5){ const n=gOne(GD.names)[0]; subj=n; ses=n }
+  else { const per=GD.per.filter(p=>gdOk(p,ui)&&p[1]); const p0=gOne(per); subj=gdArt(p0[0]); ses=p0[1] }
+  const verb=pl?'daude':'dago', S=/^[A-Z]/.test(subj)?subj:cap(subj);
+  const es=`«${cap(ses)} ${pl?'están':'está'} ${GD.pos[pos]} ${gdDel(r[1]).replace(/^de /,'')}»`.replace(/ de del /,' del ');
+  const gen=gdGenSg(w), bare=gdBare(w), mode=Math.random();
+  if(mode<.4){ // qué posposición
+    const others=Object.keys(GD.pos).filter(k=>k!==pos);
+    const front=Math.random()<.5?bare:gen;
+    return gdDrill(es,`${S} ${front} ___ ${verb}.`,pos,shuffle(others),
+      `${cap(GD.pos[pos])} → <b>${pos}</b>. ${front===gen?`Delante, con -ren (${gen}) o sola (${bare}): las dos valen.`:`Delante, la palabra sola (${bare}) o con -ren (${gen}): las dos valen.`}`);
+  }
+  if(mode<.8){ // la palabra de delante
+    const traps=[gdNonSg(w),gdArt(w),gdGenPl(w),gdOwn(w)?w+'aren':bare+'ren'];
+    return gdDrill(es,`${S} ___ ${pos} ${verb}.`,gen,traps,
+      `Delante de <i>${pos}</i>, la palabra va con -ren (<b>${gen}</b>) o sola (<i>${bare} ${pos}</i>). Nunca con artículo (<i>${gdArt(w)}</i>) ni con -n (<i>${gdNonSg(w)}</i>): el «en» ya lo lleva <i>${pos}</i>.${gdOwn(w)?` La -a de <i>${w}</i> es de la palabra: solo -ren.`:''}`,[bare]);
+  }
+  // nire / zure / gure / zuen + posposición
+  const m=gOne(GD.mine), sb=r[4]==='o'?subj:gOne(['liburua','txakurra','taberna']);
+  const sesb=r[4]==='o'?ses:{liburua:'el libro',txakurra:'el perro',taberna:'el bar'}[sb];
+  const p2=gOne(['aurrean','atzean','ondoan']), plb=sb==='giltzak';
+  return gdDrill(`«${cap(sesb)} ${plb?'están':'está'} ${GD.pos[p2]} ${m[1]}»`,`${cap(sb)} ___ ${p2} ${plb?'daude':'dago'}.`,m[0],
+    [m[2],m[3],...GD.mine.filter(x=>x!==m).map(x=>x[0])].filter(t=>!/\?$/.test(t)),
+    `«De ${m[1]}» delante de <i>${p2}</i> → <b>${m[0]}</b> (la palabra de «de quién», como en <i>${m[0]} etxea</i>). Nunca <i>${m[2]} ${p2}</i>.`);
+}
+GENS.push({home:'a1-2',f:genNongo},{home:'a1-3',f:genNonTop},{home:'a1-nork',f:genNork},{home:'a1-fam',f:genNoren},{home:'a1-non',f:genNon},{home:'a1-non',f:genMuga},{home:'a1-non',f:genPos});
 
 /* Glosario (v1.28): palabras que salen en huecos y frases de las unidades y no están en el vocabulario.
    [euskera con la notación del artículo, castellano, nota, otras formas que llevan a ella].
@@ -5368,6 +5520,7 @@ const NI={ // iconos de las novedades
 };
 /* [icono, color de fondo, título corto, una línea en lenguaje de alumno] — como mucho 3 por versión */
 const NEWS=[
+  {v:'1.42', d:'2026-11-24', items:[['star','var(--yellow)','Encima, debajo, delante','Non dago? tiene una lección nueva, Hitzak 3, con gainean, azpian, aurrean, atzean, ondoan y compañía, y sus tarjetas de gramática: mahai gainean o mahaiaren gainean, nire ondoan…'],['star','var(--mint)','Más huecos','Huecos y frases nuevos con las posposiciones, y la app también te los fabrica al repasar.'],['star','var(--coral)','Ficha nueva','En Hiztegia, la ficha «Non dago? · palabras de la hoja» con la caja, el cajón, la mochila, el jabalí, el zorro…']]},
   {v:'1.41', d:'2026-11-24', items:[['star','var(--yellow)','Menos repetición','Las primeras unidades tienen más frases y huecos, y Praktika ya no saca siempre las mismas.'],['star','var(--mint)','Txarto también vale','Al escribir valen los sinónimos (txarto y gaizki, aitite y aitona, mediku y sendagile…), y la corrección te dice por qué valen los dos.'],['star','var(--coral)','Fallos de puntuación','Si las palabras están bien y solo falta o sobra una coma, la corrección te lo dice tal cual.']]},
   {v:'1.40', d:'2026-11-23', items:[['star','var(--yellow)','Verbos con dibujo','En NORK eta UKAN ves ireki, itxi, igo, jaitsi, jan, edan, erosi, ikusi y más verbos en dibujo, y puedes practicarlos eligiendo la imagen.']]},
   {v:'1.39', d:'2026-11-23', items:[['star','var(--yellow)','El cuerpo con dibujo','En Gorputza eta itxura ves los ojos, la nariz, la mano, el pie y más partes del cuerpo en dibujo, y puedes practicarlas eligiendo la imagen.']]},

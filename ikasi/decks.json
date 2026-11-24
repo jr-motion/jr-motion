@@ -71,8 +71,8 @@
   ]
  },
  {
-  "id": "animaliak",
   "ch": "latxi",
+  "id": "animaliak",
   "level": "A1",
   "source": "Ikasi! · ilustraciones · 2026-11-18",
   "title": "Animaliak · animales",
@@ -147,8 +147,8 @@
   ]
  },
  {
-  "id": "herri-kirolak",
   "ch": "harri",
+  "id": "herri-kirolak",
   "level": "A1",
   "source": "Ikasi! · ilustraciones · 2026-11-18",
   "title": "Herri kirolak eta pertsonaiak",
@@ -206,8 +206,8 @@
   ]
  },
  {
-  "id": "adjektiboak-ika",
   "ch": "karmele",
+  "id": "adjektiboak-ika",
   "level": "A1",
   "source": "Euskaltegi · IKA, hoja «Nolakoa da? / Nola dago?» · 2026-11-18",
   "title": "Nolakoa da? · más adjetivos (lista IKA)",
@@ -663,8 +663,8 @@
   ]
  },
  {
-  "id": "gorputza-apuntes",
   "ch": "jon",
+  "id": "gorputza-apuntes",
   "level": "A1",
   "source": "Euskaltegi · IKA «Gorputza» y apuntes de clase · 2026-11-18",
   "title": "Gorputza · más palabras (IKA y apuntes)",
@@ -757,8 +757,8 @@
   ]
  },
  {
-  "id": "aditzak-izan-ukan",
   "ch": "kepa",
+  "id": "aditzak-izan-ukan",
   "level": "A1",
   "source": "Euskaltegi · hoja «Aditz iragankorrak eta iragangaitzak» y apuntes · 2026-11-18",
   "title": "Aditzak · izan edo ukan (hoja A0)",
@@ -948,8 +948,8 @@
   ]
  },
  {
-  "id": "egoerak-ika",
   "ch": "patxi",
+  "id": "egoerak-ika",
   "level": "A1",
   "source": "Euskaltegi · lista IKA «Nolakoa da? / Nola dago?» · 2026-11-19",
   "title": "Nola dago? · más estados (lista IKA)",
@@ -1117,8 +1117,8 @@
   ]
  },
  {
-  "id": "non-kasua-hoja",
   "ch": "irati",
+  "id": "non-kasua-hoja",
   "level": "A1",
   "source": "Euskaltegi · hoja «Non kasua» · 2026-11-19",
   "title": "Non kasua · más palabras de la hoja",
@@ -1167,6 +1167,184 @@
     "ex": "Euli bat jausi da",
     "exEs": "Se ha caído una mosca",
     "note": "Con izan. En batua lo normal es erori, que ya está en NORK eta UKAN"
+   }
+  ]
+ },
+ {
+  "ch": "irati",
+  "id": "non-dago-hoja",
+  "level": "A1",
+  "source": "Euskaltegi · hoja «Non dago?» y apuntes «Kokapenak» · 2026-11-24",
+  "title": "Non dago? · palabras de la hoja y la libreta",
+  "words": [
+   {
+    "es": "la caja",
+    "eu": "kutxa",
+    "ex": "Giltzak kutxa barruan daude",
+    "exEs": "Las llaves están dentro de la caja",
+    "note": "La a es de la palabra: kutxan, kutxa barruan"
+   },
+   {
+    "es": "el buzón",
+    "eu": "postontzi(a)",
+    "ex": "Eskutitzak postontzian daude",
+    "exEs": "Las cartas están en el buzón",
+    "note": "posta (correo) + ontzi (recipiente). En la hoja pone buzoi, que se oye mucho pero no es batua"
+   },
+   {
+    "es": "la carta (de correo)",
+    "eu": "eskutitz(a)",
+    "ex": "Eskutitz bat idatzi dut",
+    "exEs": "He escrito una carta",
+    "note": "Lo mismo que gutun(a)"
+   },
+   {
+    "es": "el baño, el váter",
+    "eu": "komun(a)",
+    "ex": "Komunean nago",
+    "exEs": "Estoy en el baño"
+   },
+   {
+    "es": "la habitación, la sala",
+    "eu": "gela",
+    "ex": "Aita gelan dago",
+    "exEs": "El padre está en la habitación",
+    "note": "La a es de la palabra: gelan"
+   },
+   {
+    "es": "el aula",
+    "eu": "ikasgela",
+    "ex": "Umeak ikasgelan daude",
+    "exEs": "Los niños están en el aula",
+    "note": "ikasi (aprender) + gela"
+   },
+   {
+    "es": "el dormitorio",
+    "eu": "logela",
+    "ex": "Logelan nago",
+    "exEs": "Estoy en el dormitorio",
+    "note": "lo (sueño) + gela"
+   },
+   {
+    "es": "la cocina",
+    "eu": "sukalde(a)",
+    "ex": "Sukalde txikian nago",
+    "exEs": "Estoy en la cocina pequeña"
+   },
+   {
+    "es": "el cajón",
+    "eu": "tiradera",
+    "ex": "Giltzak tiraderan sartu ditut",
+    "exEs": "He metido las llaves en el cajón",
+    "note": "La a es de la palabra: tiraderan"
+   },
+   {
+    "es": "la mochila",
+    "eu": "motxila",
+    "ex": "Motxila lurrean utzi dut",
+    "exEs": "He dejado la mochila en el suelo"
+   },
+   {
+    "es": "la farmacia",
+    "eu": "farmazia",
+    "ex": "Farmazia udaletxe aurrean dago",
+    "exEs": "La farmacia está delante del ayuntamiento"
+   },
+   {
+    "es": "el jabalí",
+    "eu": "basurde(a)",
+    "ex": "Basurdeak basoetan daude",
+    "exEs": "Los jabalíes están en los bosques",
+    "note": "basa (salvaje) + urde (cerdo)"
+   },
+   {
+    "es": "el zorro",
+    "eu": "azeri(a)",
+    "ex": "Azeri bat dago basoan",
+    "exEs": "Hay un zorro en el bosque"
+   },
+   {
+    "es": "el niño (o la niña)",
+    "eu": "haur(ra)",
+    "ex": "Haurrak eskolan daude",
+    "exEs": "Los niños están en la escuela",
+    "note": "Lo mismo que ume(a). Haurrak = los niños"
+   },
+   {
+    "es": "el jugador / la jugadora",
+    "eu": "jokalari(a)",
+    "ex": "Jokalariak Bilbon daude",
+    "exEs": "Los jugadores están en Bilbao",
+    "note": "joko (juego) + -lari"
+   },
+   {
+    "es": "el concierto",
+    "eu": "kontzertu(a)",
+    "ex": "Kontzertu batzuetan egon naiz",
+    "exEs": "He estado en unos conciertos"
+   },
+   {
+    "es": "el lugar, el sitio",
+    "eu": "leku(a)",
+    "ex": "Giltzak betiko lekuan daude",
+    "exEs": "Las llaves están en el sitio de siempre",
+    "note": "Betiko lekuan: en el sitio de siempre"
+   },
+   {
+    "es": "el sitio (= leku)",
+    "eu": "toki(a)",
+    "ex": "Toki honetan bizi naiz",
+    "exEs": "Vivo en este sitio",
+    "note": "Betiko tokian = betiko lekuan"
+   },
+   {
+    "es": "la plaza",
+    "eu": "plaza",
+    "ex": "Taberna plazaren inguruan dago",
+    "exEs": "El bar está alrededor de la plaza",
+    "note": "La a es de la palabra: plazan, plazaren inguruan"
+   },
+   {
+    "es": "la clase",
+    "eu": "klase(a)",
+    "ex": "Klasetik kanpo euskaraz hitz egiten dut",
+    "exEs": "Fuera de clase hablo en euskera",
+    "note": "Fuera de clase: klasetik kanpo. Dentro de clase: klase barruan"
+   },
+   {
+    "es": "el borde",
+    "eu": "ertz(a)",
+    "note": "Mahaiaren ertzean: en el borde de la mesa"
+   },
+   {
+    "es": "la esquina",
+    "eu": "izkina",
+    "note": "La a es de la palabra: izkinan (en la libreta pone izkinean)"
+   },
+   {
+    "es": "la herramienta",
+    "eu": "tresna",
+    "note": "Tresna baliagarriak: herramientas útiles"
+   },
+   {
+    "es": "útil",
+    "eu": "baliagarri(a)",
+    "ex": "Hiztegia oso baliagarria da",
+    "exEs": "El diccionario es muy útil"
+   },
+   {
+    "es": "de ellos (= haien)",
+    "eu": "euren",
+    "ex": "Gurasoak euren etxean daude",
+    "exEs": "Los padres están en su casa",
+    "note": "Se usa sobre todo cuando «ellos» es el sujeto de la frase, como bere"
+   },
+   {
+    "es": "de ellos (= euren)",
+    "eu": "beren",
+    "ex": "Beren etxeetan daude",
+    "exEs": "Están en sus casas",
+    "note": "Igual que euren: Beren etxeetan daude"
    }
   ]
  }
