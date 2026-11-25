@@ -839,13 +839,13 @@ const UNITS = [
   ],
   drills:[
     { g:1, q:'Son las 9:00 de la mañana. Saludas:', s:'___!', o:['Egun on','Gabon','Arratsalde on'], a:0, x:'Por la mañana, <b>egun on</b>. Por la tarde, arratsalde on; por la noche, gabon.' },
-    { g:1, q:'Te dicen «Eskerrik asko». Respondes:', s:'___', o:['Ez horregatik','Mesedez','Barkatu'], a:0, x:'A «eskerrik asko» se responde <b>ez horregatik</b> («de nada»). Mesedez es «por favor».' },
+    { g:1, q:'Te dicen «Eskerrik asko». Respondes:', s:'___', o:['Ez horregatik','Ongi etorri','Gero arte'], a:0, x:'A «eskerrik asko» se responde <b>ez horregatik</b> («de nada»). <i>Ongi etorri</i> es «bienvenido/a» y <i>gero arte</i>, «hasta luego».' },
     { g:0, q:'¿Cómo suena «tx» (txakur)?', s:'tx = ___', o:['ch','sh','ts'], a:0, x:'<b>tx</b> suena como la ch castellana: txakur, txapela.' },
-    { g:0, q:'¿Cómo suena «z» (zu)?', s:'z = ___', o:['s española','z española (θ)','ts'], a:0, x:'La <b>z</b> vasca suena como la s española (no como la z de «zapato»): zu, zer.' },
+    { g:0, q:'¿Cómo suena «z» (zu)?', s:'z = ___', o:['s española','z española','ch española'], a:0, x:'La <b>z</b> vasca suena como la s española (no como la z de «zapato»): zu, zer.' },
     { g:0, q:'¿Cómo suena «x» (xagu)?', s:'x = ___', o:['sh','ks','j'], a:0, x:'La <b>x</b> suena «sh», como en el inglés «she»: xagu.' },
-    { g:1, q:'Completa la conversación:', s:'— Zer moduz? — ___, eta zu?', o:['Oso ondo','Agur','Mesedez'], a:0, x:'A «zer moduz?» se responde con cómo estás: <b>oso ondo</b>, ondo, nahiko ondo…' },
+    { g:1, q:'Completa la conversación:', s:'— Zer moduz? — ___, eta zu?', o:['Oso ondo','Gero arte','Egun on'], a:0, x:'A «zer moduz?» se responde con cómo estás: <b>oso ondo</b>, ondo, nahiko ondo… <i>Gero arte</i> es una despedida y <i>egun on</i>, un saludo.' },
     { g:1, q:'Te vas a dormir. Te despides:', s:'___!', o:['Gabon','Egun on','Kaixo'], a:0, x:'Al irse a dormir o por la noche: <b>gabon</b>.' },
-    { g:1, q:'Son las 17:00. Saludas:', s:'___!', o:['Arratsalde on','Egun on','Gabon'], a:0, x:'Por la tarde, <b>arratsalde on</b>. Por la mañana, egun on; por la noche, gabon.' },
+    { g:1, q:'Son las 17:00. Saludas:', s:'___!', o:['Arratsalde on','Egun on','Gau on'], a:0, x:'Por la tarde, <b>arratsalde on</b>. Por la mañana, egun on; por la noche, gabon (o gau on, al irse a dormir).' },
     { g:1, q:'Te despides de alguien que verás mañana:', s:'___!', o:['Bihar arte','Ongi etorri','Aspaldiko'], a:0, x:'<b>Bihar</b> = mañana; <b>bihar arte</b> = hasta mañana. Ongi etorri es «bienvenido/a».' },
     { g:1, q:'Ves a una amiga después de meses:', s:'___! Zer moduz?', o:['Aspaldiko','Barkatu','Ez horregatik'], a:0, x:'<b>Aspaldiko!</b> = ¡cuánto tiempo!, al ver a alguien después de mucho.' },
     { g:1, q:'«Sí, por favor»', s:'Bai, ___', o:['mesedez','barkatu','ez horregatik'], a:0, x:'<b>Mesedez</b> = por favor. Barkatu es «perdón»; ez horregatik, «de nada».' },
@@ -924,11 +924,11 @@ const UNITS = [
     { g:0, q:'La profe habla muy rápido:', s:'___, mesedez!', o:['Astiroago','Errepikatu','Idatzi'], a:0, x:'<b>Astiroago</b> = más despacio. Errepikatu es «repite».' },
     { g:0, q:'No lo has oído bien:', s:'___, mesedez', o:['Errepikatu','Astiroago','Badakit'], a:0, x:'Para que lo repitan: <b>errepikatu</b>.' },
     { g:0, q:'Quieres verlo en la pizarra:', s:'___, mesedez', o:['Idatzi','Entzun','Amaitu'], a:0, x:'Para que lo escriban: <b>idatzi</b> (escribe).' },
-    { g:1, q:'No sabes qué es «bidea»:', s:'___ «bidea»?', o:['Zer esan nahi du','Nola esaten da','Zer moduz'], a:0, x:'Por el significado de una palabra: <b>zer esan nahi du</b> …?' },
-    { g:1, q:'Quieres decir «árbol» en euskera:', s:'___ «árbol» euskaraz?', o:['Nola esaten da','Zer esan nahi du','Nongoa da'], a:0, x:'Para decir algo en euskera: <b>nola esaten da</b> … euskaraz?' },
+    { g:1, q:'No sabes qué es «bidea»:', s:'___ «bidea»?', o:['Zer esan nahi du','Nola esan nahi du','Nola esaten da'], a:0, x:'Por el significado de una palabra: <b>zer esan nahi du</b> …? («¿qué quiere decir…?»). <i>Nola esaten da</i> es para pedir cómo se dice algo; <i>nola esan nahi du</i> no se dice.' },
+    { g:1, q:'Quieres decir «árbol» en euskera:', s:'___ «árbol» euskaraz?', o:['Nola esaten da','Zer esaten da','Zer esan nahi du'], a:0, x:'Para decir algo en euskera: <b>nola esaten da</b> … euskaraz? («¿cómo se dice…?», con <b>nola</b>, «cómo»). <i>Zer esan nahi du</i> es para preguntar qué significa una palabra.' },
     { g:2, q:'Te preguntan algo y no sabes la respuesta:', s:'___', o:['Ez dakit','Ez horregatik','Badakit'], a:0, x:'<b>Ez dakit</b> = no lo sé. Ez horregatik es «de nada».' },
     { g:2, q:'«No entiendo»', s:'___', o:['Ez dut ulertzen','Ulertzen ez dut','Ez ulertzen dut'], a:0, x:'En negativa, <b>ez + auxiliar</b> delante: <b>ez dut</b> ulertzen.' },
-    { g:2, q:'«Sí, lo sé»', s:'Bai, ___', o:['badakit','ez dakit','dakit ez'], a:0, x:'Afirmativa con el verbo solo: <b>ba-</b> + dakit.' },
+    { g:2, q:'«Sí, lo sé»', s:'Bai, ___', o:['badakit','dakit','ezdakit'], a:0, x:'Afirmativa con el verbo solo: <b>ba-</b> + dakit, todo junto. <i>Dakit</i> solo no se dice, y la negativa va separada: <i>ez dakit</i>.' },
     { g:2, q:'¿Cómo suena «ez dakit»?', s:'«___»', o:['eztakit','esdakit','edakit'], a:0, x:'Ez + d suena <b>zt</b>: ez dakit → «eztakit».' },
     { g:3, q:'Lo contrario de hasi (empezar):', s:'hasi ≠ ___', o:['amaitu','entzun','ikasi'], a:0, x:'hasi (empezar) ≠ <b>amaitu</b> (terminar).' },
     { g:3, q:'Lo contrario de galdetu (preguntar):', s:'galdetu ≠ ___', o:['erantzun','irakurri','idatzi'], a:0, x:'galdetu (preguntar) ≠ <b>erantzun</b> (responder).' },
@@ -2568,15 +2568,93 @@ function lessonsOf(u){
     ...(u.game==='espioia'?[{id:u.id+'-e',kind:'spy',title:'Espioia',unit:u,icon:'spy'}]:[])
   ];
 }
-/* Distractores (v1.25): primero palabras de la misma unidad o ficha que ya se han presentado en esta lección
-   (known) o que ya están en el repaso (S.srs); después, las demás de la misma unidad; si no llegan, cualquiera.
-   Devuelve la lista ya ordenada (barajada dentro de cada grupo). */
+/* =========================================================
+   TIPO DE CADA PALABRA (v1.46) · para que las opciones falsas sean del mismo tipo que la buena
+   (si no, se acierta por descarte: «en esos / en esas» entre «el bosque» y «el monte»).
+   Se calcula por reglas a partir del castellano (artículo, «(estar)», «—», «?», infinitivo…) y de listas de
+   palabras cerradas (pronombres, posesivos, cuantificadores, lugares…). TIPO_X corrige a mano lo que las
+   reglas no aciertan. Al añadir vocabulario nuevo, comprobar con tipoOf que cada palabra cae en su tipo.
+   Tipos: izen (nombre), adj (adjetivo), egoera (estado con egon), inf (verbo en infinitivo), aditz (forma
+   verbal), izenord (pronombre), jabe (posesivo o demostrativo), tan (demostrativo o numeral + -tan),
+   zenb (cuantificador), leku (posposición o adverbio de lugar), zbk (número), toki (topónimo),
+   galdera (pregunta), esaldi (saludo o expresión fija), nola (cómo estás: ondo, gaizki…), part (partícula
+   o adverbio).
+   ========================================================= */
+const TIPO_L={
+  izenord:['ni','zu','hura','gu','zuek','haiek','nik','zuk','hark','guk'],
+  jabe:['nire','zure','bere','gure','zuen','haien','euren','beren','hau'],
+  tan:['honetan','horretan','hartan','hauetan','horietan','haietan','batean','batzuetan'],
+  zenb:['zenbait','asko','gutxi','guzti(ak)','gehien(ak)','oso','nahiko','batere','ezer'],
+  leku:['hemen','hor','han','nonbait','inon ez','edonon','kanpoan','goian','behean','artean'],
+  part:['bai','ez','eta','baina','ere','orain','gaur','berriro','euskaraz','bakarrik','zeharo','erabat','guztiz','gero eta … -ago'],
+  nola:['ondo','oso ondo','nahiko ondo','ez oso ondo','gaizki','primeran','erdipurdi','hobeto'],
+  aditz:['naiz','zara','da','gara','zarete','dira','bizi naiz','bizi zara'],
+  esaldi:['kaixo','agur','egun on','arratsalde on','gabon','gero arte','bihar arte','ikusi arte','laster arte','aspaldiko!','baita zuri ere','epa',
+    'eskerrik asko','ez horregatik','mesedez','barkatu','ongi etorri','ez dut ulertzen','ez dakit','badakit','ez dut gogoratzen',
+    'errepikatu, mesedez','astiroago, mesedez','idatzi, mesedez','ni ere bai','ni ez'],
+  izen:['kafe','garagardo','urte','neba-arreba(k)','basajaun(a)']
+};
+const TIPO_X={}; Object.entries(TIPO_L).forEach(([t,l])=>l.forEach(e=>{ TIPO_X[norm(e)]=t }));
+const ZBK_ES=/^(cero|uno|dos|tres|cuatro|cinco|seis|siete|ocho|nueve|diez|once|doce|trece|catorce|quince|dieci\w+|veinte|veinti\w+|treinta|cuarenta|cincuenta|sesenta|setenta|ochenta|noventa|cien|ciento|mil)\b/;
+const TIPO_C={};
+function tipoOf(w){
+  if(!w) return 'x'; const k=norm(w.eu); if(TIPO_C[k]) return TIPO_C[k];
+  const eu=String(w.eu).trim(), es=String(w.es).trim(); let t;
+  if(TIPO_X[k]) t=TIPO_X[k];
+  else if(/\?$/.test(eu)) t='galdera';
+  else if(es.includes('—')) t='aditz';
+  else if(/^\(estar\)/.test(es)) t='egoera';
+  else if(/\(de\)$/.test(es) || /^en (el|la|los|las|algún|ningún|cualquier) /.test(es)) t='leku';
+  else if(/^(el|la|los|las|el\/la)\s/i.test(es)) t='izen';
+  else if(ZBK_ES.test(es)) t='zbk';
+  else if(/^[A-ZÁÉÍÓÚÑ]/.test(es)) t='toki';
+  else { const f=es.split(/ \/ |, | \(/)[0].trim(); t=(!f.includes(' ') && /(ar|er|ir|ír)(se)?$/.test(f))?'inf':'adj' }
+  return TIPO_C[k]=t;
+}
+/* Pares que nunca salen como opción falsa el uno del otro (v1.46): significan casi lo mismo y la «falsa»
+   también valdría. Además de estos, tampoco los sinónimos de SYN. */
+const NOFALSE=[['zer moduz?','zer moduz zaude?','nola zaude?'],['kaixo','epa'],['ezer','batere'],
+  ['leku(a)','toki(a)'],['haien','euren','beren'],['geldo(a)','motel(a)'],['iletsu(a)','zapazto(a)'],['zeharo','erabat','guztiz'],
+  ['itsusi(a)','zatar(ra)'],['erori','jausi'],['ni','nik'],['zu','zuk'],['hura','hark'],['gu','guk']];
+const NOFI={}; NOFALSE.forEach((g,i)=>g.forEach(e=>{ (NOFI[norm(e)]=NOFI[norm(e)]||[]).push(i) }));
+const nfRel=(a,b)=>{ const x=NOFI[norm(a.eu)]; return !!x && (NOFI[norm(b.eu)]||[]).some(i=>x.includes(i)) };
+/* Lección de cada palabra: las palabras de su Hitzak (o de su ficha) */
+let GRP=null, GRP_W=null;
+function grpIdx(){ if(GRP&&GRP_W===WORDS) return GRP; GRP={}; GRP_W=WORDS;
+  UNITS.forEach((u,i)=>lessonsOf(u).forEach(L=>{ if(L.kind==='vocab') L.words.forEach(w=>{ GRP[u.id+'|'+norm(w.eu)]=L.words }) }));
+  allDecks().forEach(d=>{ const ws=deckWords(d); ws.forEach(w=>{ GRP['deck:'+d.id+'|'+norm(w.eu)]=ws }) });
+  return GRP }
+function groupOf(w){ return (w&&grpIdx()[w.src+'|'+norm(w.eu)])||[] }
+const unitIdx=w=>{ const i=UNITS.findIndex(u=>u.id===w.src); return i<0?UNITS.length:i };
+/* parecido en euskera (0 = igual): distancia de edición y mismo comienzo o final */
+const BARE_C={}, bareC=t=>BARE_C[t]??(BARE_C[t]=bareN(t));
+function simScore(w,x){ const b=bareC(w.eu), c=bareC(x.eu), L=Math.max(b.length,c.length)||1;
+  let r=lev(b,c)/L; if(b.slice(-2)===c.slice(-2)) r-=.08; if(b.slice(0,2)===c.slice(0,2)) r-=.06; return r }
+/* Distractores (v1.25, cambiados en v1.46 a petición del usuario):
+   1) de la misma lección (su Hitzak o su ficha) y del mismo tipo: primero las ya presentadas o en el repaso;
+   2) si no llegan, una «parecida»: del mismo tipo, de otra lección ya conocida o de una unidad que no va por delante,
+      la que más se parece en euskera;
+   3) de la misma lección, de otro tipo; 4) cualquiera.
+   Nunca: la misma palabra, el mismo castellano, sinónimos (SYN) ni pares de NOFALSE.
+   hard (modo reto): dentro de la misma lección, primero las más parecidas en euskera. */
 function isKnown(x,known){ const k=norm(x.eu); return (known&&known.has(k)) || !!S.srs[k] }
-function poolFor(w,known){
-  const k=norm(w.eu), kes=norm(w.es), all=Object.values(WORDS).filter(x=>norm(x.eu)!==k && norm(x.es)!==kes && !synRel(w,x)), same=all.filter(x=>x.src===w.src);
-  const a=same.filter(x=>isKnown(x,known)), b=same.filter(x=>!isKnown(x,known));
-  const out=[...shuffle(a),...shuffle(b)];
-  return out.length>=3?out:[...out,...shuffle(all.filter(x=>x.src!==w.src))];
+// fuera también las que podrían valer: un castellano que empieza o acaba por el otro («yo» / «yo (con verbos de ukan)»,
+// «hola» / «hola (informal)», «lento/a» / «lento/a, tardón/a», «triste» / «(estar) triste»)
+const esIn=(a,b)=>a===b || a.startsWith(b+' ') || a.endsWith(' '+b);
+function okFalse(w,x){ const kes=norm(w.es), e=norm(x.es);
+  return norm(x.eu)!==norm(w.eu) && !esIn(e,kes) && !esIn(kes,e) && !synRel(w,x) && !nfRel(w,x) && bareC(x.eu)!==bareC(w.eu) }
+function poolFor(w,known,hard){
+  const t=tipoOf(w), G=groupOf(w).filter(x=>okFalse(w,x)), inG=new Set(G.map(x=>norm(x.eu)));
+  const bySim=a=>a.map(x=>({x,r:simScore(w,x)+Math.random()*.15})).sort((p,q)=>p.r-q.r).map(o=>o.x);
+  const same=G.filter(x=>tipoOf(x)===t), other=G.filter(x=>tipoOf(x)!==t);
+  const tier1=hard?bySim(same):[...shuffle(same.filter(x=>isKnown(x,known))),...shuffle(same.filter(x=>!isKnown(x,known)))];
+  const ui=unitIdx(w);
+  // la «parecida» de fuera solo se busca si en la lección no hay bastantes del mismo tipo (ahorra tiempo)
+  const near=tier1.length>=5?[]:bySim(Object.values(WORDS).filter(x=>!inG.has(norm(x.eu)) && tipoOf(x)===t && okFalse(w,x) && (isKnown(x,known) || unitIdx(x)<=ui))).slice(0,4);
+  const rest=Object.values(WORDS).filter(x=>!inG.has(norm(x.eu)) && okFalse(w,x));
+  const out=[], seen=new Set();
+  for(const x of [...tier1,...shuffle(near),...shuffle(other),...shuffle(rest)]){ const k=norm(x.eu); if(!seen.has(k)){ seen.add(k); out.push(x) } }
+  return out;
 }
 function mcEx(w,dir,known){
   const dist=[]; const seen=new Set([norm(dir==='eu'?w.es:w.eu)]);
@@ -2585,13 +2663,16 @@ function mcEx(w,dir,known){
   const opts=shuffle([right,...dist]);
   return {t:'mc',dir,w,opts,a:opts.indexOf(right)};
 }
-/* «Elige la imagen»: 4 imágenes distintas, preferiblemente de la misma unidad o ficha */
+/* «Elige la imagen»: 4 imágenes distintas; las falsas, con el mismo orden que poolFor (solo palabras con dibujo) */
 function picPool(w,known){
   const p=picOf(w); if(!p || NOQUIZ.has(norm(w.eu))) return null;
-  const all=Object.values(WORDS).filter(x=>{ const q=picOf(x); return q && q!==p && !NOQUIZ.has(norm(x.eu)) && norm(x.es)!==norm(w.es) });
-  const same=all.filter(x=>x.src===w.src);
+  const hasP=x=>{ const q=picOf(x); return q && q!==p && !NOQUIZ.has(norm(x.eu)) };
+  const G=groupOf(w).filter(x=>hasP(x)&&okFalse(w,x)), t=tipoOf(w);
+  const all=Object.values(WORDS).filter(x=>hasP(x)&&okFalse(w,x));
   const out=[], used=new Set([p]);
-  for(const x of [...shuffle(same.filter(x=>isKnown(x,known))),...shuffle(same),...shuffle(all)]){ const q=picOf(x); if(!used.has(q)){ used.add(q); out.push(x) } if(out.length===3) break }
+  for(const x of [...shuffle(G.filter(x=>tipoOf(x)===t&&isKnown(x,known))),...shuffle(G.filter(x=>tipoOf(x)===t)),...shuffle(G),
+                  ...shuffle(all.filter(x=>tipoOf(x)===t&&(isKnown(x,known)||unitIdx(x)<=unitIdx(w)))),...shuffle(all)]){
+    const q=picOf(x); if(!used.has(q)){ used.add(q); out.push(x) } if(out.length===3) break }
   return out.length===3?out:null;
 }
 function picEx(w,known){ const d=picPool(w,known); if(!d) return null; const opts=shuffle([w,...d]); return {t:'pic',w,opts,a:opts.indexOf(w)} }
@@ -2746,7 +2827,7 @@ function buildLesson(L,reto){
    MODO RETO · Erronka (v1.30, fase 4 de la revisión de lecciones)
    Al repetir una lección de unidad ya hecha se puede elegir «Erronka» (o repetirla normal):
    · Hitzak: sin tarjetas de palabra nueva; cada palabra se produce (Escribe ~40 %, o «¿cómo se dice?»)
-     y la mitad se reconoce después; opciones falsas muy parecidas en euskera (simPool); palabras de
+     y la mitad se reconoce después; opciones falsas de su lección, las más parecidas en euskera primero (poolFor con hard, v1.46); palabras de
      unidades anteriores; una sola «unir parejas».
    · Gramatika: sin tarjetas de gramática; más huecos generados; frases hacia el euskera con más fichas trampa.
    · Praktika: frases casi todas hacia el euskera y con más trampas, más huecos, más «Escribe»,
@@ -2759,25 +2840,11 @@ function buildLesson(L,reto){
 const RETO_KINDS=['vocab','grammar','practice'];
 const ES_Q=/^«[^»]+»(\s*\([^)]*\))?$/;   // enunciado que es la frase en castellano
 const bareN=t=>norm(artBare(String(t).split('/')[0]));
-/* opciones falsas parecidas: palabras cuyo euskera se parece (distancia de edición, misma terminación, misma unidad) */
-function simPool(w,known){
-  const k=norm(w.eu), kes=norm(w.es), b=bareN(w.eu);
-  // fuera las que podrían valer también: mismo castellano o uno que empieza por el otro («yo» / «yo (con verbos de ukan)»)
-  const clash=x=>{ const e=norm(x.es); return e===kes || e.startsWith(kes) || kes.startsWith(e) || synRel(w,x) };
-  const sc=Object.values(WORDS).filter(x=>norm(x.eu)!==k && !clash(x) && bareN(x.eu)!==b).map(x=>{
-    const c=bareN(x.eu), L=Math.max(b.length,c.length)||1;
-    let r=lev(b,c)/L;
-    if(x.src===w.src) r-=.12;
-    if(b.slice(-2)===c.slice(-2)) r-=.08;
-    if(b.slice(0,2)===c.slice(0,2)) r-=.06;
-    if(isKnown(x,known)) r-=.06;
-    return {x,r} }).sort((a,b2)=>a.r-b2.r);
-  return [...shuffle(sc.slice(0,7).map(o=>o.x)),...poolFor(w,known)];
-}
+/* Modo reto (v1.46, petición del usuario): las falsas salen de la misma lección de cada palabra, primero las más
+   parecidas en euskera (poolFor con hard); si no llegan, una parecida del mismo tipo de otra lección. */
 function mcHard(w,dir,known){
   const dist=[]; const right=dir==='eu'?w.es:w.eu; const seen=new Set([norm(right)]);
-  const kes=norm(w.es);
-  for(const x of simPool(w,known)){ const e=norm(x.es); if(e.startsWith(kes)||kes.startsWith(e)) continue; const t=dir==='eu'?x.es:x.eu; if(!seen.has(norm(t))){seen.add(norm(t));dist.push(t)} if(dist.length===3)break }
+  for(const x of poolFor(w,known,true)){ const t=dir==='eu'?x.es:x.eu; if(!seen.has(norm(t))){seen.add(norm(t));dist.push(t)} if(dist.length===3)break }
   const opts=shuffle([right,...dist]);
   return {t:'mc',dir,w,opts,a:opts.indexOf(right),reto:true};
 }
@@ -5695,6 +5762,7 @@ const NI={ // iconos de las novedades
 };
 /* [icono, color de fondo, título corto, una línea en lenguaje de alumno] — como mucho 3 por versión */
 const NEWS=[
+  {v:'1.46', d:'2026-11-25', items:[['bolt','var(--coral)','Opciones más difíciles','Al elegir la respuesta, las opciones falsas son palabras de la misma lección y del mismo tipo (preguntas con preguntas, verbos con verbos…). Ya no vale acertar por descarte.'],['star','var(--yellow)','Erronka con trampas','En el modo reto, las opciones falsas son las palabras de la lección que más se parecen a la buena.']]},
   {v:'1.45', d:'2026-11-25', items:[['bulb','var(--yellow)','Un ejemplo en cada palabra','Cada palabra nueva trae su propia frase de ejemplo, distinta de las que luego tienes que traducir.'],['book','var(--cyan)','Non dago? en dos','La gramática de Non dago? se parte en Gramatika 1 (dónde: -an, -etan, el mugagabe) y Gramatika 2 (encima, debajo, delante… y ez dago …-rik), con más práctica de cada regla.']]},
   {v:'1.44', d:'2026-11-25', items:[['book','var(--cyan)','Teoría y práctica a la vez','En Gramatika, después de cada explicación practicas esa regla, en lugar de leerlas todas seguidas.'],['bulb','var(--yellow)','Preguntas antes','En Hitzak, después de cada 3 palabras nuevas te pregunto una enseguida, y la palabra nueva trae una frase de ejemplo.'],['gift','var(--mint)','Ajustes y guía completa','Los ajustes son ahora el engranaje de arriba; ahí, «Cómo funciona Ikasi!» te enseña la guía entera.']]},
   {v:'1.43', d:'2026-11-25', items:[['map','var(--cyan)','Bienvenida más corta','La guía del principio cabe en una sola pantalla.'],['bulb','var(--yellow)','Explicaciones cuando tocan','Cada botón o ayuda se explica la primera vez que aparece. Para verlas otra vez: Ajustes (el engranaje) → «Volver a ver las explicaciones».']]},
